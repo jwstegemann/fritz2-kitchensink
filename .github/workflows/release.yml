@@ -18,31 +18,12 @@ jobs:
         run: chmod +x gradlew
       - name: Webpack with Gradle
         run: ./gradlew jsBrowserProductionWebpack
-      - name: Create .gitignore file
-        run: |
-          rm .gitignore
-          cat > .gitignore <<EOL
-          .idea
-          .github
-          .gradle
-          *gradle*
-          **/src
-          **/build.gradle.kts
-          **/build/kotlin/**
-          **/build/tmp/**
-          **/build/processedResources/**
-          **/build/generated/**
-          **/build/libs/**
-          **/build/reports/**
-          **/build/js/**
-          **/build/classes/**
-          EOL
       - name: Publish to Gitub Pages
         uses: peaceiris/actions-gh-pages@v3.6.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: .
+          publish_dir: build/distributions
           keep_files: true
           allow_empty_commit: true
           enable_jekyll: true
-          cname: examples.fritz2.dev
+          cname: components.fritz2.dev
