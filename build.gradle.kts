@@ -3,10 +3,9 @@ plugins {
 }
 
 repositories {
-    //FIXME: remove after release
-    maven("https://oss.jfrog.org/artifactory/jfrog-dependencies")
-    maven(url = "https://kotlin.bintray.com/kotlinx/") // soon will be just jcenter()
     jcenter()
+    maven("https://dl.bintray.com/jwstegemann/fritz2")
+    maven(url = "https://kotlin.bintray.com/kotlinx/") // soon will be just jcenter()
 }
 
 kotlin {
@@ -25,8 +24,7 @@ kotlin {
 
         val commonMain by getting {
             dependencies {
-                //FIXME set to 0.8 after release
-                implementation("dev.fritz2:components:0.8-SNAPSHOT")
+                implementation("dev.fritz2:components:0.8")
             }
         }
 
