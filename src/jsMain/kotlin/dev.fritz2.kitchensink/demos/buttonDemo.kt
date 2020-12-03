@@ -1,9 +1,12 @@
+package dev.fritz2.kitchensink.demos
+
 import dev.fritz2.binding.RootStore
 import dev.fritz2.binding.invoke
 import dev.fritz2.binding.watch
 import dev.fritz2.components.*
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
+import dev.fritz2.kitchensink.base.*
 import dev.fritz2.tracking.tracker
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
@@ -45,8 +48,8 @@ fun RenderContext.buttonDemo(): Div {
 
         paragraph {
             +"""
-            Using a Button you can trigger an action that can be handled by your Store or by another
-            component, i.e. launching a modal dialog. 
+            Using a Button, you can trigger an action which can be handled by your Store or by another
+            component, like launching a modal dialog. 
             """.trimIndent()
         }
 
@@ -54,9 +57,9 @@ fun RenderContext.buttonDemo(): Div {
         paragraph {
             +"Define your button by adding text and / or an icon to its content and setting the color. A"
             c("pushButton")
-            +"gives you full controll over the underlying HTML-button. The"
+            +" gives you full control over the underlying HTML-button. The"
             c("clickButton")
-            +"exposes the Flow of click-events, so you can connect it conveniently to a Handler or another component."
+            +" exposes the Flow of click-events, so you can conveniently connect it to a Handler or another component."
         }
 
         componentFrame {
@@ -88,12 +91,14 @@ fun RenderContext.buttonDemo(): Div {
 
                     pushButton {
                         icon { fromTheme { arrowLeft } }
+                        color { danger }
                         text("previous")
                     }
 
                     pushButton {
                         icon { fromTheme { arrowRight } }
                         iconRight()
+                        color { warning }
                         text("next")
                     }
 
@@ -110,7 +115,7 @@ fun RenderContext.buttonDemo(): Div {
             c("outline")
             +", "
             c("ghost")
-            +" and "
+            +", and "
             c("link")
         }
         componentFrame {
@@ -163,13 +168,13 @@ fun RenderContext.buttonDemo(): Div {
 
         showcaseSection("Sizes")
         paragraph {
-            +"choose from on three predefined sizes ("
+            +"Choose from on three predefined sizes ("
             c("small")
             +", "
             c("normal")
-            +" or  "
+            +", or  "
             c("large")
-            +") or scale your button to your needs using the styling parameter."
+            +"), or scale your button to your needs using the styling parameter."
         }
         componentFrame {
             lineUp {
@@ -212,7 +217,7 @@ fun RenderContext.buttonDemo(): Div {
         paragraph {
             +"Connect a button to a "
             c("Tracker")
-            +" to show its loading state. You can specify a different text that is shown while loading."
+            +" to show its loading state. You can specify a different text which is shown while loading."
         }
         componentFrame {
             lineUp {
@@ -248,7 +253,7 @@ fun RenderContext.buttonDemo(): Div {
                 """
                     val buttonStore = object : RootStore<Int>(0) {
                         val loading = tracker()
-                
+                    
                         val showMsg = handle { model ->
                             loading.track("running...") {
                                 delay(3000)

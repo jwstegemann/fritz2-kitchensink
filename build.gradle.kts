@@ -3,7 +3,6 @@ plugins {
 }
 
 repositories {
-//    mavenLocal()
     //FIXME: remove after release
     maven("https://oss.jfrog.org/artifactory/jfrog-dependencies")
     maven(url = "https://kotlin.bintray.com/kotlinx/") // soon will be just jcenter()
@@ -28,7 +27,6 @@ kotlin {
             dependencies {
                 //FIXME set to 0.8 after release
                 implementation("dev.fritz2:components:0.8-SNAPSHOT")
-                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.1.0")
             }
         }
 

@@ -1,10 +1,15 @@
-package dev.fritz2.components
+package dev.fritz2.kitchensink.base
 
+import dev.fritz2.components.box
+import dev.fritz2.components.stackUp
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.styling.StyleClass
 import dev.fritz2.styling.params.BasicParams
 import dev.fritz2.styling.staticStyle
 import kotlinx.browser.window
+
+const val backgroundColor = "#2B2B2B"
+const val playgroundMarker = "pg-code"
 
 /**
  * Class for configuring the appearance of a PopoverComponent.
@@ -15,7 +20,11 @@ class PlaygroundComponent {
             staticStyle(
                 """
                 .CodeMirror {
-                  font-size: 0.8em !important;
+                  font-size: 0.85em !important;
+                }
+                
+                .CodeMirror-gutters {
+                    visibility: hidden !important
                 }
                 
                 .executable-fragment-wrapper {
@@ -45,7 +54,7 @@ class PlaygroundComponent {
                 } catch (t: Throwable) {
                     console.error(t)
                 }
-            }, 500)
+            }, 300)
         }
     }
 
@@ -62,8 +71,6 @@ class PlaygroundComponent {
 
 }
 
-const val playgroundMarker = "pg-code"
-
 fun RenderContext.playground(
     styling: BasicParams.() -> Unit = {},
     baseClass: StyleClass? = null,
@@ -74,11 +81,11 @@ fun RenderContext.playground(
     val component = PlaygroundComponent().apply(build)
 
     stackUp ({
-        margins { top { "1.25rem" } }
+        margins { top { large } }
     }){
         items {
             box({
-                background { color { "#2B2B2B" } }
+                background { color { backgroundColor } }
                 radius { "12px" }
                 width { full }
                 padding { small }
