@@ -196,7 +196,10 @@ fun main() {
                             top { larger }
                         }
                         padding { "1rem" }
-                        minWidth { "200px" }
+                        minWidth (
+                            md = { "180px" },
+                            lg = { "200px" }
+                        )
                         minHeight { "100%" }
                         display(sm = { none }, md = { flex })
                         wrap { nowrap }

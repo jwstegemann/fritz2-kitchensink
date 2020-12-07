@@ -83,7 +83,7 @@ fun RenderContext.contentFrame(init: Div.() -> Unit): Div {
         margins {
             top { "2rem" }
         }
-        maxWidth(sm = { unset }, md = { "48rem" })
+        maxWidth(sm = { unset }, md = { "75%" }, lg = { "48rem" })
         paddings(
             sm = {
                 top { normal }
@@ -91,6 +91,7 @@ fun RenderContext.contentFrame(init: Div.() -> Unit): Div {
             md = {
                 top { huge }
                 left { normal }
+                right { normal }
             })
     }) {
         init()
