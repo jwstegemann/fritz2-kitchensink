@@ -6,6 +6,7 @@ import dev.fritz2.components.tooltip
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.styling.params.styled
+import dev.fritz2.styling.theme.Theme
 
 fun RenderContext.colorDemo(): Div {
     return div {
@@ -27,7 +28,7 @@ fun RenderContext.colorDemo(): Div {
                     }
                     hover {
                         width { "100%" }
-                        tooltip("#319795") { right }()
+                        tooltip("${Theme().colors.primary}") { right }()
                     }
                     radius { "1.3rem" }
                     textAlign { right }
@@ -69,7 +70,7 @@ fun RenderContext.colorDemo(): Div {
                     }
                     hover {
                         width { "95%" }
-                        tooltip("rgb(49,151,149, 0.3)") { right }()
+                        tooltip("${Theme().colors.primary_hover}") { right }()
                     }
                     radius { "1.3rem" }
                 }) {
@@ -108,7 +109,7 @@ fun RenderContext.colorDemo(): Div {
                     }
                     hover {
                         width { "90%" }
-                        tooltip("#b2f5ea") { right }()
+                        tooltip("${Theme().colors.secondary}") { right }()
                     }
                     radius { "1.3rem" }
                     textAlign { right }
@@ -149,7 +150,7 @@ fun RenderContext.colorDemo(): Div {
                     }
                     hover {
                         width { "85%" }
-                        tooltip("#718096") { right }()
+                        tooltip("${Theme().colors.tertiary}") { right }()
                     }
                     radius { "1.3rem" }
                     textAlign { right }
@@ -190,7 +191,7 @@ fun RenderContext.colorDemo(): Div {
                     }
                     hover {
                         width { "80%" }
-                        tooltip("#2d3748") { right }()
+                        tooltip("${Theme().colors.dark}") { right }()
                     }
                     radius { "1.3rem" }
                     textAlign { right }
@@ -231,7 +232,7 @@ fun RenderContext.colorDemo(): Div {
                     }
                     hover {
                         width { "75%" }
-                        tooltip("#e2e8f0") { right }()
+                        tooltip("${Theme().colors.light}") { right }()
                     }
                     radius { "1.3rem" }
                     textAlign { right }
@@ -272,7 +273,7 @@ fun RenderContext.colorDemo(): Div {
                     }
                     hover {
                         width { "70%" }
-                        tooltip("rgb(226,232,240, 0.5)") { right }()
+                        tooltip("${Theme().colors.light_hover}") { right }()
                     }
                     radius { "1.3rem" }
                     textAlign { right }
@@ -314,7 +315,7 @@ fun RenderContext.colorDemo(): Div {
                     }
                     hover {
                         width { "65%" }
-                        tooltip("#3182ce") { right }()
+                        tooltip("${Theme().colors.info}") { right }()
                     }
                     radius { "1.3rem" }
                     textAlign { right }
@@ -355,7 +356,7 @@ fun RenderContext.colorDemo(): Div {
                     }
                     hover {
                         width { "60%" }
-                        tooltip("#28a745") { right }()
+                        tooltip("${Theme().colors.success}") { right }()
                     }
                     radius { "1.3rem" }
                     textAlign { right }
@@ -396,7 +397,7 @@ fun RenderContext.colorDemo(): Div {
                     }
                     hover {
                         width { "55%" }
-                        tooltip("#ffc107") { right }()
+                        tooltip("${Theme().colors.warning}") { right }()
                     }
                     radius { "1.3rem" }
                     textAlign { right }
@@ -437,7 +438,7 @@ fun RenderContext.colorDemo(): Div {
                     }
                     hover {
                         width { "50%" }
-                        tooltip("#dc3545") { right }()
+                        tooltip("${Theme().colors.danger}") { right }()
                     }
                     radius { "1.3rem" }
                     textAlign { right }
