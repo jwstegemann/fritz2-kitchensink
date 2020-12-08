@@ -443,21 +443,32 @@ fun RenderContext.colorDemo(): Div {
                     radius { "1.3rem" }
                     textAlign { right }
                 }) {
-                    (::p.styled {
-                        textAlign { right }
-                        width { "8rem" }
-                        background {
-                            color { base }
+                    lineUp {
+                        items {
+                            align("spaceBetween")
+                            (::p.styled {
+                                textAlign { right }
+                                width { "8rem" }
+                                background {
+                                    color { base }
+                                }
+                                radii {
+                                    left { "1rem" }
+                                }
+                                color { danger }
+                                paddings {
+                                    left { small }
+                                    right { small }
+                                }
+                            }) { +"danger" }
+                            (::p.styled {
+                                color ( sm = { base }, md = { danger } )
+                            }) {
+                                +"${Theme().colors.danger}"
+                            }
                         }
-                        radii {
-                            left { "1rem" }
-                        }
-                        color { danger }
-                        paddings {
-                            left { small }
-                            right { small }
-                        }
-                    }) { +"danger" }
+                    }
+
                 }
             }
         }
