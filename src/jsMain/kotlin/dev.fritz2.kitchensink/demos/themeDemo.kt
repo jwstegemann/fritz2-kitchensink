@@ -235,12 +235,9 @@ fun RenderContext.themeDemo(): Div {
             c("warning")
             +" and "
             c("danger")
-            +". "
-            +"If your current device features a mouse, you can hover over the color to get the color code."
+            +"."
         }
         colorDemo()
-
-
     }
 }
 
