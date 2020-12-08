@@ -319,11 +319,20 @@ fun RenderContext.iconsDemo(): Div {
         gridBox({
             columns(
                 sm = { repeat(2) { "1fr" } },
-                md = { repeat(4) { "1fr" } }
+                md = { repeat(3) { "1fr" } },
+                lg = { repeat(4) { "1fr" } }
             )
-            gap { normal }
+            gap (
+                sm = { tiny },
+                md = { small },
+                lg = { normal }
+            )
             margins { top { giant } }
-            maxWidth { "80%" }
+            maxWidth (
+                sm = { "100%" },
+                md = { "90%" },
+                lg = { "80%" }
+            )
         }) {
             icons.forEach {
                 stackUp({
@@ -333,7 +342,11 @@ fun RenderContext.iconsDemo(): Div {
                         color { light }
                         width { normal }
                     }
-                    padding { small }
+                    padding (
+                        sm = { tiny },
+                        md = { smaller },
+                        lg = { small }
+                    )
                     fontSize { small }
                 }) {
                     spacing { tiny }

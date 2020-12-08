@@ -18,7 +18,7 @@ fun RenderContext.flexBoxDemo(): Div {
         flexBox({
             background { color { color } }
             color { "white" }
-            width { "150px" }
+            width (sm = { "50px" }, md = { "110px" }, lg = { "150px" })
             height { "50px" }
             justifyContent { center }
             alignItems { center }
