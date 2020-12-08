@@ -154,7 +154,7 @@ fun RenderContext.modalDemo(): Div {
                 items {
                     clickButton {
                         variant { outline }
-                        text("Blank dialog with custom-styled closeButton")
+                        text("custom-styled closeButton")
                     } handledBy modal {
                         closeButton({
                             background { color { danger } }
@@ -209,7 +209,7 @@ fun RenderContext.modalDemo(): Div {
                 items {
                     clickButton {
                         variant { outline }
-                        text("Blank dialog with custom closeButton")
+                        text("custom closeButton")
                     } handledBy modal { close ->
                         hasCloseButton(false)
                         content {

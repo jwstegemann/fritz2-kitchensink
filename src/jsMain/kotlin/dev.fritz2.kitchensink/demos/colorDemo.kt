@@ -100,7 +100,7 @@ fun RenderContext.colorDemo(): Div {
                                 }
                             }) { +"primary_hover" }
                             (::p.styled {
-                                color{ base }
+                                color{ dark }
                                 fontSize(sm = { normal }, md = { "0rem" })
                             }) {
                                 +"${Theme().colors.primary_hover}"
@@ -150,7 +150,7 @@ fun RenderContext.colorDemo(): Div {
                                 }
                             }) { +"secondary" }
                             (::p.styled {
-                                color{ base }
+                                color{ dark }
                                 fontSize(sm = { normal }, md = { "0rem" })
                             }) {
                                 +"${Theme().colors.secondary}"
@@ -301,7 +301,7 @@ fun RenderContext.colorDemo(): Div {
                                 }
                             }) { +"light" }
                             (::p.styled {
-                                color{ base }
+                                color{ dark }
                                 fontSize(sm = { normal }, md = { "0rem" })
                             }) {
                                 +"${Theme().colors.light}"
@@ -351,7 +351,7 @@ fun RenderContext.colorDemo(): Div {
                                 }
                             }) { +"light_hover" }
                             (::p.styled {
-                                color{ base }
+                                color{ dark }
                                 fontSize(sm = { normal }, md = { "0rem" })
                             }) {
                                 +"${Theme().colors.light_hover}"
@@ -502,7 +502,7 @@ fun RenderContext.colorDemo(): Div {
                                 }
                             }) { +"warning" }
                             (::p.styled {
-                                color{ base }
+                                color{ dark }
                                 fontSize(sm = { normal }, md = { "0rem" })
                             }) {
                                 +"${Theme().colors.warning}"
