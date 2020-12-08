@@ -63,7 +63,7 @@ fun RenderContext.buttonDemo(): Div {
         }
 
         componentFrame {
-            lineUp {
+            lineUp(switchLayoutSm) {
                 items {
                     clickButton { text("click me") } handledBy modal
 
@@ -177,7 +177,9 @@ fun RenderContext.buttonDemo(): Div {
             +"), or scale your button to your needs using the styling parameter."
         }
         componentFrame {
-            lineUp {
+            lineUp({
+                alignItems { center }
+            }) {
                 items {
                     clickButton {
                         text("small")
@@ -220,7 +222,7 @@ fun RenderContext.buttonDemo(): Div {
             +" to show its loading state. You can specify a different text which is shown while loading."
         }
         componentFrame {
-            lineUp {
+            lineUp(switchLayoutSm) {
                 items {
                     clickButton {
                         text("play")
