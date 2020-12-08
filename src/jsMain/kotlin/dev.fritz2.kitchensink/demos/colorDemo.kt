@@ -16,7 +16,7 @@ fun RenderContext.colorDemo(): Div {
         }) {
             items {
                 box({
-                    width { "90%" }
+                    width(sm = { "100%" }, md = { "90%" })
                     //height { "2.35rem" }
                     background {
                         color { primary }
@@ -26,7 +26,7 @@ fun RenderContext.colorDemo(): Div {
                         color { primary }
                     }
                     hover {
-                        width { "100%" }
+                        width(sm = { "100%" }, md = { "100%" })
                         tooltip("#319795") { right }()
                     }
                     radius { "1.3rem" }
@@ -58,7 +58,7 @@ fun RenderContext.colorDemo(): Div {
         }) {
             items {
                 box({
-                    width { "85%" }
+                    width(sm = { "100%" }, md = { "85%" })
                     //height { "2.35rem" }
                     background {
                         color { primary_hover }
@@ -68,7 +68,7 @@ fun RenderContext.colorDemo(): Div {
                         color { "transparent" }
                     }
                     hover {
-                        width { "95%" }
+                        width(sm = { "100%" }, md = { "95%" })
                         tooltip("rgb(49,151,149, 0.3)") { right }()
                     }
                     radius { "1.3rem" }
@@ -97,7 +97,7 @@ fun RenderContext.colorDemo(): Div {
         }) {
             items {
                 box({
-                    width { "80%" }
+                    width(sm = { "100%" }, md = { "80%" })
                     //height { "2.35rem" }
                     background {
                         color { secondary }
@@ -107,7 +107,7 @@ fun RenderContext.colorDemo(): Div {
                         color { secondary }
                     }
                     hover {
-                        width { "90%" }
+                        width(sm = { "100%" }, md = { "90%" })
                         tooltip("#b2f5ea") { right }()
                     }
                     radius { "1.3rem" }
@@ -138,7 +138,7 @@ fun RenderContext.colorDemo(): Div {
         }) {
             items {
                 box({
-                    width { "75%" }
+                    width(sm = { "100%" }, md = { "75%" })
                     //height { "2.35rem" }
                     background {
                         color { tertiary }
@@ -148,7 +148,7 @@ fun RenderContext.colorDemo(): Div {
                         color { tertiary }
                     }
                     hover {
-                        width { "85%" }
+                        width(sm = { "100%" }, md = { "85%" })
                         tooltip("#718096") { right }()
                     }
                     radius { "1.3rem" }
@@ -179,7 +179,7 @@ fun RenderContext.colorDemo(): Div {
         }) {
             items {
                 box({
-                    width { "70%" }
+                    width(sm = { "100%" }, md = { "70%" })
                     //height { "2.35rem" }
                     background {
                         color { dark }
@@ -189,7 +189,7 @@ fun RenderContext.colorDemo(): Div {
                         color { dark }
                     }
                     hover {
-                        width { "80%" }
+                        width(sm = { "100%" }, md = { "80%" })
                         tooltip("#2d3748") { right }()
                     }
                     radius { "1.3rem" }
@@ -220,7 +220,7 @@ fun RenderContext.colorDemo(): Div {
         }) {
             items {
                 box({
-                    width { "65%" }
+                    width(sm = { "100%" }, md = { "65%" })
                     //height { "2.35rem" }
                     background {
                         color { light }
@@ -230,7 +230,7 @@ fun RenderContext.colorDemo(): Div {
                         color { light }
                     }
                     hover {
-                        width { "75%" }
+                        width(sm = { "100%" }, md = { "75%" })
                         tooltip("#e2e8f0") { right }()
                     }
                     radius { "1.3rem" }
@@ -261,7 +261,7 @@ fun RenderContext.colorDemo(): Div {
         }) {
             items {
                 box({
-                    width { "60%" }
+                    width(sm = { "100%" }, md = { "60%" })
                     //height { "2.35rem" }
                     background {
                         color { light_hover }
@@ -271,7 +271,7 @@ fun RenderContext.colorDemo(): Div {
                         color { "transparent" }
                     }
                     hover {
-                        width { "70%" }
+                        width(sm = { "100%" }, md = { "70%" })
                         tooltip("rgb(226,232,240, 0.5)") { right }()
                     }
                     radius { "1.3rem" }
@@ -303,7 +303,7 @@ fun RenderContext.colorDemo(): Div {
         }) {
             items {
                 box({
-                    width { "55%" }
+                    width(sm = { "100%" }, md = { "55%" })
                     //height { "2.35rem" }
                     background {
                         color { info }
@@ -313,7 +313,7 @@ fun RenderContext.colorDemo(): Div {
                         color { info }
                     }
                     hover {
-                        width { "65%" }
+                        width(sm = { "100%" }, md = { "65%" })
                         tooltip("#3182ce") { right }()
                     }
                     radius { "1.3rem" }
@@ -344,7 +344,7 @@ fun RenderContext.colorDemo(): Div {
         }) {
             items {
                 box({
-                    width { "50%" }
+                    width(sm = { "100%" }, md = { "50%" })
                     //height { "2.35rem" }
                     background {
                         color { success }
@@ -354,7 +354,7 @@ fun RenderContext.colorDemo(): Div {
                         color { success }
                     }
                     hover {
-                        width { "60%" }
+                        width(sm = { "100%" }, md = { "60%" })
                         tooltip("#28a745") { right }()
                     }
                     radius { "1.3rem" }
@@ -385,7 +385,7 @@ fun RenderContext.colorDemo(): Div {
         }) {
             items {
                 box({
-                    width { "45%" }
+                    width(sm = { "100%" }, md = { "45%" })
                     //height { "2.35rem" }
                     background {
                         color { warning }
@@ -395,7 +395,7 @@ fun RenderContext.colorDemo(): Div {
                         color { warning }
                     }
                     hover {
-                        width { "55%" }
+                        width(sm = { "100%" }, md = { "55%" })
                         tooltip("#ffc107") { right }()
                     }
                     radius { "1.3rem" }
@@ -426,7 +426,7 @@ fun RenderContext.colorDemo(): Div {
         }) {
             items {
                 box({
-                    width { "40%" }
+                    width(sm = { "100%" }, md = { "40%" })
                     //height { "2.35rem" }
                     background {
                         color { danger }
@@ -436,7 +436,7 @@ fun RenderContext.colorDemo(): Div {
                         color { danger }
                     }
                     hover {
-                        width { "50%" }
+                        width(sm = { "100%" }, md = { "50%" })
                         tooltip("#dc3545") { right }()
                     }
                     radius { "1.3rem" }

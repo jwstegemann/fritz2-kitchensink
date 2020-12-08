@@ -9,16 +9,16 @@ val Property.important: Property
     get() = "$this !important"
 
 val switchLayoutSm: Style<FlexParams> = {
-    direction(sm = { column }, md = { row })
+    direction(sm = { column.important }, md = { row.important })
     children(" > *") {
         margins(
             sm = {
                 horizontal { none.important }
-                bottom { normal }
+                bottom { normal.important }
             },
             md = {
-                vertical { none }
-                right { normal }
+                vertical { none.important }
+                right { normal.important }
             }
         )
     }
