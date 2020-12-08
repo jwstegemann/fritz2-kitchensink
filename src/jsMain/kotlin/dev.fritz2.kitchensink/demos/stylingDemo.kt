@@ -144,17 +144,25 @@ fun RenderContext.stylingDemo(): Div {
         playground {
             source(
                 """
-                val veryImportantButton: Style<BasicParams> = {
+                val veryImportant: Style<BasicParams> = {
                     boxShadow { raised }
                     background { color { danger } }
                     color { light }
                     radius { "1.5rem" }
                 }
 
-                //somewhere else
+                //use it somewhere else
                 pushButton ({
-                    veryImportantButton()
+                    veryImportant()
                 }) { text("very important button") }
+                
+                //and again...
+                (::a.styled {
+                    veryImportant()                
+                }) {
+                    href("https://some.url")
+                    +"very important link"
+                }
                 """
             )
         }

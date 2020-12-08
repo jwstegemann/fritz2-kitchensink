@@ -49,9 +49,10 @@ object ThemeStore : RootStore<Int>(0) {
 }
 
 const val welcomeContentStaticCss = """
-    background-image: url("https://unsplash.com/photos/LmyPLbbUWhA/download?force=true&w=1920");
+    background-image: url("https://unsplash.com/photos/LmyPLbbUWhA/download?force=true&w=1280");
     background-repeat: no-repeat;
     background-attachment: fixed;
+    background-size: cover;
 """
 
 const val settingsTableStaticCss = """
