@@ -36,6 +36,7 @@ fun RenderContext.themeDemo(): Div {
         showcaseSection("Content")
         paragraph {
             +"A theme groups the following presets:"
+        }
             table("settings-table") {
                 tr {
                     th { +"Name" }
@@ -134,7 +135,6 @@ fun RenderContext.themeDemo(): Div {
                 }
 
             }
-        }
 
         showcaseSection("Custom Themes")
         paragraph {

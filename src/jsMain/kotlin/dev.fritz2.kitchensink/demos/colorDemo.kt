@@ -17,7 +17,7 @@ fun RenderContext.colorDemo(): Div {
         }) {
             items {
                 box({
-                    width { "90%" }
+                    width(sm = { "100%" }, md = { "90%" })
                     //height { "2.35rem" }
                     background {
                         color { primary }
@@ -27,7 +27,7 @@ fun RenderContext.colorDemo(): Div {
                         color { primary }
                     }
                     hover {
-                        width { "100%" }
+                        width(sm = { "100%" }, md = { "100%" })
                         tooltip("${Theme().colors.primary}") { right }()
                     }
                     radius { "1.3rem" }
@@ -59,7 +59,7 @@ fun RenderContext.colorDemo(): Div {
         }) {
             items {
                 box({
-                    width { "85%" }
+                    width(sm = { "100%" }, md = { "85%" })
                     //height { "2.35rem" }
                     background {
                         color { primary_hover }
@@ -69,7 +69,7 @@ fun RenderContext.colorDemo(): Div {
                         color { "transparent" }
                     }
                     hover {
-                        width { "95%" }
+                        width(sm = { "100%" }, md = { "95%" })
                         tooltip("${Theme().colors.primary_hover}") { right }()
                     }
                     radius { "1.3rem" }
@@ -98,7 +98,7 @@ fun RenderContext.colorDemo(): Div {
         }) {
             items {
                 box({
-                    width { "80%" }
+                    width(sm = { "100%" }, md = { "80%" })
                     //height { "2.35rem" }
                     background {
                         color { secondary }
@@ -108,7 +108,7 @@ fun RenderContext.colorDemo(): Div {
                         color { secondary }
                     }
                     hover {
-                        width { "90%" }
+                        width(sm = { "100%" }, md = { "90%" })
                         tooltip("${Theme().colors.secondary}") { right }()
                     }
                     radius { "1.3rem" }
@@ -139,7 +139,7 @@ fun RenderContext.colorDemo(): Div {
         }) {
             items {
                 box({
-                    width { "75%" }
+                    width(sm = { "100%" }, md = { "75%" })
                     //height { "2.35rem" }
                     background {
                         color { tertiary }
@@ -149,7 +149,7 @@ fun RenderContext.colorDemo(): Div {
                         color { tertiary }
                     }
                     hover {
-                        width { "85%" }
+                        width(sm = { "100%" }, md = { "85%" })
                         tooltip("${Theme().colors.tertiary}") { right }()
                     }
                     radius { "1.3rem" }
@@ -180,7 +180,7 @@ fun RenderContext.colorDemo(): Div {
         }) {
             items {
                 box({
-                    width { "70%" }
+                    width(sm = { "100%" }, md = { "70%" })
                     //height { "2.35rem" }
                     background {
                         color { dark }
@@ -190,7 +190,7 @@ fun RenderContext.colorDemo(): Div {
                         color { dark }
                     }
                     hover {
-                        width { "80%" }
+                        width(sm = { "100%" }, md = { "80%" })
                         tooltip("${Theme().colors.dark}") { right }()
                     }
                     radius { "1.3rem" }
@@ -221,7 +221,7 @@ fun RenderContext.colorDemo(): Div {
         }) {
             items {
                 box({
-                    width { "65%" }
+                    width(sm = { "100%" }, md = { "65%" })
                     //height { "2.35rem" }
                     background {
                         color { light }
@@ -231,7 +231,7 @@ fun RenderContext.colorDemo(): Div {
                         color { light }
                     }
                     hover {
-                        width { "75%" }
+                        width(sm = { "100%" }, md = { "75%" })
                         tooltip("${Theme().colors.light}") { right }()
                     }
                     radius { "1.3rem" }
@@ -262,7 +262,7 @@ fun RenderContext.colorDemo(): Div {
         }) {
             items {
                 box({
-                    width { "60%" }
+                    width(sm = { "100%" }, md = { "60%" })
                     //height { "2.35rem" }
                     background {
                         color { light_hover }
@@ -272,7 +272,7 @@ fun RenderContext.colorDemo(): Div {
                         color { "transparent" }
                     }
                     hover {
-                        width { "70%" }
+                        width(sm = { "100%" }, md = { "70%" })
                         tooltip("${Theme().colors.light_hover}") { right }()
                     }
                     radius { "1.3rem" }
@@ -304,7 +304,7 @@ fun RenderContext.colorDemo(): Div {
         }) {
             items {
                 box({
-                    width { "55%" }
+                    width(sm = { "100%" }, md = { "55%" })
                     //height { "2.35rem" }
                     background {
                         color { info }
@@ -314,7 +314,7 @@ fun RenderContext.colorDemo(): Div {
                         color { info }
                     }
                     hover {
-                        width { "65%" }
+                        width(sm = { "100%" }, md = { "65%" })
                         tooltip("${Theme().colors.info}") { right }()
                     }
                     radius { "1.3rem" }
@@ -345,7 +345,7 @@ fun RenderContext.colorDemo(): Div {
         }) {
             items {
                 box({
-                    width { "50%" }
+                    width(sm = { "100%" }, md = { "50%" })
                     //height { "2.35rem" }
                     background {
                         color { success }
@@ -355,7 +355,7 @@ fun RenderContext.colorDemo(): Div {
                         color { success }
                     }
                     hover {
-                        width { "60%" }
+                        width(sm = { "100%" }, md = { "60%" })
                         tooltip("${Theme().colors.success}") { right }()
                     }
                     radius { "1.3rem" }
@@ -386,7 +386,7 @@ fun RenderContext.colorDemo(): Div {
         }) {
             items {
                 box({
-                    width { "45%" }
+                    width(sm = { "100%" }, md = { "45%" })
                     //height { "2.35rem" }
                     background {
                         color { warning }
@@ -396,7 +396,7 @@ fun RenderContext.colorDemo(): Div {
                         color { warning }
                     }
                     hover {
-                        width { "55%" }
+                        width(sm = { "100%" }, md = { "55%" })
                         tooltip("${Theme().colors.warning}") { right }()
                     }
                     radius { "1.3rem" }
@@ -427,7 +427,7 @@ fun RenderContext.colorDemo(): Div {
         }) {
             items {
                 box({
-                    width { "40%" }
+                    width(sm = { "100%" }, md = { "40%" })
                     //height { "2.35rem" }
                     background {
                         color { danger }
@@ -437,7 +437,7 @@ fun RenderContext.colorDemo(): Div {
                         color { danger }
                     }
                     hover {
-                        width { "50%" }
+                        width(sm = { "100%" }, md = { "50%" })
                         tooltip("${Theme().colors.danger}") { right }()
                     }
                     radius { "1.3rem" }
