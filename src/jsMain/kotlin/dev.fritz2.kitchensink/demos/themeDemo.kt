@@ -238,8 +238,6 @@ fun RenderContext.themeDemo(): Div {
             +"."
         }
         colorDemo()
-
-
     }
 }
 
