@@ -83,20 +83,30 @@ fun RenderContext.colorDemo(): Div {
                     }
                     radius { "1.3rem" }
                 }) {
-                    (::p.styled {
-                        width { "8rem" }
-                        background {
-                            color { base }
+                    lineUp {
+                        items {
+                            (::p.styled {
+                                width { "8rem" }
+                                background {
+                                    color { base }
+                                }
+                                radii {
+                                    left { "1rem" }
+                                }
+                                color { primary_hover }
+                                paddings {
+                                    left { small }
+                                    right { small }
+                                }
+                            }) { +"primary_hover" }
+                            (::p.styled {
+                                color{ dark }
+                                fontSize(sm = { normal }, md = { "0rem" })
+                            }) {
+                                +"${Theme().colors.primary_hover}"
+                            }
                         }
-                        radii {
-                            left { "1rem" }
-                        }
-                        color { primary_hover }
-                        paddings {
-                            left { small }
-                            right { small }
-                        }
-                    }) { +"primary_hover" }
+                    }
                 }
             }
         }
@@ -121,23 +131,32 @@ fun RenderContext.colorDemo(): Div {
                         tooltip("${Theme().colors.secondary}") { right }()
                     }
                     radius { "1.3rem" }
-                    textAlign { right }
                 }) {
-                    (::p.styled {
-                        textAlign { right }
-                        width { "8rem" }
-                        background {
-                            color { base }
+                    lineUp {
+                        items {
+                            (::p.styled {
+                                textAlign { right }
+                                width { "8rem" }
+                                background {
+                                    color { base }
+                                }
+                                radii {
+                                    left { "1rem" }
+                                }
+                                color { secondary }
+                                paddings {
+                                    left { small }
+                                    right { small }
+                                }
+                            }) { +"secondary" }
+                            (::p.styled {
+                                color{ dark }
+                                fontSize(sm = { normal }, md = { "0rem" })
+                            }) {
+                                +"${Theme().colors.secondary}"
+                            }
                         }
-                        radii {
-                            left { "1rem" }
-                        }
-                        color { secondary }
-                        paddings {
-                            left { small }
-                            right { small }
-                        }
-                    }) { +"secondary" }
+                    }
                 }
             }
         }
@@ -162,23 +181,32 @@ fun RenderContext.colorDemo(): Div {
                         tooltip("${Theme().colors.tertiary}") { right }()
                     }
                     radius { "1.3rem" }
-                    textAlign { right }
                 }) {
-                    (::p.styled {
-                        textAlign { right }
-                        width { "8rem" }
-                        background {
-                            color { base }
+                    lineUp {
+                        items {
+                            (::p.styled {
+                                textAlign { right }
+                                width { "8rem" }
+                                background {
+                                    color { base }
+                                }
+                                radii {
+                                    left { "1rem" }
+                                }
+                                color { tertiary }
+                                paddings {
+                                    left { small }
+                                    right { small }
+                                }
+                            }) { +"tertiary" }
+                            (::p.styled {
+                                color{ base }
+                                fontSize(sm = { normal }, md = { "0rem" })
+                            }) {
+                                +"${Theme().colors.tertiary}"
+                            }
                         }
-                        radii {
-                            left { "1rem" }
-                        }
-                        color { tertiary }
-                        paddings {
-                            left { small }
-                            right { small }
-                        }
-                    }) { +"tertiary" }
+                    }
                 }
             }
         }
@@ -203,23 +231,32 @@ fun RenderContext.colorDemo(): Div {
                         tooltip("${Theme().colors.dark}") { right }()
                     }
                     radius { "1.3rem" }
-                    textAlign { right }
                 }) {
-                    (::p.styled {
-                        textAlign { right }
-                        width { "8rem" }
-                        background {
-                            color { base }
+                    lineUp {
+                        items {
+                            (::p.styled {
+                                textAlign { right }
+                                width { "8rem" }
+                                background {
+                                    color { base }
+                                }
+                                radii {
+                                    left { "1rem" }
+                                }
+                                color { dark }
+                                paddings {
+                                    left { small }
+                                    right { small }
+                                }
+                            }) { +"dark" }
+                            (::p.styled {
+                                color{ base }
+                                fontSize(sm = { normal }, md = { "0rem" })
+                            }) {
+                                +"${Theme().colors.dark}"
+                            }
                         }
-                        radii {
-                            left { "1rem" }
-                        }
-                        color { dark }
-                        paddings {
-                            left { small }
-                            right { small }
-                        }
-                    }) { +"dark" }
+                    }
                 }
             }
         }
@@ -244,23 +281,33 @@ fun RenderContext.colorDemo(): Div {
                         tooltip("${Theme().colors.light}") { right }()
                     }
                     radius { "1.3rem" }
-                    textAlign { right }
+
                 }) {
-                    (::p.styled {
-                        textAlign { right }
-                        width { "8rem" }
-                        background {
-                            color { base }
+                    lineUp {
+                        items {
+                            (::p.styled {
+                                textAlign { right }
+                                width { "8rem" }
+                                background {
+                                    color { base }
+                                }
+                                radii {
+                                    left { "1rem" }
+                                }
+                                color { light }
+                                paddings {
+                                    left { small }
+                                    right { small }
+                                }
+                            }) { +"light" }
+                            (::p.styled {
+                                color{ dark }
+                                fontSize(sm = { normal }, md = { "0rem" })
+                            }) {
+                                +"${Theme().colors.light}"
+                            }
                         }
-                        radii {
-                            left { "1rem" }
-                        }
-                        color { light }
-                        paddings {
-                            left { small }
-                            right { small }
-                        }
-                    }) { +"light" }
+                    }
                 }
             }
         }
@@ -285,23 +332,32 @@ fun RenderContext.colorDemo(): Div {
                         tooltip("${Theme().colors.light_hover}") { right }()
                     }
                     radius { "1.3rem" }
-                    textAlign { right }
                 }) {
-                    (::p.styled {
-                        textAlign { right }
-                        width { "8rem" }
-                        background {
-                            color { base }
+                    lineUp {
+                        items {
+                            (::p.styled {
+                                textAlign { right }
+                                width { "8rem" }
+                                background {
+                                    color { base }
+                                }
+                                radii {
+                                    left { "1rem" }
+                                }
+                                color { light_hover }
+                                paddings {
+                                    left { small }
+                                    right { small }
+                                }
+                            }) { +"light_hover" }
+                            (::p.styled {
+                                color{ dark }
+                                fontSize(sm = { normal }, md = { "0rem" })
+                            }) {
+                                +"${Theme().colors.light_hover}"
+                            }
                         }
-                        radii {
-                            left { "1rem" }
-                        }
-                        color { light_hover }
-                        paddings {
-                            left { small }
-                            right { small }
-                        }
-                    }) { +"light_hover" }
+                    }
                 }
             }
         }
@@ -327,23 +383,32 @@ fun RenderContext.colorDemo(): Div {
                         tooltip("${Theme().colors.info}") { right }()
                     }
                     radius { "1.3rem" }
-                    textAlign { right }
                 }) {
-                    (::p.styled {
-                        textAlign { right }
-                        width { "8rem" }
-                        background {
-                            color { base }
+                    lineUp {
+                        items {
+                            (::p.styled {
+                                textAlign { right }
+                                width { "8rem" }
+                                background {
+                                    color { base }
+                                }
+                                radii {
+                                    left { "1rem" }
+                                }
+                                color { info }
+                                paddings {
+                                    left { small }
+                                    right { small }
+                                }
+                            }) { +"info" }
+                            (::p.styled {
+                                color{ base }
+                                fontSize(sm = { normal }, md = { "0rem" })
+                            }) {
+                                +"${Theme().colors.info}"
+                            }
                         }
-                        radii {
-                            left { "1rem" }
-                        }
-                        color { info }
-                        paddings {
-                            left { small }
-                            right { small }
-                        }
-                    }) { +"info" }
+                    }
                 }
             }
         }
@@ -368,23 +433,32 @@ fun RenderContext.colorDemo(): Div {
                         tooltip("${Theme().colors.success}") { right }()
                     }
                     radius { "1.3rem" }
-                    textAlign { right }
                 }) {
-                    (::p.styled {
-                        textAlign { right }
-                        width { "8rem" }
-                        background {
-                            color { base }
+                    lineUp {
+                        items {
+                            (::p.styled {
+                                textAlign { right }
+                                width { "8rem" }
+                                background {
+                                    color { base }
+                                }
+                                radii {
+                                    left { "1rem" }
+                                }
+                                color { success }
+                                paddings {
+                                    left { small }
+                                    right { small }
+                                }
+                            }) { +"success" }
+                            (::p.styled {
+                                color{ base }
+                                fontSize(sm = { normal }, md = { "0rem" })
+                            }) {
+                                +"${Theme().colors.success}"
+                            }
                         }
-                        radii {
-                            left { "1rem" }
-                        }
-                        color { success }
-                        paddings {
-                            left { small }
-                            right { small }
-                        }
-                    }) { +"success" }
+                    }
                 }
             }
         }
@@ -409,23 +483,32 @@ fun RenderContext.colorDemo(): Div {
                         tooltip("${Theme().colors.warning}") { right }()
                     }
                     radius { "1.3rem" }
-                    textAlign { right }
                 }) {
-                    (::p.styled {
-                        textAlign { right }
-                        width { "8rem" }
-                        background {
-                            color { base }
+                    lineUp {
+                        items {
+                            (::p.styled {
+                                textAlign { right }
+                                width { "8rem" }
+                                background {
+                                    color { base }
+                                }
+                                radii {
+                                    left { "1rem" }
+                                }
+                                color { warning }
+                                paddings {
+                                    left { small }
+                                    right { small }
+                                }
+                            }) { +"warning" }
+                            (::p.styled {
+                                color{ dark }
+                                fontSize(sm = { normal }, md = { "0rem" })
+                            }) {
+                                +"${Theme().colors.warning}"
+                            }
                         }
-                        radii {
-                            left { "1rem" }
-                        }
-                        color { warning }
-                        paddings {
-                            left { small }
-                            right { small }
-                        }
-                    }) { +"warning" }
+                    }
                 }
             }
         }
@@ -450,11 +533,9 @@ fun RenderContext.colorDemo(): Div {
                         tooltip("${Theme().colors.danger}") { right }()
                     }
                     radius { "1.3rem" }
-                    textAlign { right }
                 }) {
                     lineUp {
                         items {
-                            align("spaceBetween")
                             (::p.styled {
                                 textAlign { right }
                                 width { "8rem" }
@@ -471,13 +552,13 @@ fun RenderContext.colorDemo(): Div {
                                 }
                             }) { +"danger" }
                             (::p.styled {
-                                color ( sm = { base }, md = { danger } )
+                                color{ base }
+                                fontSize(sm = { normal }, md = { "0rem" })
                             }) {
                                 +"${Theme().colors.danger}"
                             }
                         }
                     }
-
                 }
             }
         }
