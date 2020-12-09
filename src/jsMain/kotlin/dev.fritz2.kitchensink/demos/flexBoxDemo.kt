@@ -1,13 +1,13 @@
 package dev.fritz2.kitchensink.demos
 
-import dev.fritz2.components.box
 import dev.fritz2.components.flexBox
 import dev.fritz2.components.lineUp
-import dev.fritz2.components.stackUp
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
-import dev.fritz2.styling.params.*
+import dev.fritz2.styling.params.DirectionValues
+import dev.fritz2.styling.params.JustifyContentValues
+import dev.fritz2.styling.params.WrapValues
 import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -30,12 +30,8 @@ fun RenderContext.flexBoxDemo(): Div {
         listOf(Theme().colors.primary, Theme().colors.danger, Theme().colors.warning)
             .forEachIndexed { index, value -> item(value, index + 1) }
     }
-
-    val nineItems: RenderContext.() -> Unit = {
+    val sixItems: RenderContext.() -> Unit = {
         listOf(
-            Theme().colors.primary,
-            Theme().colors.danger,
-            Theme().colors.warning,
             Theme().colors.primary,
             Theme().colors.danger,
             Theme().colors.warning,
@@ -216,7 +212,7 @@ fun RenderContext.flexBoxDemo(): Div {
                     width { full }
                     wrap { it }
                 }) {
-                    nineItems()
+                    sixItems()
                 }
             }
         }

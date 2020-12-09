@@ -1,9 +1,6 @@
 package dev.fritz2.kitchensink.demos
 
-import dev.fritz2.components.flexBox
-import dev.fritz2.components.icon
-import dev.fritz2.components.popover
-import dev.fritz2.components.pushButton
+import dev.fritz2.components.*
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
@@ -73,17 +70,19 @@ fun RenderContext.popoverDemo(): Div {
         }
 
         componentFrame {
-            flexBox({
+            lineUp({
                 justifyContent { center }
             }) {
-                popover {
-                    trigger {
-                        pushButton { text("Trigger without marker") }
+                items {
+                    popover {
+                        trigger {
+                            pushButton { text("Trigger without marker") }
+                        }
+                        content {
+                            div { +"My popover content" }
+                        }
+                        hasArrow(false)
                     }
-                    content {
-                        div { +"My popover content" }
-                    }
-                    hasArrow(false)
                 }
             }
         }
@@ -115,22 +114,24 @@ fun RenderContext.popoverDemo(): Div {
             +". You must define at least one of them."
 
             componentFrame {
-                flexBox({
+                lineUp({
                     justifyContent { center }
                 }) {
-                    popover {
-                        trigger {
-                            pushButton {
-                                text("Areas")
+                    items {
+                        popover {
+                            trigger {
+                                pushButton {
+                                    text("Areas")
+                                }
                             }
-                        }
-                        header("My header area")
-                        content {
-                            div {
-                                +"My content area"
+                            header("My header area")
+                            content {
+                                div {
+                                    +"My content area"
+                                }
                             }
+                            footer("My footer area")
                         }
-                        footer("My footer area")
                     }
                 }
             }
@@ -168,72 +169,74 @@ fun RenderContext.popoverDemo(): Div {
         }
 
         componentFrame {
-            flexBox({
+            lineUp({
                 justifyContent { spaceBetween }
             }) {
-                popover({
-                    margins { right { small } }
-                }) {
-                    trigger {
-                        icon({ size { large } }) { fromTheme { arrowRight } }
-                    }
-                    placement { right }
-                    header("Our simple Popover")
-                    content {
-                        div {
-                            +"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua."
+                items {
+                    popover({
+                        margins { right { small } }
+                    }) {
+                        trigger {
+                            icon({ size { large } }) { fromTheme { arrowRight } }
                         }
+                        placement { right }
+                        header("Our simple Popover")
+                        content {
+                            div {
+                                +"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua."
+                            }
+                        }
+
+                        footer("Footer")
                     }
 
-                    footer("Footer")
-                }
-
-                popover({
-                    margins { right { small } }
-                }) {
-                    trigger {
-                        icon({ size { large } }) { fromTheme { arrowUp } }
-                    }
-                    placement { top }
-                    header("Our simple Popover")
-                    content {
-                        div {
-                            +"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor..."
+                    popover({
+                        margins { right { small } }
+                    }) {
+                        trigger {
+                            icon({ size { large } }) { fromTheme { arrowUp } }
                         }
-                    }
-                    footer("Footer")
-                }
-
-                popover({
-                    margins { right { small } }
-                }) {
-                    trigger {
-                        icon({ size { large } }) { fromTheme { arrowDown } }
-                    }
-                    placement { bottom }
-                    header("Our simple Popover")
-                    content {
-                        div {
-                            +"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor..."
+                        placement { top }
+                        header("Our simple Popover")
+                        content {
+                            div {
+                                +"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor..."
+                            }
                         }
+                        footer("Footer")
                     }
-                    footer("Footer")
-                }
 
-                popover({
-                    margins { right { small } }
-                }) {
-                    trigger {
-                        icon({ size { large } }) { fromTheme { arrowLeft } }
-                    }
-                    placement { left }
-                    header("Our simple Popover")
-                    content {
-                        div {
-                            +"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed ..."
+                    popover({
+                        margins { right { small } }
+                    }) {
+                        trigger {
+                            icon({ size { large } }) { fromTheme { arrowDown } }
                         }
+                        placement { bottom }
+                        header("Our simple Popover")
+                        content {
+                            div {
+                                +"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor..."
+                            }
+                        }
+                        footer("Footer")
                     }
-                    footer("Footer")
+
+                    popover({
+                        margins { right { small } }
+                    }) {
+                        trigger {
+                            icon({ size { large } }) { fromTheme { arrowLeft } }
+                        }
+                        placement { left }
+                        header("Our simple Popover")
+                        content {
+                            div {
+                                +"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed ..."
+                            }
+                        }
+                        footer("Footer")
+                    }
                 }
             }
         }
@@ -273,50 +276,52 @@ fun RenderContext.popoverDemo(): Div {
 
         }
         componentFrame {
-            flexBox({
+            lineUp({
                 justifyContent { spaceEvenly }
             }) {
-                popover({
-                    background { color { primary } }
-                    border { color { base } }
-                    margins { right { small } }
-                    color { base }
-                }) {
-                    trigger {
-                        icon({ size { large } }) { fromTheme { circleInformation } }
-                    }
-                    placement { top }
-                    hasCloseButton(false)
-                    header("Popover without close button")
-                    content {
-                        div {
-                            +"background-color"
-                            br {}
-                            +"border-color"
-                            br {}
-                            +"hidden close Button"
-                            br {}
-                            +"and hidden arrow"
+                items {
+                    popover({
+                        background { color { primary } }
+                        border { color { base } }
+                        margins { right { small } }
+                        color { base }
+                    }) {
+                        trigger {
+                            icon({ size { huge } }) { fromTheme { circleInformation } }
                         }
+                        placement { top }
+                        hasCloseButton(false)
+                        header("Popover without close button")
+                        content {
+                            div {
+                                +"background-color"
+                                br {}
+                                +"border-color"
+                                br {}
+                                +"hidden close Button"
+                                br {}
+                                +"and hidden arrow"
+                            }
+                        }
+                        footer("Use the Trigger to close the popover ;-)")
                     }
-                    footer("Use the Trigger to close the popover ;-)")
-                }
 
-                popover({
-                    margins { right { small } }
-                }) {
-                    trigger {
-                        icon({ size { large } }) { fromTheme { eye } }
-                    }
-                    placement { bottom }
-                    hasArrow(false)
-                    closeButton {
-                        icon({ size { tiny } }) { fromTheme { eyeOff } }
-                    }
-                    header("Custom Close Button")
-                    content {
-                        div {
-                            +"At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. "
+                    popover({
+                        margins { right { small } }
+                    }) {
+                        trigger {
+                            icon({ size { huge } }) { fromTheme { eye } }
+                        }
+                        placement { bottom }
+                        hasArrow(false)
+                        closeButton({ size { normal } }) {
+                            icon { fromTheme { eyeOff } }
+                        }
+                        header("Custom Close Button")
+                        content {
+                            div {
+                                +"At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. "
+                            }
                         }
                     }
                 }
@@ -360,7 +365,5 @@ fun RenderContext.popoverDemo(): Div {
             """.trimIndent()
             )
         }
-
-
     }
 }

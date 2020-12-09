@@ -38,12 +38,12 @@ fun RenderContext.gridBoxDemo(): Div {
         showcaseSection("Usage")
         paragraph {
             +"In order to create a Gridbox, just pass some specialized grid styling information."
-            +" In this simple example, a five column based grid layout was defined, but seven items where inserted."
+            +" In this simple example, a four column based grid layout was defined, but seven items where inserted."
             +" The surplus items will be rendered into a second row:"
         }
         componentFrame {
             gridBox({
-                columns { repeat(5) { "1fr" } }
+                columns { repeat(4) { "1fr" } }
                 gap { normal }
                 children("div") {
                     size { "60px" }
