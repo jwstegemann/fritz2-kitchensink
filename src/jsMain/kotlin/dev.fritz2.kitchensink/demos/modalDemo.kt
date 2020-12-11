@@ -5,11 +5,11 @@ import dev.fritz2.components.*
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
-import dev.fritz2.styling.params.AlignItemsValues
 import dev.fritz2.styling.params.BasicParams
 import dev.fritz2.styling.params.Style
 import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+
 
 @ExperimentalCoroutinesApi
 fun RenderContext.modalDemo(): Div {
@@ -154,7 +154,7 @@ fun RenderContext.modalDemo(): Div {
                 items {
                     clickButton {
                         variant { outline }
-                        text("Blank dialog with custom-styled closeButton")
+                        text("custom-styled closeButton")
                     } handledBy modal {
                         closeButton({
                             background { color { danger } }
@@ -209,7 +209,7 @@ fun RenderContext.modalDemo(): Div {
                 items {
                     clickButton {
                         variant { outline }
-                        text("Blank dialog with custom closeButton")
+                        text("custom closeButton")
                     } handledBy modal { close ->
                         hasCloseButton(false)
                         content {

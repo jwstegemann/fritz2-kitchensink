@@ -235,11 +235,9 @@ fun RenderContext.themeDemo(): Div {
             c("warning")
             +" and "
             c("danger")
-            +". Hover over the color to get the color code."
+            +"."
         }
         colorDemo()
-
-
     }
 }
 
