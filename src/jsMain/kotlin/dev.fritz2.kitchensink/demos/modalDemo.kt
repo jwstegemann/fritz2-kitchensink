@@ -259,7 +259,7 @@ fun RenderContext.modalDemo(): Div {
                 Pair("Activate overlay for each nested level", DefaultOverlay(OverlayMethod.CoveringEach)),
                 Pair("Activate styled overlay", DefaultOverlay(OverlayMethod.CoveringTopMost) {
                     width { "100%" }
-                    height { "100%" }
+                    height { "400%" }
                     position {
                         absolute {
                             horizontal { "0" }
@@ -270,7 +270,7 @@ fun RenderContext.modalDemo(): Div {
                         image { "https://via.placeholder.com/150x50/?text=BACKGROUND" }
                         repeat { repeat }
                     }
-                    css("transform: rotate(-30deg) translateX(-.5rem) scale(200%)")
+                    //css("transform: rotate(-30deg) translateX(-.5rem) scale(200%)")
                     opacity { "0.8" }
                 })
             )
