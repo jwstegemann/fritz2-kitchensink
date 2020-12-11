@@ -10,6 +10,7 @@ import dev.fritz2.kitchensink.base.contentFrame
 import dev.fritz2.kitchensink.base.externalLink
 import dev.fritz2.kitchensink.base.paragraph
 import dev.fritz2.kitchensink.base.warningBox
+import dev.fritz2.styling.params.AlignContentValues.start
 import dev.fritz2.styling.params.styled
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -19,13 +20,19 @@ fun RenderContext.welcome(): Div {
 
         lineUp({
             alignItems { center }
-            margins { top { "3rem" } }
+            verticalAlign { start }
+            margins {
+                top { "3rem" }
+            }
+            height {
+                maxContent
+            }
         }) {
             items {
                 icon({
                     size(
-                        sm = { "4.75rem" },
-                        md = { "13.5rem" }
+                        sm = { "3rem" },
+                        md = { "10.0rem" }
                     )
                     color { "rgba(255,255,255,0.8)" }
                     css("drop-shadow(0 0 0.5rem grey);")
@@ -33,36 +40,35 @@ fun RenderContext.welcome(): Div {
                 box {
                     (::h1.styled {
                         fontSize(
-                            sm = { "1.75rem" },
-                            md = { "5.5rem" }
+                            sm = { "1.5rem" },
+                            md = { "5.0rem" }
                         )
                         lineHeight(
-                            sm = { "1.75rem" },
-                            md = { "5.5rem" }
+                            sm = { "1.5rem" },
+                            md = { "5.0rem" }
                         )
                         textShadow { flat }
                     }) { +"tailor-made" }
                     (::h1.styled {
                         fontSize(
-                            sm = { "1.75rem" },
-                            md = { "5.5rem" }
+                            sm = { "1.5rem" },
+                            md = { "5.0rem" }
                         )
                         lineHeight(
-                            sm = { "1.75rem" },
-                            md = { "5.5rem" }
+                            sm = { "1.0rem" },
+                            md = { "5.0rem" }
                         )
                         color { "rgba(255,255,255,0.85)" }
                         textShadow { flat }
                     }) { +"components" }
                 }
-
             }
         }
 
         stackUp({
             padding { large }
             background { color { "rgba(255,255,255,0.85)" } }
-            margins { top { "3rem" } }
+            //margins { top { "3rem" } }
             margins(
                 sm = { top { "1.5rem" } },
                 md = { top { "3rem" } }

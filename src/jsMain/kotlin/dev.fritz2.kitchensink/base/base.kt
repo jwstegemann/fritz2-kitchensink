@@ -114,12 +114,12 @@ fun RenderContext.warningBox(init: P.() -> Unit): Div {
             left {
                 width { "4px" }
                 style { solid }
-                color { danger }
+                color { warning }
             }
         }
         radius { small }
         background {
-            color { "rgb(254, 235, 200)" }
+            color { "rgb(254, 235, 200)" } // todo lighter background based on "warning"
         }
     }){
         p {
@@ -226,7 +226,7 @@ fun RenderContext.menuAnchor(linkText: String): P {
         border {
             width { none }
         }
-        background { color { secondary } }
+        background { color { primary_hover } }
         paddings {
             top { tiny }
             bottom { tiny }
@@ -246,7 +246,7 @@ fun RenderContext.menuAnchor(linkText: String): P {
         }
         hover {
             background {
-                color { light_hover }
+                color { tertiary }
             }
         }
         paddings {
