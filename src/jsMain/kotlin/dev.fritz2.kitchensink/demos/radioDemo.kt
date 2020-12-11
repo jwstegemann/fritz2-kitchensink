@@ -1,6 +1,5 @@
 package dev.fritz2.kitchensink.demos
 
-import dev.fritz2.binding.RootStore
 import dev.fritz2.binding.storeOf
 import dev.fritz2.components.lineUp
 import dev.fritz2.components.radio
@@ -10,7 +9,6 @@ import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.dom.states
 import dev.fritz2.kitchensink.base.*
-import dev.fritz2.styling.params.AlignContentValues.center
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 
@@ -175,7 +173,7 @@ fun RenderContext.radiosDemo(): Div {
         }
 
         componentFrame {
-            lineUp {
+            lineUp(switchLayoutSm) {
                 items {
                     radio({
                         border { color { "tomato" } }
