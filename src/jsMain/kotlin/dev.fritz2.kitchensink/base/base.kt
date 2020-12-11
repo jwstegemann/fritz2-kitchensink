@@ -5,11 +5,9 @@ import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.P
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.router
-import dev.fritz2.styling.name
+import dev.fritz2.styling.*
+import dev.fritz2.styling.params.BasicParams
 import dev.fritz2.styling.params.styled
-import dev.fritz2.styling.staticStyle
-import dev.fritz2.styling.style
-import dev.fritz2.styling.whenever
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -63,8 +61,14 @@ fun RenderContext.showcaseSection(text: String) {
     }) { +text }
 }
 
-fun RenderContext.paragraph(init: P.() -> Unit): P {
-    return (::p.styled {
+fun RenderContext.paragraph(
+    styling: BasicParams.() -> Unit = {},
+    baseClass: StyleClass? = null,
+    id: String? = null,
+    prefix: String = "paragraph",
+    init: P.() -> Unit = {}
+): P =
+    ::p.styled(styling, baseClass, id, prefix) {
         fontFamily { "Inter, sans-serif" }
         margins {
             top { "1.25rem" }
@@ -73,13 +77,16 @@ fun RenderContext.paragraph(init: P.() -> Unit): P {
         fontWeight { "400" }
         fontSize { normal }
         letterSpacing { small }
-    })  {
-        init()
-    }
-}
+    } (init)
 
-fun RenderContext.contentFrame(init: Div.() -> Unit): Div {
-    return (::div.styled {
+fun RenderContext.contentFrame(
+        styling: BasicParams.() -> Unit = {},
+        baseClass: StyleClass? = null,
+        id: String? = null,
+        prefix: String = "contentframe",
+        init: Div.() -> Unit = {}
+): Div =
+    ::div.styled(styling, baseClass, id, prefix) {
         margins {
             top { "2rem" }
         }
@@ -92,14 +99,18 @@ fun RenderContext.contentFrame(init: Div.() -> Unit): Div {
                 top { huge }
                 left { normal }
                 right { normal }
-            })
-    }) {
-        init()
-    }
-}
+            }
+        )
+    } (init)
 
-fun RenderContext.warningBox(init: P.() -> Unit): Div {
-    return (::div.styled {
+fun RenderContext.warningBox(
+    styling: BasicParams.() -> Unit = {},
+    baseClass: StyleClass? = null,
+    id: String? = null,
+    prefix: String = "warningbox",
+    init: Div.() -> Unit = {}
+): Div =
+    ::div.styled(styling, baseClass, id, prefix) {
         margins {
             top { larger }
             bottom { larger }
@@ -121,12 +132,7 @@ fun RenderContext.warningBox(init: P.() -> Unit): Div {
         background {
             color { "rgb(254, 235, 200)" }
         }
-    }){
-        p {
-            init()
-        }
-    }
-}
+    }(init)
 
 fun RenderContext.componentFrame(padding: Boolean = true, init: Div.() -> Unit): Div { //Auslagerung von Komponente
     return (::div.styled {

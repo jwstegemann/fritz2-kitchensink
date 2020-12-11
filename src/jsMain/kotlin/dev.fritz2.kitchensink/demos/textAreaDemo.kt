@@ -127,8 +127,10 @@ fun RenderContext.textAreaDemo(): Div {
             c("horizontal")
             +" and "
             c("none")
-
         }
+        paragraph({
+            display (sm = {block}, md = {none})
+        }) { +"Devices with touchscreen might not be able to demonstrate this feature." }
 
         componentFrame {
             stackUp {
