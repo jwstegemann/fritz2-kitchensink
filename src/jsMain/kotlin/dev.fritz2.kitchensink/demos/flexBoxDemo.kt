@@ -30,18 +30,14 @@ fun RenderContext.flexBoxDemo(): Div {
         listOf(Theme().colors.primary, Theme().colors.secondary, Theme().colors.tertiary)
             .forEachIndexed { index, value -> item(value, index + 1) }
     }
-
-    val nineItems: RenderContext.() -> Unit = {
+    val sixItems: RenderContext.() -> Unit = {
         listOf(
             Theme().colors.primary,
             Theme().colors.secondary,
             Theme().colors.tertiary,
             Theme().colors.primary,
             Theme().colors.secondary,
-            Theme().colors.tertiary,
-            Theme().colors.primary,
-            Theme().colors.secondary,
-            Theme().colors.tertiary,
+            Theme().colors.tertiary
         ).forEachIndexed { index, value -> item(value, index + 1) }
     }
 
@@ -217,7 +213,7 @@ fun RenderContext.flexBoxDemo(): Div {
                     width { full }
                     wrap { it }
                 }) {
-                    nineItems()
+                    sixItems()
                 }
             }
         }

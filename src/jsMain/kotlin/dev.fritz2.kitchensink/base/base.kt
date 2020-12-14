@@ -5,8 +5,8 @@ import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.P
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.router
-import dev.fritz2.styling.name
-import dev.fritz2.styling.params.ColorProperty
+import dev.fritz2.styling.*
+import dev.fritz2.styling.params.BasicParams
 import dev.fritz2.styling.params.styled
 import dev.fritz2.styling.staticStyle
 import dev.fritz2.styling.style
@@ -64,8 +64,14 @@ fun RenderContext.showcaseSection(text: String) {
     }) { +text }
 }
 
-fun RenderContext.paragraph(init: P.() -> Unit): P {
-    return (::p.styled {
+fun RenderContext.paragraph(
+    styling: BasicParams.() -> Unit = {},
+    baseClass: StyleClass? = null,
+    id: String? = null,
+    prefix: String = "paragraph",
+    init: P.() -> Unit = {}
+): P =
+    ::p.styled(styling, baseClass, id, prefix) {
         fontFamily { "Inter, sans-serif" }
         margins {
             top { "1.25rem" }
@@ -74,13 +80,16 @@ fun RenderContext.paragraph(init: P.() -> Unit): P {
         fontWeight { "400" }
         fontSize { normal }
         letterSpacing { small }
-    })  {
-        init()
-    }
-}
+    } (init)
 
-fun RenderContext.contentFrame(init: Div.() -> Unit): Div {
-    return (::div.styled {
+fun RenderContext.contentFrame(
+        styling: BasicParams.() -> Unit = {},
+        baseClass: StyleClass? = null,
+        id: String? = null,
+        prefix: String = "contentframe",
+        init: Div.() -> Unit = {}
+): Div =
+    ::div.styled(styling, baseClass, id, prefix) {
         margins {
             top { "2rem" }
         }
@@ -93,11 +102,9 @@ fun RenderContext.contentFrame(init: Div.() -> Unit): Div {
                 top { huge }
                 left { normal }
                 right { normal }
-            })
-    }) {
-        init()
-    }
-}
+            }
+        )
+    } (init)
 
 // todo: create ONE box function for all background boxes as soon as opacity/lightness problem is solved
 fun RenderContext.infoBox(init: P.() -> Unit): Div {
@@ -130,8 +137,14 @@ fun RenderContext.infoBox(init: P.() -> Unit): Div {
     }
 }
 
-fun RenderContext.warningBox(init: P.() -> Unit): Div {
-    return (::div.styled {
+fun RenderContext.warningBox(
+    styling: BasicParams.() -> Unit = {},
+    baseClass: StyleClass? = null,
+    id: String? = null,
+    prefix: String = "warningbox",
+    init: Div.() -> Unit = {}
+): Div =
+    ::div.styled(styling, baseClass, id, prefix) {
         margins {
             top { larger }
             bottom { larger }
@@ -144,21 +157,16 @@ fun RenderContext.warningBox(init: P.() -> Unit): Div {
         }
         borders {
             left {
-                width { "6px" }
+                width { "4px" }
                 style { solid }
-                color { warning }
+                color { danger }
             }
         }
         radius { small }
         background {
-            color { "#F3CB8F" } // todo lighter background based on "warning" instead of eyeballing it
+            color { "rgb(254, 235, 200)" }
         }
-    }){
-        p {
-            init()
-        }
-    }
-}
+    }(init)
 
 fun RenderContext.componentFrame(padding: Boolean = true, init: Div.() -> Unit): Div { //Auslagerung von Komponente
     return (::div.styled {
@@ -233,6 +241,26 @@ fun RenderContext.navAnchor(linkText: String, href: String): Div {
     }
 }
 
+fun alterBrightness(color: String, brightness: Double): String {
+    if (color.length != 7 || color[0] != '#') {
+        console.log("wrong color input format")
+    }
+    val r: Long = color.subSequence(1,3).toString().toLong(16)
+    val g: Long = color.subSequence(3,5).toString().toLong(16)
+    val b: Long = color.subSequence(5,7).toString().toLong(16)
+
+    val rgb = longArrayOf(r,g,b)
+    var res = arrayOf("1", "2", "3")
+
+    for (i: Int in 0..2) {
+        val newCalc: Double =  rgb[i] * ((1+((255-rgb[i])/255.toDouble())*(brightness-1)))
+        var new: Int = newCalc.toInt()
+        if (new > 255) { new = 255 }
+        res[i] = new.toString(16)
+        if (res[i].length == 1) { res[i] = "0" + res[i] }
+    }
+    return "#${res[0]}${res[1]}${res[2]}"
+}
 
 fun RenderContext.menuHeader(init: P.() -> Unit): P {
     return (::p.styled {

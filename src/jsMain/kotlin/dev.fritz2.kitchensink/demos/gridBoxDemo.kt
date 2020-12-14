@@ -43,7 +43,7 @@ fun RenderContext.gridBoxDemo(): Div {
         }
         componentFrame {
             gridBox({
-                columns { repeat(5) { "1fr" } }
+                columns { repeat(4) { "1fr" } }
                 gap { normal }
                 children("div") {
                     //size { "60px" }

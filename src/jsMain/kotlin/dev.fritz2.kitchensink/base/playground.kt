@@ -92,6 +92,7 @@ fun RenderContext.playground(
         width { full }
         maxWidth { full }
         padding { small }
+        height { maxContent }
     }) {
         code(playgroundMarker) {
             attr("data-target-platform", "js")

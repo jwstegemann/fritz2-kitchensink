@@ -1,9 +1,6 @@
 package dev.fritz2.kitchensink.demos
 
-import dev.fritz2.components.icon
-import dev.fritz2.components.lineUp
-import dev.fritz2.components.popover
-import dev.fritz2.components.pushButton
+import dev.fritz2.components.*
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
@@ -35,15 +32,15 @@ fun RenderContext.popoverDemo(): Div {
         }
 
         componentFrame {
-            lineUp {
-                items {
-                    popover {
-                        trigger {
-                            pushButton { text("Trigger") }
-                        }
-                        content {
-                            div { +"My popover content" }
-                        }
+            flexBox({
+                justifyContent { center }
+            }) {
+                popover {
+                    trigger {
+                        pushButton { text("Trigger") }
+                    }
+                    content {
+                        div { +"My popover content" }
                     }
                 }
             }
@@ -73,7 +70,9 @@ fun RenderContext.popoverDemo(): Div {
         }
 
         componentFrame {
-            lineUp {
+            lineUp({
+                justifyContent { center }
+            }) {
                 items {
                     popover {
                         trigger {
@@ -115,7 +114,9 @@ fun RenderContext.popoverDemo(): Div {
             +". You must define at least one of them."
 
             componentFrame {
-                lineUp {
+                lineUp({
+                    justifyContent { center }
+                }) {
                     items {
                         popover {
                             trigger {
@@ -168,9 +169,9 @@ fun RenderContext.popoverDemo(): Div {
         }
 
         componentFrame {
-            lineUp {
-
-                spacing { large }
+            lineUp({
+                justifyContent { spaceBetween }
+            }) {
                 items {
                     popover({
                         margins { right { small } }
@@ -275,7 +276,9 @@ fun RenderContext.popoverDemo(): Div {
 
         }
         componentFrame {
-            lineUp {
+            lineUp({
+                justifyContent { spaceEvenly }
+            }) {
                 items {
                     popover({
                         background { color { primary } }
@@ -284,7 +287,7 @@ fun RenderContext.popoverDemo(): Div {
                         color { base }
                     }) {
                         trigger {
-                            icon({ size { large } }) { fromTheme { circleInformation } }
+                            icon({ size { huge } }) { fromTheme { circleInformation } }
                         }
                         placement { top }
                         hasCloseButton(false)
@@ -307,12 +310,12 @@ fun RenderContext.popoverDemo(): Div {
                         margins { right { small } }
                     }) {
                         trigger {
-                            icon({ size { large } }) { fromTheme { eye } }
+                            icon({ size { huge } }) { fromTheme { eye } }
                         }
                         placement { bottom }
                         hasArrow(false)
-                        closeButton {
-                            icon({ size { tiny } }) { fromTheme { eyeOff } }
+                        closeButton({ size { normal } }) {
+                            icon { fromTheme { eyeOff } }
                         }
                         header("Custom Close Button")
                         content {
@@ -362,7 +365,5 @@ fun RenderContext.popoverDemo(): Div {
             """.trimIndent()
             )
         }
-
-
     }
 }
