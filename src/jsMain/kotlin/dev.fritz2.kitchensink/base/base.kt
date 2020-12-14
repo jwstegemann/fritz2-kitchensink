@@ -9,9 +9,6 @@ import dev.fritz2.styling.*
 import dev.fritz2.styling.params.BasicParams
 import dev.fritz2.styling.params.ColorProperty
 import dev.fritz2.styling.params.styled
-import dev.fritz2.styling.staticStyle
-import dev.fritz2.styling.style
-import dev.fritz2.styling.whenever
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -254,7 +251,13 @@ fun alterBrightness(color: String, brightness: Double): String {
     var res = arrayOf("1", "2", "3")
 
     for (i: Int in 0..2) {
-        val newCalc: Double =  rgb[i] * ((1+((255-rgb[i])/255.toDouble())*(brightness-1)))
+        var newCalc: Double = 1.0
+        // for css-style brightness: newCalc = rgb[i] * brightness
+        if (brightness > 1) {
+            newCalc = rgb[i] * ((1 + ((255 - rgb[i]) / 255.toDouble()) * (brightness - 1)))
+        } else if (brightness < 1) {
+            newCalc = rgb[i] * ((rgb[i] / 255.toDouble() * brightness))
+        } else return color
         var new: Int = newCalc.toInt()
         if (new > 255) { new = 255 }
         res[i] = new.toString(16)
