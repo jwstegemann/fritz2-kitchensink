@@ -88,7 +88,7 @@ fun RenderContext.colorConvertDemo(brightness: Double): Div {
                         color { primary }
                     }
                     hover {
-                        tooltip("${Theme().colors.primary}") { right }()
+                        tooltip(Theme().colors.primary) { right }()
                     }
                     radius { "1.3rem" }
                 }) {

@@ -16,7 +16,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @ExperimentalCoroutinesApi
 fun RenderContext.inputDemo(): Div {
 
-    val userNameStore = storeOf("Input Content")
+    val userNameStore = storeOf("")
 
     return contentFrame {
         showcaseHeader("Input Fields")
@@ -59,10 +59,11 @@ fun RenderContext.inputDemo(): Div {
         playground {
             source(
                 """
+                val userNameStore = storeOf("")
                 inputField {
                     base {
-                        changes.values() handledBy user.update
                         placeholder("Enter text")
+                        changes.values() handledBy userNameStore.update
                     }
                 }
                 """
@@ -70,6 +71,7 @@ fun RenderContext.inputDemo(): Div {
         }
         paragraph {
             +"When providing the store parameter, the input component connects with the store's handler automatically."
+            +" The following example is a one-liner: "
         }
         componentFrame {
             stackUp {
@@ -89,7 +91,13 @@ fun RenderContext.inputDemo(): Div {
 
         showcaseSection("Sizes")
         paragraph {
-            +"Use one of our predefined sizes for your input: small, normal, and large."
+            +"Use one of our predefined sizes for your input:"
+            c("small")
+            +", "
+            c("normal")
+            +" (default), or  "
+            c("large")
+            +"."
         }
         componentFrame {
             stackUp {
@@ -102,7 +110,7 @@ fun RenderContext.inputDemo(): Div {
                     }
                     inputField {
                         base {
-                            placeholder("normal (no size specification)")
+                            placeholder("normal (default)")
                         }
                     }
                     inputField {
@@ -125,7 +133,7 @@ fun RenderContext.inputDemo(): Div {
                 }
                 inputField {
                     base {
-                        placeholder("normal (no size specification)")
+                        placeholder("normal (default)")
                     }
                 }
                 inputField {
@@ -138,7 +146,7 @@ fun RenderContext.inputDemo(): Div {
             )
         }
 
-        showcaseSection("Input variants")
+        showcaseSection("Input Variants")
         paragraph {
             +"You can currently choose between two variants for input fields, outline and filled."
         }
@@ -179,12 +187,12 @@ fun RenderContext.inputDemo(): Div {
             )
         }
 
-        showcaseSection("Readonly and disabled inputs")
+        showcaseSection("Readonly And Disabled Inputs")
         paragraph {
-            +"To prevent the user from editing the content of an input, there are two options. The"
-            c(" readonly")
-            +" option lives up to its name and simply does not allow text input. If you want to take it further, use"
-            c(" disabled")
+            +"There are two options to prevent users from editing the content of an input. The "
+            c("readonly")
+            +" option lives up to its name and simply does not allow text input. If you want to take it further, use "
+            c("disabled")
             +" instead, which additionally skips the focus for this component when the user tabs through the page or"
             +" selects the input."
         }
@@ -193,14 +201,14 @@ fun RenderContext.inputDemo(): Div {
                 items {
                     inputField {
                         base {
-                            value("disabled")
-                            disabled(true)
+                            value("readonly")
+                            readOnly(true)
                         }
                     }
                     inputField {
                         base {
-                            value("readonly")
-                            readOnly(true)
+                            value("disabled (skips tab)")
+                            disabled(true)
                         }
                     }
                 }
@@ -211,14 +219,14 @@ fun RenderContext.inputDemo(): Div {
                 """
                     inputField {
                         base {
-                            value("disabled")
-                            disabled(true)
+                            value("readonly")
+                            readOnly(true)
                         }
                     }
                     inputField {
                         base {
-                            value("readonly")
-                            readOnly(true)
+                            value("disabled (skips tab)")
+                            disabled(true)
                         }
                     }
                 """
@@ -226,9 +234,9 @@ fun RenderContext.inputDemo(): Div {
         }
 
 
-        showcaseSection("Input types")
+        showcaseSection("Input Types")
         paragraph {
-            +"You can also specify any input type for the component. ("
+            +"You can specify any input type for the component. ("
             internalLink(
                 "radios",
                 radios_

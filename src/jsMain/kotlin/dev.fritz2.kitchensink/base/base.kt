@@ -7,6 +7,7 @@ import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.router
 import dev.fritz2.styling.*
 import dev.fritz2.styling.params.BasicParams
+import dev.fritz2.styling.params.ColorProperty
 import dev.fritz2.styling.params.styled
 import dev.fritz2.styling.staticStyle
 import dev.fritz2.styling.style
@@ -128,7 +129,7 @@ fun RenderContext.infoBox(init: P.() -> Unit): Div {
         }
         radius { small }
         background {
-            color { "#B7E9F0" } // todo this is just roughly based on info
+            color { alterBrightness(info, 2.0) }
         }
     }){
         p {
@@ -164,7 +165,7 @@ fun RenderContext.warningBox(
         }
         radius { small }
         background {
-            color { "rgb(254, 235, 200)" }
+            color { alterBrightness(warning, 2.0) }
         }
     }(init)
 
