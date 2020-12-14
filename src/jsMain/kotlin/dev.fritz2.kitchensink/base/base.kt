@@ -207,6 +207,26 @@ fun RenderContext.navAnchor(linkText: String, href: String): Div {
     }
 }
 
+fun alterBrightness(color: String, brightness: Double): String {
+    if (color.length != 7 || color[0] != '#') {
+        console.log("wrong color input format")
+    }
+    val r: Long = color.subSequence(1,3).toString().toLong(16)
+    val g: Long = color.subSequence(3,5).toString().toLong(16)
+    val b: Long = color.subSequence(5,7).toString().toLong(16)
+
+    val rgb = longArrayOf(r,g,b)
+    var res = arrayOf("1", "2", "3")
+
+    for (i: Int in 0..2) {
+        val newCalc: Double =  rgb[i] * ((1+((255-rgb[i])/255.toDouble())*(brightness-1)))
+        var new: Int = newCalc.toInt()
+        if (new > 255) { new = 255 }
+        res[i] = new.toString(16)
+        if (res[i].length == 1) { res[i] = "0" + res[i] }
+    }
+    return "#${res[0]}${res[1]}${res[2]}"
+}
 
 fun RenderContext.menuHeader(init: P.() -> Unit): P {
     return (::p.styled {
@@ -222,7 +242,6 @@ fun RenderContext.menuHeader(init: P.() -> Unit): P {
         init()
     }
 }
-
 
 fun RenderContext.menuAnchor(linkText: String): P {
 
