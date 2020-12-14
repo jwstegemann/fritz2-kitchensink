@@ -18,7 +18,7 @@ fun RenderContext.themeDemo(): Div {
         showcaseHeader("Theme")
 
         paragraph {
-            +"A"
+            +"A "
             c("Theme")
             +"""
             groups predefined sets of values and scales to implement a consistent constraint-based design system.
@@ -26,10 +26,10 @@ fun RenderContext.themeDemo(): Div {
         }
 
         paragraph {
-            +"fritz2's components come with a predefined"
+            +"fritz2's components come with a predefined "
             c("DefaultTheme")
-            +""" and can be used to start styling your app. Of course you can derive custom themes 
-                from this one to change values, or even extend the theme by your own definitions, from simple property 
+            +""" which can be used to style your app. Of course you can derive custom themes 
+                from it to change values, or even to extend the theme by your own definitions, from simple property 
                 values to complex predefined styles.""".trimIndent()
         }
 
@@ -51,7 +51,7 @@ fun RenderContext.themeDemo(): Div {
                 tr {
                     td { +"name" }
                     td { c("String") }
-                    td { +"an human readable name" }
+                    td { +"a human-readable name" }
                 }
                 tr {
                     td { +"breakPoints" }
@@ -138,11 +138,11 @@ fun RenderContext.themeDemo(): Div {
 
         showcaseSection("Custom Themes")
         paragraph {
-            +"To create a custom"
+            +"To create a custom "
             c("Theme")
-            +" you can easily create a new class inheriting from"
+            +", you can easily create a new class inheriting from "
             c("DefaultTheme")
-            +" and change just the definitions you want."
+            +" and change only the definitions you want."
 
         }
         playground {
@@ -166,17 +166,17 @@ fun RenderContext.themeDemo(): Div {
 
         showcaseSection("Changing the current Theme")
         paragraph {
-            +"To access the current theme use"
+            +"To access the current theme, use "
             c("Theme()")
-            +". Change the current theme by"
-            c("Theme.use(someTheme)")
+            +". Change the current theme with "
+            c("Theme.use(myTheme)")
             +"."
         }
         componentFrame {
             lineUp {
                 items {
                     switch {
-                        label("use large Fonts")
+                        label("Use large fonts theme")
                         checked { ThemeStore.data.map { it == 1 } }
                         events {
                             changes.states().map { if (it) 1 else 0 } handledBy ThemeStore.selectTheme
@@ -202,10 +202,10 @@ fun RenderContext.themeDemo(): Div {
                         //...
 
                         switch {
-                            label("use large Fonts")
-                            checked { ThemeStore.data.map {it == 1} }
+                            label("Use large fonts theme")
+                            checked { ThemeStore.data.map { it == 1 } }
                             events {
-                                changes.states().map { if (it) 1 else 0 } handledBy ThemeStore.update
+                                changes.states().map { if (it) 1 else 0 } handledBy ThemeStore.selectTheme
                             }
                         }
                     }
@@ -238,8 +238,6 @@ fun RenderContext.themeDemo(): Div {
             +". Hover over the color to get the color code."
         }
         colorDemo()
-
-
     }
 }
 

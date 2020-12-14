@@ -177,20 +177,21 @@ fun RenderContext.formControlDemo(): Div {
     return contentFrame {
         showcaseHeader("FormControl")
         paragraph {
-            +"FormControls take a single form element and take care of wrapping it with..."
+            +"FormControls accept a "
+            strong { +"single" }
+            +" form element and take care of wrapping it with..."
             ul {
                 li { +"a label" }
-                li { +"an optional marker if input is required " }
+                li { +"an optional marker to indicate a required field" }
                 li { +"an optional helper-text" }
-                li { +"an error message and marker if input is invalid" }
+                li { +"an error message and marker to indicate invalid input" }
             }
         }
 
         showcaseSection("Usage")
         paragraph {
-            +"Let's start with a complete FormControl wrapping an InputField, "
-            +"that catches wrong inputs and shows a custom error message, mark the input as required and provides"
-            +"an helper-text:"
+            +"The following FormControl wraps an InputField. It marks the field as required, catches incorrect inputs "
+            +" with a custom error message, and provides a helper-text:"
         }
         componentFrame {
             val solution = "fritz2"
@@ -201,18 +202,17 @@ fun RenderContext.formControlDemo(): Div {
                 helperText { "You shouldn't need a hint." }
                 errorMessage {
                     framework.data.map {
-                        // if something is wrong, just send a none empty string to errorMessage!
-                        // the control will handle the rest for you :-)
+                        // any non-empty string will display as error message
                         if (it.isNotEmpty() && it.toLowerCase() != solution) {
-                            "'$it' is completely wrong."
+                            "Sorry, but '$it' is completely wrong."
                         } else ""
                     }
                 }
-                //just use the appropriate *single element* control with its specific API!
+                // use the appropriate single element control with its specific API
                 inputField(store = framework) {
-                    placeholder("$solution for example")
+                    placeholder("Your answer here")
                 }
-                // throws an exception -> only one (and the first) control is allowed!
+                // throws an exception: only one (and the first) control is accepted
                 inputField {
                     placeholder("This control throws an exception because a form control may only contain one control.")
                 }
@@ -223,32 +223,32 @@ fun RenderContext.formControlDemo(): Div {
                 """
                 val solution = "fritz2"
                 val framework = storeOf("")
-                    
+                
                 formControl {
                     label { "Please input the name of your favorite Kotlin based web framework." }
                     required { true }
                     helperText { "You shouldn't need a hint." }
                     errorMessage {
                         framework.data.map {
-                            // if something is wrong, just send a none empty string to errorMessage!
+                            // any non-empty string will display as error message
                             if (it.isNotEmpty() && it.toLowerCase() != solution) {
-                                "'${'$'}it' is completely wrong."
+                                "Sorry, but '"${'$'}"it' is completely wrong."
                             } else ""
                         }
                     }
-                    // embed the desired control with its _specific_ API!
+                    // embed the desired control with its form control specific API
                     inputField(store = framework) {
-                        placeholder("${'$'}solution for example")
+                        placeholder("Your answer here")
                     }
                 }
             """.trimIndent()
             )
         }
 
-        showcaseSection("Use other controls")
+        showcaseSection("Supported Form Elements")
         paragraph {
-            +"A FromControl can wrap lots of different types of form elements."
-            +"At the moment the following controls are supported out-of-the-box:"
+            +"A FormControl can wrap different types of form elements."
+            +" The following controls are currently supported out-of-the-box:"
             ul {
                 li { +"InputField" }
                 li { +"Checkbox" }
@@ -256,27 +256,23 @@ fun RenderContext.formControlDemo(): Div {
                 li { +"RadioGroup" }
             }
         }
-        paragraph {
-            +"We would like to show you two more examples with other controls:"
-        }
 
-        showcaseSubSection("Checkbox")
+        showcaseSubSection("FormControl for a single Checkbox")
         componentFrame {
-            val loveStore = storeOf(true)
+            val favStore = storeOf(true)
             val labels = mapOf(
-                true to "I love fritz2 with all my heart.",
-                false to "I hate your guts, fritz2!"
+                true to "fritz2 is my favourite framework.",
+                false to "fritz2 is my least favourite framework."
             )
 
             formControl {
-                label { "Label us interested: How do you feel about fritz2? We would really love to hear your opinion." }
-                helperText { "So good to have options." }
-                // embed a single checkbox and use its specific API!
+                label { "How do you feel about fritz2?" }
+                // embed a single checkbox using its specific API
                 checkbox {
-                    label(loveStore.data.map { labels[it]!! })
-                    checked { loveStore.data }
+                    label(favStore.data.map { labels[it]!! })
+                    checked { favStore.data }
                     events {
-                        changes.states() handledBy loveStore.update
+                        changes.states() handledBy favStore.update
                     }
                 }
             }
@@ -284,38 +280,36 @@ fun RenderContext.formControlDemo(): Div {
         playground {
             source(
                 """
-                val loveStore = storeOf(true)
+                val favStore = storeOf(true)
                 val labels = mapOf(
-                    true to "I love fritz2 with all my heart.",
-                    false to "I hate your guts, fritz2!"
+                    true to "fritz2 is my favourite framework.",
+                    false to "fritz2 is my least favourite framework."
                 )
     
                 formControl {
-                    label { "Label us interested: How do you feel about fritz2? We would really love to hear your opinion." }
-                    helperText { "So good to have options." }
-                    // embed a single checkbox and use its specific API!
-                    checkbox {
-                        label(loveStore.data.map{ labels[it]!! })
-                        checked { loveStore.data }
-                        events {
-                            changes.states() handledBy loveStore.update
-                        }
+                label { "How do you feel about fritz2?" }
+                // embed a single checkbox using its form control specific API
+                checkbox {
+                    label(favStore.data.map { labels[it]!! })
+                    checked { favStore.data }
+                    events {
+                        changes.states() handledBy favStore.update
                     }
                 }
+            }
             """.trimIndent()
             )
         }
-        showcaseSubSection("CheckboxGroup")
+        showcaseSubSection("FormControl for a CheckboxGroup")
 
         val myItemList = "fritz2".toCharArray().map { it.toString() }
         val mySelectedItems = myItemList.take(2)
         val selectedItemsStore = storeOf(mySelectedItems)
 
-        paragraph { +"FormControl with a small checkbox group, no label, no helper-text, but horizontal checkboxes:" }
         componentFrame {
 
             formControl {
-                label { "Choose one or more" }
+                label { "A simple, labeled CheckboxGroup:" }
                 checkboxGroup(store = selectedItemsStore) {
                     items { flowOf(myItemList) }
                     direction { row }
@@ -345,28 +339,29 @@ fun RenderContext.formControlDemo(): Div {
         playground {
             source(
                 """
-            val myItemList = "fritz2".toCharArray().map { it.toString() }
-            val mySelectedItems = myItemList.take(2)
-            val selectedItemsStore = storeOf(mySelectedItems)
-                                
+                val myItemList = "fritz2".toCharArray().map { it.toString() }
+                val mySelectedItems = myItemList.take(2)
+                val selectedItemsStore = storeOf(mySelectedItems)
+                                    
                 formControl {
-                    label { "Choose one or more" }
+                    label { "A simple, labeled CheckboxGroup:" }
                     checkboxGroup(store = selectedItemsStore) {
                         items { flowOf(myItemList) }
                         direction { row }
                     }
                 }
-            """.trimIndent()
+                """.trimIndent()
             )
         }
 
-        showcaseSection("Embed custom control")
+        showcaseSection("Embed Custom Controls")
 
+        // todo should this todo be visible in the demo?
         warningBox {
             p {
                 strong { +"Todo:" }
-                +" Add an example of a custom control and its integration into the FormControl including a custom "
-                +"surrounding HTML structure."
+                +" Add an example of a custom control and its integration into the FormControl including a custom"
+                +" surrounding HTML structure."
             }
         }
 

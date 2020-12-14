@@ -167,7 +167,7 @@ fun RenderContext.iconsDemo(): Div {
             +" icon."
         }
 
-        warningBox {
+        infoBox {
             p { +"Most of our included icons are taken from the excellent mono icons project." }
             p {
                 +"Please have look at their "

@@ -22,9 +22,9 @@ fun RenderContext.responsiveDemo(): Div {
         paragraph {
             +"""The theme defines four breakpoints of different viewport-sizes ("""
             c("sm")
-            +","
+            +", "
             c("md")
-            +","
+            +", "
             c("lg")
             +", and"
             c("xl")
@@ -46,15 +46,15 @@ fun RenderContext.responsiveDemo(): Div {
         paragraph {
             +"""In accordance with mobile-first, when no value is given for a particular size, the next smaller one will be applied. In the example above, the"""
             c("font-size")
-            +"will be"
+            +" will be "
             c("tiny")
-            +"for "
+            +" for "
             c("sm")
-            +"and"
+            +" and "
             c("md")
-            +"and"
+            +", and"
             c("normal")
-            +"for"
+            +" for "
             c("lg")
             +"and"
             c("xl")
@@ -115,7 +115,7 @@ fun RenderContext.responsiveDemo(): Div {
                     (::h1.styled {
                         fontSize { large }
                         fontWeight { bold }
-                    }) { +"Flex Layouts Showcase" }
+                    }) { +"Resize your viewport!" }
                     (::p.styled {
                         paddings {
                             all { small }
@@ -123,8 +123,9 @@ fun RenderContext.responsiveDemo(): Div {
                         }
                         fontSize { small }
                     }) {
-                        +"""Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut 
-                        labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam."""
+                        +"""Please note that some styling which does not
+                            contribute to responsiveness was omitted in the source code example below. 
+                         """
                     }
                 }
             }
@@ -133,7 +134,6 @@ fun RenderContext.responsiveDemo(): Div {
             source(
                 """
                     flexBox({
-                        padding { small }
                         direction(sm = { column }, md = { row })
                     }) {
                         box({
@@ -148,11 +148,8 @@ fun RenderContext.responsiveDemo(): Div {
                         }) {
                             (::img.styled {
                                 width(sm = { full }, md = { wide.small })
-                                boxShadow { flat }
-                                radius { large }
                             }) {
                                 src("https://bit.ly/3qthIO3")
-                                alt("Photo by Lauren York on Unsplash")
                             }
                         }
         
@@ -166,36 +163,16 @@ fun RenderContext.responsiveDemo(): Div {
                                 md = { left { normal } }
                             )
                         }) {
-                            (::p.styled {
-                                textTransform { capitalize }
-                                color { info }
-                                fontWeight { semiBold }
-                                fontSize { smaller }
-                            }) {
-                                +"Photo by Lauren York on Unsplash"
-                            }
+                            p { +"Photo by Lauren York on Unsplash" }
                             
-                            (::h1.styled {
-                                fontSize { large }
-                                fontWeight { bold }
-                            }) { +"Flex Layouts Showcase" }
+                            h1 { +"Resize your viewport!" }
                             
-                            (::p.styled {
-                                paddings {
-                                    all { small }
-                                    left { none }
-                                }
-                                fontSize { small }
-                            }) {
-                                +"Lorem ipsum dolor sit amet..." 
-                            }
+                            p { +"Please note: Some non-essential styling was omitted in this source example." }
                         }
                     }
                 """
             )
         }
-
-
     }
 }
 

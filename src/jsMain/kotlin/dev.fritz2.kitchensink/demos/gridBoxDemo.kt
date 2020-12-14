@@ -28,7 +28,7 @@ fun RenderContext.gridBoxDemo(): Div {
         showcaseHeader("Gridbox")
         paragraph {
             +"Use a Gridbox to create arbitrary complex layouts."
-            +" It does not offer special component properties, but instead relies on the "
+            +" It doesn't need special component properties, but instead relies on the "
             externalLink(
                 "CSS based grid-layout",
                 "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout"
@@ -37,17 +37,19 @@ fun RenderContext.gridBoxDemo(): Div {
         }
         showcaseSection("Usage")
         paragraph {
-            +"In order to create a Gridbox, just pass some specialized grid styling information."
-            +" In this simple example, a five column based grid layout was defined, but seven items where inserted."
-            +" The surplus items will be rendered into a second row:"
+            +"In order to create a gridbox, just provide some specialized grid styling information."
+            +" In this simple example, a five column grid layout is defined, but seven items are inserted."
+            +" The gridbox then renders the surplus items into a second row:"
         }
         componentFrame {
             gridBox({
                 columns { repeat(5) { "1fr" } }
                 gap { normal }
                 children("div") {
-                    size { "60px" }
-                    background { color { warning } }
+                    //size { "60px" }
+                    width { "120px" }
+                    height { "50px" }
+                    background { color { tertiary } }
                     display { flex }
                     css("justify-content: center")
                     css("align-items: center")
@@ -69,7 +71,7 @@ fun RenderContext.gridBoxDemo(): Div {
                     columns { repeat(5) { "1fr" } }
                     gap { normal }
                 }) {
-                    // put some arbitrary content into the gridBox!
+                    // choose any content
                     box({
                         size { "60px" }
                         background { color { warning } }
@@ -77,7 +79,8 @@ fun RenderContext.gridBoxDemo(): Div {
                         justifyContent { center }
                         alignItems { center }
                     }) { +"one" }
-                    // all following items without styling for better readability!
+                    
+                    // styling omitted
                     box { +"two" }
                     box { +"three" }
                     box { +"four" }
@@ -89,12 +92,12 @@ fun RenderContext.gridBoxDemo(): Div {
             )
         }
 
-        showcaseSection("Complex layout")
+        showcaseSection("Complex Layout")
         paragraph {
-            +"Now have a look at this rather complex layout (including responsive behaviour), in order to "
-            +"learn about a very helpful technique based on Kotlin's"
+            +"Now have a look at this more complex layout which includes responsive behaviour. It demonstrates"
+            +" a very helpful technique based on Kotlin's "
             c("objects")
-            +", for defining the overall column layout."
+            +" for defining the overall column layout."
         }
         componentFrame {
             val toggle = storeOf(false)
@@ -226,33 +229,33 @@ fun RenderContext.gridBoxDemo(): Div {
             pushButton({
                 margins { top { normal } }
             }) {
-                text("Toggle Drawer!")
+                text("Toggle The Drawer")
                 events {
                     clicks.events.map { !toggle.current } handledBy toggle.update
                 }
             }
         }
 
-        warningBox {
+        infoBox{
             p {
                 strong { +"Please note:" }
-                +" This layout also transforms with screen size. Try resizing your browser window to see "
-                +"how the sidebar is replaced into its own row when the space becomes narrow."
-                +"The content then appears on a separate row below that."
+                +" This layout also transforms with screen size. Try resizing your browser window to see"
+                +" how the sidebar is placed into its own row when the space narrows."
+                +" The content then appears on a separate row below."
             }
         }
 
-        showcaseSubSection("Column layout")
+        showcaseSubSection("Column Layout")
         paragraph {
-            +"Use a simple Kotlin object in order to define the "
+            +"Use a simple Kotlin object to define the "
             strong { +"types" }
             +" of columns."
-            +" Then you can refer to its properties later within the column definitions:"
+            +" This gives you access to its properties for the column definitions:"
         }
         playground {
             source(
                 """
-                // define the kinds of cells
+                // define the cells
                 val grid = object {
                     val HEADER: AreaName = "header"
                     val SIDEBAR: AreaName = "sidebar"
@@ -265,11 +268,11 @@ fun RenderContext.gridBoxDemo(): Div {
                         repeat(3) { "1fr" }
                     }
                                     
-                    // refer to those -> easy refactoring included
+                    // refer to those, easy refactoring included
                     areas(
                         with(grid) {
                             row(HEADER, HEADER, HEADER)
-                            row(SIDEBAR, CONTENT, CONTENT) // mix cell types in one row
+                            row(SIDEBAR, CONTENT, CONTENT) // mix types in a row
                             row(FOOTER, FOOTER, FOOTER)
                         }
                     )
@@ -278,26 +281,26 @@ fun RenderContext.gridBoxDemo(): Div {
             )
         }
         paragraph {
-            +"For defining the content, also use the object fields:"
+            +"The object also comes in handy for defining content:"
         }
         playground {
             source(
                 """
                 gridBox({
-                    // as above
+                    // omitted, same as above
                 }) {
                     box({
-                        grid { area { grid.HEADER } } // refer to the cell type 
+                        grid { area { grid.HEADER } } // refer to cell type 
                     }) {
-                        // put the special content for this cell type
+                        // your content
                     }
                     // next type
                     box({
                         grid { area { grid.CONTENT } }  
                     }) {
-                        // ...
+                        // your content
                     }
-                    // and so on!
+                    // and so on..
                 }
                 """.trimIndent()
             )

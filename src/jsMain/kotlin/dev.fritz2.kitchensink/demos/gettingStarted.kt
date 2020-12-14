@@ -11,7 +11,7 @@ fun RenderContext.gettingStarted(): Div {
     return contentFrame {
 
         showcaseHeader("Getting Started")
-        warningBox {
+        infoBox {
             +"This is a preview version of fritz2 components."
         }
 

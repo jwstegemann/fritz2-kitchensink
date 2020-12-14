@@ -87,7 +87,7 @@ fun RenderContext.welcome(): Div {
                 paragraph {
                     +"""
                         This is a set of ready-to-go components for building reactive themable web-apps 
-                        following a consistent contraint-based design system using fritz2.
+                        following a consistent constraint-based design system using fritz2.
                     """.trimIndent()
                 }
 
@@ -99,8 +99,8 @@ fun RenderContext.welcome(): Div {
                 }
 
                 warningBox {
-                    +" Remember that this is a preview release."
-                    +" Most components still need some work, others are not implemented yet, and the api still needs "
+                    +"Remember that this is a preview release."
+                    +" Most components still need some work, others are not implemented yet, and the api still needs"
                     +" to be completed and streamlined."
                 }
 
@@ -109,7 +109,7 @@ fun RenderContext.welcome(): Div {
                         bottom { "2rem" }
                     }
                 }) {
-                    +"Your opinions and comments are very welcome. Please visit "
+                    +"Your opinion and comments are very welcome. Please visit "
                     externalLink("fritz.dev", "http://fritz2.dev")
                     +" for further information, or go to our github page at "
                     externalLink("https://github.com/jwstegemann/fritz2", "https://github.com/jwstegemann/fritz2")
@@ -117,7 +117,7 @@ fun RenderContext.welcome(): Div {
                 }
 
                 p {
-                    +"The design and concepts of the fritz2 component library are highly inspired by the great "
+                    +"The concepts and design of the fritz2 component library are highly inspired by the beautiful "
                     externalLink("Chakra UI", "https://chakra-ui.com/")
                     +"."
                 }

@@ -17,7 +17,7 @@ fun RenderContext.flexBoxDemo(): Div {
     val item: RenderContext.(String, Int) -> Unit = { color, number ->
         flexBox({
             background { color { color } }
-            color { "white" }
+            color { base }
             width (sm = { "50px" }, md = { "110px" }, lg = { "150px" })
             height { "50px" }
             justifyContent { center }
@@ -27,21 +27,21 @@ fun RenderContext.flexBoxDemo(): Div {
     }
 
     val threeItems: RenderContext.() -> Unit = {
-        listOf(Theme().colors.primary, Theme().colors.danger, Theme().colors.warning)
+        listOf(Theme().colors.primary, Theme().colors.secondary, Theme().colors.tertiary)
             .forEachIndexed { index, value -> item(value, index + 1) }
     }
 
     val nineItems: RenderContext.() -> Unit = {
         listOf(
             Theme().colors.primary,
-            Theme().colors.danger,
-            Theme().colors.warning,
+            Theme().colors.secondary,
+            Theme().colors.tertiary,
             Theme().colors.primary,
-            Theme().colors.danger,
-            Theme().colors.warning,
+            Theme().colors.secondary,
+            Theme().colors.tertiary,
             Theme().colors.primary,
-            Theme().colors.danger,
-            Theme().colors.warning,
+            Theme().colors.secondary,
+            Theme().colors.tertiary,
         ).forEachIndexed { index, value -> item(value, index + 1) }
     }
 
@@ -51,19 +51,16 @@ fun RenderContext.flexBoxDemo(): Div {
         paragraph {
             +"The main idea behind the flex layout is to give a container the ability to alter its items' width,"
             +" height, and order to best fill the available space. The container is basically a box which has the css"
-            +" property"
+            +" property "
             c("display: flex")
             +" attached."
 
         }
         showcaseSection("Usage")
         paragraph {
-            +"Just use the "
-            c("flexBox")
-            +" component without much ceremony."
-            +" Our Flexbox does not offer special properties, so there is no layer of abstraction upon the CSS"
-            +" based possibilities. We believe those are sufficient, have a good level of abstraction and offer"
-            +" a great flexibility."
+            +"A Flexbox does not need special properties, so this fritz2 component does not abstract anything"
+            +" on top of the css basics. We believe their level of abstraction to be sufficient, and they"
+            +" also offer enough flexibility."
         }
         componentFrame {
             lineUp {
@@ -82,7 +79,7 @@ fun RenderContext.flexBoxDemo(): Div {
                 flexBox({
                     width { full }
                 }) {
-                    // put some arbitrary content into the flexBox!
+                    
                     box({
                         display { flex }
                         justifyContent { center }
@@ -90,20 +87,24 @@ fun RenderContext.flexBoxDemo(): Div {
                         margin { smaller }
                         width { "150px" }
                         height { "50px" }
-                        background { color { primary } } // danger & warning for others
-                        color { "white" }
-                    }) { +"Box 1" }
-                    // all following items without styling for better readability!
+                        background { color { primary } }
+                        color { base }
+                    }) { 
+                        // choose any content for your flexbox
+                        +"Box 1" 
+                    }
+                    
+                    // styling omitted
                     box { +"Box 2" }
                     box { +"Box 3" }
                 }
-            """.trimIndent()
+                """.trimIndent()
             )
         }
 
-        showcaseSection("Flex-Direction")
+        showcaseSection("Flex Direction")
         paragraph {
-            +"fritz2's styling DSL provides these well known flex-direction properties : "
+            +"fritz2's styling DSL provides these well-known flex-direction properties: "
             c("row (default)")
             +", "
             c("rowReverse")
@@ -133,7 +134,7 @@ fun RenderContext.flexBoxDemo(): Div {
             source(
                 """
                 flexBox({
-                    direction { row } // put the appropriate value here
+                    direction { row }
                 }) {
                     box { +"Box 1"}
                     box { +"Box 2"}
@@ -181,7 +182,7 @@ fun RenderContext.flexBoxDemo(): Div {
             source(
                 """
                 flexBox({
-                    justifyContent { flexStart } // put the appropriate value here
+                    justifyContent { flexStart }
                 }) {
                     box { +"Box 1"}
                     box { +"Box 2"}
@@ -225,7 +226,7 @@ fun RenderContext.flexBoxDemo(): Div {
             source(
                 """
                 flexBox({
-                    wrap { noWrap } // put the appropriate value here
+                    wrap { noWrap }
                 }) {
                     box { +"Box 1"}
                     box { +"Box 2"}

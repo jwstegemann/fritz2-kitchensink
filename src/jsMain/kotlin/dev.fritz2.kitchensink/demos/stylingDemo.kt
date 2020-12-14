@@ -21,7 +21,7 @@ fun RenderContext.stylingDemo(): Div {
 
         paragraph {
             +"""
-            fritz2 allows you to style its components, as well as standard HTML-elements, using a type-safe DSL that 
+            fritz2 allows you to style its components, as well as standard HTML-elements, using a type-safe DSL which 
             enables you to conveniently set the most common style properties.""".trimIndent()
         }
 
@@ -36,18 +36,18 @@ fun RenderContext.stylingDemo(): Div {
 
         showcaseSection("Styling Elements")
         paragraph {
-            +"To style an existing HTML-element like"
+            +"To style an existing HTML-element like "
             c("span")
-            +", define your properties using the"
+            +", define your properties using the "
             c("styled()")
-            +" function"
+            +" function."
         }
         componentFrame {
             lineUp {
                 items {
                     (::span.styled {
-                        background { color { dark } }
-                        color { light }
+                        background { color { tertiary } }
+                        color { dark }
                         boxShadow { raised }
                         padding { normal }
                     }) { +"raised text" }
@@ -58,8 +58,8 @@ fun RenderContext.stylingDemo(): Div {
             source(
                 """
                 (::span.styled {
-                    background { color { dark } }
-                    color { light }
+                    background { color { tertiary } }
+                    color { dark }
                     boxShadow { raised }
                     padding { normal }
                 }) { +"raised text" }
@@ -68,17 +68,18 @@ fun RenderContext.stylingDemo(): Div {
         }
 
         paragraph {
-            +"To remain as flexible as possible, values of properties can alternatively be passed as"
+            +"To remain as flexible as possible, values of properties can alternatively be passed as "
             c("String")
             +"s, like"
             c("""width { "75%" } """)
             +". Additionally, you can set any other property that is not part of the DSL by using"
             c("""css()""")
+            +"."
         }
 
         showcaseSection("Styling Components")
         paragraph {
-            +"Every component, like"
+            +"Every component, like "
             c("icon")
             +" for example, can easily be styled by using the first parameter of its factory-function:"
         }
@@ -131,13 +132,13 @@ fun RenderContext.stylingDemo(): Div {
                     val veryImportantButton: Style<BasicParams> = {
                         boxShadow { raised }
                         background { color { danger } }
-                        color { light }
+                        color { base }
                         radius { "1.5rem" }
                     }
 
                     pushButton({
                         veryImportantButton()
-                    }) { text("very important button") }
+                    }) { text("Very Important Button") }
                 }
             }
         }
@@ -147,25 +148,16 @@ fun RenderContext.stylingDemo(): Div {
                 val veryImportant: Style<BasicParams> = {
                     boxShadow { raised }
                     background { color { danger } }
-                    color { light }
+                    color { base }
                     radius { "1.5rem" }
                 }
 
-                //use it somewhere else
+                // use it anywhere
                 pushButton ({
                     veryImportant()
-                }) { text("very important button") }
-                
-                //and again...
-                (::a.styled {
-                    veryImportant()                
-                }) {
-                    href("https://some.url")
-                    +"very important link"
-                }
+                }) { text("Very Important Button") }
                 """
             )
         }
-
     }
 }

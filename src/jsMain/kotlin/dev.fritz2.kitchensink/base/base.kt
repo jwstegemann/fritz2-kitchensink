@@ -6,6 +6,7 @@ import dev.fritz2.dom.html.P
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.router
 import dev.fritz2.styling.name
+import dev.fritz2.styling.params.ColorProperty
 import dev.fritz2.styling.params.styled
 import dev.fritz2.styling.staticStyle
 import dev.fritz2.styling.style
@@ -98,6 +99,37 @@ fun RenderContext.contentFrame(init: Div.() -> Unit): Div {
     }
 }
 
+// todo: create ONE box function for all background boxes as soon as opacity/lightness problem is solved
+fun RenderContext.infoBox(init: P.() -> Unit): Div {
+    return (::div.styled {
+        margins {
+            top { larger }
+            bottom { larger }
+        }
+        paddings {
+            top { small }
+            left { small }
+            bottom { small }
+            right { normal }
+        }
+        borders {
+            left {
+                width { "6px" }
+                style { solid }
+                color { info }
+            }
+        }
+        radius { small }
+        background {
+            color { "#B7E9F0" } // todo this is just roughly based on info
+        }
+    }){
+        p {
+            init()
+        }
+    }
+}
+
 fun RenderContext.warningBox(init: P.() -> Unit): Div {
     return (::div.styled {
         margins {
@@ -112,14 +144,14 @@ fun RenderContext.warningBox(init: P.() -> Unit): Div {
         }
         borders {
             left {
-                width { "4px" }
+                width { "6px" }
                 style { solid }
                 color { warning }
             }
         }
         radius { small }
         background {
-            color { "rgb(254, 235, 200)" } // todo lighter background based on "warning"
+            color { "#F3CB8F" } // todo lighter background based on "warning" instead of eyeballing it
         }
     }){
         p {
