@@ -3,7 +3,7 @@ plugins {
 }
 
 repositories {
-    mavenLocal()
+    //mavenLocal()
     jcenter()
     maven("https://dl.bintray.com/jwstegemann/fritz2")
     maven(url = "https://kotlin.bintray.com/kotlinx/") // soon will be just jcenter()
