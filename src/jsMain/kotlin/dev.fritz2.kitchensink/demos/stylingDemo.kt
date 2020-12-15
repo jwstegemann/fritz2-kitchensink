@@ -50,6 +50,7 @@ fun RenderContext.stylingDemo(): Div {
                         color { dark }
                         boxShadow { raised }
                         padding { normal }
+                        radius { larger }
                     }) { +"raised text" }
                 }
             }
@@ -133,9 +134,8 @@ fun RenderContext.stylingDemo(): Div {
                         boxShadow { raised }
                         background { color { danger } }
                         color { base }
-                        radius { "1.5rem" }
+                        radius { larger }
                     }
-
                     pushButton({
                         veryImportantButton()
                     }) { text("Very Important Button") }

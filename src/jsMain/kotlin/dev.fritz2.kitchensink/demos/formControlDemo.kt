@@ -316,19 +316,8 @@ fun RenderContext.formControlDemo(): Div {
                 }
             }
         }
-        (::div.styled {
-            background {
-                color { light }
-            }
-            margins {
-                top { "1.25rem" }
-            }
-            paddings {
-                left { "0.5rem" }
-                right { "0.5rem" }
-            }
-            radius { "5%" }
-        }) {
+
+        storeContentBox {
             h4 { +"Selected:" }
             selectedItemsStore.data.render {
                 p {
