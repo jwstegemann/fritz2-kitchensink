@@ -66,22 +66,22 @@ fun RenderContext.showcaseSection(text: String) {
 }
 
 fun RenderContext.paragraph(
-        styling: BasicParams.() -> Unit = {},
-        baseClass: StyleClass? = null,
-        id: String? = null,
-        prefix: String = "paragraph",
-        init: P.() -> Unit = {}
+    styling: BasicParams.() -> Unit = {},
+    baseClass: StyleClass? = null,
+    id: String? = null,
+    prefix: String = "paragraph",
+    init: P.() -> Unit = {}
 ): P =
-        ::p.styled(styling, baseClass, id, prefix) {
-            fontFamily { "Inter, sans-serif" }
-            margins {
-                top { "1.25rem" }
-            }
-            lineHeight { larger }
-            fontWeight { "400" }
-            fontSize { normal }
-            letterSpacing { small }
-        }(init)
+    ::p.styled(styling, baseClass, id, prefix) {
+        fontFamily { "Inter, sans-serif" }
+        margins {
+            top { "1.25rem" }
+        }
+        lineHeight { larger }
+        fontWeight { "400" }
+        fontSize { normal }
+        letterSpacing { small }
+    } (init)
 
 fun RenderContext.contentFrame(
         styling: BasicParams.() -> Unit = {},
@@ -139,35 +139,35 @@ fun RenderContext.infoBox(init: P.() -> Unit): Div {
 }
 
 fun RenderContext.warningBox(
-        styling: BasicParams.() -> Unit = {},
-        baseClass: StyleClass? = null,
-        id: String? = null,
-        prefix: String = "warningbox",
-        init: Div.() -> Unit = {}
+    styling: BasicParams.() -> Unit = {},
+    baseClass: StyleClass? = null,
+    id: String? = null,
+    prefix: String = "warningbox",
+    init: Div.() -> Unit = {}
 ): Div =
-        ::div.styled(styling, baseClass, id, prefix) {
-            margins {
-                top { larger }
-                bottom { larger }
+    ::div.styled(styling, baseClass, id, prefix) {
+        margins {
+            top { larger }
+            bottom { larger }
+        }
+        paddings {
+            top { small }
+            left { small }
+            bottom { small }
+            right { normal }
+        }
+        borders {
+            left {
+                width { "4px" }
+                style { solid }
+                color { danger }
             }
-            paddings {
-                top { small }
-                left { small }
-                bottom { small }
-                right { normal }
-            }
-            borders {
-                left {
-                    width { "4px" }
-                    style { solid }
-                    color { danger }
-                }
-            }
-            radius { small }
-            background {
-                color { alterBrightness(warning, 2.0) }
-            }
-        }(init)
+        }
+        radius { small }
+        background {
+            color { alterBrightness(warning, 2.0) }
+        }
+    }(init)
 
 fun RenderContext.componentFrame(padding: Boolean = true, init: Div.() -> Unit): Div { //Auslagerung von Komponente
     return (::div.styled {
@@ -185,27 +185,6 @@ fun RenderContext.componentFrame(padding: Boolean = true, init: Div.() -> Unit):
         init()
     }
 }
-
-fun RenderContext.storeContentBox(
-        styling: BasicParams.() -> Unit = {},
-        baseClass: StyleClass? = null,
-        id: String? = null,
-        prefix: String = "storecontentbox",
-        init: Div.() -> Unit = {}
-): Div =
-        (::div.styled {
-            background {
-                color { light }
-            }
-            margins {
-                top { "1.25rem" }
-            }
-            paddings {
-                left { "0.5rem" }
-                right { "0.5rem" }
-            }
-            radius { larger }
-        })(init)
 
 val RenderContext.link
     get() = (::a.styled {
@@ -267,23 +246,25 @@ fun alterBrightness(color: String, brightness: Double): String {
     if (color.length != 7 || color[0] != '#') {
         console.log("wrong color input format")
     }
-    val r: Long = color.subSequence(1, 3).toString().toLong(16)
-    val g: Long = color.subSequence(3, 5).toString().toLong(16)
-    val b: Long = color.subSequence(5, 7).toString().toLong(16)
+    val r: Long = color.subSequence(1,3).toString().toLong(16)
+    val g: Long = color.subSequence(3,5).toString().toLong(16)
+    val b: Long = color.subSequence(5,7).toString().toLong(16)
 
-    val rgb = longArrayOf(r, g, b)
+    val rgb = longArrayOf(r,g,b)
     var res = arrayOf("1", "2", "3")
 
     for (i: Int in 0..2) {
-        val newCalc: Double = rgb[i] * ((1 + ((255 - rgb[i]) / 255.toDouble()) * (brightness - 1)))
+        var newCalc: Double = 1.0
+        // for css-style brightness: newCalc = rgb[i] * brightness
+        if (brightness > 1) {
+            newCalc = rgb[i] * ((1 + ((255 - rgb[i]) / 255.toDouble()) * (brightness - 1)))
+        } else if (brightness < 1) {
+            newCalc = rgb[i] * ((rgb[i] / 255.toDouble() * brightness))
+        } else return color
         var new: Int = newCalc.toInt()
-        if (new > 255) {
-            new = 255
-        }
+        if (new > 255) { new = 255 }
         res[i] = new.toString(16)
-        if (res[i].length == 1) {
-            res[i] = "0" + res[i]
-        }
+        if (res[i].length == 1) { res[i] = "0" + res[i] }
     }
     return "#${res[0]}${res[1]}${res[2]}"
 }
@@ -322,7 +303,7 @@ fun RenderContext.menuAnchor(linkText: String): P {
     }
 
     val isActive = router.data.map { hash -> hash == linkText }
-            .distinctUntilChanged().onEach { if (it) PlaygroundComponent.update() }
+        .distinctUntilChanged().onEach { if (it) PlaygroundComponent.update() }
 
     return (::p.styled {
         width { full }
@@ -352,7 +333,7 @@ fun RenderContext.menuAnchor(linkText: String): P {
 }
 
 val showcaseCode = staticStyle(
-        "showcase-code", """
+    "showcase-code", """
             padding: 2px 0.25rem;
             font-size: 0.875em;
             white-space: nowrap;

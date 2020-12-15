@@ -240,12 +240,21 @@ fun RenderContext.themeDemo(): Div {
         colorDemo()
         val demoBrightness: Double = 2.0
         showcaseSection("Alter brightness of colors")
-        paragraph { +"You can alter the brightness of colors using the method "
-        c("alterBrightness()")
-        +" provided by fritz2. The colors on the right side have increased brightness by "
-        c("$demoBrightness")
-        + "."}
-        colorConvertDemo(demoBrightness)
+        paragraph {
+            +"You can alter the brightness of colors using the method "
+            c("alterBrightness()")
+            +" provided by fritz2. The colors on the right side have increased brightness by "
+            c("$demoBrightness")
+            +"."
+        }
+        colorBrightnessDemo(demoBrightness)
+        val demoDarkness = 0.7
+        paragraph {
+            +"In this example the colors on right side have decreased brightness by "
+            c("$demoDarkness")
+            +"."
+        }
+        colorBrightnessDemo(demoDarkness)
     }
 }
 
