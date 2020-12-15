@@ -7,7 +7,6 @@ import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.router
 import dev.fritz2.styling.*
 import dev.fritz2.styling.params.BasicParams
-import dev.fritz2.styling.params.ColorProperty
 import dev.fritz2.styling.params.styled
 import dev.fritz2.styling.staticStyle
 import dev.fritz2.styling.style
@@ -185,6 +184,27 @@ fun RenderContext.componentFrame(padding: Boolean = true, init: Div.() -> Unit):
         init()
     }
 }
+
+fun RenderContext.storeContentBox(
+        styling: BasicParams.() -> Unit = {},
+        baseClass: StyleClass? = null,
+        id: String? = null,
+        prefix: String = "storecontentbox",
+        init: Div.() -> Unit = {}
+): Div =
+        (::div.styled {
+            background {
+                color { light }
+            }
+            margins {
+                top { "1.25rem" }
+            }
+            paddings {
+                left { "0.5rem" }
+                right { "0.5rem" }
+            }
+            radius { larger }
+        })(init)
 
 val RenderContext.link
     get() = (::a.styled {

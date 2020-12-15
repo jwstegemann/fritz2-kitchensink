@@ -2,6 +2,7 @@ package dev.fritz2.kitchensink.demos
 
 import dev.fritz2.binding.storeOf
 import dev.fritz2.components.formControl
+import dev.fritz2.components.lineUp
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.dom.states
@@ -309,7 +310,7 @@ fun RenderContext.formControlDemo(): Div {
         componentFrame {
 
             formControl {
-                label { "A simple, labeled CheckboxGroup:" }
+                label { "A simple, labeled CheckboxGroup" }
                 checkboxGroup(store = selectedItemsStore) {
                     items { flowOf(myItemList) }
                     direction { row }
@@ -318,10 +319,15 @@ fun RenderContext.formControlDemo(): Div {
         }
 
         storeContentBox {
-            h4 { +"Selected:" }
-            selectedItemsStore.data.render {
-                p {
-                    +it.joinToString("")
+            lineUp {
+                items {
+                    // todo this is broken: sometimes the order changes, sometimes it shows too many strings depending on structure
+                    selectedItemsStore.data.render {
+                        p {
+                            +it.joinToString("")
+                        }
+                    }
+                    p { +"Selected: " }
                 }
             }
         }
