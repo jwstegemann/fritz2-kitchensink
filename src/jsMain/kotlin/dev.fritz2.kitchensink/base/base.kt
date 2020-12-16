@@ -275,12 +275,12 @@ fun alterBrightness(color: String, brightness: Double): String {
 
     for (i: Int in 0..2) {
         var newCalc: Double = 1.0
-        // for css-style brightness: newCalc = rgb[i] * brightness
         if (brightness > 1) {
-            newCalc = rgb[i] * ((1 + ((255 - rgb[i]) / 255.toDouble()) * (brightness - 1)))
+            newCalc = rgb[i] + ((brightness-1) * ((255-rgb[i])))
         } else if (brightness < 1) {
-            newCalc = rgb[i] * ((rgb[i] / 255.toDouble() * brightness))
+            newCalc = rgb[i] - ((1-brightness) * (rgb[i]))
         } else return color
+
         var new: Int = newCalc.toInt()
         if (new > 255) { new = 255 }
         res[i] = new.toString(16)
