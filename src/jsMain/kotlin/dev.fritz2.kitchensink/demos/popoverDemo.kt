@@ -32,9 +32,7 @@ fun RenderContext.popoverDemo(): Div {
         }
 
         componentFrame {
-            flexBox({
-                justifyContent { center }
-            }) {
+            flexBox {
                 popover {
                     trigger {
                         pushButton { text("Trigger") }
@@ -70,9 +68,7 @@ fun RenderContext.popoverDemo(): Div {
         }
 
         componentFrame {
-            lineUp({
-                justifyContent { center }
-            }) {
+            lineUp {
                 items {
                     popover {
                         trigger {
@@ -114,9 +110,7 @@ fun RenderContext.popoverDemo(): Div {
             +". You must define at least one of them."
 
             componentFrame {
-                lineUp({
-                    justifyContent { center }
-                }) {
+                lineUp {
                     items {
                         popover {
                             trigger {
@@ -169,9 +163,7 @@ fun RenderContext.popoverDemo(): Div {
         }
 
         componentFrame {
-            lineUp({
-                justifyContent { spaceBetween }
-            }) {
+            lineUp {
                 items {
                     popover({
                         margins { right { small } }
@@ -276,9 +268,7 @@ fun RenderContext.popoverDemo(): Div {
 
         }
         componentFrame {
-            lineUp({
-                justifyContent { spaceEvenly }
-            }) {
+            lineUp {
                 items {
                     popover({
                         background { color { primary } }

@@ -319,18 +319,16 @@ fun RenderContext.formControlDemo(): Div {
         }
 
         storeContentBox {
-            lineUp {
-                items {
-                    // todo this is broken: sometimes the order changes, sometimes it shows too many strings depending on structure
-                    selectedItemsStore.data.render {
-                        p {
-                            +it.joinToString("")
-                        }
+            p {
+                b { +"Selected: " }
+                selectedItemsStore.data.render {
+                    span {
+                        +it.joinToString("")
                     }
-                    p { +"Selected: " }
                 }
             }
         }
+
         playground {
             source(
                 """

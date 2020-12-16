@@ -30,14 +30,13 @@ fun RenderContext.flexBoxDemo(): Div {
         listOf(Theme().colors.primary, Theme().colors.secondary, Theme().colors.tertiary)
             .forEachIndexed { index, value -> item(value, index + 1) }
     }
-    val sixItems: RenderContext.() -> Unit = {
+    val fiveItems: RenderContext.() -> Unit = {
         listOf(
             Theme().colors.primary,
             Theme().colors.secondary,
             Theme().colors.tertiary,
             Theme().colors.primary,
             Theme().colors.secondary,
-            Theme().colors.tertiary
         ).forEachIndexed { index, value -> item(value, index + 1) }
     }
 
@@ -143,7 +142,7 @@ fun RenderContext.flexBoxDemo(): Div {
         showcaseSection("Justify Content")
         paragraph {
             +"Justify Content defines the alignment along the main axis. Our flexbox provides the default properties:"
-            c("flextStart (default)")
+            c("flexStart (default)")
             +", "
             c("flexEnd")
             +", "
@@ -193,7 +192,7 @@ fun RenderContext.flexBoxDemo(): Div {
         paragraph {
             +"Flex items, by default, try to fit into one line. With flex wrap, you can change this behavior and"
             +" allow the items to wrap as needed."
-            +"fritz2 provides these common properties for flex-wrap: "
+            +" fritz2 provides these common properties for flex-wrap: "
             c("nowrap (default)")
             +", "
             c("wrap")
@@ -213,7 +212,7 @@ fun RenderContext.flexBoxDemo(): Div {
                     width { full }
                     wrap { it }
                 }) {
-                    sixItems()
+                    fiveItems()
                 }
             }
         }
@@ -229,10 +228,6 @@ fun RenderContext.flexBoxDemo(): Div {
                     box { +"Box 3"}
                     box { +"Box 4"}
                     box { +"Box 5"}
-                    box { +"Box 6"}
-                    box { +"Box 7"}
-                    box { +"Box 8"}
-                    box { +"Box 9"}
                 }                    
             """.trimIndent()
             )

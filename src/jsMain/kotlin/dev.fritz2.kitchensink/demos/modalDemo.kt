@@ -8,6 +8,7 @@ import dev.fritz2.kitchensink.base.*
 import dev.fritz2.styling.params.BackgroundBlendModes.normal
 import dev.fritz2.styling.params.BasicParams
 import dev.fritz2.styling.params.Style
+import dev.fritz2.styling.params.styled
 import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -67,7 +68,7 @@ fun RenderContext.modalDemo(): Div {
             lineUp {
                 items {
                     clickButton {
-                        text("Open Default Modal Dialog")
+                        text("Default Modal Dialog")
                     } handledBy modal {
                         content {
                             p { +"You can put any HTML element, component or structure into a modal." }
@@ -80,7 +81,7 @@ fun RenderContext.modalDemo(): Div {
             source(
                 """
                 clickButton {
-                    text("Open Default Modal Dialog")
+                    text("Default Modal Dialog")
                 } handledBy modal {
                     content {
                         p { +"You can put any HTML element, component or structure into a modal." }
@@ -158,7 +159,7 @@ fun RenderContext.modalDemo(): Div {
             lineUp {
                 items {
                     clickButton {
-                        text("Modal With Styled Close Button")
+                        text("Styled Close Button")
                     } handledBy modal {
                         closeButton({
                             background { color { danger } }
@@ -184,7 +185,7 @@ fun RenderContext.modalDemo(): Div {
             source(
                 """
                 clickButton {
-                    text("Modal With Styled Close Button")
+                    text("Styled Close Button")
                 } handledBy modal {
                     closeButton({
                         background { color { danger } }
@@ -207,25 +208,27 @@ fun RenderContext.modalDemo(): Div {
         }
 
         paragraph {
-            +"You can even define your own close button. Use the modal's context to add your new button to the "
+            +"You can also define your own close button. Use the modal's context to add your new button to the "
             c("content")
             +" area. Unless you want to have two close buttons, remember to remove the default button as well, using "
             c("hasCloseButton(false)")
-            +" (this only removes the built-in close button). Of course you have to connect your own close handler"
-            +" to handle your button events."
+            +" (this only removes the built-in close button). The modal provides a close handler"
+            +" to connect to your button events."
         }
         componentFrame {
             lineUp {
                 items {
                     clickButton {
-                        text("Modal With Custom Close Button")
+                        text("Custom Close Button")
                     } handledBy modal { close ->
                         hasCloseButton(false)
                         content {
                             clickButton({
-                                background { color { tertiary } }
                                 color { base }
-                            }) { text("My Custom Close Button") } handledBy close
+                                background { color { warning } }
+                            }) {
+                                icon { fromTheme { logOut } }
+                            } handledBy close
                         }
                     }
                 }
@@ -235,14 +238,16 @@ fun RenderContext.modalDemo(): Div {
             source(
                 """
                 clickButton {
-                    text("Modal With Custom Close Button")
-                } handledBy modal { close ->
+                    text("Custom Close Button")
+                } handledBy modal { close -> // use the close handler provided by the modal
                     hasCloseButton(false)
                     content {
                         clickButton({
-                            background { color { tertiary } }
                             color { base }
-                        }) { text("My Custom Close Button") } handledBy close
+                            background { color { warning } }
+                        }) {
+                            icon { fromTheme { logOut } }
+                        } handledBy close
                     }
                 }
                 """.trimIndent()
@@ -288,6 +293,7 @@ fun RenderContext.modalDemo(): Div {
                             }[0]
                         }
                         items(overlayVariants.values.toList())
+
                     }
 
                     clickButton { text("Stack'em") } handledBy modal {
@@ -326,30 +332,21 @@ fun RenderContext.modalDemo(): Div {
             }) {
                 items {
                     clickButton {
-                        text("small")
+                        text("Small")
                     } handledBy createDeepDialogs(30, Theme().modal.sizes.small)
                     clickButton {
-                        text("normal")
+                        text("Normal")
                     } handledBy createDeepDialogs(30, Theme().modal.sizes.normal)
                     clickButton {
-                        text("large")
+                        text("Large")
                     } handledBy createDeepDialogs(30, Theme().modal.sizes.large)
                     clickButton {
-                        text("full")
+                        text("Full")
                     } handledBy createDeepDialogs(30, Theme().modal.sizes.full)
-
-                    clickButton {
-                        text("Small, VerticalFilled Modal")
-                    } handledBy modal {
-                        variant { verticalFilled }
-                        size { small }
-                        content {
-                            p { +"This small modal takes all vertical space within the viewport." }
-                        }
-                    }
                 }
             }
         }
+
         playground {
             source(
                 """
@@ -358,7 +355,35 @@ fun RenderContext.modalDemo(): Div {
                 } handledBy modal {
                     size { full }
                 }
-                
+            """.trimIndent()
+            )
+        }
+
+        paragraph {
+            +"In addition to the "
+            c("size")
+            +" option, fritz2 offers the variant function "
+            c("variant { verticalFilled }")
+            +" for creating a modal which uses the entire height of the viewport."
+        }
+        componentFrame {
+
+            // todo next row for space issues
+            clickButton {
+                text("Small, VerticalFilled Modal")
+            } handledBy modal {
+                variant { verticalFilled }
+                size { small }
+                content {
+                    p { +"This small modal takes all vertical space within the viewport." }
+                }
+            }
+
+        }
+
+        playground {
+            source(
+                """
                 clickButton {
                     text("Small, VerticalFilled Modal")
                 } handledBy modal {
@@ -368,7 +393,7 @@ fun RenderContext.modalDemo(): Div {
                         p { +"This small modal takes all vertical space within the viewport." }
                     }
                 }
-            """.trimIndent()
+                """.trimIndent()
             )
         }
     }
