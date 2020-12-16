@@ -131,7 +131,10 @@ fun RenderContext.createBrightnessDemoBar(color: ColorProperty, colorName: Strin
 
 fun RenderContext.colorBrightnessDemo(brightness: Double): Div {
     return (::div.styled {
-        margins { top { huge } }
+        margins {
+            top { huge }
+            bottom { "3rem" }
+        }
     }) {
         createBrightnessDemoBar(Theme().colors.primary, "primary", brightness)
         createBrightnessDemoBar(Theme().colors.secondary, "secondary", brightness)

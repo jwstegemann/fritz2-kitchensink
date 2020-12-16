@@ -37,104 +37,104 @@ fun RenderContext.themeDemo(): Div {
         paragraph {
             +"A theme groups the following presets:"
         }
-            table("settings-table") {
-                tr {
-                    th { +"Name" }
-                    th { +"Type" }
-                    th { +"Description" }
-                }
-                tr {
-                    td { +"reset" }
-                    td { c("String") }
-                    td { +"css to reset browser's defaults and set your own" }
-                }
-                tr {
-                    td { +"name" }
-                    td { c("String") }
-                    td { +"a human-readable name" }
-                }
-                tr {
-                    td { +"breakPoints" }
-                    td { c("ResponsiveValue") }
-                    td { +"break points for different screen sizes that apply when working with ResponsiveValues" }
-                }
-                tr {
-                    td { +"space" }
-                    td { c("ScaledValue") }
-                    td { +"scale for spacing (margin, padding, etc.)" }
-                }
-                tr {
-                    td { +"position" }
-                    td { c("ScaledValue") }
-                    td { +"scale for positions (top, bottom, etc.)" }
-                }
-                tr {
-                    td { +"fontSizes" }
-                    td { c("ScaledValue") }
-                    td { +"scale for font-sizes" }
-                }
-                tr {
-                    td { +"colors" }
-                    td { c("Colors") }
-                    td { +"theme's color-scheme" }
-                }
-                tr {
-                    td { +"fonts" }
-                    td { c("Fonts") }
-                    td { +"definition of used fonts" }
-                }
-                tr {
-                    td { +"lineHeights" }
-                    td { c("ScaledValue") }
-                    td { +"scale for line-heights" }
-                }
-                tr {
-                    td { +"letterSpacings" }
-                    td { c("ScaledValue") }
-                    td { +"scale for letter-spacing" }
-                }
-                tr {
-                    td { +"sizes" }
-                    td { c("Sizes") }
-                    td { +"scale for sizes (width, height)" }
-                }
-                tr {
-                    td { +"borderWidths" }
-                    td { c("Thickness") }
-                    td { +"scale for border-widths" }
-                }
-                tr {
-                    td { +"radii" }
-                    td { c("ScaledValue") }
-                    td { +"scale for border-radius" }
-                }
-                tr {
-                    td { +"shadows" }
-                    td { c("Shadows") }
-                    td { +"set of shadows used in the theme" }
-                }
-                tr {
-                    td { +"zIndices" }
-                    td { c("ZIndices") }
-                    td { +"scheme used for layering" }
-                }
-                tr {
-                    td { +"opacities" }
-                    td { c("WeightedValue") }
-                    td { +"scale for opacities" }
-                }
-                tr {
-                    td { +"gaps" }
-                    td { c("ScaledValue") }
-                    td { +"scale for gaps" }
-                }
-                tr {
-                    td { +"icons" }
-                    td { c("Icons") }
-                    td { +"set of icons used in the theme" }
-                }
-
+        table("settings-table") {
+            tr {
+                th { +"Name" }
+                th { +"Type" }
+                th { +"Description" }
             }
+            tr {
+                td { +"reset" }
+                td { c("String") }
+                td { +"css to reset browser's defaults and set your own" }
+            }
+            tr {
+                td { +"name" }
+                td { c("String") }
+                td { +"a human-readable name" }
+            }
+            tr {
+                td { +"breakPoints" }
+                td { c("ResponsiveValue") }
+                td { +"break points for different screen sizes that apply when working with ResponsiveValues" }
+            }
+            tr {
+                td { +"space" }
+                td { c("ScaledValue") }
+                td { +"scale for spacing (margin, padding, etc.)" }
+            }
+            tr {
+                td { +"position" }
+                td { c("ScaledValue") }
+                td { +"scale for positions (top, bottom, etc.)" }
+            }
+            tr {
+                td { +"fontSizes" }
+                td { c("ScaledValue") }
+                td { +"scale for font-sizes" }
+            }
+            tr {
+                td { +"colors" }
+                td { c("Colors") }
+                td { +"theme's color-scheme" }
+            }
+            tr {
+                td { +"fonts" }
+                td { c("Fonts") }
+                td { +"definition of used fonts" }
+            }
+            tr {
+                td { +"lineHeights" }
+                td { c("ScaledValue") }
+                td { +"scale for line-heights" }
+            }
+            tr {
+                td { +"letterSpacings" }
+                td { c("ScaledValue") }
+                td { +"scale for letter-spacing" }
+            }
+            tr {
+                td { +"sizes" }
+                td { c("Sizes") }
+                td { +"scale for sizes (width, height)" }
+            }
+            tr {
+                td { +"borderWidths" }
+                td { c("Thickness") }
+                td { +"scale for border-widths" }
+            }
+            tr {
+                td { +"radii" }
+                td { c("ScaledValue") }
+                td { +"scale for border-radius" }
+            }
+            tr {
+                td { +"shadows" }
+                td { c("Shadows") }
+                td { +"set of shadows used in the theme" }
+            }
+            tr {
+                td { +"zIndices" }
+                td { c("ZIndices") }
+                td { +"scheme used for layering" }
+            }
+            tr {
+                td { +"opacities" }
+                td { c("WeightedValue") }
+                td { +"scale for opacities" }
+            }
+            tr {
+                td { +"gaps" }
+                td { c("ScaledValue") }
+                td { +"scale for gaps" }
+            }
+            tr {
+                td { +"icons" }
+                td { c("Icons") }
+                td { +"set of icons used in the theme" }
+            }
+
+        }
 
         showcaseSection("Custom Themes")
         paragraph {
@@ -213,7 +213,8 @@ fun RenderContext.themeDemo(): Div {
             )
         }
         showcaseSection("Colors")
-        paragraph { +"These are the colors fritz2 uses in its default theme. There are "
+        paragraph {
+            +"These are the colors fritz2 uses in its default theme. There are "
             c("primary")
             +", "
             c("primary_hover")
@@ -238,17 +239,17 @@ fun RenderContext.themeDemo(): Div {
             +"."
         }
         colorDemo()
-        val demoBrightness: Double = 2.0
         showcaseSection("Alter brightness of colors")
+        val demoBrightness: Double = 1.5
         paragraph {
             +"You can alter the brightness of colors using the method "
             c("alterBrightness()")
-            +" provided by fritz2. The colors on the right side have increased brightness by "
+            +" provided by fritz2. Use a value between 1 and 2 to lighten up the colors, and a value between 0 and 1 to darken the colors. The colors on the right side have increased brightness by "
             c("$demoBrightness")
             +"."
         }
         colorBrightnessDemo(demoBrightness)
-        val demoDarkness = 0.7
+        val demoDarkness = 0.5
         paragraph {
             +"In this example the colors on right side have decreased brightness by "
             c("$demoDarkness")
