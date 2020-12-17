@@ -26,6 +26,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation("dev.fritz2:components:0.8")
+                //implementation("dev.fritz2:components:0.8-SNAPSHOT")
                 //implementation("dev.fritz2:styling:0.8-SNAPSHOT")
                 //implementation("dev.fritz2:components:0.9-LOCAL")
             }
