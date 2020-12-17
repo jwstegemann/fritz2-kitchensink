@@ -100,7 +100,9 @@ fun RenderContext.welcome(): Div {
                     """.trimIndent()
                 }
 
-                warningBox {
+                warningBox({
+                    background { color { rgba(225,79,42,0.5) } }
+                }) {
                     +"Remember that this is a preview release."
                     +" Most components still need some work, others are not implemented yet, and the API still needs"
                     +" to be completed and streamlined."
