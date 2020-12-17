@@ -36,6 +36,7 @@ fun RenderContext.themeDemo(): Div {
         showcaseSection("Content")
         paragraph {
             +"A theme groups the following presets:"
+        }
             table("settings-table") {
                 tr {
                     th { +"Name" }
@@ -134,7 +135,6 @@ fun RenderContext.themeDemo(): Div {
                 }
 
             }
-        }
 
         showcaseSection("Custom Themes")
         paragraph {
@@ -235,11 +235,9 @@ fun RenderContext.themeDemo(): Div {
             c("warning")
             +" and "
             c("danger")
-            +". Hover over the color to get the color code."
+            +"."
         }
         colorDemo()
-
-
     }
 }
 

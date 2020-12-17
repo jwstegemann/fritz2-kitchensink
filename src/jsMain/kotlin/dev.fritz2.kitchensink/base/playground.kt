@@ -1,7 +1,6 @@
 package dev.fritz2.kitchensink.base
 
 import dev.fritz2.components.box
-import dev.fritz2.components.stackUp
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.styling.StyleClass
 import dev.fritz2.styling.params.BasicParams
@@ -43,6 +42,10 @@ class PlaygroundComponent {
                     background: none !important;
                 }
                 
+                .$playgroundMarker + div {
+                    max-width: 100%;
+                }
+                
             """.trimIndent()
             )
         }
@@ -80,27 +83,27 @@ fun RenderContext.playground(
 ) {
     val component = PlaygroundComponent().apply(build)
 
-    stackUp ({
-        margins { top { large } }
-    }){
-        items {
-            box({
-                background { color { backgroundColor } }
-                radius { "12px" }
-                width { full }
-                padding { small }
-            }) {
-                code(playgroundMarker) {
-                    attr("data-target-platform", "js")
-                    attr("data-highlight-only", true)
-                    attr("theme", "darcula")
-                    attr("auto-indent", "true")
-                    attr("lines", "false")
-                    attr("output-size", component.size)
 
-                    +component.source
-                }
-            }
+    box({
+        margins { top { large } }
+        display { flex }
+        background { color { backgroundColor } }
+        radius { "12px" }
+        width { full }
+        maxWidth { full }
+        padding { small }
+        height { maxContent }
+    }) {
+        code(playgroundMarker) {
+            attr("data-target-platform", "js")
+            attr("data-highlight-only", true)
+            attr("theme", "darcula")
+            attr("auto-indent", "true")
+            attr("lines", "false")
+            attr("output-size", component.size)
+
+            +component.source
         }
     }
+
 }

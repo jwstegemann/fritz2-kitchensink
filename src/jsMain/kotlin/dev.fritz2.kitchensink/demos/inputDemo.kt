@@ -265,7 +265,7 @@ fun RenderContext.inputDemo(): Div {
                         base {
                             type("number")
                             placeholder("42")
-                            step("42")
+                            step("1")
                         }
                     }
                 }
