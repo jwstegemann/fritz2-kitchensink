@@ -90,6 +90,7 @@ fun main() {
 
     render(themes.first()) {
         (::div.styled {
+            height { "100%" }
             width { "100%" }
             position { relative {} }
             children("&[data-menu-open] #menu-left") {
@@ -197,7 +198,7 @@ fun main() {
                             top { larger }
                         }
                         padding { "1rem" }
-                        minWidth (
+                        minWidth(
                             md = { "180px" },
                             lg = { "200px" }
                         )
@@ -211,9 +212,9 @@ fun main() {
                         paddings {
                             top { "50px" }
                         }
-                        borders (
+                        borders(
                             sm = {
-                                bottom { width { "4px" } }
+                                bottom { width { "1rem" } }
                             },
                             md = {
                                 bottom { width { "0px" } }
@@ -227,25 +228,22 @@ fun main() {
                             (::p.styled {
                                 width { "100%" }
                                 margins { top { huge } }
-                                paddings {
-                                    bottom { "1rem" }
-                                }
                             }) {
                                 menuAnchor(welcome_)
-                                menuAnchor(gettingStarted_)
                             }
-                            menuHeader { +"FEATURES" }
+                            menuAnchor(gettingStarted_)
+
+                            menuHeader("FEATURES")
                             menuAnchor(styling_)
                             menuAnchor(theme_)
                             menuAnchor(responsive_)
 
-
-                            menuHeader { +"LAYOUT" }
+                            menuHeader("LAYOUT")
                             menuAnchor(flexbox_)
                             menuAnchor(gridbox_)
                             menuAnchor(stack_)
 
-                            menuHeader { +"FORMS" }
+                            menuHeader("FORMS")
                             menuAnchor(buttons_)
                             menuAnchor(checkboxes_)
                             menuAnchor(formcontrol_)
@@ -254,15 +252,15 @@ fun main() {
                             menuAnchor(switch_)
                             menuAnchor(textarea_)
 
-                            menuHeader { +"FEEDBACK" }
+                            menuHeader("FEEDBACK")
                             menuAnchor(spinner_)
 
-                            menuHeader { +"OVERLAY" }
+                            menuHeader("OVERLAY")
                             menuAnchor(modal_)
                             menuAnchor(popover_)
                             menuAnchor(tooltip_)
 
-                            menuHeader { +"ICONS" }
+                            menuHeader("ICONS")
                             menuAnchor(icons_)
                         }
                     }

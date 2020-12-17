@@ -1,5 +1,6 @@
 package dev.fritz2.kitchensink.base
 
+import dev.fritz2.components.box
 import dev.fritz2.dom.html.A
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.P
@@ -7,10 +8,9 @@ import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.router
 import dev.fritz2.styling.*
 import dev.fritz2.styling.params.BasicParams
+import dev.fritz2.styling.params.alterBrightness
 import dev.fritz2.styling.params.styled
-import dev.fritz2.styling.staticStyle
-import dev.fritz2.styling.style
-import dev.fritz2.styling.whenever
+import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -128,7 +128,7 @@ fun RenderContext.infoBox(init: P.() -> Unit): Div {
         }
         radius { small }
         background {
-            color { alterBrightness(info, 2.0) }
+            color { alterBrightness(info, 1.8) }
         }
     }){
         p {
@@ -164,7 +164,7 @@ fun RenderContext.warningBox(
         }
         radius { small }
         background {
-            color { alterBrightness(warning, 2.0) }
+            color { alterBrightness(warning, 1.5) }
         }
     }(init)
 
@@ -209,11 +209,11 @@ fun RenderContext.storeContentBox(
 val RenderContext.link
     get() = (::a.styled {
         fontSize { normal }
-        color { primary }
+        color { secondary }
         hover {
-            color { tertiary }
-            background { color { light_hover } }
-            radius { normal }
+            color { alterBrightness(secondary, 0.7) }
+            background { color { alterBrightness(secondary, 1.5) } }
+            radius { small }
         }
         css("cursor: pointer")
     })
@@ -262,53 +262,55 @@ fun RenderContext.navAnchor(linkText: String, href: String): Div {
     }
 }
 
-fun alterBrightness(color: String, brightness: Double): String {
-    if (color.length != 7 || color[0] != '#') {
-        console.log("wrong color input format")
+fun RenderContext.menuHeader(text: String): Div {
+    return (::div.styled {
+        width { "100%" }
+    }) {
+        (::p.styled {
+            paddings {
+                top { large }
+                left { tiny }
+                right { small }
+            }
+            fontSize { small }
+            fontWeight { bold }
+            color { primary }
+        })  { +text }
+
+        box({
+            width { "100%" }
+            height { "1px" }
+            background {
+                color { primary_hover }
+            }
+        }) {}
+        box({
+            margins {
+                top { "1px" }
+                left { "3%" }
+            }
+            width { "92%" }
+            height { "1px" }
+            background {
+                color { primary_hover }
+            }
+        }) {}
+        box({
+            margins {
+                top { "1px" }
+            }
+            width { "90%" }
+            height { "1px" }
+            background {
+                color { primary_hover }
+            }
+        }) {}
     }
-    val r: Long = color.subSequence(1,3).toString().toLong(16)
-    val g: Long = color.subSequence(3,5).toString().toLong(16)
-    val b: Long = color.subSequence(5,7).toString().toLong(16)
-
-    val rgb = longArrayOf(r,g,b)
-    var res = arrayOf("1", "2", "3")
-
-    for (i: Int in 0..2) {
-        var newCalc: Double = 1.0
-        if (brightness > 1) {
-            newCalc = rgb[i] + ((brightness-1) * ((255-rgb[i])))
-        } else if (brightness < 1) {
-            newCalc = rgb[i] - ((1-brightness) * (rgb[i]))
-        } else return color
-
-        var new: Int = newCalc.toInt()
-        if (new > 255) { new = 255 }
-        res[i] = new.toString(16)
-        if (res[i].length == 1) { res[i] = "0" + res[i] }
-    }
-    return "#${res[0]}${res[1]}${res[2]}"
 }
-
-fun RenderContext.menuHeader(init: P.() -> Unit): P {
-    return (::p.styled {
-        paddings {
-            top { large }
-            left { small }
-            right { small }
-        }
-        fontSize { small }
-        fontWeight { bold }
-        color { tertiary }
-    })  {
-        init()
-    }
-}
-
 
 fun RenderContext.menuAnchor(linkText: String): P {
 
     val selected = style {
-        width { "90%" }
         radius { normal }
         border {
             width { none }
@@ -326,14 +328,15 @@ fun RenderContext.menuAnchor(linkText: String): P {
         .distinctUntilChanged().onEach { if (it) PlaygroundComponent.update() }
 
     return (::p.styled {
-        width { full }
+        margins { left { "1rem" } }
+        width { "90%" }
         radius { normal }
         border {
             width { none }
         }
         hover {
             background {
-                color { tertiary }
+                color { light_hover }
             }
         }
         paddings {
@@ -354,12 +357,13 @@ fun RenderContext.menuAnchor(linkText: String): P {
 
 val showcaseCode = staticStyle(
     "showcase-code", """
-            padding: 2px 0.25rem;
-            font-size: 0.875em;
+            padding: 0px 0.15rem;
+            font-size: ${Theme().fontSizes.normal};
             white-space: nowrap;
-            line-height: normal;
-            color: rgb(128, 90, 213);
-            font-family: SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            line-height: ${Theme().lineHeights.larger};
+            color: ${Theme().colors.primary};
+            letter-spacing: ${Theme().letterSpacings.small};
+            font-weight: 500;
     """
 )
 

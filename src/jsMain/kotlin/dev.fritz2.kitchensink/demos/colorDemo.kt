@@ -5,9 +5,9 @@ import dev.fritz2.components.lineUp
 import dev.fritz2.components.tooltip
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
-import dev.fritz2.kitchensink.base.alterBrightness
 import dev.fritz2.styling.params.ColorProperty
 import dev.fritz2.styling.params.SizesProperty
+import dev.fritz2.styling.params.alterBrightness
 import dev.fritz2.styling.params.styled
 import dev.fritz2.styling.theme.Theme
 

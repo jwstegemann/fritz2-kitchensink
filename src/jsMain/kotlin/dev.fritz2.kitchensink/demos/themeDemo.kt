@@ -20,14 +20,15 @@ fun RenderContext.themeDemo(): Div {
         paragraph {
             +"A "
             c("Theme")
-            +"""
-            groups predefined sets of values and scales to implement a consistent constraint-based design system.
+            +" "
+            +""" groups predefined sets of values and scales to implement a consistent constraint-based design system.
             """.trimIndent()
         }
 
         paragraph {
             +"fritz2's components come with a predefined "
             c("DefaultTheme")
+            +" "
             +""" which can be used to style your app. Of course you can derive custom themes 
                 from it to change values, or even to extend the theme by your own definitions, from simple property 
                 values to complex predefined styles.""".trimIndent()

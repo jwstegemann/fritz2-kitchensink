@@ -6,6 +6,7 @@ import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.styling.params.styled
+import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
@@ -106,9 +107,11 @@ fun RenderContext.responsiveDemo(): Div {
                 }) {
                     (::p.styled {
                         textTransform { capitalize }
-                        color { info }
+                        color { primary }
                         fontWeight { semiBold }
-                        fontSize { smaller }
+                        fontSize { normal }
+                        margins { bottom { "1rem" } }
+                        css("text-shadow: 0 0 1px #FFF, -1px 1px 1px ${Theme().colors.primary_hover}, -2px 2px 1px ${Theme().colors.primary_hover}, -3px 3px 1px ${Theme().colors.primary_hover};")
                     }) {
                         +"Photo by Lauren York on Unsplash"
                     }
