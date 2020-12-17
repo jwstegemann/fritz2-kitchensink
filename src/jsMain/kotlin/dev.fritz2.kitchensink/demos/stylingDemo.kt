@@ -9,6 +9,7 @@ import dev.fritz2.kitchensink.base.*
 import dev.fritz2.kitchensink.theme_
 import dev.fritz2.styling.params.BasicParams
 import dev.fritz2.styling.params.Style
+import dev.fritz2.styling.params.alterBrightness
 import dev.fritz2.styling.params.styled
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -47,7 +48,8 @@ fun RenderContext.stylingDemo(): Div {
                 items {
                     (::span.styled {
                         background { color { tertiary } }
-                        color { dark }
+                        color { base }
+                        fontWeight { "700" }
                         boxShadow { raised }
                         padding { normal }
                         radius { larger }
@@ -135,6 +137,13 @@ fun RenderContext.stylingDemo(): Div {
                         background { color { danger } }
                         color { base }
                         radius { larger }
+                        hover {
+                            background { color { alterBrightness(danger, 0.7) } }
+                        }
+                        active {
+                            border { color { info } }
+                        }
+                        focus { boxShadow { danger } }
                     }
                     pushButton({
                         veryImportantButton()
@@ -145,16 +154,21 @@ fun RenderContext.stylingDemo(): Div {
         playground {
             source(
                 """
-                val veryImportant: Style<BasicParams> = {
+                val veryImportantButton: Style<BasicParams> = {
                     boxShadow { raised }
                     background { color { danger } }
                     color { base }
-                    radius { "1.5rem" }
+                    radius { larger }
+                    hover {
+                        background { color { alterBrightness(danger, 0.7) } }
+                    }
+                    active {
+                        border { color { info } }
+                    }
+                    focus { boxShadow { danger } }
                 }
-
-                // use it anywhere
-                pushButton ({
-                    veryImportant()
+                pushButton({
+                    veryImportantButton()
                 }) { text("Very Important Button") }
                 """
             )

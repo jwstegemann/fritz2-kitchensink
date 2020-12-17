@@ -25,7 +25,7 @@ fun RenderContext.gettingStarted(): Div {
 
         showcaseSection("Installation")
         paragraph {
-            +"To see how to create a new fritz2 Multiplatform project, take a look at the"
+            +"To see how to create a new fritz2 Multiplatform project, take a look at the "
             externalLink("fritz2 project setup docs", "https://docs.fritz2.dev/ProjectSetup.html")
             +" ."
         }
@@ -76,7 +76,7 @@ fun RenderContext.gettingStarted(): Div {
             c("app.kt")
             +") which contains a "
             c("fun main() {...}")
-            +" function. In this function, call the"
+            +" function. In this function, call the "
             c("mount(\"target\")")
             +" function to append your dynamic html to the "
             c("<body>")
@@ -112,8 +112,9 @@ fun RenderContext.gettingStarted(): Div {
 
         showcaseSection("Pre-release versions")
         paragraph {
-            +"To get the latest pre-release version of fritz2 components, take a look "
-            externalLink("at the setup docs.", "https://docs.fritz2.dev/ProjectSetup.html#pre-release-builds")
+            +"To get the latest pre-release version of fritz2 components, take a look at the "
+            externalLink("setup docs", "https://docs.fritz2.dev/ProjectSetup.html#pre-release-builds")
+            +"."
         }
     }
 }

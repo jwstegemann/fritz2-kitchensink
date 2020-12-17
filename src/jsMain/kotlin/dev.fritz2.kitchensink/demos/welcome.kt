@@ -100,7 +100,7 @@ fun RenderContext.welcome(): Div {
 
                 warningBox {
                     +"Remember that this is a preview release."
-                    +" Most components still need some work, others are not implemented yet, and the api still needs"
+                    +" Most components still need some work, others are not implemented yet, and the API still needs"
                     +" to be completed and streamlined."
                 }
 
