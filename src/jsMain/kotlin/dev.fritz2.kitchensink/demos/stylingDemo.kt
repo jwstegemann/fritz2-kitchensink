@@ -52,7 +52,7 @@ fun RenderContext.stylingDemo(): Div {
                         fontWeight { "700" }
                         boxShadow { raised }
                         padding { normal }
-                        radius { larger }
+                        radius { small }
                     }) { +"raised text" }
                 }
             }
@@ -62,9 +62,11 @@ fun RenderContext.stylingDemo(): Div {
                 """
                 (::span.styled {
                     background { color { tertiary } }
-                    color { dark }
+                    color { base }
+                    fontWeight { "700" }
                     boxShadow { raised }
                     padding { normal }
+                    radius { small }
                 }) { +"raised text" }
                 """
             )
@@ -73,9 +75,9 @@ fun RenderContext.stylingDemo(): Div {
         paragraph {
             +"To remain as flexible as possible, values of properties can alternatively be passed as "
             c("String")
-            +"s, like"
+            +"s, like "
             c("""width { "75%" } """)
-            +". Additionally, you can set any other property that is not part of the DSL by using"
+            +". Additionally, you can set any other property that is not part of the DSL by using "
             c("""css()""")
             +"."
         }
@@ -167,6 +169,7 @@ fun RenderContext.stylingDemo(): Div {
                     }
                     focus { boxShadow { danger } }
                 }
+                
                 pushButton({
                     veryImportantButton()
                 }) { text("Very Important Button") }

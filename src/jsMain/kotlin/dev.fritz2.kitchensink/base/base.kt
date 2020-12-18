@@ -8,6 +8,8 @@ import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.router
 import dev.fritz2.styling.*
 import dev.fritz2.styling.params.*
+import dev.fritz2.styling.params.BackgroundPositions.top
+import dev.fritz2.styling.params.VerticalAlignValues.top
 import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
@@ -20,11 +22,20 @@ fun RenderContext.showcaseHeader(text: String) {
             top { "2rem" }
             bottom { ".25rem" }
         }
+        color { primary }
         lineHeight { tiny }
         fontWeight { "700" }
         fontSize { huge }
         letterSpacing { small }
     }) { +text }
+    box({
+        width { "100%" }
+        height { "1px" }
+        background { color { primary } }
+        margins {
+            bottom { ".9rem" }
+        }
+    }) {}
 }
 
 fun RenderContext.showcaseSubSection(text: String) {
@@ -47,18 +58,10 @@ fun RenderContext.showcaseSection(text: String) {
         lineHeight { smaller }
         fontWeight { "600" }
         fontSize { large }
+        color { primary }
         letterSpacing { small }
-
-        borders {
-            left {
-                width { "6px" }
-                style { solid }
-                color { primary }
-            }
-        }
         radii { left { small } }
         margins { top { "3rem !important" } }
-        paddings { left { smaller } }
     }) { +text }
 }
 
@@ -89,18 +92,18 @@ fun RenderContext.contentFrame(
 ): Div =
         ::div.styled(styling, baseClass, id, prefix) {
             margins {
-                top { "2rem" }
+                top { "0" }
             }
             maxWidth(sm = { unset }, md = { "75%" }, lg = { "48rem" })
             paddings(
-                    sm = {
-                        top { normal }
-                    },
-                    md = {
-                        top { huge }
-                        left { normal }
-                        right { normal }
-                    }
+//                    sm = {
+//                        top { normal }
+//                    },
+//                    md = {
+//                        top { huge }
+//                        left { normal }
+//                        right { normal }
+//                    }
             )
         }(init)
 
@@ -157,14 +160,14 @@ fun RenderContext.warningBox(
             left {
                 width { "4px" }
                 style { solid }
-                color { danger }
+                color { warning }
             }
         }
         radius { small }
         background {
-            color { alterBrightness(warning, 1.5) }
+            color { alterBrightness(warning, 1.8) }
         }
-    }(init)
+    } (init)
 
 fun RenderContext.componentFrame(padding: Boolean = true, init: Div.() -> Unit): Div { //Auslagerung von Komponente
     return (::div.styled {
@@ -176,7 +179,7 @@ fun RenderContext.componentFrame(padding: Boolean = true, init: Div.() -> Unit):
             width { thin }
             color { light }
         }
-        radius { larger }
+        radius { small }
         if (padding) padding { normal }
     }){
         init()
@@ -192,7 +195,7 @@ fun RenderContext.storeContentBox(
 ): Div =
         (::div.styled {
             background {
-                color { light }
+                color { light_hover }
             }
             margins {
                 top { "1.25rem" }
@@ -207,10 +210,10 @@ fun RenderContext.storeContentBox(
 val RenderContext.link
     get() = (::a.styled {
         paddings {
-            left { "5px" }
-            right { "5px" }
+            left { "2px" }
+            right { "2px" }
             top { "2px" }
-            bottom { "2px" }
+            bottom { "3px" }
         }
         fontSize { normal }
         color { secondary }
@@ -225,10 +228,10 @@ val RenderContext.link
 val RenderContext.linkInverted
     get() = (::a.styled {
         paddings {
-            left { "5px" }
-            right { "5px" }
+            left { "2px" }
+            right { "2px" }
             top { "2px" }
-            bottom { "2px" }
+            bottom { "3px" }
         }
         fontSize { normal }
         color { alterBrightness(primary, 0.5) }
@@ -272,7 +275,7 @@ fun RenderContext.internalLinkInverted(text: String, page: String): A {
 
 fun RenderContext.navAnchor(linkText: String, href: String): Div {
     return (::div.styled {
-        radius { normal }
+        radius { small }
         border {
             width { none }
         }
@@ -311,35 +314,14 @@ fun RenderContext.menuHeader(text: String): Div {
             }
             fontSize { small }
             fontWeight { bold }
-            color { primary }
+            color { secondary }
         })  { +text }
 
         box({
             width { "100%" }
             height { "1px" }
             background {
-                color { primary_hover }
-            }
-        }) {}
-        box({
-            margins {
-                top { "1px" }
-                left { "3%" }
-            }
-            width { "92%" }
-            height { "1px" }
-            background {
-                color { primary_hover }
-            }
-        }) {}
-        box({
-            margins {
-                top { "1px" }
-            }
-            width { "90%" }
-            height { "1px" }
-            background {
-                color { primary_hover }
+                color { secondary }
             }
         }) {}
     }
@@ -348,17 +330,18 @@ fun RenderContext.menuHeader(text: String): Div {
 fun RenderContext.menuAnchor(linkText: String): P {
 
     val selected = style {
-        radius { normal }
+        radius { small }
         border {
             width { none }
         }
-        background { color { primary_hover } }
+        background { color { alterBrightness(primary_hover, 1.5) } }
         paddings {
             top { "0.05rem" }
             bottom { "0.05rem" }
             left { tiny }
             right { tiny }
         }
+        boxShadow { flat }
     }
 
     val isActive = router.data.map { hash -> hash == linkText }
@@ -368,49 +351,51 @@ fun RenderContext.menuAnchor(linkText: String): P {
         margins {
             top { tiny }
             bottom { tiny }
-            left { "1rem" }
+            left { smaller }
         }
         width { "90%" }
-        radius { normal }
+        radius { small }
         border {
             width { none }
         }
         hover {
-            color { info }
+            color { secondary }
             background {
-                color { light_hover }
+                color { base }
             }
+            boxShadow { flat }
         }
         paddings {
             top { "0.05rem" }
             bottom { "0.05rem" }
-            left { tiny }
+            left { smaller }
             right { tiny }
         }
-//        fontSize { small }
+
         fontWeight { medium }
         css("cursor: pointer")
     }) {
-        className(selected.whenever(isActive).name) // der Name der StyleClass wird das zu stylende Element (in diesem Fall der Div-Container) angehängt
+        className(selected.whenever(isActive).name)
         clicks.map { linkText } handledBy router.navTo
         +linkText
     }
 }
 
-val showcaseCode = staticStyle(
-    "showcase-code", """
-            padding: 0px 0.15rem;
-            font-size: ${Theme().fontSizes.normal};
-            white-space: nowrap;
-            line-height: ${Theme().lineHeights.larger};
-            color: ${Theme().colors.primary};
-            letter-spacing: ${Theme().letterSpacings.small};
-            font-weight: 500;
-    """
-)
-
+val codeInText = staticStyle(
+    "showcasecode", """
+        white-space: nowrap;
+        font-family: Courier;
+    """)
 fun RenderContext.c(text: String) {
-    span(showcaseCode.name) { +text }
+    (::span.styled(baseClass = codeInText) {
+        padding { "0px 0.15rem" }
+        fontSize { normal }
+        fontWeight { "650" }
+        fontFamily { "Courier" } // todo: added static code because this does not work
+        lineHeight { larger }
+        color { primary }
+        letterSpacing { small }
+    }) { +text }
 }
 
 fun RenderContext.teaserText(
@@ -421,11 +406,8 @@ fun RenderContext.teaserText(
     init: Div.() -> Unit = {}
 ): Div =
     ::div.styled {
-        textTransform { TextTransforms.capitalize }
-        color { primary }
-        fontWeight { FontWeights.semiBold }
-        fontSize { normal }
+        textTransform { capitalize }
+        color { secondary }
+        fontWeight { semiBold }
         margins { bottom { "1rem" } }
-        css("text-shadow: 0 0 1px #FFF, -1px 1px 1px ${Theme().colors.primary_hover};")
-        //css("text-shadow: 0 0 1px #FFF, -1px 1px 1px ${Theme().colors.primary_hover}, -2px 2px 1px ${Theme().colors.primary_hover}, -3px 3px 1px ${Theme().colors.primary_hover};")
-    }(init)
+    } (init)

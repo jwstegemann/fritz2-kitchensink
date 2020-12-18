@@ -26,7 +26,7 @@ fun RenderContext.responsiveDemo(): Div {
             c("md")
             +", "
             c("lg")
-            +", and"
+            +", and "
             c("xl")
             +"""). You can set each property independently for these viewport-sizes:""".trimIndent()
         }
@@ -52,11 +52,11 @@ fun RenderContext.responsiveDemo(): Div {
             c("sm")
             +" and "
             c("md")
-            +", and"
+            +", and "
             c("normal")
             +" for "
             c("lg")
-            +"and"
+            +" and "
             c("xl")
             +". If only one value is given, it will be used for all sizes."
         }

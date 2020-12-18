@@ -88,7 +88,7 @@ fun RenderContext.createBrightnessDemoBar(color: ColorProperty, colorName: Strin
                     color { color }
                 }
                 hover {
-                    tooltip("$color") { right }()
+                    tooltip(color) { right }()
                 }
                 radius { "1.3rem" }
             }) {
@@ -106,7 +106,7 @@ fun RenderContext.createBrightnessDemoBar(color: ColorProperty, colorName: Strin
                                 left { small }
                                 right { small }
                             }
-                        }) { +"$colorName" }
+                        }) { +colorName }
                     }
                 }
             }

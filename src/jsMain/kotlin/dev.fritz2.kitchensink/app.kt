@@ -8,6 +8,7 @@ import dev.fritz2.kitchensink.base.*
 import dev.fritz2.kitchensink.demos.*
 import dev.fritz2.routing.router
 import dev.fritz2.styling.name
+import dev.fritz2.styling.params.alterBrightness
 import dev.fritz2.styling.params.styled
 import dev.fritz2.styling.staticStyle
 import dev.fritz2.styling.theme.Theme
@@ -96,11 +97,12 @@ fun main() {
             children("&[data-menu-open] #menu-left") {
                 display { flex }
             }
+            background { color { alterBrightness(light_hover,1.5 ) } }
         }) {
             attr("data-menu-open", menuStore.data)
             navBar({
                 border { width { "0" } }
-                boxShadow { flat }
+                boxShadow { raised }
             }) {
                 brand {
                     (::a.styled {
@@ -115,32 +117,32 @@ fun main() {
                         target("_new")
 
                         icon({
-                            size { "2.5rem" }
+                            size { "3rem" }
                             color { primary }
                         }) { fromTheme { fritz2 } }
 
                         (::span.styled {
-                            margins { left { normal } }
+                            margins { left { smaller } }
                             verticalAlign { sub }
                             fontSize(sm = { large }, md = { larger })
                             fontWeight { lighter }
-                        }) { +"Components" }
+                        }) { +"fritz2 Components" }
                     }
                     //FIXME: convert to styles
                     (::span.styled {
                         css(
                             """
-                    display: inline-flex;
-                    vertical-align: top;
-                    -moz-box-align: center;
-                    align-items: center;
-                    max-width: 100%;
-                    font-weight: 500;
-                    min-height: 1.5rem;
-                    min-width: 1.5rem;
-                    border-radius: 0.375rem;
-                    background: none repeat scroll 0% 0%;
-                    """.trimIndent()
+                            display: inline-flex;
+                            vertical-align: top;
+                            -moz-box-align: center;
+                            align-items: center;
+                            max-width: 100%;
+                            font-weight: 500;
+                            min-height: 1.5rem;
+                            min-width: 1.5rem;
+                            border-radius: 0.375rem;
+                            background: none repeat scroll 0% 0%;
+                            """.trimIndent()
                         )
                         paddings(
                             sm = { horizontal { "0.25rem" } },
@@ -157,6 +159,7 @@ fun main() {
                         background {
                             color { warning }
                         }
+                        color { base }
                         margins {
                             left { small }
                         }
@@ -186,7 +189,6 @@ fun main() {
             }
 
             lineUp({
-
                 alignItems { stretch }
                 color { dark }
                 minHeight { "100%" }
@@ -221,6 +223,7 @@ fun main() {
                             }
                         )
                         border { color { "light" } }
+                        background { color { alterBrightness(light_hover, 1.5 ) } }
                     }, id = "menu-left")
                     {
                         spacing { tiny }
@@ -238,7 +241,7 @@ fun main() {
                             menuAnchor(theme_)
                             menuAnchor(responsive_)
 
-                            menuHeader("LAYOUT")
+                            menuHeader("LAYOUTING")
                             menuAnchor(flexbox_)
                             menuAnchor(gridbox_)
                             menuAnchor(stack_)
@@ -266,14 +269,19 @@ fun main() {
                     }
                     (::div.styled(id = "content-right") {
                         paddings {
-                            all { huge }
+                            left { huge }
+                            top { small }
                         }
                         margins {
                             left { "0 !important" }
+                            top { "84px" }
                         }
                         width {
                             "100%"
                         }
+                        radius { small }
+                        background { color { base } }
+
                     }) {
                         className(welcomeContent.whenever(router.data) { it == welcome_ }.name)
 

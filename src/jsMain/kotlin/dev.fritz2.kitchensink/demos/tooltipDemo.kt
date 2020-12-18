@@ -21,75 +21,76 @@ fun RenderContext.tooltipDemo(): Div {
             paragraph {
                 +"The"
                 c("tooltip")
-                +"is more beautiful than the standard title that appears when a user interacts with an element."
+                +"is a more sophisticated title that appears when the user places the mouse over an element. It can be "
+                +" styled like any other component and additionally offers some specific options."
             }
 
             showcaseSection("Usage")
             paragraph {
-                +"In fritz2, tooltips can be added to each stylable element. It's possible to use multiline."
+                +"In fritz2, tooltips can be added to each stylable element's styling parameter. A simple version"
+                +" is created by passing a String to the "
+                c("tooltip()")
+                +" function. You can also make the tooltip multiline - just add"
+                +" a list of Strings to it instead of a single String. Don't forget the additional () after the function call."
             }
             componentFrame {
                 lineUp {
                     items {
+                        (::span.styled {
+                            tooltip("Visit us on www.fritz2.dev") ()
+                        }) { +"Tooltip" }
 
-                        (::span.styled() {
-                            tooltip("visit us on www.fritz2.dev") { top }()
-                        }) { +"singleline tooltip" }
-
-                        (::span.styled() {
-                            tooltip("visit us on", "www.fritz2.dev") { top }()
-                        }) { +"multiline tooltip" }
-
-
+                        (::span.styled {
+                            tooltip("Visit us!", "", "www.fritz2.dev") ()
+                        }) { +"Multiline Tooltip" }
                     }
                 }
             }
             playground {
                 source(
-                    """
-                    (::span.styled(){
-                        tooltip("visit us on www.fritz2.dev") { top }()
-                    }) { +"singleline tooltip"}
+                """
+                    (::span.styled { // add tooltip to styling parameter
+                        tooltip("Visit us on www.fritz2.dev") ()
+                    }) { +"Tooltip" } // span content 
 
-                    (::span.styled(){
-                        tooltip("visit us on", "www.fritz2.dev") { top }()
-                    }) { +"multiline tooltip"}
+                    (::span.styled { // empty Strings work for multiline as well
+                        tooltip("Visit us!", "", "www.fritz2.dev") ()
+                    }) { +"Multiline Tooltip" }
                 """
                 )
             }
 
-            showcaseSection("Placements")
+            showcaseSection("Placement")
             paragraph {
-                +"The"
+                +"The "
                 c("tooltip")
-                +" can be displayed on the"
+                +" can be displayed either at the "
                 c("top")
-                +","
+                +" (default),"
                 c("right")
-                +","
+                +", "
                 c("bottom")
-                +", and"
+                +", or"
                 c("left")
-                +" side of the styled element."
+                +" side of the styled element. The placement value goes directly into the component's context. Also, don't forget the additional (): "
             }
             componentFrame {
                 lineUp {
                     items {
-
                         (::span.styled() {
-                            tooltip("placement top") { top }()
+                            tooltip("top placement") { top } ()
                         }) { +"top" }
 
                         (::span.styled() {
-                            tooltip("placement right") { right }()
+                            tooltip("right side placement") { right } ()
                         }) { +"right" }
 
                         (::span.styled() {
-                            tooltip("placement bottom") { bottom }()
+                            tooltip(" bottom placement") { bottom } ()
                         }) { +"bottom" }
 
                         (::span.styled() {
-                            tooltip("placement left") { left }()
+                            tooltip("left side placement") { left } ()
                         }) { +"left" }
 
                     }
@@ -99,21 +100,9 @@ fun RenderContext.tooltipDemo(): Div {
                 source(
                     """
                       (::span.styled(){
-                        tooltip("placement top") { top }()
-                    }) { +"top"}
-
-                    (::span.styled(){
-                        tooltip("placement right") { right }()
+                        tooltip("right side placement") { right } ()
                     }) { +"right"}
-
-                    (::span.styled(){
-                        tooltip("placement bottom") { bottom }()
-                    }) { +"bottom"}
-
-                    (::span.styled(){
-                        tooltip("placement left") { left }()
-                    }) { +"left"}
-                """
+                    """
                 )
             }
         }
@@ -123,15 +112,13 @@ fun RenderContext.tooltipDemo(): Div {
         }) {
             lineUp({
                 alignItems { flexStart }
-                //display (sm = { inline }, md = {none})
             }) {
                 items {
                     icon({
                         size { "3rem" }
                         color { danger }
-                        //display (sm = { inline }, md = {none})
                     }) { fromTheme { warning } }
-                    p { +"Not able to demonstrate on devices with touchscreen" }
+                    p { +"Devices with touchscreen might not be able to demonstrate this feature." }
                 }
             }
         }
