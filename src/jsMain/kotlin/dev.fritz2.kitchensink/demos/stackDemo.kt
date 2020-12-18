@@ -23,6 +23,7 @@ fun RenderContext.stackDemo(): Div {
             background { color { color } }
             color { base }
             size { "40px" }
+            radius { small }
         }) { p { +text } }
     }
 
@@ -75,15 +76,17 @@ fun RenderContext.stackDemo(): Div {
                 """
                 lineUp {
                     items {
-                        // some arbitrary content:
+                        // some styled boxes for content:
                         box({
                             display { flex }
                             justifyContent { center }
                             alignItems { center }
                             background { color { primary } }
                             color { base }
-                            size { "40px" }                        
+                            size { "40px" }       
+                            radius { small }
                         }) { p { +"1" } }
+                        
                         // styling omitted for readability
                         box { p { +"2" } }
                         box { p { +"3" } }

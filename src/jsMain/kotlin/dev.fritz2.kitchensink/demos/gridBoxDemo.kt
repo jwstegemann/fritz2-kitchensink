@@ -51,6 +51,7 @@ fun RenderContext.gridBoxDemo(): Div {
                     height { "50px" }
                     background { color { tertiary } }
                     display { flex }
+                    radius { small }
                     css("justify-content: center")
                     css("align-items: center")
                 }
@@ -76,6 +77,7 @@ fun RenderContext.gridBoxDemo(): Div {
                         size { "60px" }
                         background { color { warning } }
                         display { flex }
+                        radius { small }
                         justifyContent { center }
                         alignItems { center }
                     }) { +"one" }

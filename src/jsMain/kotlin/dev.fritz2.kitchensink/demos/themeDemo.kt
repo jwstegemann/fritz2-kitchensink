@@ -141,7 +141,7 @@ fun RenderContext.themeDemo(): Div {
         paragraph {
             +"To create a custom "
             c("Theme")
-            +", you can easily create a new class inheriting from "
+            +", simply create a new class inheriting from "
             c("DefaultTheme")
             +" and change only the definitions you want."
 

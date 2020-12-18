@@ -118,7 +118,7 @@ fun main() {
 
                         icon({
                             size { "3rem" }
-                            color { primary }
+                            color { secondary }
                         }) { fromTheme { fritz2 } }
 
                         (::span.styled {

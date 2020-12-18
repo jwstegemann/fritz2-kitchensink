@@ -29,8 +29,7 @@ open class SmallFonts : ExtendedTheme, DefaultTheme() {
         textTransform { uppercase }
         fontSize { smaller }
         letterSpacing { large }
-        textShadow { glowing }
-        color { info }
+        color { secondary }
     }
 }
 

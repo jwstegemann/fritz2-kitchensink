@@ -22,7 +22,7 @@ fun RenderContext.showcaseHeader(text: String) {
             top { "2rem" }
             bottom { ".25rem" }
         }
-        color { primary }
+        color { secondary }
         lineHeight { tiny }
         fontWeight { "700" }
         fontSize { huge }
@@ -58,7 +58,7 @@ fun RenderContext.showcaseSection(text: String) {
         lineHeight { smaller }
         fontWeight { "600" }
         fontSize { large }
-        color { primary }
+        color { secondary }
         letterSpacing { small }
         radii { left { small } }
         margins { top { "3rem !important" } }
@@ -130,6 +130,7 @@ fun RenderContext.infoBox(init: P.() -> Unit): Div {
         radius { small }
         background {
             color { alterBrightness(info, 1.8) }
+
         }
     }){
         p {
@@ -216,7 +217,7 @@ val RenderContext.link
             bottom { "3px" }
         }
         fontSize { normal }
-        color { secondary }
+        color { tertiary }
         hover {
             color { alterBrightness(secondary, 0.7) }
             background { color { alterBrightness(secondary, 1.5) } }
@@ -342,6 +343,8 @@ fun RenderContext.menuAnchor(linkText: String): P {
             right { tiny }
         }
         boxShadow { flat }
+        css("""text-overflow: ellipsis; overflow: hidden;""")
+
     }
 
     val isActive = router.data.map { hash -> hash == linkText }
@@ -371,7 +374,7 @@ fun RenderContext.menuAnchor(linkText: String): P {
             left { smaller }
             right { tiny }
         }
-
+        css("""text-overflow: ellipsis; overflow: hidden;""")
         fontWeight { medium }
         css("cursor: pointer")
     }) {
@@ -393,7 +396,7 @@ fun RenderContext.c(text: String) {
         fontWeight { "650" }
         fontFamily { "Courier" } // todo: added static code because this does not work
         lineHeight { larger }
-        color { primary }
+        color { secondary }
         letterSpacing { small }
     }) { +text }
 }
@@ -409,5 +412,6 @@ fun RenderContext.teaserText(
         textTransform { capitalize }
         color { secondary }
         fontWeight { semiBold }
-        margins { bottom { "1rem" } }
+        margins { bottom { "0.7rem" } }
+        fontSize { small }
     } (init)

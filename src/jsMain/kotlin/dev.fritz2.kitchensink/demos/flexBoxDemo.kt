@@ -23,6 +23,7 @@ fun RenderContext.flexBoxDemo(): Div {
             justifyContent { center }
             alignItems { center }
             margin { smaller }
+            radius { small }
         }) { +"Box $number" }
     }
 
