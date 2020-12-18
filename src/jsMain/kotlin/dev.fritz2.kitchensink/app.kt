@@ -9,6 +9,7 @@ import dev.fritz2.kitchensink.demos.*
 import dev.fritz2.routing.router
 import dev.fritz2.styling.name
 import dev.fritz2.styling.params.alterBrightness
+import dev.fritz2.styling.params.hover
 import dev.fritz2.styling.params.styled
 import dev.fritz2.styling.staticStyle
 import dev.fritz2.styling.theme.Theme
@@ -97,7 +98,7 @@ fun main() {
             children("&[data-menu-open] #menu-left") {
                 display { flex }
             }
-            background { color { alterBrightness(light_hover,1.5 ) } }
+            background { color { alterBrightness(light.hover,1.5 ) } }
         }) {
             attr("data-menu-open", menuStore.data)
             navBar({
@@ -223,7 +224,7 @@ fun main() {
                             }
                         )
                         border { color { "light" } }
-                        background { color { alterBrightness(light_hover, 1.5 ) } }
+                        background { color { alterBrightness(light.hover, 1.5 ) } }
                     }, id = "menu-left")
                     {
                         spacing { tiny }
