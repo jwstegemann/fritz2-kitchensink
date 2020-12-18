@@ -7,9 +7,7 @@ import dev.fritz2.dom.html.P
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.router
 import dev.fritz2.styling.*
-import dev.fritz2.styling.params.BasicParams
-import dev.fritz2.styling.params.alterBrightness
-import dev.fritz2.styling.params.styled
+import dev.fritz2.styling.params.*
 import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
@@ -208,11 +206,35 @@ fun RenderContext.storeContentBox(
 
 val RenderContext.link
     get() = (::a.styled {
+        paddings {
+            left { "5px" }
+            right { "5px" }
+            top { "2px" }
+            bottom { "2px" }
+        }
         fontSize { normal }
         color { secondary }
         hover {
             color { alterBrightness(secondary, 0.7) }
             background { color { alterBrightness(secondary, 1.5) } }
+            radius { small }
+        }
+        css("cursor: pointer")
+    })
+
+val RenderContext.linkInverted
+    get() = (::a.styled {
+        paddings {
+            left { "5px" }
+            right { "5px" }
+            top { "2px" }
+            bottom { "2px" }
+        }
+        fontSize { normal }
+        color { alterBrightness(primary, 0.5) }
+        hover {
+            color { alterBrightness(primary, 1.2) }
+            background { color { alterBrightness(primary, 0.5) } }
             radius { small }
         }
         css("cursor: pointer")
@@ -228,6 +250,21 @@ fun RenderContext.externalLink(text: String, url: String, newTab: Boolean = true
 
 fun RenderContext.internalLink(text: String, page: String): A {
     return link {
+        +text
+        clicks.map { page } handledBy router.navTo
+    }
+}
+
+fun RenderContext.externalLinkInverted(text: String, url: String, newTab: Boolean = true): A {
+    return linkInverted {
+        +text
+        href(url)
+        if (newTab) target("_new")
+    }
+}
+
+fun RenderContext.internalLinkInverted(text: String, page: String): A {
+    return linkInverted {
         +text
         clicks.map { page } handledBy router.navTo
     }
@@ -317,10 +354,10 @@ fun RenderContext.menuAnchor(linkText: String): P {
         }
         background { color { primary_hover } }
         paddings {
-            top { tiny }
-            bottom { tiny }
-            left { small }
-            right { small }
+            top { "0.05rem" }
+            bottom { "0.05rem" }
+            left { tiny }
+            right { tiny }
         }
     }
 
@@ -328,22 +365,27 @@ fun RenderContext.menuAnchor(linkText: String): P {
         .distinctUntilChanged().onEach { if (it) PlaygroundComponent.update() }
 
     return (::p.styled {
-        margins { left { "1rem" } }
+        margins {
+            top { tiny }
+            bottom { tiny }
+            left { "1rem" }
+        }
         width { "90%" }
         radius { normal }
         border {
             width { none }
         }
         hover {
+            color { info }
             background {
                 color { light_hover }
             }
         }
         paddings {
-            top { tiny }
-            bottom { tiny }
-            left { small }
-            right { small }
+            top { "0.05rem" }
+            bottom { "0.05rem" }
+            left { tiny }
+            right { tiny }
         }
 //        fontSize { small }
         fontWeight { medium }
@@ -370,3 +412,20 @@ val showcaseCode = staticStyle(
 fun RenderContext.c(text: String) {
     span(showcaseCode.name) { +text }
 }
+
+fun RenderContext.teaserText(
+    styling: BasicParams.() -> Unit = {},
+    baseClass: StyleClass? = null,
+    id: String? = null,
+    prefix: String = "teasertext",
+    init: Div.() -> Unit = {}
+): Div =
+    ::div.styled {
+        textTransform { TextTransforms.capitalize }
+        color { primary }
+        fontWeight { FontWeights.semiBold }
+        fontSize { normal }
+        margins { bottom { "1rem" } }
+        css("text-shadow: 0 0 1px #FFF, -1px 1px 1px ${Theme().colors.primary_hover};")
+        //css("text-shadow: 0 0 1px #FFF, -1px 1px 1px ${Theme().colors.primary_hover}, -2px 2px 1px ${Theme().colors.primary_hover}, -3px 3px 1px ${Theme().colors.primary_hover};")
+    }(init)
