@@ -7,10 +7,7 @@ import dev.fritz2.components.pushButton
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
-import dev.fritz2.styling.params.AreaName
-import dev.fritz2.styling.params.end
-import dev.fritz2.styling.params.start
-import dev.fritz2.styling.params.styled
+import dev.fritz2.styling.params.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.map
 
@@ -216,7 +213,7 @@ fun RenderContext.gridBoxDemo(): Div {
                                 }
                             )
                             background {
-                                color { primary_hover }
+                                color { primary.hover }
                             }
                             padding { normal }
                             textAlign { center }

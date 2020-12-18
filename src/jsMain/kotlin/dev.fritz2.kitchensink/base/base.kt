@@ -8,9 +8,6 @@ import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.router
 import dev.fritz2.styling.*
 import dev.fritz2.styling.params.*
-import dev.fritz2.styling.params.BackgroundPositions.top
-import dev.fritz2.styling.params.VerticalAlignValues.top
-import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -195,7 +192,7 @@ fun RenderContext.storeContentBox(
 ): Div =
         (::div.styled {
             background {
-                color { light_hover }
+                color { light.hover }
             }
             margins {
                 top { "1.25rem" }
@@ -218,8 +215,8 @@ val RenderContext.link
         fontSize { normal }
         color { secondary }
         hover {
-            color { alterBrightness(secondary, 0.7) }
-            background { color { alterBrightness(secondary, 1.5) } }
+            color {secondary.darken }
+            background { color {  secondary.hover } }
             radius { small }
         }
         css("cursor: pointer")
@@ -281,7 +278,7 @@ fun RenderContext.navAnchor(linkText: String, href: String): Div {
         }
         hover {
             background {
-                color { light_hover }
+                color { light.hover }
             }
         }
         paddings {
@@ -334,7 +331,7 @@ fun RenderContext.menuAnchor(linkText: String): P {
         border {
             width { none }
         }
-        background { color { alterBrightness(primary_hover, 1.5) } }
+        background { color { primary.hover.hover } }
         paddings {
             top { "0.05rem" }
             bottom { "0.05rem" }
@@ -406,6 +403,7 @@ fun RenderContext.teaserText(
     init: Div.() -> Unit = {}
 ): Div =
     ::div.styled {
+        fontSize { small }
         textTransform { capitalize }
         color { secondary }
         fontWeight { semiBold }
