@@ -98,7 +98,7 @@ fun main() {
             children("&[data-menu-open] #menu-left") {
                 display { flex }
             }
-            background { color { alterBrightness(light.hover,1.5 ) } }
+            background { color { light.hover.hover } }
         }) {
             attr("data-menu-open", menuStore.data)
             navBar({
