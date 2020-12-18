@@ -102,7 +102,7 @@ fun main() {
             attr("data-menu-open", menuStore.data)
             navBar({
                 border { width { "0" } }
-                boxShadow { raised }
+                boxShadow { flat }
             }) {
                 brand {
                     (::a.styled {
@@ -126,7 +126,7 @@ fun main() {
                             verticalAlign { sub }
                             fontSize(sm = { large }, md = { larger })
                             fontWeight { lighter }
-                        }) { +"fritz2 Components" }
+                        }) { +"fritz2 components" }
                     }
                     //FIXME: convert to styles
                     (::span.styled {
