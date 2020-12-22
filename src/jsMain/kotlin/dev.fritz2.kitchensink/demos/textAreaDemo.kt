@@ -172,16 +172,28 @@ fun RenderContext.textAreaDemo(): Div {
             )
         }
 
-        showcaseSection("Disable a textarea")
-        paragraph { +"Of course it is possible to disable a textarea." }
+        showcaseSection("ReadOnly And Disabled")
+        paragraph {
+            +"Of course it is possible to disable a textarea or make it readonly. Use the text area's "
+            c("base")
+            +" context to access both properties of the underlying HTML element. A disabled text area is"
+            +" skipped by the Tab key."
+        }
         componentFrame {
-            lineUp {
+            stackUp {
                 items {
                     textArea {
-                        placeholder("disabled")
-                        disable(true)
+                        placeholder("readonly")
+                        base {
+                            readOnly(true)
+                        }
                     }
-
+                    textArea {
+                        placeholder("disabled, skips Tab")
+                        base {
+                            disabled(true)
+                        }
+                    }
                 }
             }
         }
@@ -189,10 +201,18 @@ fun RenderContext.textAreaDemo(): Div {
         playground {
             source(
                 """
-                 textArea {
-                        placeholder("disabled")
-                        disable(true)
+                textArea {
+                    placeholder("readonly")
+                    base {
+                        readOnly(true)
                     }
+                }
+                textArea {
+                    placeholder("disabled, skips Tab")
+                    base {
+                        disabled(true)
+                    }
+                }
             """.trimIndent()
             )
         }
