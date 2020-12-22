@@ -281,6 +281,29 @@ fun RenderContext.buttonDemo(): Div {
                                 """
             )
         }
+
+        showcaseSection("Disabled Buttons")
+        paragraph {
+            +"Using the button's "
+            c("base")
+            +" context which exposes the underlying HTML Button, you can disable both clickButtons and pushButtons."
+        }
+        componentFrame {
+            clickButton {
+                text("Disabled Button")
+                base { disabled(true) }
+            }
+        }
+        playground {
+            source(
+            """
+            clickButton {
+                text("Disabled Button")
+                base { disabled(true) }
+            }
+            """
+            )
+        }
     }
 }
 
