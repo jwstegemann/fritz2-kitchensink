@@ -87,7 +87,7 @@ fun RenderContext.stackDemo(): Div {
                             color { "white" }
                             size { "40px" }                        
                         }) { p { +"1" } }
-                        t// all following items without styling for better readability!
+                        // all following items without styling for better readability!
                         box { p { +"2" } }
                         box { p { +"3" } }
                     }
