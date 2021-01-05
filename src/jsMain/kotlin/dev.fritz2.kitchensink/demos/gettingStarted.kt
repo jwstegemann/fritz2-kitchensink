@@ -25,7 +25,7 @@ fun RenderContext.gettingStarted(): Div {
 
         showcaseSection("Installation")
         paragraph {
-            +"To see how to create a new fritz2 Multiplatform project, take a look at the"
+            +"To see how to create a new fritz2 Multiplatform project, take a look at the "
             externalLink("fritz2 project setup docs", "https://docs.fritz2.dev/ProjectSetup.html")
             +" ."
         }
@@ -37,9 +37,8 @@ fun RenderContext.gettingStarted(): Div {
         highlight {
             source(
                 """
-                 |val commonMain by getting {
+                 |val jsMain by getting {
                  |  dependencies {
-                 |      implementation(kotlin("stdlib"))
                  |      implementation("dev.fritz2:components:0.8")
                  |  }
                  |}
