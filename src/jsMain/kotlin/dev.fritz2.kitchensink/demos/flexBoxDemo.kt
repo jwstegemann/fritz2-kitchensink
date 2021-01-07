@@ -28,14 +28,14 @@ fun RenderContext.flexBoxDemo(): Div {
     }
 
     val threeItems: RenderContext.() -> Unit = {
-        listOf(Theme().colors.primary, Theme().colors.secondary, Theme().colors.tertiary)
+        listOf(Theme().colors.info, Theme().colors.warning, Theme().colors.danger)
             .forEachIndexed { index, value -> item(value, index + 1) }
     }
     val fiveItems: RenderContext.() -> Unit = {
         listOf(
-            Theme().colors.primary,
-            Theme().colors.secondary,
-            Theme().colors.tertiary,
+            Theme().colors.info,
+            Theme().colors.warning,
+            Theme().colors.danger,
             Theme().colors.primary,
             Theme().colors.secondary,
         ).forEachIndexed { index, value -> item(value, index + 1) }

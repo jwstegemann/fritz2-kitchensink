@@ -172,12 +172,12 @@ fun RenderContext.iconsDemo(): Div {
             p {
                 +"Please have look at their "
                 externalLink("project page", "https://icons.mono.company/")
+                +". These icons are licensed under the "
+                externalLink("MIT", "https://github.com/mono-company/mono-icons/blob/master/LICENSE.md")
                 +"."
             }
             p {
-                +"The icons are licensed under the "
-                externalLink("MIT license", "https://github.com/mono-company/mono-icons/blob/master/LICENSE.md")
-                +"."
+
             }
         }
 
@@ -199,7 +199,6 @@ fun RenderContext.iconsDemo(): Div {
 
                     icon({
                         size { larger }
-                        // .2rem)
                     }) { fromTheme { fritz2 } }
 
                     icon({
@@ -342,6 +341,7 @@ fun RenderContext.iconsDemo(): Div {
                         color { light }
                         width { normal }
                     }
+                    radius { small }
                     padding (
                         sm = { tiny },
                         md = { smaller },

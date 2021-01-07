@@ -296,7 +296,7 @@ fun RenderContext.popoverDemo(): Div {
                     popover(
                         {
                             border {
-                                color { tertiary }
+                                color { secondary }
                                 style {  dashed }
                                 width { fat }
                             }

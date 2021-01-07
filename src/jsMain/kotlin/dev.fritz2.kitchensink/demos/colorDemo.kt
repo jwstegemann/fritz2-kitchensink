@@ -50,17 +50,17 @@ fun RenderContext.createColorBar(color: ColorProperty, colorName: String, boxSiz
     }
 }
 
+// TODO: Remove lighter version
 fun RenderContext.colorDemo(): Div {
     return (::div.styled {
         margins { top { huge } }
     }) {
         createColorBar(Theme().colors.primary, "primary", { "90%" }, { "100%" })
-        createColorBar(Theme().colors.primary.hover, "primary_hover", { "85%" }, { "95%" })
+        createColorBar(Theme().colors.primary.lighter, "primary.lighter", { "85%" }, { "95%" })
         createColorBar(Theme().colors.secondary, "secondary", { "80%" }, { "90%" })
-        createColorBar(Theme().colors.tertiary, "tertiary", { "75%" }, { "85%" })
         createColorBar(Theme().colors.dark, "dark", { "70%" }, { "80%" })
         createColorBar(Theme().colors.light, "light", { "65%" }, { "75%" })
-        createColorBar(Theme().colors.light.hover, "light_hover", { "60%" }, { "70%" })
+        createColorBar(Theme().colors.light.lighter, "light.lighter", { "60%" }, { "70%" })
         createColorBar(Theme().colors.info, "info", { "55%" }, { "65%" })
         createColorBar(Theme().colors.success, "success", { "50%" }, { "60%" })
         createColorBar(Theme().colors.warning, "warning", { "45%" }, { "55%" })
@@ -135,7 +135,7 @@ fun RenderContext.colorBrightnessDemo(brightness: Double): Div {
     }) {
         createBrightnessDemoBar(Theme().colors.primary, "primary", brightness)
         createBrightnessDemoBar(Theme().colors.secondary, "secondary", brightness)
-        createBrightnessDemoBar(Theme().colors.tertiary, "tertiary", brightness)
+        //createBrightnessDemoBar(Theme().colors.tertiary, "tertiary", brightness)
         createBrightnessDemoBar(Theme().colors.dark, "dark", brightness)
         createBrightnessDemoBar(Theme().colors.light, "light", brightness)
         createBrightnessDemoBar(Theme().colors.info, "info", brightness)

@@ -120,7 +120,7 @@ fun RenderContext.switchDemo(): Div {
         componentFrame {
             switch(styling = {
                 background {
-                    color { tertiary }
+                    color { secondary }
                 }
             }) {
                 label("Custom background colors")

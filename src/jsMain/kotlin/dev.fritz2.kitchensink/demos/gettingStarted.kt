@@ -50,7 +50,7 @@ fun RenderContext.gettingStarted(): Div {
         showcaseSection("Run in browser")
         paragraph {
             +"To get your JS loaded, you need a static html file."
-            +" Here is a short example for an html-file in your JS resources folder (e.g."
+            +" Here is a short example for an html-file in your JS resources folder (e.g. "
             c("src/resources/index.html")
             +"):"
         }

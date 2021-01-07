@@ -46,7 +46,7 @@ fun RenderContext.gridBoxDemo(): Div {
                     //size { "60px" }
                     width { "120px" }
                     height { "50px" }
-                    background { color { tertiary } }
+                    background { color { secondary } }
                     display { flex }
                     radius { small }
                     css("justify-content: center")
@@ -215,7 +215,7 @@ fun RenderContext.gridBoxDemo(): Div {
                                 }
                             )
                             background {
-                                color { primary.hover }
+                                color { primary.lighter }
                             }
                             padding { normal }
                             textAlign { center }

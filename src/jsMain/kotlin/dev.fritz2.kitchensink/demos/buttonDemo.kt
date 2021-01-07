@@ -69,14 +69,14 @@ fun RenderContext.buttonDemo(): Div {
 
                     pushButton {
                         icon { fromTheme { arrowLeft } }
-                        color { secondary }
+                        color { primary }
                         text("Previous")
                     }
 
                     pushButton {
                         icon { fromTheme { arrowRight } }
                         iconRight()
-                        color { tertiary }
+                        color { secondary }
                         text("Next")
                     }
 
@@ -91,7 +91,7 @@ fun RenderContext.buttonDemo(): Div {
 
                     pushButton {
                         icon { fromTheme { arrowLeft } }
-                        color { secondary }
+                        color { primary }
                         text("Previous")
                         events {
                             // handle button events
@@ -101,7 +101,7 @@ fun RenderContext.buttonDemo(): Div {
                     pushButton {
                         icon { fromTheme { arrowRight } }
                         iconRight()
-                        color { tertiary }
+                        color { secondary }
                         text("Next")
                     }
 

@@ -67,7 +67,7 @@ fun RenderContext.stackDemo(): Div {
                 items {
                     item(Theme().colors.primary, "1")
                     item(Theme().colors.secondary, "2")
-                    item(Theme().colors.tertiary, "3")
+                    item(Theme().colors.info, "3")
                 }
             }
         }
@@ -109,7 +109,7 @@ fun RenderContext.stackDemo(): Div {
                 items {
                     item(Theme().colors.primary, "1")
                     item(Theme().colors.secondary, "2")
-                    item(Theme().colors.tertiary, "3")
+                    item(Theme().colors.info, "3")
                 }
             }
         }
@@ -147,7 +147,7 @@ fun RenderContext.stackDemo(): Div {
                         items {
                             item(Theme().colors.primary, "1")
                             item(Theme().colors.secondary, "2")
-                            item(Theme().colors.tertiary, "3")
+                            item(Theme().colors.info, "3")
                         }
                     }
                     item(Theme().colors.primary, "4")
@@ -215,9 +215,9 @@ fun RenderContext.stackDemo(): Div {
                         alignItems { flexEnd }
                     }) {
                         items {
-                            sizedBox(60, 60, Theme().colors.tertiary)
-                            sizedBox(100, 100, Theme().colors.tertiary)
-                            sizedBox(80, 30, Theme().colors.tertiary)
+                            sizedBox(60, 60, Theme().colors.secondary)
+                            sizedBox(100, 100, Theme().colors.secondary)
+                            sizedBox(80, 30, Theme().colors.secondary)
                         }
                     }
                     sizedBox(100, 40, Theme().colors.secondary)

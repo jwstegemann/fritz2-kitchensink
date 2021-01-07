@@ -17,22 +17,22 @@ fun RenderContext.showcaseHeader(text: String) {
         fontFamily { "Inter, sans-serif" }
         margins {
             top { "2rem" }
-            bottom { ".25rem" }
+            bottom { "2rem" }
         }
-        color { secondary }
+        color { primary }
         lineHeight { tiny }
         fontWeight { "700" }
         fontSize { huge }
         letterSpacing { small }
-    }) { +text }
-    box({
-        width { "100%" }
-        height { "1px" }
-        background { color { primary } }
-        margins {
-            bottom { ".9rem" }
+        borders {
+            bottom {
+                width { "1px" }
+                style { solid }
+                color { light }
+            }
         }
-    }) {}
+        paddings { bottom { normal } }
+    }) { +text }
 }
 
 fun RenderContext.showcaseSubSection(text: String) {
@@ -55,7 +55,7 @@ fun RenderContext.showcaseSection(text: String) {
         lineHeight { smaller }
         fontWeight { "600" }
         fontSize { large }
-        color { secondary }
+        color { primary }
         letterSpacing { small }
         radii { left { small } }
         margins { top { "3rem !important" } }
@@ -89,20 +89,20 @@ fun RenderContext.contentFrame(
 ): Div =
         ::div.styled(styling, baseClass, id, prefix) {
             margins {
-                top { "0" }
+                top { huge }
             }
             maxWidth(sm = { unset }, md = { "75%" }, lg = { "48rem" })
             paddings(
-//                    sm = {
-//                        top { normal }
-//                    },
-//                    md = {
-//                        top { huge }
-//                        left { normal }
-//                        right { normal }
-//                    }
+                    sm = {
+                        top { normal }
+                    },
+                    md = {
+                        top { huge }
+                        left { normal }
+                        right { normal }
+                    }
             )
-        }(init)
+        } (init)
 
 // todo: create ONE box function for all background boxes as soon as opacity/lightness problem is solved
 fun RenderContext.infoBox(init: P.() -> Unit): Div {
@@ -193,7 +193,7 @@ fun RenderContext.storeContentBox(
 ): Div =
         (::div.styled {
             background {
-                color { light.hover }
+                color { light.lighter }
             }
             margins {
                 top { "1.25rem" }
@@ -214,10 +214,10 @@ val RenderContext.link
             bottom { "3px" }
         }
         fontSize { normal }
-        color { tertiary }
+        color { secondary }
         hover {
-            color {secondary.darken }
-            background { color {  secondary.hover } }
+            color { primary }
+            background { color {  primary.lighter.lighter } }
             radius { small }
         }
         css("cursor: pointer")
@@ -279,7 +279,7 @@ fun RenderContext.navAnchor(linkText: String, href: String): Div {
         }
         hover {
             background {
-                color { light.hover }
+                color { light.lighter }
             }
         }
         paddings {
@@ -312,68 +312,45 @@ fun RenderContext.menuHeader(text: String): Div {
             }
             fontSize { small }
             fontWeight { bold }
-            color { secondary }
+            letterSpacing { giant }
+            color { alterBrightness(primary, 1.3) }
         })  { +text }
-
-        box({
-            width { "100%" }
-            height { "1px" }
-            background {
-                color { secondary }
-            }
-        }) {}
     }
 }
 
 fun RenderContext.menuAnchor(linkText: String): P {
 
     val selected = style {
-        radius { small }
-        border {
-            width { none }
-        }
-        background { color { primary.hover.hover } }
-        paddings {
-            top { "0.05rem" }
-            bottom { "0.05rem" }
-            left { tiny }
-            right { tiny }
-        }
-        boxShadow { flat }
-        css("""text-overflow: ellipsis; overflow: hidden;""")
-
+        //background { color { primary.lighter } }
+        color { secondary }
     }
 
     val isActive = router.data.map { hash -> hash == linkText }
         .distinctUntilChanged().onEach { if (it) PlaygroundComponent.update() }
 
     return (::p.styled {
+        //color { dark }
         margins {
             top { tiny }
             bottom { tiny }
-            left { smaller }
+            left { none }
         }
         width { "90%" }
         radius { small }
-        border {
-            width { none }
-        }
         hover {
             color { secondary }
-            background {
-                color { base }
-            }
-            boxShadow { flat }
+            background { color { base } }
         }
         paddings {
             top { "0.05rem" }
             bottom { "0.05rem" }
-            left { smaller }
+            left { tiny }
             right { tiny }
         }
         css("""text-overflow: ellipsis; overflow: hidden;""")
         fontWeight { medium }
         css("cursor: pointer")
+
     }) {
         className(selected.whenever(isActive).name)
         clicks.map { linkText } handledBy router.navTo
@@ -393,7 +370,7 @@ fun RenderContext.c(text: String) {
         fontWeight { "650" }
         fontFamily { "Courier" } // todo: added static code because this does not work
         lineHeight { larger }
-        color { secondary }
+        color { primary.lighter }
         letterSpacing { small }
     }) { +text }
 }
@@ -408,7 +385,7 @@ fun RenderContext.teaserText(
     ::div.styled {
         fontSize { small }
         textTransform { capitalize }
-        color { secondary }
+        color { secondary.darker }
         fontWeight { semiBold }
         margins { bottom { "0.7rem" } }
         fontSize { small }

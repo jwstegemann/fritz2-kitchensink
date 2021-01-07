@@ -21,18 +21,14 @@ fun RenderContext.welcome(): Div {
         lineUp({
             alignItems { center }
             verticalAlign { start }
-            height {
-                maxContent
-            }
-            paddings {
-                top { "1.5rem"}
-            }
+            height { maxContent }
+            margins { top { giant } }
         }) {
             items {
                 icon({
                     size(
-                        sm = { "3rem" },
-                        md = { "10.0rem" }
+                        sm = { "6rem" },
+                        md = { "13rem" }
                     )
                     color { base }
                     css("drop-shadow(0 0 0.5rem gray);")
@@ -68,7 +64,7 @@ fun RenderContext.welcome(): Div {
         stackUp({
             padding { large }
             background { color { base } }
-            //margins { top { "3rem" } }
+            margins { top { "3rem" } }
             margins(
                 sm = { top { "1.5rem" } },
                 md = { top { "3rem" } }

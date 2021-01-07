@@ -9,7 +9,6 @@ import dev.fritz2.kitchensink.demos.*
 import dev.fritz2.routing.router
 import dev.fritz2.styling.name
 import dev.fritz2.styling.params.alterBrightness
-import dev.fritz2.styling.params.hover
 import dev.fritz2.styling.params.styled
 import dev.fritz2.styling.staticStyle
 import dev.fritz2.styling.theme.Theme
@@ -98,12 +97,12 @@ fun main() {
             children("&[data-menu-open] #menu-left") {
                 display { flex }
             }
-            background { color { light.hover.hover } }
         }) {
             attr("data-menu-open", menuStore.data)
             navBar({
                 border { width { "0" } }
                 boxShadow { flat }
+                background { color { alterBrightness(light, 2.0 ) } }
             }) {
                 brand {
                     (::a.styled {
@@ -119,7 +118,7 @@ fun main() {
 
                         icon({
                             size { "3rem" }
-                            color { secondary }
+                            color { primary }
                         }) { fromTheme { fritz2 } }
 
                         (::span.styled {
@@ -210,7 +209,7 @@ fun main() {
                         wrap { nowrap }
                         direction { column }
                         alignItems { flexStart }
-                        background { color { base } }
+
                         color { dark }
                         paddings {
                             top { "50px" }
@@ -224,7 +223,7 @@ fun main() {
                             }
                         )
                         border { color { "light" } }
-                        background { color { alterBrightness(light.hover, 1.5 ) } }
+                        background { color { alterBrightness(light, 1.9) } }
                     }, id = "menu-left")
                     {
                         spacing { tiny }
@@ -275,11 +274,8 @@ fun main() {
                         }
                         margins {
                             left { "0 !important" }
-                            top { "84px" }
                         }
-                        width {
-                            "100%"
-                        }
+                        width { "100%" }
                         radius { small }
                         background { color { base } }
 
