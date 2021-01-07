@@ -37,9 +37,8 @@ fun RenderContext.gettingStarted(): Div {
         highlight {
             source(
                 """
-                 |val commonMain by getting {
+                 |val jsMain by getting {
                  |  dependencies {
-                 |      implementation(kotlin("stdlib"))
                  |      implementation("dev.fritz2:components:0.8")
                  |  }
                  |}
