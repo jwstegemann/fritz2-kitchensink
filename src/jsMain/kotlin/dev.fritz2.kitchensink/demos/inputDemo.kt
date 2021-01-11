@@ -148,7 +148,11 @@ fun RenderContext.inputDemo(): Div {
 
         showcaseSection("Variants")
         paragraph {
-            +"You can currently choose between two variants for input fields, outline (default) and filled."
+            +"You can currently choose between two variants for input fields, "
+            c("outline")
+            +" (default) and "
+            c("filled")
+            +"."
         }
         componentFrame {
             stackUp {

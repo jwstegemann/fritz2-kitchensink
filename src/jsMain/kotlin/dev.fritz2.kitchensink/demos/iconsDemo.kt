@@ -227,7 +227,7 @@ fun RenderContext.iconsDemo(): Div {
             )
         }
 
-        showcaseSection("Custom icon")
+        showcaseSection("Custom Icon")
         paragraph {
             +"You can include a custom icon by providing a "
             c("displayName")

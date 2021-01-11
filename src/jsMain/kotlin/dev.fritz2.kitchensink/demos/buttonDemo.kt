@@ -112,7 +112,7 @@ fun RenderContext.buttonDemo(): Div {
 
         showcaseSection("Variants")
         paragraph {
-            +"fritz2 offers three different flavours of buttons for various use cases: "
+            +"fritz2 offers three different flavors of buttons for various use cases: "
             c("solid")
             +" (default), "
             c("outline")

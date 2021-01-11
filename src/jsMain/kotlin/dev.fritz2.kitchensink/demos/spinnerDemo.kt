@@ -35,9 +35,8 @@ fun RenderContext.spinnerDemo(): Div {
 
         showcaseSection("Sizes")
         paragraph {
-            +"Choose from three predefined sizes. The " // todo these are not spinner specific and should not be named as such
-            c("normal")
-            +" value is the default and does not need to be set explicitly."
+            +"Spinners currently don't come with their own sizes context. However, you can use the styling parameter to"
+            +" set their size to any size property or value."
         }
         componentFrame {
             lineUp({
@@ -66,6 +65,14 @@ fun RenderContext.spinnerDemo(): Div {
                             p { +"large" }
                         }
                     }
+                    stackUp({ alignItems { center } }) {
+                        items {
+                            spinner({
+                                size { "4.0rem" }
+                            }) {}
+                            p { +"4.0rem" }
+                        }
+                    }
                 }
             }
         }
@@ -80,12 +87,12 @@ fun RenderContext.spinnerDemo(): Div {
         }
 
         showcaseSection("Thickness")
-        paragraph { // todo change size to thickness in component context, also: "normal" should be default, but it's thin
-            +"You can change the thickness of the spinner using the size property. Choose between "
+        paragraph {
+            +"You can change the line width of the spinner using the thickness property. Choose between "
             c("thin")
             +", "
             c("normal")
-            +", and "
+            +" (default), and "
             c("fat")
             +", or use the styling parameter to define a custom value."
         }
@@ -97,7 +104,7 @@ fun RenderContext.spinnerDemo(): Div {
                     stackUp({ alignItems { center } }) {
                         items {
                             spinner {
-                                size { thin }
+                                thickness { thin }
                             }
                             p { +"thin" }
                         }
@@ -111,7 +118,7 @@ fun RenderContext.spinnerDemo(): Div {
                     stackUp({ alignItems { center } }) {
                         items {
                             spinner {
-                                size { fat }
+                                thickness { fat }
                             }
                             p { +"fat" }
                         }
@@ -129,7 +136,7 @@ fun RenderContext.spinnerDemo(): Div {
         showcaseSection("Speed")
         paragraph {
             +"Let your spinner turn as fast as you like: choose the time in seconds it should take the spinner to "
-            +" complete one round. The default is 0.75 seconds." // todo check default value
+            +" complete one round. The default is 0.5 seconds."
         }
         componentFrame {
             lineUp({
@@ -138,21 +145,13 @@ fun RenderContext.spinnerDemo(): Div {
                 items {
                     stackUp({ alignItems { center } }) {
                         items {
-                            spinner({
-                                size { large }
-                            }) {
-                                size { fat }
-                                speed { ".5s" }
-                            }
+                            spinner {}
                             p { +"0.5s" }
                         }
                     }
                     stackUp({ alignItems { center } }) {
                         items {
-                            spinner({
-                                size { large }
-                            }) {
-                                size { fat }
+                            spinner {
                                 speed { "1s" }
                             }
                             p { +"1s" }
@@ -160,10 +159,7 @@ fun RenderContext.spinnerDemo(): Div {
                     }
                     stackUp({ alignItems { center } }) {
                         items {
-                            spinner({
-                                size { large }
-                            }) {
-                                size { fat }
+                            spinner {
                                 speed { "3s" }
                             }
                             p { +"3s" }
@@ -175,7 +171,7 @@ fun RenderContext.spinnerDemo(): Div {
         playground {
             source("""
                 spinner {
-                    speed { ".5s" }
+                    speed { "3s" }
                 }
             """.trimIndent())
         }

@@ -198,14 +198,14 @@ fun RenderContext.formControlDemo(): Div {
             val solution = "fritz2"
             val framework = storeOf("")
             formControl {
-                label { "Please input the name of your favorite Kotlin based web framework." }
+                label { "Favorite web framework" }
                 required { true }
-                helperText { "You shouldn't need a hint." }
+                helperText { "Input the name of your favorite Kotlin based web framework." }
                 errorMessage {
                     framework.data.map {
                         // any non-empty string will display as error message
                         if (it.isNotEmpty() && it.toLowerCase() != solution) {
-                            "Sorry, but '$it' is completely wrong."
+                            "'$it' is completely wrong."
                         } else ""
                     }
                 }
@@ -226,14 +226,14 @@ fun RenderContext.formControlDemo(): Div {
                 val framework = storeOf("")
                 
                 formControl {
-                    label { "Please input the name of your favorite Kotlin based web framework." }
+                    label { "Favorite web framework." }
                     required { true }
-                    helperText { "You shouldn't need a hint." }
+                    helperText { "Input the name of your favorite Kotlin based web framework." }
                     errorMessage {
                         framework.data.map {
                             // any non-empty string will display as error message
                             if (it.isNotEmpty() && it.toLowerCase() != solution) {
-                                "Sorry, but '"${'$'}"it' is completely wrong."
+                                "'"${'$'}"it' is completely wrong."
                             } else ""
                         }
                     }
@@ -258,7 +258,7 @@ fun RenderContext.formControlDemo(): Div {
             }
         }
 
-        showcaseSubSection("FormControl for a single Checkbox")
+        showcaseSubSection("FormControl for Single Checkbox")
         componentFrame {
             val favStore = storeOf(true)
             val labels = mapOf(
@@ -347,16 +347,15 @@ fun RenderContext.formControlDemo(): Div {
             )
         }
 
-        showcaseSection("Embed Custom Controls")
-
-        // todo should this todo be visible in the demo?
-        warningBox {
-            p {
-                strong { +"Todo:" }
-                +" Add an example of a custom control and its integration into the FormControl including a custom"
-                +" surrounding HTML structure."
-            }
-        }
+//        showcaseSection("Embed Custom Controls")
+//
+//        warningBox {
+//            p {
+//                strong { +"Todo:" }
+//                +" Add an example of a custom control and its integration into the FormControl including a custom"
+//                +" surrounding HTML structure."
+//            }
+//        }
 
         /*
         *

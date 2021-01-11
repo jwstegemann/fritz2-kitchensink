@@ -3,6 +3,7 @@ package dev.fritz2.kitchensink.demos
 import dev.fritz2.binding.storeOf
 import dev.fritz2.components.lineUp
 import dev.fritz2.components.stackUp
+import dev.fritz2.components.textArea
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.dom.values
@@ -15,7 +16,7 @@ fun RenderContext.textareaDemo(): Div {
     return contentFrame {
         val dataStore = storeOf("Store Content")
 
-        showcaseHeader("Textarea")
+        showcaseHeader("TextArea")
 
         paragraph {
             +"""
@@ -34,7 +35,7 @@ fun RenderContext.textareaDemo(): Div {
         componentFrame {
             lineUp {
                 items {
-                    textarea {
+                    textArea {
                         placeholder("Textarea with placeholder only")
                     }
                 }
@@ -42,8 +43,8 @@ fun RenderContext.textareaDemo(): Div {
         }
         playground {
             source(
-                    """
-                textarea {
+                """
+                textArea {
                     placeholder("Textarea with placeholder only")
                 }
                 """.trimIndent()
@@ -53,7 +54,7 @@ fun RenderContext.textareaDemo(): Div {
         showcaseSection("Event Handling")
 
         paragraph {
-            +"The simplest text area does not need a store, but if you need the events, you have to connect them manually"
+            +"The simplest textarea does not need a store, but if you need the events, you have to connect them manually"
             +" in this case. All functions offered by the underlying HTML component can be accessed using the "
             c("base")
             +" context. You can optionally set an initial value for the text content. This short example uses the"
@@ -63,7 +64,7 @@ fun RenderContext.textareaDemo(): Div {
         componentFrame {
             lineUp {
                 items {
-                    textarea {
+                    textArea {
                         value { dataStore.data }
                         base {
                             changes.values() handledBy dataStore.update
@@ -75,8 +76,8 @@ fun RenderContext.textareaDemo(): Div {
 
         playground {
             source(
-                    """
-                textarea {
+                """
+                textArea {
                     value { dataStore.data }
                     base {
                         changes.values() handledBy dataStore.update
@@ -94,11 +95,11 @@ fun RenderContext.textareaDemo(): Div {
             stackUp {
                 items {
                     lineUp( {
-                        // todo why is this neccessary, it works fine without full width in other examples
+                        // todo why is this necessary, it works fine without full width in other examples
                         width { full }
                     }) {
                         items {
-                            textarea(store = dataStore) {}
+                            textArea(store = dataStore) {}
                         }
                     }
                     storeContentBox {
@@ -112,7 +113,7 @@ fun RenderContext.textareaDemo(): Div {
         playground {
             source(
                     """
-                 textarea(store = dataStore) {}
+                 textArea(store = dataStore) {}
                 """.trimIndent()
             )
         }
@@ -131,14 +132,14 @@ fun RenderContext.textareaDemo(): Div {
         componentFrame {
             stackUp {
                 items {
-                    textarea {
+                    textArea {
                         placeholder("small")
                         size { small }
                     }
-                    textarea {
+                    textArea {
                         placeholder("normal")
                     }
-                    textarea {
+                    textArea {
                         placeholder("large")
                         size { large }
                     }
@@ -149,16 +150,16 @@ fun RenderContext.textareaDemo(): Div {
         playground {
             source(
                     """
-                 textarea {
+                 textArea {
                     placeholder("small")
                     size { small }
                  }
                  
-                 textarea {
+                 textArea {
                     placeholder("normal")
                  }
                  
-                 textarea {
+                 textArea {
                     placeholder("large")
                     size { large }
                  }
@@ -168,7 +169,7 @@ fun RenderContext.textareaDemo(): Div {
 
         showcaseSection("Resize Behavior")
         paragraph {
-            +"fritz2 offers the following resizing options for text areas: "
+            +"fritz2 offers the following resizing options for textareas: "
             c("vertical")
             +" (default), "
             c("horizontal")
@@ -183,14 +184,14 @@ fun RenderContext.textareaDemo(): Div {
         componentFrame {
             stackUp {
                 items {
-                    textarea {
+                    textArea {
                         placeholder("resize: vertical")
                     }
-                    textarea {
+                    textArea {
                         placeholder("resize: horizontal")
                         resizeBehavior { horizontal }
                     }
-                    textarea {
+                    textArea {
                         placeholder("resize: none")
                         resizeBehavior { none }
                     }
@@ -219,11 +220,11 @@ fun RenderContext.textareaDemo(): Div {
         }
 
         showcaseSection("Disabled TextArea")
-        paragraph { +"Of course it is possible to disable a text area. This will also skip the tab index for this component." }
+        paragraph { +"Of course it is possible to disable a textarea. This will also skip the tab index for this component." }
         componentFrame {
             lineUp {
                 items {
-                    textarea {
+                    textArea {
                         placeholder("disabled")
                         disable(true)
                     }

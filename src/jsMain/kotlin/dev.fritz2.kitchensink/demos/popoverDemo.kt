@@ -4,6 +4,7 @@ import dev.fritz2.components.*
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
+import dev.fritz2.styling.params.darker
 import dev.fritz2.styling.params.styled
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -13,19 +14,19 @@ fun RenderContext.popoverDemo(): Div {
     return contentFrame {
         showcaseHeader("Popover")
         paragraph {
-            +"The Popover is a non-modal dialog that floats around a trigger. It's used to display contextual information"
-            +" to the user, and should be paired with a clickable trigger element. Use the regular styling parameter to "
+            +"The Popover is a non-modal dialog that floats around another element. It's used to display contextual information"
+            +" to the user, and should be paired with a clickable toggle element. Use the regular styling parameter to "
             +" change its appearance."
         }
 
         showcaseSection("Usage")
         paragraph {
-            +"To define a popover, follow these steps create a trigger. This can be a simple HTMLElement or a fritz2 component, e.g an icon or button. "
+            +"To define a popover, follow these steps create a toggle. This can be a simple HTMLElement or a fritz2 component, e.g an icon or button. "
             +"For a simple version, add a "
             c("content")
             +" area to your popover with a Div inside and a "
             c("PushButton ")
-            +" as trigger."
+            +" as toggle."
 
 
         }
@@ -33,8 +34,8 @@ fun RenderContext.popoverDemo(): Div {
         componentFrame {
             flexBox {
                 popover {
-                    trigger {
-                        pushButton { text("Trigger") }
+                    toggle {
+                        pushButton { text("Toggle") }
                     }
                     content {
                         div { +"Popover content" }
@@ -47,8 +48,8 @@ fun RenderContext.popoverDemo(): Div {
             source(
                 """
                 popover {
-                    trigger {
-                        pushButton { text("Trigger") }
+                    toggle {
+                        pushButton { text("Toggle") }
                     }
                     content {  
                         div { +"Popover content" }
@@ -77,7 +78,7 @@ fun RenderContext.popoverDemo(): Div {
                 lineUp {
                     items {
                         popover {
-                            trigger {
+                            toggle {
                                 pushButton {
                                     text("Areas")
                                 }
@@ -98,7 +99,7 @@ fun RenderContext.popoverDemo(): Div {
             source(
                 """
                  popover {
-                    trigger {
+                    toggle {
                         pushButton { text("Areas") }
                     }
                     header("Header")
@@ -130,7 +131,7 @@ fun RenderContext.popoverDemo(): Div {
             lineUp {
                 items {
                     popover {
-                        trigger {
+                        toggle {
                             icon({ size { huge } }) { fromTheme { arrowRight } }
                         }
                         placement { right }
@@ -142,7 +143,7 @@ fun RenderContext.popoverDemo(): Div {
                     }
 
                     popover {
-                        trigger {
+                        toggle {
                             icon({ size { huge } }) { fromTheme { arrowUp } }
                         }
                         placement { top }
@@ -154,7 +155,7 @@ fun RenderContext.popoverDemo(): Div {
                     }
 
                     popover {
-                        trigger {
+                        toggle {
                             icon({ size { huge } }) { fromTheme { arrowLeft } }
                         }
                         placement { left }
@@ -166,7 +167,7 @@ fun RenderContext.popoverDemo(): Div {
                     }
 
                     popover {
-                        trigger {
+                        toggle {
                             icon({ size { huge } }) { fromTheme { arrowDown } }
                         }
                         placement { bottom }
@@ -185,7 +186,7 @@ fun RenderContext.popoverDemo(): Div {
             source(
                 """
                 popover {
-                    trigger {
+                    toggle {
                         icon({ size { huge } }) { fromTheme { arrowRight } }
                     }
                     placement { right }
@@ -212,7 +213,7 @@ fun RenderContext.popoverDemo(): Div {
 
             +"The popover has a default close button which you can hide using "
             c("hasCloseButton(false)")
-            +" - this way, the popover can only be closed by clicking the trigger again. Alternatively, you can create"
+            +" - this way, the popover can only be closed by clicking the toggle again. Alternatively, you can create"
             +" your own close button with the "
             c("closeButton {}")
             +" function offered by the component's context."
@@ -222,19 +223,19 @@ fun RenderContext.popoverDemo(): Div {
             lineUp {
                 items {
                     popover {
-                        trigger {
+                        toggle {
                             icon({ size { huge } }) { fromTheme { circleInformation } }
                         }
                         hasCloseButton(false)
                         content {
                             div {
-                                +"Click the trigger again to close this popover."
+                                +"Click the toggle again to close this popover."
                             }
                         }
                     }
 
                     popover {
-                        trigger {
+                        toggle {
                             icon({ size { huge } }) { fromTheme { eye } }
                         }
                         closeButton({ size { normal } }) {
@@ -254,19 +255,19 @@ fun RenderContext.popoverDemo(): Div {
             source(
                 """
                 popover {
-                    trigger {
+                    toggle {
                         icon({ size { huge } }) { fromTheme { circleInformation } }
                     }
                     hasCloseButton(false)
                     content {
                         div {
-                            +"Click the trigger again to close this popover."
+                            +"Click the toggle again to close this popover."
                         }
                     }
                 }
 
                 popover {
-                    trigger {
+                    toggle {
                         icon({ size { huge } }) { fromTheme { eye } }
                     }
                     closeButton({ size { normal } }) {
@@ -285,7 +286,7 @@ fun RenderContext.popoverDemo(): Div {
         showcaseSection("Marker")
         paragraph {
             +"""
-            By default, the trigger is marked by an arrow pointing to it from the popover. You can disable this arrow if you wish.
+            By default, the toggle is marked by an arrow pointing to it from the popover. You can disable this arrow if you wish.
             We also applied some additional styling to the following popover.
             """.trimIndent()
         }
@@ -303,20 +304,20 @@ fun RenderContext.popoverDemo(): Div {
                             radius { "1.5rem" }
                         }
                     ) {
-                        trigger {
+                        toggle {
                             pushButton { text("No Marker, Custom Styling") }
                         }
                         header("A Plain Text Header.")
                         content {
                             (::h4.styled {
-                                color { secondary }
+                                color { info }
                                 textShadow { glowing }
                                 padding { huge }
                             }) { +"Popover, content, and footer have customized styling." }
                         }
                         footer { (::h4.styled {
                             fontStyle { italic }
-                            color { dark }
+                            color { info.darker }
                             padding { normal } // todo this should be default
                             fontSize { tiny }
                         }) { +"The marker was removed." } }
@@ -330,34 +331,34 @@ fun RenderContext.popoverDemo(): Div {
             source(
                 """
                 popover(
-                    {
-                        border {
-                            color { tertiary }
-                            style {  dashed }
-                            width { fat }
+                        {
+                            border {
+                                color { secondary }
+                                style {  dashed }
+                                width { fat }
+                            }
+                            radius { "1.5rem" }
                         }
-                        radius { "1.5rem" }
+                    ) {
+                        toggle {
+                            pushButton { text("No Marker, Custom Styling") }
+                        }
+                        header("A Plain Text Header.")
+                        content {
+                            (::h4.styled {
+                                color { info }
+                                textShadow { glowing }
+                                padding { huge }
+                            }) { +"Popover, content, and footer have customized styling." }
+                        }
+                        footer { (::h4.styled {
+                            fontStyle { italic }
+                            color { info.darker }
+                            padding { normal }
+                            fontSize { tiny }
+                        }) { +"The marker was removed." } }
+                        hasArrow(false)
                     }
-                ) {
-                    trigger {
-                        pushButton { text("No Marker, Custom Styling") }
-                    }
-                    header("A Plain Text Header")
-                    content {
-                        (::h4.styled {
-                            color { secondary }
-                            textShadow { glowing }
-                            padding { huge }
-                        }) { +"Popover, content, and footer have customized styling." }
-                    }
-                    footer { (::h4.styled {
-                        fontStyle { italic }
-                        color { dark }
-                        padding { normal } // todo this should be default
-                        fontSize { tiny }
-                    }) { +"The marker was removed." } }
-                    hasArrow(false)
-                }
             """.trimIndent()
             )
         }

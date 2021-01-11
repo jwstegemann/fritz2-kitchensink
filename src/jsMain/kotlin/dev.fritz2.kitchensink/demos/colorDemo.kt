@@ -19,7 +19,7 @@ fun RenderContext.colorDemo(): Div {
 
     return contentFrame {
 
-        showcaseHeader("fritz2 Colors")
+        showcaseHeader("Colors")
 
         paragraph {
             +"The fritz2 components default theme has its own set of colors which you can view here."
@@ -52,7 +52,7 @@ fun RenderContext.colorDemo(): Div {
         colorBars()
 
         showcaseSection("Color Brightness")
-        val demoBrightness: Double = 1.5
+        val demoBrightness = 1.5
         paragraph {
             +"You can change the brightness of any color by using its "
             c("lighter")

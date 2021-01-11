@@ -15,7 +15,7 @@ fun RenderContext.stylingDemo(): Div {
 
     return contentFrame {
 
-        showcaseHeader("Custom Styling")
+        showcaseHeader("Styling")
 
         paragraph {
             +"""

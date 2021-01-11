@@ -18,7 +18,7 @@ fun RenderContext.themeDemo(): Div {
 
     return contentFrame {
 
-        showcaseHeader("Using Themes")
+        showcaseHeader("Themes")
 
         paragraph {
             +"A "

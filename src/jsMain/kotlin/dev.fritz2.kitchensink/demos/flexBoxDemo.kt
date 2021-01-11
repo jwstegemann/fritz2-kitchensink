@@ -101,12 +101,12 @@ fun RenderContext.flexBoxDemo(): Div {
         showcaseSection("Flex Direction")
         paragraph {
             +"fritz2's styling DSL provides these well-known flex-direction properties: "
-            c("row (default)")
-            +", "
+            c("row")
+            +" (default), "
             c("rowReverse")
             +", "
             c("column")
-            +", "
+            +", and "
             c("columnReverse")
         }
 
@@ -142,9 +142,9 @@ fun RenderContext.flexBoxDemo(): Div {
 
         showcaseSection("Justify Content")
         paragraph {
-            +"Justify Content defines the alignment along the main axis. Our flexbox provides the default properties:"
-            c("flexStart (default)")
-            +", "
+            +"Justify Content defines the alignment along the main axis. Our flexbox provides these property values:"
+            c("flexStart")
+            +" (default), "
             c("flexEnd")
             +", "
             c("center")
@@ -152,7 +152,7 @@ fun RenderContext.flexBoxDemo(): Div {
             c("spaceBetween")
             +", "
             c("spaceAround")
-            +", "
+            +", and "
             c("spaceEvenly")
         }
 
@@ -194,10 +194,10 @@ fun RenderContext.flexBoxDemo(): Div {
             +"Flex items, by default, try to fit into one line. With flex wrap, you can change this behavior and"
             +" allow the items to wrap as needed."
             +" fritz2 provides these common properties for flex-wrap: "
-            c("nowrap (default)")
-            +", "
+            c("nowrap")
+            +" (default), "
             c("wrap")
-            +", "
+            +", and "
             c("wrap-reverse")
 
 

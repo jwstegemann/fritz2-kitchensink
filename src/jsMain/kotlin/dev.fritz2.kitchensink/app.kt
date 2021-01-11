@@ -40,7 +40,7 @@ const val colors_ = "Colors"
 const val icons_ = "Icons"
 const val tooltip_ = "Tooltip"
 const val responsive_ = "Responsiveness"
-const val textarea_ = "Textarea"
+const val textarea_ = "TextArea"
 
 val router = router(welcome_)
 
