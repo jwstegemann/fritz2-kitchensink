@@ -7,6 +7,9 @@ import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.dom.states
 import dev.fritz2.kitchensink.ThemeStore
 import dev.fritz2.kitchensink.base.*
+import dev.fritz2.kitchensink.colors_
+import dev.fritz2.kitchensink.icons_
+import dev.fritz2.kitchensink.theme_
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.map
 
@@ -15,7 +18,7 @@ fun RenderContext.themeDemo(): Div {
 
     return contentFrame {
 
-        showcaseHeader("Theme")
+        showcaseHeader("Using Themes")
 
         paragraph {
             +"A "
@@ -47,92 +50,95 @@ fun RenderContext.themeDemo(): Div {
             tr {
                 td { +"reset" }
                 td { c("String") }
-                td { +"css to reset browser's defaults and set your own" }
+                td { +"CSS to reset browser's defaults and set your own" }
             }
             tr {
                 td { +"name" }
                 td { c("String") }
-                td { +"a human-readable name" }
+                td { +"A human-readable name" }
             }
             tr {
                 td { +"breakPoints" }
                 td { c("ResponsiveValue") }
-                td { +"break points for different screen sizes that apply when working with ResponsiveValues" }
+                td { +"Break points for different screen sizes when working with ResponsiveValues" }
             }
             tr {
                 td { +"space" }
                 td { c("ScaledValue") }
-                td { +"scale for spacing (margin, padding, etc.)" }
+                td { +"Scale for spacing (margin, padding, etc.)" }
             }
             tr {
                 td { +"position" }
                 td { c("ScaledValue") }
-                td { +"scale for positions (top, bottom, etc.)" }
+                td { +"Scale for positions (top, bottom, etc.)" }
             }
             tr {
                 td { +"fontSizes" }
                 td { c("ScaledValue") }
-                td { +"scale for font-sizes" }
+                td { +"Scale for font-sizes" }
             }
             tr {
                 td { +"colors" }
                 td { c("Colors") }
-                td { +"theme's color-scheme" }
+                td { +"Theme's color-scheme, see "
+                    internalLink("Colors", colors_)
+                }
             }
             tr {
                 td { +"fonts" }
                 td { c("Fonts") }
-                td { +"definition of used fonts" }
+                td { +"Definition of used fonts" }
             }
             tr {
                 td { +"lineHeights" }
                 td { c("ScaledValue") }
-                td { +"scale for line-heights" }
+                td { +"Scale for line-heights" }
             }
             tr {
                 td { +"letterSpacings" }
                 td { c("ScaledValue") }
-                td { +"scale for letter-spacing" }
+                td { +"Scale for letter-spacing" }
             }
             tr {
                 td { +"sizes" }
                 td { c("Sizes") }
-                td { +"scale for sizes (width, height)" }
+                td { +"Scale for sizes (width, height)" }
             }
             tr {
                 td { +"borderWidths" }
                 td { c("Thickness") }
-                td { +"scale for border-widths" }
+                td { +"Scale for border-widths" }
             }
             tr {
                 td { +"radii" }
                 td { c("ScaledValue") }
-                td { +"scale for border-radius" }
+                td { +"Scale for border-radius" }
             }
             tr {
                 td { +"shadows" }
                 td { c("Shadows") }
-                td { +"set of shadows used in the theme" }
+                td { +"Set of shadows used in the theme" }
             }
             tr {
                 td { +"zIndices" }
                 td { c("ZIndices") }
-                td { +"scheme used for layering" }
+                td { +"Scheme used for layering" }
             }
             tr {
                 td { +"opacities" }
                 td { c("WeightedValue") }
-                td { +"scale for opacities" }
+                td { +"Scale for opacities" }
             }
             tr {
                 td { +"gaps" }
                 td { c("ScaledValue") }
-                td { +"scale for gaps" }
+                td { +"Scale for gaps" }
             }
             tr {
                 td { +"icons" }
                 td { c("Icons") }
-                td { +"set of icons used in the theme" }
+                td { +"Set of icons used in the theme, see "
+                    internalLink("Icons", icons_) }
             }
 
         }
@@ -213,52 +219,5 @@ fun RenderContext.themeDemo(): Div {
                 """
             )
         }
-        showcaseSection("Colors")
-        paragraph {
-            +"These are the colors fritz2 uses in its default theme. There are "
-            c("primary")
-            +", "
-            c("primary_hover")
-            +", "
-            c("secondary")
-            +", "
-            c("tertiary")
-            +", "
-            c("dark")
-            +", "
-            c("light")
-            +", "
-            c("light_hover")
-            +", "
-            c("info")
-            +", "
-            c("success")
-            +", "
-            c("warning")
-            +" and "
-            c("danger")
-            +"."
-        }
-        colorDemo()
-        showcaseSection("Alter brightness of colors")
-        val demoBrightness: Double = 1.5
-        paragraph {
-            +"You can alter the brightness of colors using the method "
-            c("alterBrightness()")
-            +" provided by fritz2. Use a value between 1 and 2 to lighten up the colors, and a value between 0 and 1 to darken the colors. The colors on the right side have increased brightness by "
-            c("$demoBrightness")
-            +"."
-        }
-        colorBrightnessDemo(demoBrightness)
-        val demoDarkness = 0.5
-        paragraph {
-            +"In this example the colors on right side have decreased brightness by "
-            c("$demoDarkness")
-            +"."
-        }
-        colorBrightnessDemo(demoDarkness)
     }
 }
-
-
-

@@ -34,7 +34,7 @@ fun RenderContext.gridBoxDemo(): Div {
         }
         showcaseSection("Usage")
         paragraph {
-            +"In order to create a gridbox, just provide some specialized grid styling information."
+            +"In order to create a gridbox, you need to provide some specialized grid styling information."
             +" In this simple example, a five column grid layout is defined, but seven items are inserted."
             +" The gridbox then renders the surplus items into a second row:"
         }
@@ -43,7 +43,6 @@ fun RenderContext.gridBoxDemo(): Div {
                 columns { repeat(4) { "1fr" } }
                 gap { normal }
                 children("div") {
-                    //size { "60px" }
                     width { "120px" }
                     height { "50px" }
                     background { color { secondary } }
@@ -65,35 +64,28 @@ fun RenderContext.gridBoxDemo(): Div {
         playground {
             source(
                 """
-                gridBox({
-                    columns { repeat(5) { "1fr" } }
+                gridBox({ // omitted some styling for readability
+                    columns { repeat(4) { "1fr" } }
                     gap { normal }
-                }) {
-                    // choose any content
-                    box({
-                        size { "60px" }
-                        background { color { warning } }
+                    children("div") {
                         display { flex }
-                        radius { small }
-                        justifyContent { center }
-                        alignItems { center }
-                    }) { +"one" }
-                    
-                    // styling omitted
-                    box { +"two" }
-                    box { +"three" }
-                    box { +"four" }
-                    box { +"five" }
-                    box { +"six" }
-                    box { +"seven" }
-                }                   
+                    }
+                }) { // choose any content
+                    div { +"one" }
+                    div { +"two" }
+                    div { +"three" }
+                    div { +"four" }
+                    div { +"five" }
+                    div { +"six" }
+                    div { +"seven" }
+                }               
                 """.trimIndent()
             )
         }
 
         showcaseSection("Complex Layout")
         paragraph {
-            +"Now have a look at this more complex layout which includes responsive behaviour. It demonstrates"
+            +"The following more complex layout includes responsive behaviour. It demonstrates"
             +" a very helpful technique based on Kotlin's "
             c("objects")
             +" for defining the overall column layout."
@@ -215,7 +207,7 @@ fun RenderContext.gridBoxDemo(): Div {
                                 }
                             )
                             background {
-                                color { primary.lighter }
+                                color { secondary }
                             }
                             padding { normal }
                             textAlign { center }

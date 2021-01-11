@@ -90,6 +90,7 @@ fun RenderContext.contentFrame(
         ::div.styled(styling, baseClass, id, prefix) {
             margins {
                 top { huge }
+                bottom { huge }
             }
             maxWidth(sm = { unset }, md = { "75%" }, lg = { "48rem" })
             paddings(
@@ -185,10 +186,6 @@ fun RenderContext.componentFrame(padding: Boolean = true, init: Div.() -> Unit):
 }
 
 fun RenderContext.storeContentBox(
-        styling: BasicParams.() -> Unit = {},
-        baseClass: StyleClass? = null,
-        id: String? = null,
-        prefix: String = "storecontentbox",
         init: Div.() -> Unit = {}
 ): Div =
         (::div.styled {
@@ -213,7 +210,7 @@ val RenderContext.link
             top { "2px" }
             bottom { "3px" }
         }
-        fontSize { normal }
+        fontSize { inherit }
         color { secondary }
         hover {
             color { primary }
@@ -313,7 +310,8 @@ fun RenderContext.menuHeader(text: String): Div {
             fontSize { small }
             fontWeight { bold }
             letterSpacing { giant }
-            color { alterBrightness(primary, 1.3) }
+            //color { alterBrightness(primary, 1.3) }
+            color { secondary }
         })  { +text }
     }
 }
@@ -321,8 +319,7 @@ fun RenderContext.menuHeader(text: String): Div {
 fun RenderContext.menuAnchor(linkText: String): P {
 
     val selected = style {
-        //background { color { primary.lighter } }
-        color { secondary }
+        color { alterBrightness(primary, 1.5) }
     }
 
     val isActive = router.data.map { hash -> hash == linkText }
@@ -338,7 +335,7 @@ fun RenderContext.menuAnchor(linkText: String): P {
         width { "90%" }
         radius { small }
         hover {
-            color { secondary }
+            color { primary }
             background { color { base } }
         }
         paddings {
@@ -370,16 +367,12 @@ fun RenderContext.c(text: String) {
         fontWeight { "650" }
         fontFamily { "Courier" } // todo: added static code because this does not work
         lineHeight { larger }
-        color { primary.lighter }
+        color { primary }
         letterSpacing { small }
     }) { +text }
 }
 
 fun RenderContext.teaserText(
-    styling: BasicParams.() -> Unit = {},
-    baseClass: StyleClass? = null,
-    id: String? = null,
-    prefix: String = "teasertext",
     init: Div.() -> Unit = {}
 ): Div =
     ::div.styled {

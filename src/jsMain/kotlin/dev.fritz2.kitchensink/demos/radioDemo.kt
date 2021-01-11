@@ -21,7 +21,7 @@ fun RenderContext.radiosDemo(): Div {
 
         paragraph {
             c("Radios")
-            +" and"
+            +" and "
             c("RadioGroups")
             +" are single selection components. They come with their own options, and"
             +" of course you can customize their appearance with the use of the styling parameter."

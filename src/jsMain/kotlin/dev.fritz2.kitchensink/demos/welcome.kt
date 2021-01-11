@@ -27,8 +27,8 @@ fun RenderContext.welcome(): Div {
             items {
                 icon({
                     size(
-                        sm = { "6rem" },
-                        md = { "13rem" }
+                        sm = { "5rem" },
+                        md = { "10rem" }
                     )
                     color { base }
                     css("drop-shadow(0 0 0.5rem gray);")
@@ -37,22 +37,22 @@ fun RenderContext.welcome(): Div {
                     (::h1.styled {
                         fontSize(
                             sm = { "1.5rem" },
-                            md = { "5.0rem" }
+                            md = { "4.0rem" }
                         )
                         lineHeight(
                             sm = { "1.5rem" },
-                            md = { "5.0rem" }
+                            md = { "4.0rem" }
                         )
                         textShadow { flat }
                     }) { +"tailor-made" }
                     (::h1.styled {
                         fontSize(
                             sm = { "1.5rem" },
-                            md = { "5.0rem" }
+                            md = { "4.0rem" }
                         )
                         lineHeight(
                             sm = { "1.0rem" },
-                            md = { "5.0rem" }
+                            md = { "4.0rem" }
                         )
                         color { base }
                         textShadow { flat }
@@ -64,10 +64,9 @@ fun RenderContext.welcome(): Div {
         stackUp({
             padding { large }
             background { color { base } }
-            margins { top { "3rem" } }
             margins(
                 sm = { top { "1.5rem" } },
-                md = { top { "3rem" } }
+                md = { top { "2rem" } }
             )
             radius { small }
             boxShadow { flat }
@@ -82,7 +81,7 @@ fun RenderContext.welcome(): Div {
 
                 paragraph {
                     +"""
-                        This is a set of ready-to-go components for building reactive themable web-apps 
+                        This is a set of ready-to-go components for building reactive themable web-apps, 
                         following a consistent constraint-based design system using fritz2.
                     """.trimIndent()
                 }
@@ -102,25 +101,26 @@ fun RenderContext.welcome(): Div {
                     +" to be completed and streamlined."
                 }
 
-                (::p.styled {
-                    margins {
-                        bottom { "2rem" }
-                    }
-                }) {
+                p {
                     +"Your opinion and comments are very welcome. Please visit "
                     externalLink("fritz.dev", "http://fritz2.dev")
                     +" for further information, or go to our github page at "
                     externalLink("https://github.com/jwstegemann/fritz2", "https://github.com/jwstegemann/fritz2")
-                    +" to open issues and check out the code."
-                }
-
-                p {
-                    +"The concepts and design of the fritz2 component library are highly inspired by the beautiful "
-                    externalLink("Chakra UI", "https://chakra-ui.com/")
+                    +" to open issues and check out the code. To view the code for this demonstration, go to "
+                    externalLink("https://github.com/jwstegemann/fritz2-kitchensink", "https://github.com/jwstegemann/fritz2-kitchensink")
                     +"."
                 }
 
                 p {
+                    +"The concepts and designs of the fritz2 component library are highly inspired by the beautiful "
+                    externalLink("Chakra UI", "https://chakra-ui.com/")
+                    +"."
+                }
+
+                (::p.styled {
+                    fontSize { smaller }
+                    paddings { top { "1.5rem" }}
+                }) {
                     +"Photo by "
                     externalLink(
                         "Ochir-Erdene Oyunmedeg",

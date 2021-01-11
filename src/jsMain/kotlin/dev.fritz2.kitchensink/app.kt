@@ -19,23 +19,25 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 val themes = listOf<ExtendedTheme>(SmallFonts(), LargeFonts())
 
+/* All component names must be singular */
 const val welcome_ = "Welcome"
 const val gettingStarted_ = "Getting Started"
-const val icons_ = "Icons"
 const val spinner_ = "Spinner"
-const val input_ = "Input"
-const val buttons_ = "Buttons"
+const val input_ = "Input Field"
+const val buttons_ = "Button"
 const val formcontrol_ = "Formcontrol"
 const val flexbox_ = "Flexbox"
 const val gridbox_ = "Gridbox"
-const val checkboxes_ = "Checkboxes"
-const val radios_ = "Radios"
+const val checkboxes_ = "Checkbox"
+const val radios_ = "Radio"
 const val switch_ = "Switch"
 const val stack_ = "Stack"
 const val modal_ = "Modal"
 const val popover_ = "Popover"
 const val styling_ = "Styling"
-const val theme_ = "Theme"
+const val theme_ = "Themes"
+const val colors_ = "Colors"
+const val icons_ = "Icons"
 const val tooltip_ = "Tooltip"
 const val responsive_ = "Responsiveness"
 const val textarea_ = "Textarea"
@@ -237,11 +239,12 @@ fun main() {
                             menuAnchor(gettingStarted_)
 
                             menuHeader("FEATURES")
+                            menuAnchor(responsive_)
                             menuAnchor(styling_)
                             menuAnchor(theme_)
-                            menuAnchor(responsive_)
+                            menuAnchor(colors_)
 
-                            menuHeader("LAYOUTING")
+                            menuHeader("LAYOUT")
                             menuAnchor(flexbox_)
                             menuAnchor(gridbox_)
                             menuAnchor(stack_)
@@ -249,22 +252,21 @@ fun main() {
                             menuHeader("FORMS")
                             menuAnchor(buttons_)
                             menuAnchor(checkboxes_)
-                            menuAnchor(formcontrol_)
                             menuAnchor(input_)
                             menuAnchor(radios_)
                             menuAnchor(switch_)
                             menuAnchor(textarea_)
-
-                            menuHeader("FEEDBACK")
-                            menuAnchor(spinner_)
+                            menuAnchor(formcontrol_)
 
                             menuHeader("OVERLAY")
                             menuAnchor(modal_)
                             menuAnchor(popover_)
                             menuAnchor(tooltip_)
 
-                            menuHeader("ICONS")
+                            menuHeader("MISC")
                             menuAnchor(icons_)
+                            menuAnchor(spinner_)
+
                         }
                     }
                     (::div.styled(id = "content-right") {
@@ -303,8 +305,9 @@ fun main() {
                                 welcome_ -> welcome()
                                 styling_ -> stylingDemo()
                                 theme_ -> themeDemo()
+                                colors_ -> colorDemo()
                                 responsive_ -> responsiveDemo()
-                                textarea_ -> textAreaDemo()
+                                textarea_ -> textareaDemo()
                                 else -> welcome()
                             }
                         }

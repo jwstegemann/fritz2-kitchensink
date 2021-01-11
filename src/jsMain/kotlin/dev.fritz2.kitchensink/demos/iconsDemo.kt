@@ -198,8 +198,9 @@ fun RenderContext.iconsDemo(): Div {
                     icon { fromTheme { favorite } }
 
                     icon({
-                        size { larger }
+                        size { "4rem" }
                     }) { fromTheme { fritz2 } }
+
 
                     icon({
                         size { giant }

@@ -25,12 +25,12 @@ fun RenderContext.gettingStarted(): Div {
 
         showcaseSection("Installation")
         paragraph {
-            +"To see how to create a new fritz2 Multiplatform project, take a look at the "
+            +"To learn how to create a new fritz2 Multiplatform project, take a look at the "
             externalLink("fritz2 project setup docs", "https://docs.fritz2.dev/ProjectSetup.html")
-            +" ."
+            +". For the following instructions, we assume you already have an existing project."
         }
         paragraph {
-            +"Add the following to your "
+            +"Add the following lines to your "
             c("build.gradle.kts")
             +" file in the dependencies section:"
         }
@@ -85,7 +85,7 @@ fun RenderContext.gettingStarted(): Div {
             """fun main() {
                     val router = router(welcome)
                 
-                    render(Themes().first()) { theme ->
+                    render {
                         div("header") {
                             ...
                         }

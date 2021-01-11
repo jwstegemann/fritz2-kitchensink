@@ -28,16 +28,16 @@ fun RenderContext.flexBoxDemo(): Div {
     }
 
     val threeItems: RenderContext.() -> Unit = {
-        listOf(Theme().colors.info, Theme().colors.warning, Theme().colors.danger)
+        listOf(Theme().colors.primary, Theme().colors.primary.lighter, Theme().colors.secondary)
             .forEachIndexed { index, value -> item(value, index + 1) }
     }
     val fiveItems: RenderContext.() -> Unit = {
         listOf(
-            Theme().colors.info,
-            Theme().colors.warning,
-            Theme().colors.danger,
             Theme().colors.primary,
+            Theme().colors.primary.lighter,
             Theme().colors.secondary,
+            Theme().colors.secondary.lighter,
+            Theme().colors.secondary.darker,
         ).forEachIndexed { index, value -> item(value, index + 1) }
     }
 
@@ -45,7 +45,7 @@ fun RenderContext.flexBoxDemo(): Div {
 
         showcaseHeader("Flexbox")
         paragraph {
-            +"The main idea behind the flex layout is to give a container the ability to alter its items' width,"
+            +"The flex layout enables a container to alter its items' width,"
             +" height, and order to best fill the available space. The container is basically a box which has the css"
             +" property "
             c("display: flex")

@@ -7,10 +7,7 @@ import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.kitchensink.theme_
-import dev.fritz2.styling.params.BasicParams
-import dev.fritz2.styling.params.Style
-import dev.fritz2.styling.params.alterBrightness
-import dev.fritz2.styling.params.styled
+import dev.fritz2.styling.params.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
@@ -18,7 +15,7 @@ fun RenderContext.stylingDemo(): Div {
 
     return contentFrame {
 
-        showcaseHeader("Styling")
+        showcaseHeader("Custom Styling")
 
         paragraph {
             +"""
@@ -53,7 +50,7 @@ fun RenderContext.stylingDemo(): Div {
                         boxShadow { raised }
                         padding { normal }
                         radius { small }
-                    }) { +"raised text" }
+                    }) { +"Raised Text" }
                 }
             }
         }
@@ -61,13 +58,13 @@ fun RenderContext.stylingDemo(): Div {
             source(
                 """
                 (::span.styled {
-                    background { color { tertiary } }
+                    background { color { secondary } }
                     color { base }
                     fontWeight { "700" }
                     boxShadow { raised }
                     padding { normal }
                     radius { small }
-                }) { +"raised text" }
+                }) { +"Raised Text" }
                 """
             )
         }
@@ -76,7 +73,7 @@ fun RenderContext.stylingDemo(): Div {
             +"To remain as flexible as possible, values of properties can alternatively be passed as "
             c("String")
             +"s, like "
-            c("""width { "75%" } """)
+            c("""width { "75%" }""")
             +". Additionally, you can set any other property that is not part of the DSL by using "
             c("""css()""")
             +"."
@@ -92,15 +89,15 @@ fun RenderContext.stylingDemo(): Div {
             lineUp {
                 items {
                     icon({
-                        size { giant }
-                        color { "red" }
+                        size { small }
+                        color { "tomato" }
                     }) { fromTheme { heart } }
 
                     icon({
                         size { huge }
                         border {
                             width { normal }
-                            color { "green" }
+                            color { primary }
                         }
                         radius { full }
                     }) { fromTheme { chevronUp } }
@@ -110,16 +107,18 @@ fun RenderContext.stylingDemo(): Div {
         playground {
             source(
                 """
-                icon ({
-                    size { giant }
-                    color { "red" }
-                }) { fromTheme { heart } }
+                icon(
+                    {  // styling is the first parameter 
+                        size { small }
+                        color { "tomato"" }
+                    }
+                ) { fromTheme { heart } }
 
-                icon ({
+                icon({
                     size { huge }
                     border {
                         width { normal }
-                        color { "green" }
+                        color { primary }
                     }
                     radius { full }
                 }) { fromTheme { chevronUp } }
@@ -129,26 +128,28 @@ fun RenderContext.stylingDemo(): Div {
 
         showcaseSection("Predefined Styles")
         paragraph {
-            +"You can group and reuse a set of related properties:"
+            +"You can group a set of styling properties and reuse them throughout your source code:"
         }
         componentFrame {
             lineUp {
                 items {
-                    val veryImportantButton: Style<BasicParams> = {
+                    val veryImportant: Style<BasicParams> = {
                         boxShadow { raised }
                         background { color { danger } }
                         color { base }
                         radius { larger }
                         hover {
-                            background { color { alterBrightness(danger, 0.7) } }
+                            background { color { danger.darker } }
                         }
                         active {
-                            border { color { info } }
+                            border { color { warning } }
                         }
-                        focus { boxShadow { danger } }
+                        focus {
+                            boxShadow { danger }
+                        }
                     }
                     pushButton({
-                        veryImportantButton()
+                        veryImportant()
                     }) { text("Very Important Button") }
                 }
             }
@@ -156,23 +157,26 @@ fun RenderContext.stylingDemo(): Div {
         playground {
             source(
                 """
-                val veryImportantButton: Style<BasicParams> = {
+                val veryImportant: Style<BasicParams> = {
                     boxShadow { raised }
                     background { color { danger } }
                     color { base }
                     radius { larger }
                     hover {
-                        background { color { alterBrightness(danger, 0.7) } }
+                        background { color { danger.darker } }
                     }
                     active {
-                        border { color { info } }
+                        border { color { warning } }
                     }
-                    focus { boxShadow { danger } }
+                    focus {
+                        boxShadow { danger }
+                    }
                 }
-                
-                pushButton({
-                    veryImportantButton()
+
+                pushButton ({
+                    veryImportant()
                 }) { text("Very Important Button") }
+
                 """
             )
         }

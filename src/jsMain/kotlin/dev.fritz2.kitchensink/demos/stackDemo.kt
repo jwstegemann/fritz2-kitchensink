@@ -9,6 +9,8 @@ import dev.fritz2.kitchensink.base.*
 import dev.fritz2.kitchensink.flexbox_
 import dev.fritz2.kitchensink.gridbox_
 import dev.fritz2.styling.params.ColorProperty
+import dev.fritz2.styling.params.darker
+import dev.fritz2.styling.params.lighter
 import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -28,7 +30,7 @@ fun RenderContext.stackDemo(): Div {
     }
 
     return contentFrame {
-        showcaseHeader("Stacks")
+        showcaseHeader("Stack")
         paragraph {
             +"A stack is a layout component which allows arbitrary elements to be aligned either in a vertical or"
             +" horizontal way. We offer dedicated components for both use cases:"
@@ -66,8 +68,8 @@ fun RenderContext.stackDemo(): Div {
             lineUp {
                 items {
                     item(Theme().colors.primary, "1")
-                    item(Theme().colors.secondary, "2")
-                    item(Theme().colors.info, "3")
+                    item(Theme().colors.primary.lighter, "2")
+                    item(Theme().colors.secondary, "3")
                 }
             }
         }
@@ -108,8 +110,8 @@ fun RenderContext.stackDemo(): Div {
             stackUp {
                 items {
                     item(Theme().colors.primary, "1")
-                    item(Theme().colors.secondary, "2")
-                    item(Theme().colors.info, "3")
+                    item(Theme().colors.primary.lighter, "2")
+                    item(Theme().colors.secondary, "3")
                 }
             }
         }
@@ -128,7 +130,7 @@ fun RenderContext.stackDemo(): Div {
             )
         }
 
-        showcaseSection("Customization")
+        showcaseSection("Arranging Items")
         paragraph {
             +"Stacks can be customized by changing their order of appearance using the boolean "
             c("reverse")
@@ -146,12 +148,12 @@ fun RenderContext.stackDemo(): Div {
                         reverse { true }
                         items {
                             item(Theme().colors.primary, "1")
-                            item(Theme().colors.secondary, "2")
-                            item(Theme().colors.info, "3")
+                            item(Theme().colors.primary.lighter, "2")
+                            item(Theme().colors.secondary, "3")
                         }
                     }
-                    item(Theme().colors.primary, "4")
-                    item(Theme().colors.secondary, "5")
+                    item(Theme().colors.secondary.lighter, "4")
+                    item(Theme().colors.secondary.darker, "5")
                 }
             }
         }
@@ -203,6 +205,7 @@ fun RenderContext.stackDemo(): Div {
                     width { "${w}px" }
                     height { "${h}px" }
                     textAlign { center }
+                    radius { small }
                 }) { p { +"${w}x${h}" } }
             }
 
@@ -229,11 +232,11 @@ fun RenderContext.stackDemo(): Div {
             source(
                 """
                 val sizedBox: RenderContext.(Int, Int) -> Unit = { w, h ->
-                    // color parameter omitted for readability
+                    // some styling omitted for readability
                     box({
                         width { "${'$'}{w}px" }
                         height{ "${'$'}{h}px" }
-                    }) {  }
+                    }) { ... }
                 }
     
                 lineUp({

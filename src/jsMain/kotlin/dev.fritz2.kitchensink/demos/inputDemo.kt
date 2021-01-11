@@ -19,7 +19,7 @@ fun RenderContext.inputDemo(): Div {
     val userNameStore = storeOf("")
 
     return contentFrame {
-        showcaseHeader("Input Fields")
+        showcaseHeader("Input Field")
 
         paragraph {
             +"""
@@ -146,15 +146,14 @@ fun RenderContext.inputDemo(): Div {
             )
         }
 
-        showcaseSection("Input Variants")
+        showcaseSection("Variants")
         paragraph {
-            +"You can currently choose between two variants for input fields, outline and filled."
+            +"You can currently choose between two variants for input fields, outline (default) and filled."
         }
         componentFrame {
             stackUp {
                 items {
                     inputField {
-                        variant { outline }
                         base {
                             placeholder("outline")
                         }
@@ -172,7 +171,6 @@ fun RenderContext.inputDemo(): Div {
             source(
                 """
                     inputField {
-                        variant { outline }
                         base {
                             placeholder("outline")
                         }

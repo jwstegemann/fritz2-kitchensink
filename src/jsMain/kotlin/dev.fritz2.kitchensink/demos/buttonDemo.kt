@@ -44,7 +44,7 @@ fun RenderContext.buttonDemo(): Div {
 
     return contentFrame {
 
-        showcaseHeader("Buttons")
+        showcaseHeader("Button")
 
         paragraph {
             +"""
@@ -114,9 +114,9 @@ fun RenderContext.buttonDemo(): Div {
         paragraph {
             +"fritz2 offers three different flavours of buttons for various use cases: "
             c("solid")
-            +", "
-            c("outline")
             +" (default), "
+            c("outline")
+            +", "
             c("ghost")
             +", and "
             c("link")
@@ -127,7 +127,6 @@ fun RenderContext.buttonDemo(): Div {
                 items {
                     clickButton {
                         text("solid")
-                        variant { solid } // default
                     }
                     clickButton {
                         text("outline")
@@ -149,12 +148,11 @@ fun RenderContext.buttonDemo(): Div {
                 """
                 clickButton { 
                     text("solid")
-                    variant { solid }
                 }
                 
                 clickButton {
                     text("outline")
-                    variant { outline } // default
+                    variant { outline }
                 }
                 
                 clickButton {
