@@ -37,13 +37,19 @@ fun RenderContext.inputDemo(): Div {
             """.trimIndent()
         }
 
+
+
         showcaseSection("Usage")
         paragraph {
-            +"A basic input field can be created without a store, but you have to manually connect the handlers in"
-            +" this case. Every input offers the sub context"
+            +"A basic input field can be created without a store, but you have to manually connect"
+            +" the handlers in this case. Every input offers the sub context"
             c(" base")
             +", where you can access the underlying input's properties."
         }
+
+
+
+
         componentFrame {
             stackUp {
                 items {

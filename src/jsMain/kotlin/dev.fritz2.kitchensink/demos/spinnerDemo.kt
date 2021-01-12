@@ -96,6 +96,7 @@ fun RenderContext.spinnerDemo(): Div {
             c("fat")
             +", or use the styling parameter to define a custom value."
         }
+
         componentFrame {
             lineUp({
                 alignItems { flexEnd }

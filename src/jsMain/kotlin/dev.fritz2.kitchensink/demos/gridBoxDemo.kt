@@ -22,9 +22,9 @@ fun RenderContext.gridBoxDemo(): Div {
             val CONTENT: AreaName = "content"
             val FOOTER: AreaName = "footer"
         }
-        showcaseHeader("Gridbox")
+        showcaseHeader("GridBox")
         paragraph {
-            +"Use a Gridbox to create arbitrary complex layouts."
+            +"Use a gridbox to create arbitrary complex layouts."
             +" It doesn't need special component properties, but instead relies on the "
             externalLink(
                 "CSS based grid-layout",
