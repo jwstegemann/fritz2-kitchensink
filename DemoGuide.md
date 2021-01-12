@@ -24,6 +24,7 @@ followed by possibly store/no-store variants. Next, features which are shared by
 start with common features and get more specific and special towards the bottom of the page:
 
 * Usage
+* Stores / Event Handling
 * Variants
 * Sizes
 * Special component features
@@ -55,9 +56,7 @@ you could try and omit it in the example, but notify the user that you did:
 
         showcaseSection("Usage")
         paragraph {
-            +"Single "
-            c("Checkboxes")
-            +" simply need a Flow of Boolean representing their state, passed via the "
+            +"Single checkboxes simply need a Flow of Boolean representing their state, passed via the "
             c("checked")
             +" function. If you want to connect a handler to the state changes, use the event context."
         }

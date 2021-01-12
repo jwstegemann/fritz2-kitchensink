@@ -45,9 +45,7 @@ fun RenderContext.checkboxesDemo(): Div {
 
         showcaseSection("Usage")
         paragraph {
-            +"Single "
-            c("Checkboxes")
-            +" simply need a Flow of Boolean representing their state, passed via the"
+            +"Single checkboxes simply need a Flow of Boolean representing their state, passed via the"
             c("checked")
             +" function. If you want to connect a handler to the state changes, use the event context."
         }
@@ -81,7 +79,7 @@ fun RenderContext.checkboxesDemo(): Div {
             +" The example below uses Strings, but any type can be displayed. Since the store is a non-optional"
             +" argument anyway, the component always connects the checked-handler automatically. Using the"
             c("direction")
-            +" parameter, you can display the group in a row or as a column."
+            +" function, you can display the group in a row or as a column."
         }
         componentFrame {
             checkboxGroup(store = usageCheckboxGroupStore) {
