@@ -81,7 +81,7 @@ fun RenderContext.welcome(): Div {
 
                 paragraph {
                     +"""
-                        This is a set of ready-to-go components for building reactive themable web-apps, 
+                        This is a set of ready-to-go components for building reactive themeable web-apps, 
                         following a consistent constraint-based design system using fritz2.
                     """.trimIndent()
                 }
