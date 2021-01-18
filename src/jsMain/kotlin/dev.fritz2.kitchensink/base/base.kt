@@ -1,6 +1,5 @@
 package dev.fritz2.kitchensink.base
 
-import dev.fritz2.components.box
 import dev.fritz2.dom.html.A
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.P
@@ -17,20 +16,12 @@ fun RenderContext.showcaseHeader(text: String) {
         fontFamily { "Inter, sans-serif" }
         margins {
             top { "2rem" }
-            bottom { "2rem" }
+            bottom { "1.5rem" }
         }
         color { primary }
         lineHeight { tiny }
         fontWeight { "700" }
         fontSize { huge }
-        letterSpacing { small }
-        borders {
-            bottom {
-                width { "1px" }
-                style { solid }
-                color { light }
-            }
-        }
         paddings { bottom { normal } }
     }) { +text }
 }
@@ -276,7 +267,7 @@ fun RenderContext.navAnchor(linkText: String, href: String): Div {
         }
         hover {
             background {
-                color { light.lighter }
+                color { "white" }
             }
         }
         paddings {

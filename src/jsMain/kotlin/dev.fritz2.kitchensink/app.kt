@@ -128,7 +128,7 @@ fun main() {
                             verticalAlign { sub }
                             fontSize(sm = { large }, md = { larger })
                             fontWeight { lighter }
-                        }) { +"fritz2 components" }
+                        }) { +"Components" }
                     }
                     //FIXME: convert to styles
                     (::span.styled {
@@ -203,8 +203,8 @@ fun main() {
                         }
                         padding { "1rem" }
                         minWidth(
-                            md = { "180px" },
-                            lg = { "200px" }
+                            md = { "220px" },
+                            lg = { "240px" }
                         )
                         minHeight { "100%" }
                         display(sm = { none }, md = { flex })
@@ -215,6 +215,8 @@ fun main() {
                         color { dark }
                         paddings {
                             top { "50px" }
+                            left { "1.6rem" }
+                            right { "1.6rem" }
                         }
                         borders(
                             sm = {
