@@ -3,12 +3,11 @@ package dev.fritz2.kitchensink
 import dev.fritz2.binding.RootStore
 import dev.fritz2.binding.storeOf
 import dev.fritz2.components.*
-import dev.fritz2.dom.mount
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.kitchensink.demos.*
 import dev.fritz2.routing.router
 import dev.fritz2.styling.name
-import dev.fritz2.styling.params.alterBrightness
+import dev.fritz2.styling.params.alterHexColorBrightness
 import dev.fritz2.styling.params.styled
 import dev.fritz2.styling.staticStyle
 import dev.fritz2.styling.theme.Theme
@@ -91,6 +90,9 @@ fun main() {
 
     val menuStore = storeOf(false)
 
+    // todo: change to lightEffect? Would be very dark. White also not good.
+    val menuBackgroundColor = alterHexColorBrightness(Theme().colors.light, 1.95 )
+
     render(themes.first()) {
         (::div.styled {
             height { "100%" }
@@ -104,7 +106,7 @@ fun main() {
             navBar({
                 border { width { "0" } }
                 boxShadow { flat }
-                background { color { alterBrightness(light, 2.0 ) } }
+                background { color { menuBackgroundColor}  }
             }) {
                 brand {
                     (::a.styled {
@@ -225,7 +227,7 @@ fun main() {
                             }
                         )
                         border { color { "light" } }
-                        background { color { alterBrightness(light, 1.9) } }
+                        background { color { menuBackgroundColor } }
                     }, id = "menu-left")
                     {
                         spacing { tiny }
@@ -315,5 +317,5 @@ fun main() {
                 }
             }
         }
-    }.mount("target")
+    }
 }

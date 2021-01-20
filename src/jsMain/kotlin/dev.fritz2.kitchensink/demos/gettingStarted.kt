@@ -3,6 +3,7 @@ package dev.fritz2.kitchensink.demos
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
+import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
@@ -11,7 +12,7 @@ fun RenderContext.gettingStarted(): Div {
     return contentFrame {
 
         showcaseHeader("Getting Started")
-        warningBox {
+        coloredBox(Theme().colors.warning) {
             +"This is a preview version of fritz2 components."
         }
 

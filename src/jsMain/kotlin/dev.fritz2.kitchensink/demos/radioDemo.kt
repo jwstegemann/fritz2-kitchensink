@@ -179,7 +179,7 @@ fun RenderContext.radiosDemo(): Div {
             lineUp(switchLayoutSm) {
                 items {
                     radio({
-                        border { color { "tomato" } }
+                        border { color { secondary } }
                     }) {
                         label("custom unselected style")
                         selected { flowOf(false) }
@@ -188,7 +188,7 @@ fun RenderContext.radiosDemo(): Div {
                     radio {
                         label("custom selected style")
                         selected { flowOf(true) }
-                        selectedStyle { { background { color { "tomato" } } } }
+                        selectedStyle { { background { color { secondary } } } }
                     }
 
                     radio {
@@ -206,7 +206,7 @@ fun RenderContext.radiosDemo(): Div {
             source(
                 """
                     radio({
-                        border { color { "tomato" } }
+                        border { color { secondary } }
                     }) {
                         label("custom unselected style")
                     }
@@ -214,7 +214,7 @@ fun RenderContext.radiosDemo(): Div {
                     radio {
                         label("custom selected style")
                         selected { flowOf(true) }
-                        selectedStyle { { background { color { "tomato" } } } }
+                        selectedStyle { { background { color { secondary } } } }
                     }
 
                     radio {

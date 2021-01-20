@@ -167,7 +167,7 @@ fun RenderContext.iconsDemo(): Div {
             +" icon."
         }
 
-        infoBox {
+        coloredBox(Theme().colors.info) {
             p { +"Most of our included icons are taken from the excellent mono icons project." }
             p {
                 +"Please have look at their "
@@ -216,7 +216,7 @@ fun RenderContext.iconsDemo(): Div {
                 icon { fromTheme { favorite } }
 
                 icon({
-                    size { lager }
+                    size { "4rem" }
                 }) { fromTheme { fritz2 } }
 
                 icon({

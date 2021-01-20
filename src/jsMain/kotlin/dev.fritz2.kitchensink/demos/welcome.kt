@@ -7,11 +7,9 @@ import dev.fritz2.components.stackUp
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
-import dev.fritz2.kitchensink.base.externalLinkInverted
 import dev.fritz2.styling.params.AlignContentValues.start
-import dev.fritz2.styling.params.alterBrightness
-import dev.fritz2.styling.params.rgba
 import dev.fritz2.styling.params.styled
+import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
@@ -93,9 +91,7 @@ fun RenderContext.welcome(): Div {
                     """.trimIndent()
                 }
 
-                warningBox({
-                    background { color { alterBrightness(warning, 1.8) } }
-                }) {
+                coloredBox(Theme().colors.warning) {
                     +"Remember that this is a preview release."
                     +" Most components still need some work, others are not implemented yet, and the API still needs"
                     +" to be completed and streamlined."

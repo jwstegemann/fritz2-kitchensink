@@ -1,6 +1,5 @@
 package dev.fritz2.kitchensink.base
 
-import dev.fritz2.components.box
 import dev.fritz2.dom.html.A
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.P
@@ -105,8 +104,7 @@ fun RenderContext.contentFrame(
             )
         } (init)
 
-// todo: create ONE box function for all background boxes as soon as opacity/lightness problem is solved
-fun RenderContext.infoBox(init: P.() -> Unit): Div {
+fun RenderContext.coloredBox(baseColorAsHex: ColorProperty, init: P.() -> Unit): Div {
     return (::div.styled {
         margins {
             top { larger }
@@ -122,13 +120,12 @@ fun RenderContext.infoBox(init: P.() -> Unit): Div {
             left {
                 width { "6px" }
                 style { solid }
-                color { info }
+                color { baseColorAsHex }
             }
         }
         radius { small }
         background {
-            color { alterBrightness(info, 1.8) }
-
+            color { alterHexColorBrightness(baseColorAsHex, 1.8) }
         }
     }){
         p {
@@ -136,37 +133,6 @@ fun RenderContext.infoBox(init: P.() -> Unit): Div {
         }
     }
 }
-
-fun RenderContext.warningBox(
-    styling: BasicParams.() -> Unit = {},
-    baseClass: StyleClass? = null,
-    id: String? = null,
-    prefix: String = "warningbox",
-    init: Div.() -> Unit = {}
-): Div =
-    ::div.styled(styling, baseClass, id, prefix) {
-        margins {
-            top { larger }
-            bottom { larger }
-        }
-        paddings {
-            top { small }
-            left { small }
-            bottom { small }
-            right { normal }
-        }
-        borders {
-            left {
-                width { "4px" }
-                style { solid }
-                color { warning }
-            }
-        }
-        radius { small }
-        background {
-            color { alterBrightness(warning, 1.8) }
-        }
-    } (init)
 
 fun RenderContext.componentFrame(padding: Boolean = true, init: Div.() -> Unit): Div { //Auslagerung von Komponente
     return (::div.styled {
@@ -190,7 +156,7 @@ fun RenderContext.storeContentBox(
 ): Div =
         (::div.styled {
             background {
-                color { light.lighter }
+                color { lightEffect }
             }
             margins {
                 top { "1.25rem" }
@@ -214,25 +180,7 @@ val RenderContext.link
         color { secondary }
         hover {
             color { primary }
-            background { color {  primary.lighter.lighter } }
-            radius { small }
-        }
-        css("cursor: pointer")
-    })
-
-val RenderContext.linkInverted
-    get() = (::a.styled {
-        paddings {
-            left { "2px" }
-            right { "2px" }
-            top { "2px" }
-            bottom { "3px" }
-        }
-        fontSize { normal }
-        color { alterBrightness(primary, 0.5) }
-        hover {
-            color { alterBrightness(primary, 1.2) }
-            background { color { alterBrightness(primary, 0.5) } }
+            background { color {  primaryEffect } }
             radius { small }
         }
         css("cursor: pointer")
@@ -253,21 +201,6 @@ fun RenderContext.internalLink(text: String, page: String): A {
     }
 }
 
-fun RenderContext.externalLinkInverted(text: String, url: String, newTab: Boolean = true): A {
-    return linkInverted {
-        +text
-        href(url)
-        if (newTab) target("_new")
-    }
-}
-
-fun RenderContext.internalLinkInverted(text: String, page: String): A {
-    return linkInverted {
-        +text
-        clicks.map { page } handledBy router.navTo
-    }
-}
-
 fun RenderContext.navAnchor(linkText: String, href: String): Div {
     return (::div.styled {
         radius { small }
@@ -276,7 +209,7 @@ fun RenderContext.navAnchor(linkText: String, href: String): Div {
         }
         hover {
             background {
-                color { light.lighter }
+                color { lightEffect }
             }
         }
         paddings {
@@ -310,7 +243,6 @@ fun RenderContext.menuHeader(text: String): Div {
             fontSize { small }
             fontWeight { bold }
             letterSpacing { giant }
-            //color { alterBrightness(primary, 1.3) }
             color { secondary }
         })  { +text }
     }
@@ -319,7 +251,7 @@ fun RenderContext.menuHeader(text: String): Div {
 fun RenderContext.menuAnchor(linkText: String): P {
 
     val selected = style {
-        color { alterBrightness(primary, 1.5) }
+        color { primaryEffect }
     }
 
     val isActive = router.data.map { hash -> hash == linkText }
@@ -378,7 +310,7 @@ fun RenderContext.teaserText(
     ::div.styled {
         fontSize { small }
         textTransform { capitalize }
-        color { secondary.darker }
+        color { info }
         fontWeight { semiBold }
         margins { bottom { "0.7rem" } }
         fontSize { small }

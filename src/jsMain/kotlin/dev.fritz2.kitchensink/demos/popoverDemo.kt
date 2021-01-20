@@ -4,7 +4,6 @@ import dev.fritz2.components.*
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
-import dev.fritz2.styling.params.darker
 import dev.fritz2.styling.params.styled
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -317,7 +316,7 @@ fun RenderContext.popoverDemo(): Div {
                         }
                         footer { (::h4.styled {
                             fontStyle { italic }
-                            color { info.darker }
+                            color { info }
                             padding { normal } // todo this should be default
                             fontSize { tiny }
                         }) { +"The marker was removed." } }

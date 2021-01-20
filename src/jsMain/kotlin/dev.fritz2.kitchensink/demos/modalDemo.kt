@@ -166,11 +166,10 @@ fun RenderContext.modalDemo(): Div {
                             color { base }
                             position {
                                 absolute {
-                                    left { normal }
                                     top { normal }
                                 }
                             }
-                            css("transform: rotate(-20deg) translateX(-.5rem)")
+                            css("transform: rotate(20deg) translateX(-.5rem)")
                         }) {
                             size { small }
                             text("Nope")
@@ -192,11 +191,10 @@ fun RenderContext.modalDemo(): Div {
                         color { base }
                         position {
                             absolute {
-                                left { normal }
                                 top { normal }
                             }
                         }
-                        css("transform: rotate(-20deg) translateX(-.5rem)")
+                        css("transform: rotate(20deg) translateX(-.5rem)")
                     }) {
                         size { small }
                         text("Nope")

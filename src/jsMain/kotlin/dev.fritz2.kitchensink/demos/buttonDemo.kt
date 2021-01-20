@@ -53,6 +53,7 @@ fun RenderContext.buttonDemo(): Div {
             """.trimIndent()
         }
 
+        // todo: create extra event handling example, because this one is already packed and is still missing the pushButton events
         showcaseSection("Usage")
         paragraph {
             +"Define your button by adding text and/or an icon to its content and setting the color. A "
@@ -69,14 +70,12 @@ fun RenderContext.buttonDemo(): Div {
 
                     pushButton {
                         icon { fromTheme { arrowLeft } }
-                        color { primary }
                         text("Previous")
                     }
 
                     pushButton {
                         icon { fromTheme { arrowRight } }
                         iconRight()
-                        color { secondary }
                         text("Next")
                     }
 
@@ -104,7 +103,7 @@ fun RenderContext.buttonDemo(): Div {
                         color { secondary }
                         text("Next")
                     }
-
+                    
                     pushButton { icon { fromTheme { check } } }
                 """
             )

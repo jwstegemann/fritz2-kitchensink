@@ -8,6 +8,7 @@ import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.styling.params.*
+import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.map
 
@@ -227,7 +228,7 @@ fun RenderContext.gridBoxDemo(): Div {
             }
         }
 
-        infoBox{
+        coloredBox(Theme().colors.info){
             p {
                 strong { +"Please note:" }
                 +" This layout also transforms with screen size. Try resizing your browser window to see"

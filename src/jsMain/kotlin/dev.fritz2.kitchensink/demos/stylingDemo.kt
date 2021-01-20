@@ -139,7 +139,7 @@ fun RenderContext.stylingDemo(): Div {
                         color { base }
                         radius { larger }
                         hover {
-                            background { color { danger.darker } }
+                            background { color { warning } }
                         }
                         active {
                             border { color { warning } }

@@ -7,6 +7,7 @@ import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.styling.params.styled
+import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 
@@ -23,6 +24,20 @@ fun RenderContext.tooltipDemo(): Div {
                 c("tooltip")
                 +"is a more sophisticated title that appears when the user places the mouse over an element. It can be "
                 +" styled like any other component and additionally offers some specific options."
+            }
+
+            coloredBox(Theme().colors.warning) {
+                lineUp({
+                    alignItems { flexStart }
+                }) {
+                    items {
+                        icon({
+                            size { "3rem" }
+                            color { danger }
+                        }) { fromTheme { warning } }
+                        p { +"Devices with touchscreen might not be able to demonstrate the features on this page." }
+                    }
+                }
             }
 
             showcaseSection("Usage")
@@ -105,22 +120,7 @@ fun RenderContext.tooltipDemo(): Div {
                     """
                 )
             }
-        }
-        warningBox({
-            display ( sm = { block }, md = { none })
-            margins { top { "5rem" } }
-        }) {
-            lineUp({
-                alignItems { flexStart }
-            }) {
-                items {
-                    icon({
-                        size { "3rem" }
-                        color { danger }
-                    }) { fromTheme { warning } }
-                    p { +"Devices with touchscreen might not be able to demonstrate this feature." }
-                }
-            }
+
         }
     }
 }

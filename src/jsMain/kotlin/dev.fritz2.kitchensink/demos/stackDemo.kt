@@ -9,8 +9,6 @@ import dev.fritz2.kitchensink.base.*
 import dev.fritz2.kitchensink.flexbox_
 import dev.fritz2.kitchensink.gridbox_
 import dev.fritz2.styling.params.ColorProperty
-import dev.fritz2.styling.params.darker
-import dev.fritz2.styling.params.lighter
 import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -68,7 +66,7 @@ fun RenderContext.stackDemo(): Div {
             lineUp {
                 items {
                     item(Theme().colors.primary, "1")
-                    item(Theme().colors.primary.lighter, "2")
+                    item(Theme().colors.primaryEffect, "2")
                     item(Theme().colors.secondary, "3")
                 }
             }
@@ -110,7 +108,7 @@ fun RenderContext.stackDemo(): Div {
             stackUp {
                 items {
                     item(Theme().colors.primary, "1")
-                    item(Theme().colors.primary.lighter, "2")
+                    item(Theme().colors.primaryEffect, "2")
                     item(Theme().colors.secondary, "3")
                 }
             }
@@ -148,12 +146,12 @@ fun RenderContext.stackDemo(): Div {
                         reverse { true }
                         items {
                             item(Theme().colors.primary, "1")
-                            item(Theme().colors.primary.lighter, "2")
+                            item(Theme().colors.primaryEffect, "2")
                             item(Theme().colors.secondary, "3")
                         }
                     }
-                    item(Theme().colors.secondary.lighter, "4")
-                    item(Theme().colors.secondary.darker, "5")
+                    item(Theme().colors.secondaryEffect, "4")
+                    item(Theme().colors.warning, "5")
                 }
             }
         }
@@ -264,7 +262,7 @@ fun RenderContext.stackDemo(): Div {
             )
         }
 
-        infoBox {
+        coloredBox(Theme().colors.info) {
             p {
                 strong { +"Tip for complex layouts:" }
                 +" Favor the application of a "
