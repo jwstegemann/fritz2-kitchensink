@@ -22,14 +22,6 @@ fun RenderContext.showcaseHeader(text: String) {
         lineHeight { tiny }
         fontWeight { "700" }
         fontSize { huge }
-        letterSpacing { small }
-        borders {
-            bottom {
-                width { "1px" }
-                style { solid }
-                color { light }
-            }
-        }
         paddings { bottom { normal } }
     }) { +text }
 }
