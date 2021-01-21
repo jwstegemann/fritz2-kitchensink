@@ -53,7 +53,6 @@ fun RenderContext.buttonDemo(): Div {
             """.trimIndent()
         }
 
-        // todo: create extra event handling example, because this one is already packed and is still missing the pushButton events
         showcaseSection("Usage")
         paragraph {
             +"Define your button by adding text and/or an icon to its content and setting the color. A "
@@ -69,14 +68,14 @@ fun RenderContext.buttonDemo(): Div {
                     clickButton { text("Show Modal") } handledBy modal
 
                     pushButton ({
-                        background { color { primaryEffect }}
+                        background { color { info }}
                     }) {
                         icon { fromTheme { arrowLeft } }
                         text("Previous")
                     }
 
                     pushButton ({
-                        background { color { secondary }}
+                        background { color { warning }}
                     }) {
                         icon { fromTheme { arrowRight } }
                         iconRight()
@@ -84,7 +83,7 @@ fun RenderContext.buttonDemo(): Div {
                     }
 
                     pushButton({
-                        background { color { secondaryEffect } }
+                        background { color { danger } }
                     }) {
                         icon { fromTheme { check } }
                         events {
@@ -100,14 +99,14 @@ fun RenderContext.buttonDemo(): Div {
                     clickButton { text("Show Modal") } handledBy modal
 
                     pushButton ({
-                        background { color { primaryEffect }}
+                        background { color { info }}
                     }) {
                         icon { fromTheme { arrowLeft } }
                         text("Previous")
                     }
 
                     pushButton ({
-                        background { color { secondary }}
+                        background { color { warning }}
                     }) {
                         icon { fromTheme { arrowRight } }
                         iconRight()
@@ -115,7 +114,7 @@ fun RenderContext.buttonDemo(): Div {
                     }
 
                     pushButton({
-                        background { color { secondaryEffect } }
+                        background { color { danger } }
                     }) {
                         icon { fromTheme { check } }
                         events {

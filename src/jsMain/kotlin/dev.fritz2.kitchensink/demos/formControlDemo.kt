@@ -262,8 +262,8 @@ fun RenderContext.formControlDemo(): Div {
         componentFrame {
             val favStore = storeOf(true)
             val labels = mapOf(
-                true to "fritz2 is my favourite framework.",
-                false to "fritz2 is my least favourite framework."
+                true to "fritz2 is my favorite framework.",
+                false to "fritz2 is my least favorite framework."
             )
 
             formControl {
@@ -283,8 +283,8 @@ fun RenderContext.formControlDemo(): Div {
                 """
                 val favStore = storeOf(true)
                 val labels = mapOf(
-                    true to "fritz2 is my favourite framework.",
-                    false to "fritz2 is my least favourite framework."
+                    true to "fritz2 is my favorite framework.",
+                    false to "fritz2 is my least favorite framework."
                 )
     
                 formControl {
