@@ -68,18 +68,29 @@ fun RenderContext.buttonDemo(): Div {
                 items {
                     clickButton { text("Show Modal") } handledBy modal
 
-                    pushButton {
+                    pushButton ({
+                        background { color { primaryEffect }}
+                    }) {
                         icon { fromTheme { arrowLeft } }
                         text("Previous")
                     }
 
-                    pushButton {
+                    pushButton ({
+                        background { color { secondary }}
+                    }) {
                         icon { fromTheme { arrowRight } }
                         iconRight()
                         text("Next")
                     }
 
-                    pushButton { icon { fromTheme { check } } }
+                    pushButton({
+                        background { color { secondaryEffect } }
+                    }) {
+                        icon { fromTheme { check } }
+                        events {
+                            clicks handledBy modal
+                        }
+                    }
                 }
             }
         }
@@ -88,23 +99,29 @@ fun RenderContext.buttonDemo(): Div {
                 """
                     clickButton { text("Show Modal") } handledBy modal
 
-                    pushButton {
+                    pushButton ({
+                        background { color { primaryEffect }}
+                    }) {
                         icon { fromTheme { arrowLeft } }
-                        color { primary }
                         text("Previous")
-                        events {
-                            // handle button events
-                        }
                     }
 
-                    pushButton {
+                    pushButton ({
+                        background { color { secondary }}
+                    }) {
                         icon { fromTheme { arrowRight } }
                         iconRight()
-                        color { secondary }
                         text("Next")
                     }
-                    
-                    pushButton { icon { fromTheme { check } } }
+
+                    pushButton({
+                        background { color { secondaryEffect } }
+                    }) {
+                        icon { fromTheme { check } }
+                        events {
+                            clicks handledBy modal
+                        }
+                    }
                 """
             )
         }

@@ -181,18 +181,18 @@ fun RenderContext.radiosDemo(): Div {
                     radio({
                         border { color { secondary } }
                     }) {
-                        label("custom unselected style")
+                        label("Custom unselected style")
                         selected { flowOf(false) }
                     }
 
                     radio {
-                        label("custom selected style")
+                        label("Custom selected style")
                         selected { flowOf(true) }
                         selectedStyle { { background { color { secondary } } } }
                     }
 
                     radio {
-                        label("custom label style: margin")
+                        label("Custom label style: margin")
                         selected { usageRadioStore.data }
                         labelStyle { { margins { left { larger } } } }
                         events {
@@ -208,17 +208,17 @@ fun RenderContext.radiosDemo(): Div {
                     radio({
                         border { color { secondary } }
                     }) {
-                        label("custom unselected style")
+                        label("Custom unselected style")
                     }
 
                     radio {
-                        label("custom selected style")
+                        label("Custom selected style")
                         selected { flowOf(true) }
                         selectedStyle { { background { color { secondary } } } }
                     }
 
                     radio {
-                        label("custom label style: margin")
+                        label("Custom label style: margin")
                         labelStyle { { margins { left { larger } } } }
                     }
                     """

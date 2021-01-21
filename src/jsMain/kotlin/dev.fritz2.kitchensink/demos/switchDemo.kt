@@ -120,13 +120,13 @@ fun RenderContext.switchDemo(): Div {
         componentFrame {
             switch(styling = {
                 background {
-                    color { secondary }
+                    color { secondaryEffect }
                 }
             }) {
                 label("Custom background colors")
                 checked { checkedStore2.data }
                 checkedStyle {
-                    { background { color { primary } } }
+                    { background { color { secondary } } }
                 }
                 events {
                     changes.states() handledBy checkedStore2.update

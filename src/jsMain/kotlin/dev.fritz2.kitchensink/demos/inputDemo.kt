@@ -165,13 +165,14 @@ fun RenderContext.inputDemo(): Div {
                 items {
                     inputField {
                         base {
-                            placeholder("outline")
+                            value("outline")
                         }
                     }
                     inputField {
                         variant { filled }
+
                         base {
-                            placeholder("filled")
+                            value("filled")
                         }
                     }
                 }
@@ -182,14 +183,12 @@ fun RenderContext.inputDemo(): Div {
                 """
                     inputField {
                         base {
-                            placeholder("outline")
+                            value("outline")
                         }
                     }
                     inputField {
                         variant { filled }
-                        base {
-                            placeholder("filled")
-                        }
+                        value("filled")
                     }
                 """
             )

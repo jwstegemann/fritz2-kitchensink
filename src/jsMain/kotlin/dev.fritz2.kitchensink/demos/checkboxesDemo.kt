@@ -115,9 +115,20 @@ fun RenderContext.checkboxesDemo(): Div {
             stackUp {
                 items {
                     checkbox({
-                        background { color { "tomato" } }
+                        background { color { secondary } }
                     }) {
                         label("Changed unchecked background color")
+                        checked { customCheckboxStore1.data }
+                        events {
+                            changes.states() handledBy customCheckboxStore1.update
+                        }
+                    }
+
+                    checkbox {
+                        label("Changed checked border color")
+                        checkedStyle {
+                            { border { color { secondary }}}
+                        }
                         checked { customCheckboxStore1.data }
                         events {
                             changes.states() handledBy customCheckboxStore1.update
@@ -129,7 +140,7 @@ fun RenderContext.checkboxesDemo(): Div {
                         icon { Theme().icons.fritz2 }
                         checked { customCheckboxStore2.data }
                         events {
-                            changes.states() handledBy customCheckboxStore2.update
+                            changes.states() handledBy customCheckboxStore1.update
                         }
                     }
 
@@ -138,7 +149,7 @@ fun RenderContext.checkboxesDemo(): Div {
                         labelStyle { { margins { left { larger } } } }
                         checked { customCheckboxStore3.data }
                         events {
-                            changes.states() handledBy customCheckboxStore3.update
+                            changes.states() handledBy customCheckboxStore1.update
                         }
                     }
                 }
@@ -148,9 +159,16 @@ fun RenderContext.checkboxesDemo(): Div {
             source(
                 """
                     checkbox({
-                        background { color { "tomato" } }
+                        background { color { secondary } }
                     }) {
                         label("Changed unchecked background color")
+                    }
+
+                    checkbox {
+                        label("Changed checked border color")
+                        checkedStyle {
+                            { border { color { secondary }}}
+                        }
                     }
 
                     checkbox {
