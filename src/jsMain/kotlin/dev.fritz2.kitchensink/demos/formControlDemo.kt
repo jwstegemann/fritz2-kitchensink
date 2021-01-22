@@ -1,43 +1,27 @@
 package dev.fritz2.kitchensink.demos
 
+import dev.fritz2.binding.RootStore
+import dev.fritz2.binding.Store
 import dev.fritz2.binding.storeOf
-import dev.fritz2.components.formControl
-import dev.fritz2.components.lineUp
+import dev.fritz2.components.*
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.dom.states
+import dev.fritz2.dom.values
 import dev.fritz2.kitchensink.base.*
+import dev.fritz2.styling.StyleClass
+import dev.fritz2.styling.params.BasicParams
 import dev.fritz2.styling.params.styled
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 
-/*
-*
-* Just leave this out of the demo for now.
-* Needs to be reworked after 0.8 release!
-* (It does work and looks quite nice, but no time for documenting this in an enlightening way for the
-* demo application!)
-*
-
 // extend ControlComponent in order to override or extend functions for controls
 // and for setting up other renderers!
 class MyFormControlComponent : FormControlComponent() {
 
-    // simple convenience function as we cannot provide default parameters for overridden functions!
-    fun mySingleSelectComponent(
-        styling: BasicParams.() -> Unit = {},
-        store: Store<String>,
-        baseClass: StyleClass? = null,
-        id: String? = null,
-        prefix: String = Companion.ControlNames.checkboxGroup,
-        build: RadioGroupComponent<String>.() -> Unit
-    ) {
-        return radioGroup(styling, store, baseClass, id, prefix, build)
-    }
-
     // override default implementation of a radio group within a form control
-    fun radioGroup(
+    override fun radioGroup(
         styling: BasicParams.() -> Unit,
         store: Store<String>,
         baseClass: StyleClass?,
@@ -92,7 +76,7 @@ class MyFormControlComponent : FormControlComponent() {
                             disabled(returnStore.selectedStore.data.map { it != "custom" })
                             changes.values() handledBy returnStore.inputStore.syncInput
                             value(returnStore.inputStore.data)
-                            placeholder("custom choice")
+                            placeholder("custom value")
                         }
                     }
                 }
@@ -102,7 +86,7 @@ class MyFormControlComponent : FormControlComponent() {
     }
 
     // Define your own renderer
-    class MySpecialRenderer(private val component: FormControlComponent) : ControlRenderer {
+    class MyRadioRenderer(private val component: FormControlComponent) : ControlRenderer {
         override fun render(
             styling: BasicParams.() -> Unit,
             baseClass: StyleClass?,
@@ -156,7 +140,7 @@ class MyFormControlComponent : FormControlComponent() {
     init {
         // Overrule default strategy for ``multiSelectCheckbox``
         // You could also add a new *control* function with a corresponding renderer of course
-        renderStrategies[Companion.ControlNames.radioGroup] = MySpecialRenderer(this)
+        renderStrategies[Companion.ControlNames.radioGroup] = MyRadioRenderer(this)
     }
 }
 
@@ -171,7 +155,6 @@ fun RenderContext.myFormControl(
     component.render(styling, baseClass, id, prefix, this)
 }
 
- */
 
 @ExperimentalCoroutinesApi
 fun RenderContext.formControlDemo(): Div {
@@ -199,7 +182,7 @@ fun RenderContext.formControlDemo(): Div {
             val framework = storeOf("")
             formControl {
                 label { "Favorite web framework" }
-                required { true }
+                required(true)
                 helperText { "Input the name of your favorite Kotlin based web framework." }
                 errorMessage {
                     framework.data.map {
@@ -226,7 +209,7 @@ fun RenderContext.formControlDemo(): Div {
                 val framework = storeOf("")
                 
                 formControl {
-                    label { "Favorite web framework." }
+                    label { "Favorite web framework" }
                     required { true }
                     helperText { "Input the name of your favorite Kotlin based web framework." }
                     errorMessage {
@@ -252,10 +235,52 @@ fun RenderContext.formControlDemo(): Div {
             +" The following controls are currently supported out-of-the-box:"
             ul {
                 li { +"InputField" }
+                li { +"SelectField" }
+                li { +"TextArea" }
+                li { +"Switch" }
                 li { +"Checkbox" }
                 li { +"CheckboxGroup" }
                 li { +"RadioGroup" }
             }
+        }
+
+        showcaseSubSection("FormControl for required Switch")
+        componentFrame {
+            val favStore = storeOf(true)
+
+            formControl {
+                required(true)
+                label { "You must control me." }
+                switch {
+                    checked { favStore.data }
+                    events {
+                        changes.states() handledBy favStore.update
+                    }
+                }
+                errorMessage {
+                    favStore.data.map {
+                        if (!it) {
+                            "Please switch me on."
+                        } else ""
+                    }
+                }
+            }
+        }
+        playground {
+            source(
+                """
+            formControl {
+                required(true)
+                label { "Control me" }
+                switch(store = favStore) {
+                     checked { favStore.data }
+                    events {
+                        changes.states() handledBy favStore.update
+                    }
+                }
+            }
+            """.trimIndent()
+            )
         }
 
         showcaseSubSection("FormControl for Single Checkbox")
@@ -301,6 +326,9 @@ fun RenderContext.formControlDemo(): Div {
             """.trimIndent()
             )
         }
+
+
+
         showcaseSubSection("FormControl for a CheckboxGroup")
 
         val myItemList = "fritz2".toCharArray().map { it.toString() }
@@ -347,89 +375,258 @@ fun RenderContext.formControlDemo(): Div {
             )
         }
 
-//        showcaseSection("Embed Custom Controls")
-//
-//        warningBox {
-//            p {
-//                strong { +"Todo:" }
-//                +" Add an example of a custom control and its integration into the FormControl including a custom"
-//                +" surrounding HTML structure."
-//            }
-//        }
-
-        /*
-        *
-        * Needs to be reactivated after 0.8 release.
-        * See top of this file for further information!
-        *
-
-        // use your own formControl! Pay attention to the derived component receiver.
-        showcaseSection("Custom FormControl")
-        paragraph {
-            +"""This control has overridden the control function to implement a special control. 
-                    |It is combined with a hand made renderer for the surrounding custom structure.""".trimMargin()
-        }
-
-        val customValueSelected = storeOf("some")
+        showcaseSubSection("TextArea validation in a FormControl")
         componentFrame {
-            myFormControl {
-                label { "Label next to the control just to be different" }
-                helperText { "Helper text below control" }
-                mySingleSelectComponent(store = customValueSelected) {
-                    items((listOf("some", "predefined", "options")))
+            val textStore = storeOf("Please don't delete my text.")
+
+            formControl {
+                textArea {
+                    value(textStore.data)
+                    changes.values() handledBy textStore.update
+                }
+                required(true)
+                label { "Type something in to make a FormControl very happy." }
+                errorMessage {
+                    textStore.data.map {
+                        if (it.isEmpty()) {
+                            "I can't believe you did that."
+                        } else ""
+                    }
                 }
             }
-        }
-        (::div.styled {
-            background {
-                color { light }
-            }
-            margins {
-                top { "1.25rem" }
-            }
-            paddings {
-                left { "0.5rem" }
-                right { "0.5rem" }
-            }
-            radius { "5%" }
-
-        }) {
-            h4 { +"Selected:" }
-            customValueSelected.data.render { p { +it } }
         }
         playground {
             source(
                 """
-                componentFrame {
-                    myFormControl {
-                        label { "Label next to the control just to be different" }
-                        helperText { "Helper text below control" }
-                        mySingleSelectComponent(store = customValueSelected) {
-                            items((listOf("some", "predefined", "options")))
-                        }
+            formControl {
+                textArea {
+                    value(textStore.data)
+                    changes.values() handledBy textStore.update
+                }
+                required(true)
+                label { "Type something in to make a FormControl very happy." }
+                errorMessage {
+                    textStore.data.map {
+                        if (it.isEmpty()) {
+                            "I can't believe you did that."
+                        } else ""
                     }
                 }
-                (::div.styled {
-                    background {
-                        color { light }
-                    }
-                    margins {
-                        top { "1.25rem" }
-                    }
-                    paddings {
-                        left { "0.5rem" }
-                        right { "0.5rem" }
-                    }
-                    radius { "5%" }
-        
-                }) {
-                    h4 { +"Selected:" }
-                    customValueSelected.data.render { p { +it } }
-                }
+            }
+            
             """.trimIndent()
             )
         }
 
-         */
+        showcaseSubSection("FormControl for a SelectField")
+
+        val selectList = "-fritz2".toCharArray().map { it.toString() }
+        val selected = storeOf(selectList[0])
+
+        componentFrame {
+
+            formControl {
+                label { "Single selection form control with validation" }
+                selectField(store = selected) {
+                    items(selectList)
+                }
+                required(true)
+                errorMessage {
+                    selected.data.map {
+                        // any non-empty string will display as error message
+                        if (it == "-") {
+                            "Please select a character."
+                        } else ""
+                    }
+                }
+            }
+        }
+
+        storeContentBox {
+            p {
+                b { +"Selected: " }
+                selected.data.render {
+                    span {
+                        +it
+                    }
+                }
+            }
+        }
+
+        playground {
+            source(
+                """
+                val selectList = "-fritz2".toCharArray().map { it.toString() }
+                val selected = storeOf(selectList[0])
+                
+                formControl {
+                    label { "Single selection form control with validation" }
+                    selectField(store = selected) {
+                        items(selectList)
+                    }
+                    required(true)
+                    errorMessage {
+                        selected.data.map {
+                            if (it == "-") {
+                                "Please select a character."
+                            } else ""
+                        }
+                    }
+                }
+                """.trimIndent()
+            )
+        }
+
+        showcaseSection("Embed Custom Controls: RadioGroup example")
+        val selectedRadio = storeOf(selectList[2])
+        componentFrame {
+            myFormControl {
+                label { "Write custom FormControls for your components." }
+                radioGroup(store = selectedRadio) {
+                    items(myItemList)
+                    direction { column }
+                }
+            }
+        }
+        storeContentBox {
+            p {
+                b { +"Selected: " }
+                selectedRadio.data.render {
+                    span {
+                        +it
+                    }
+                }
+            }
+        }
+
+        playground {
+            source(
+                """
+                /* Please note that all styling was omitted for readability! */
+                
+                // Extend ControlComponent in order to override or extend functions for controls
+                // and for setting up other renderers.
+                class MyFormControlComponent : FormControlComponent() {
+
+                    // override default implementation of a radioGroup within form controls
+                    override fun radioGroup(
+                        styling: BasicParams.() -> Unit,
+                        store: Store<String>,
+                        baseClass: StyleClass?,
+                        id: String?,
+                        prefix: String,
+                        build: RadioGroupComponent<String>.() -> Unit
+                    ) {
+                        val returnStore = object : RootStore<String>("") {
+                            val syncHandlerSelect = handleAndEmit<String, String> { _, new ->
+                                if (new == "custom") ""
+                                else {
+                                    emit("")
+                                    new
+                                }
+                            }
+
+                            val selectedStore = storeOf("")
+
+                            val inputStore = object : RootStore<String>("") {
+                                val syncInput = handleAndEmit<String, String> { _, new ->
+                                    if (selectedStore.current == "custom") {
+                                        emit(new)
+                                    }
+                                    new
+                                }
+                            }
+
+                            init {
+                                selectedStore.syncBy(syncHandlerSelect)
+                                inputStore.syncInput handledBy update
+                                syncHandlerSelect handledBy inputStore.update
+                                this.data handledBy store.update
+                            }
+                        }
+
+                        control.set(Companion.ControlNames.radioGroup)
+                        {
+                            lineUp {
+                                items {
+                                    radioGroup(styling, returnStore.selectedStore, baseClass, id, prefix) {
+                                        build()
+                                        direction { row }
+                                        items {
+                                            items.map { it + "custom" }
+                                        }
+                                    }
+                                    inputField {
+                                        base {
+                                            disabled(returnStore.selectedStore.data.map { it != "custom" })
+                                            changes.values() handledBy returnStore.inputStore.syncInput
+                                            value(returnStore.inputStore.data)
+                                            placeholder("custom value")
+                                        }
+                                    }
+                                }
+
+                            }
+                        }
+                    }
+
+                    // Define your own renderer for RadioGroups
+                    class MyRadioRenderer(private val component: FormControlComponent) : ControlRenderer {
+                        override fun render(
+                            styling: BasicParams.() -> Unit,
+                            baseClass: StyleClass?,
+                            id: String?,
+                            prefix: String,
+                            renderContext: RenderContext,
+                            control: RenderContext.() -> Unit
+                        ) {
+                            renderContext.lineUp({
+                                styling()
+                            }, baseClass, id, prefix) {
+                                items {
+                                    p { +component.label }
+                                    stackUp {
+                                        items {
+                                            fieldset { control(this) }
+                                            component.renderHelperText(this)
+                                            component.renderErrorMessage(this)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    init {
+                        // Overrule default strategy for ``radioGroup``.
+                        // You could also add a new control function with a corresponding renderer of course.
+                        renderStrategies[Companion.ControlNames.radioGroup] = MyRadioRenderer(this)
+                    }
+                }
+
+                fun RenderContext.myFormControl(
+                    styling: BasicParams.() -> Unit = {},
+                    baseClass: StyleClass? = null,
+                    id: String? = null,
+                    prefix: String = "formControl",
+                    build: MyFormControlComponent.() -> Unit = {}
+                ) {
+                    val component = MyFormControlComponent().apply(build)
+                    component.render(styling, baseClass, id, prefix, this)
+                }
+                
+           
+                // In your renderContext, call the custom FormControl.
+                myFormControl {
+                    label { "Write custom formControls for your components." }
+                    radioGroup(store = selectedRadio) {
+                        items(myItemList)
+                        direction { column }
+                    }
+                }
+
+            """.trimIndent()
+            )
+        }
     }
 }
