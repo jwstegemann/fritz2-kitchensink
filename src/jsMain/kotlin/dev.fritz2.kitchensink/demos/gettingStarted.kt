@@ -3,6 +3,7 @@ package dev.fritz2.kitchensink.demos
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
+import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
@@ -11,7 +12,7 @@ fun RenderContext.gettingStarted(): Div {
     return contentFrame {
 
         showcaseHeader("Getting Started")
-        warningBox {
+        coloredBox(Theme().colors.warning) {
             +"This is a preview version of fritz2 components."
         }
 
@@ -25,12 +26,12 @@ fun RenderContext.gettingStarted(): Div {
 
         showcaseSection("Installation")
         paragraph {
-            +"To see how to create a new fritz2 Multiplatform project, take a look at the "
+            +"To learn how to create a new fritz2 Multiplatform project, take a look at the "
             externalLink("fritz2 project setup docs", "https://docs.fritz2.dev/ProjectSetup.html")
-            +" ."
+            +". For the following instructions, we assume you already have an existing project."
         }
         paragraph {
-            +"Add the following to your "
+            +"Add the following lines to your "
             c("build.gradle.kts")
             +" file in the dependencies section:"
         }
@@ -49,7 +50,7 @@ fun RenderContext.gettingStarted(): Div {
         showcaseSection("Run in browser")
         paragraph {
             +"To get your JS loaded, you need a static html file."
-            +" Here is a short example for an html-file in your JS resources folder (e.g."
+            +" Here is a short example for an html-file in your JS resources folder (e.g. "
             c("src/resources/index.html")
             +"):"
         }
@@ -75,7 +76,7 @@ fun RenderContext.gettingStarted(): Div {
             c("app.kt")
             +") which contains a "
             c("fun main() {...}")
-            +" function. In this function, call the"
+            +" function. In this function, call the "
             c("mount(\"target\")")
             +" function to append your dynamic html to the "
             c("<body>")
@@ -85,7 +86,7 @@ fun RenderContext.gettingStarted(): Div {
             """fun main() {
                     val router = router(welcome)
                 
-                    render(Themes().first()) { theme ->
+                    render {
                         div("header") {
                             ...
                         }
@@ -111,8 +112,9 @@ fun RenderContext.gettingStarted(): Div {
 
         showcaseSection("Pre-release versions")
         paragraph {
-            +"To get the latest pre-release version of fritz2 components, take a look "
-            externalLink("at the setup docs.", "https://docs.fritz2.dev/ProjectSetup.html#pre-release-builds")
+            +"To get the latest pre-release version of fritz2 components, take a look at the "
+            externalLink("setup docs", "https://docs.fritz2.dev/ProjectSetup.html#pre-release-builds")
+            +"."
         }
     }
 }

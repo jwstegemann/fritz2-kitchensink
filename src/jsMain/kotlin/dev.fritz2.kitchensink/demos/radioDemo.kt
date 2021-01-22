@@ -1,6 +1,5 @@
 package dev.fritz2.kitchensink.demos
 
-import dev.fritz2.binding.RootStore
 import dev.fritz2.binding.storeOf
 import dev.fritz2.components.lineUp
 import dev.fritz2.components.radio
@@ -10,7 +9,6 @@ import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.dom.states
 import dev.fritz2.kitchensink.base.*
-import dev.fritz2.styling.params.AlignContentValues.center
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 
@@ -23,9 +21,9 @@ fun RenderContext.radiosDemo(): Div {
 
         paragraph {
             c("Radios")
-            +" and"
+            +" and "
             c("RadioGroups")
-            +" offer smart options for single selections. Like other components, they come with their own options, and"
+            +" are single selection components. They come with their own options, and"
             +" of course you can customize their appearance with the use of the styling parameter."
         }
 
@@ -42,9 +40,11 @@ fun RenderContext.radiosDemo(): Div {
             +"Single "
             c("Radios")
             +" do not have a wide range of use cases, but we provide them anyway. You"
-            +" need to supply a Flow of Boolean representing the selected state via the"
+            +" need to supply a Flow of "
+            c("List<T>")
+            +" representing the selected state via the "
             c("selected")
-            +" function. If you want to connect a handler to the state changes, use the event context."
+            +" function. If you want to connect a handler to the state changes, use the events context."
         }
         componentFrame {
             radio {
@@ -69,12 +69,13 @@ fun RenderContext.radiosDemo(): Div {
             )
         }
 
+        showcaseSection("RadioGroups With A Direction")
         paragraph {
-            +" For most use cases, you will want a radio group. It accepts a Flow of"
+            +" For most use cases, you will want a radio group. It accepts a Flow of "
             c("List<T>")
             +" as group items, and its selection event returns the currently selected entry instead of Boolean."
             +" The example below uses Strings, but any type can be displayed. Since the store is a non-optional"
-            +" argument anyway, the component always connects the selected-handler automatically. Using the"
+            +" argument anyway, the component always connects the selected-handler automatically. Using the "
             c("direction")
             +" parameter, you can display the radios in a row or as a column."
         }
@@ -175,23 +176,23 @@ fun RenderContext.radiosDemo(): Div {
         }
 
         componentFrame {
-            lineUp {
+            lineUp(switchLayoutSm) {
                 items {
                     radio({
-                        border { color { "tomato" } }
+                        border { color { secondary } }
                     }) {
-                        label("custom unselected style")
+                        label("Custom unselected style")
                         selected { flowOf(false) }
                     }
 
                     radio {
-                        label("custom selected style")
+                        label("Custom selected style")
                         selected { flowOf(true) }
-                        selectedStyle { { background { color { "tomato" } } } }
+                        selectedStyle { { background { color { secondary } } } }
                     }
 
                     radio {
-                        label("custom label style: margin")
+                        label("Custom label style: margin")
                         selected { usageRadioStore.data }
                         labelStyle { { margins { left { larger } } } }
                         events {
@@ -205,19 +206,19 @@ fun RenderContext.radiosDemo(): Div {
             source(
                 """
                     radio({
-                        border { color { "tomato" } }
+                        border { color { secondary } }
                     }) {
-                        label("custom unselected style")
+                        label("Custom unselected style")
                     }
 
                     radio {
-                        label("custom selected style")
+                        label("Custom selected style")
                         selected { flowOf(true) }
-                        selectedStyle { { background { color { "tomato" } } } }
+                        selectedStyle { { background { color { secondary } } } }
                     }
 
                     radio {
-                        label("custom label style: margin")
+                        label("Custom label style: margin")
                         labelStyle { { margins { left { larger } } } }
                     }
                     """

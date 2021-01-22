@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.flowOf
 fun RenderContext.checkboxesDemo(): Div {
 
     return contentFrame {
-        showcaseHeader("Checkboxes")
+        showcaseHeader("Checkbox")
 
         paragraph {
             c("Checkboxes")
@@ -45,9 +45,7 @@ fun RenderContext.checkboxesDemo(): Div {
 
         showcaseSection("Usage")
         paragraph {
-            +"Single "
-            c("Checkboxes")
-            +" simply need a Flow of Boolean representing their state, passed via the"
+            +"Single checkboxes simply need a Flow of Boolean representing their state, passed via the"
             c("checked")
             +" function. If you want to connect a handler to the state changes, use the event context."
         }
@@ -81,7 +79,7 @@ fun RenderContext.checkboxesDemo(): Div {
             +" The example below uses Strings, but any type can be displayed. Since the store is a non-optional"
             +" argument anyway, the component always connects the checked-handler automatically. Using the"
             c("direction")
-            +" parameter, you can display the group in a row or as a column."
+            +" function, you can display the group in a row or as a column."
         }
         componentFrame {
             checkboxGroup(store = usageCheckboxGroupStore) {
@@ -110,18 +108,16 @@ fun RenderContext.checkboxesDemo(): Div {
             +" and "
             c("labelStyle")
             +" for their respective changes in appearance."
-            +" Additionally, you can change your checkboxes' check mark with any "
-            c("icon")
-            +" from the fritz2 icon-Set."
+            +" Additionally, you can replace the checkmark with an icon."
         }
 
         componentFrame {
             stackUp {
                 items {
                     checkbox({
-                        background { color { "tomato" } }
+                        background { color { secondary } }
                     }) {
-                        label("changed unchecked background color")
+                        label("Changed unchecked background color")
                         checked { customCheckboxStore1.data }
                         events {
                             changes.states() handledBy customCheckboxStore1.update
@@ -129,20 +125,31 @@ fun RenderContext.checkboxesDemo(): Div {
                     }
 
                     checkbox {
-                        label("changed checkmark to fritz2 icon")
-                        icon { Theme().icons.fritz2 }
-                        checked { customCheckboxStore2.data }
+                        label("Changed checked border color")
+                        checkedStyle {
+                            { border { color { secondary }}}
+                        }
+                        checked { customCheckboxStore1.data }
                         events {
-                            changes.states() handledBy customCheckboxStore2.update
+                            changes.states() handledBy customCheckboxStore1.update
                         }
                     }
 
                     checkbox {
-                        label("custom label style: larger margin")
+                        label("Changed checkmark to fritz2 icon")
+                        icon { Theme().icons.fritz2 }
+                        checked { customCheckboxStore2.data }
+                        events {
+                            changes.states() handledBy customCheckboxStore1.update
+                        }
+                    }
+
+                    checkbox {
+                        label("Custom label style: larger margin")
                         labelStyle { { margins { left { larger } } } }
                         checked { customCheckboxStore3.data }
                         events {
-                            changes.states() handledBy customCheckboxStore3.update
+                            changes.states() handledBy customCheckboxStore1.update
                         }
                     }
                 }
@@ -152,19 +159,26 @@ fun RenderContext.checkboxesDemo(): Div {
             source(
                 """
                     checkbox({
-                        background { color { "tomato" } }
+                        background { color { secondary } }
                     }) {
-                        label("changed unchecked background color")
+                        label("Changed unchecked background color")
                     }
 
                     checkbox {
-                        label("changed checkmark to fritz2 icon")
+                        label("Changed checked border color")
+                        checkedStyle {
+                            { border { color { secondary }}}
+                        }
+                    }
+
+                    checkbox {
+                        label("Changed checkmark to fritz2 icon")
                         checked { flowOf(true) }
                         icon { Theme().icons.fritz2 }
                     }
 
                     checkbox {
-                        label("custom label style: larger margin")
+                        label("Custom label style: larger margin")
                         labelStyle { { margins { left { larger } } } }
                     }
                     """
@@ -177,7 +191,7 @@ fun RenderContext.checkboxesDemo(): Div {
             c("small")
             +", "
             c("normal")
-            +", or  "
+            +" (default), or  "
             c("large")
             +", or scale your checkboxes to your needs using the styling parameter."
         }

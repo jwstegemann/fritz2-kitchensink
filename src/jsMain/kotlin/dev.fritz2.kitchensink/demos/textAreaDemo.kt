@@ -9,50 +9,66 @@ import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.dom.values
 import dev.fritz2.kitchensink.base.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.flowOf
 
 @ExperimentalCoroutinesApi
-fun RenderContext.textAreaDemo(): Div {
+fun RenderContext.textareaDemo(): Div {
 
     return contentFrame {
-        val dataStore = storeOf("Initial store value")
+        val dataStore = storeOf("Store Content")
 
-        showcaseHeader("Textarea")
+        showcaseHeader("TextArea")
 
         paragraph {
             +"""
-            The Textarea component lets you easily create multi-line text inputs.
-        """.trimIndent()
+            A textarea is a multiline input field. It is resizable and comes in different basic sizes.
+            """.trimIndent()
         }
 
 
         showcaseSection("Usage")
 
         paragraph {
-            +"""
-                Just define a textarea. 
-                You can provide it with a
-            """.trimIndent()
-
-            +""
-            c("placeholder")
-            +" if you want."
-            br { }
-            +"A basic textarea has a"
+            +" A basic, vertically resizable textarea with its default size of "
             c("normal")
-            +" size and is resizeable "
-            c("vertically.")
+            +" can be created by simply calling its factory function. Set a placeholder if you wish: "
+        }
+        componentFrame {
+            lineUp {
+                items {
+                    textArea {
+                        placeholder("Textarea with placeholder only")
+                    }
+                }
+            }
+        }
+        playground {
+            source(
+                """
+                textArea {
+                    placeholder("Textarea with placeholder only")
+                }
+                """.trimIndent()
+            )
+        }
 
+        showcaseSection("Event Handling")
+
+        paragraph {
+            +"The simplest textarea does not need a store, but if you need the events, you have to connect them manually"
+            +" in this case. All functions offered by the underlying HTML component can be accessed using the "
+            c("base")
+            +" context. You can optionally set an initial value for the text content. This short example uses the"
+            +" store's data flow for content."
         }
 
         componentFrame {
             lineUp {
                 items {
                     textArea {
-
-                    }
-                    textArea {
-                        placeholder("This is a placeholder.")
+                        value { dataStore.data }
+                        base {
+                            changes.values() handledBy dataStore.update
+                        }
                     }
                 }
             }
@@ -61,13 +77,44 @@ fun RenderContext.textAreaDemo(): Div {
         playground {
             source(
                 """
-                textArea { }
                 textArea {
-                        placeholder("This is a placeholder.")
+                    value { dataStore.data }
+                    base {
+                        changes.values() handledBy dataStore.update
                     }
-                
+                }
+                """.trimIndent()
+            )
+        }
 
-            """.trimIndent()
+        paragraph {
+            +"When passing a store to a textarea, the events are connected automatically."
+        }
+
+        componentFrame {
+            stackUp {
+                items {
+                    lineUp( {
+                        // todo why is this necessary, it works fine without full width in other examples
+                        width { full }
+                    }) {
+                        items {
+                            textArea(store = dataStore) {}
+                        }
+                    }
+                    storeContentBox {
+                        b { +"Store value: " }
+                        dataStore.data.asText()
+                    }
+                }
+            }
+        }
+
+        playground {
+            source(
+                    """
+                 textArea(store = dataStore) {}
+                """.trimIndent()
             )
         }
 
@@ -77,23 +124,23 @@ fun RenderContext.textAreaDemo(): Div {
             c("small")
             +", "
             c("normal")
-            +" (default) and "
+            +" (default), and "
             c("large")
+            +"."
         }
 
         componentFrame {
             stackUp {
                 items {
                     textArea {
-                        placeholder("A small textarea")
+                        placeholder("small")
                         size { small }
-
                     }
                     textArea {
-                        placeholder("A normal textarea")
+                        placeholder("normal")
                     }
                     textArea {
-                        placeholder("A large textarea")
+                        placeholder("large")
                         size { large }
                     }
                 }
@@ -102,48 +149,50 @@ fun RenderContext.textAreaDemo(): Div {
 
         playground {
             source(
-                """
+                    """
                  textArea {
-                        placeholder("A small textarea")
-                        size { small }
-
-                    }
-                    textArea {
-                        placeholder("A normal textarea")
-                    }
-                    textArea {
-                        placeholder("A large textarea")
-                        size { large }
-                    }
+                    placeholder("small")
+                    size { small }
+                 }
+                 
+                 textArea {
+                    placeholder("normal")
+                 }
+                 
+                 textArea {
+                    placeholder("large")
+                    size { large }
+                 }
             """.trimIndent()
             )
         }
 
-        showcaseSection("Resize behavior")
+        showcaseSection("Resize Behavior")
         paragraph {
-            +"fritz2 offers the well known behavior of resizing a textarea by using one of these resizing options: "
+            +"fritz2 offers the following resizing options for textareas: "
             c("vertical")
-            +", "
+            +" (default), "
             c("horizontal")
-            +" and "
+            +", and "
             c("none")
-
+            +"."
         }
+        paragraph({
+            display(sm = { block }, md = { none })
+        }) { +"Devices with touchscreen might not be able to demonstrate this feature." }
 
         componentFrame {
             stackUp {
                 items {
                     textArea {
-                        placeholder("resize : vertical")
-                        resizeBehavior { vertical }
-
+                        placeholder("resize: vertical")
                     }
                     textArea {
-                        placeholder("resize : horizontal")
+                        placeholder("resize: horizontal")
                         resizeBehavior { horizontal }
                     }
                     textArea {
-                        placeholder("resize : none")
+                        placeholder("resize: none")
                         resizeBehavior { none }
                     }
                 }
@@ -152,28 +201,26 @@ fun RenderContext.textAreaDemo(): Div {
 
         playground {
             source(
-                """
+                    """
+                textArea {
+                    placeholder("resize: vertical")
+                }
                 
                 textArea {
-                        placeholder("resize : vertical")
-                        resizeBehavior { vertical }
-
-                    }
-                    textArea {
-                        placeholder("resize : horizontal")
-                        resizeBehavior { horizontal }
-                    }
-                    textArea {
-                        placeholder("resize : none")
-                        resizeBehavior { none }
-                    }
+                    placeholder("resize: horizontal")
+                    resizeBehavior { horizontal }
+                }
                 
-            """.trimIndent()
+                textArea {
+                    placeholder("resize: none")
+                    resizeBehavior { none }
+                }
+                """.trimIndent()
             )
         }
 
-        showcaseSection("Disable a textarea")
-        paragraph { +"Of course it is possible to disable a textarea." }
+        showcaseSection("Disabled TextArea")
+        paragraph { +"Of course it is possible to disable a textarea. This will also skip the tab index for this component." }
         componentFrame {
             lineUp {
                 items {
@@ -181,118 +228,19 @@ fun RenderContext.textAreaDemo(): Div {
                         placeholder("disabled")
                         disable(true)
                     }
-
                 }
             }
         }
 
         playground {
             source(
-                """
+                    """
                  textArea {
-                        placeholder("disabled")
-                        disable(true)
-                    }
-            """.trimIndent()
+                    placeholder("disabled")
+                    disable(true)
+                 }
+                """.trimIndent()
             )
         }
-
-        showcaseSection("Set an initial value")
-        paragraph { +"You can optionally set an initial value for the textarea." }
-        componentFrame {
-            lineUp {
-                items {
-                    textArea {
-                        placeholder("Textarea with initial value")
-                        value { flowOf("My initial Value") }
-
-                    }
-                }
-            }
-        }
-
-        playground {
-            source(
-                """
-                 textArea {
-                        placeholder("Textarea with initial value")
-                        value { flowOf("My initial Value") }
-                    }
-            """.trimIndent()
-            )
-        }
-
-        showcaseSection("Store")
-        paragraph {
-            +"You can handle events of a textarea automatically or manually."
-            br {}
-            +"Without a store, you have to connect your events manually, while it's done automatically when a"
-            +"store is provided."
-            br {}
-            +"If you decide to handle events manually, you can do it by using the "
-            c("base")
-            +" tag of the textarea which provides the context for all events."
-        }
-
-        componentFrame {
-            stackUp {
-                p {
-                    b { +"Current value in store: " }
-
-                    dataStore.data.asText()
-                }
-                lineUp {
-                    items {
-
-                        textArea(store = dataStore) {
-                            placeholder("")
-                        }
-
-
-                        textArea {
-                            placeholder("Textarea without store")
-
-                            base {
-                                changes.values() handledBy dataStore.update
-
-                            }
-
-                        }
-
-                    }
-                }
-            }
-
-        }
-
-        playground {
-            source(
-                """
-                 val dataStore = storeOf("Initial store value")
-                 
-                   p {
-                        b { +"Current value in store: " }
-                        dataStore.data.asText()
-                     }
-
-              textArea(store = dataStore) {
-                            placeholder("")
-                        }
-
-
-                        textArea {
-                            placeholder("Textarea without store")
-
-                            base {
-                                changes.values() handledBy dataStore.update
-                            }
-
-                        }
-
-            """.trimIndent()
-            )
-        }
-
     }
-
 }

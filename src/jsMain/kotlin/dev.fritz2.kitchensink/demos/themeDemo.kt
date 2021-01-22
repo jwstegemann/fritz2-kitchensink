@@ -7,6 +7,9 @@ import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.dom.states
 import dev.fritz2.kitchensink.ThemeStore
 import dev.fritz2.kitchensink.base.*
+import dev.fritz2.kitchensink.colors_
+import dev.fritz2.kitchensink.icons_
+import dev.fritz2.kitchensink.theme_
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.map
 
@@ -15,21 +18,22 @@ fun RenderContext.themeDemo(): Div {
 
     return contentFrame {
 
-        showcaseHeader("Theme")
+        showcaseHeader("Themes")
 
         paragraph {
-            +"A"
+            +"A "
             c("Theme")
-            +"""
-            groups predefined sets of values and scales to implement a consistent constraint-based design system.
+            +" "
+            +""" groups predefined sets of values and scales to implement a consistent constraint-based design system.
             """.trimIndent()
         }
 
         paragraph {
-            +"fritz2's components come with a predefined"
+            +"fritz2's components come with a predefined "
             c("DefaultTheme")
-            +""" and can be used to start styling your app. Of course you can derive custom themes 
-                from this one to change values, or even extend the theme by your own definitions, from simple property 
+            +" "
+            +""" which can be used to style your app. Of course you can derive custom themes 
+                from it to change values, or even to extend the theme by your own definitions, from simple property 
                 values to complex predefined styles.""".trimIndent()
         }
 
@@ -37,112 +41,115 @@ fun RenderContext.themeDemo(): Div {
         paragraph {
             +"A theme groups the following presets:"
         }
-            table("settings-table") {
-                tr {
-                    th { +"Name" }
-                    th { +"Type" }
-                    th { +"Description" }
-                }
-                tr {
-                    td { +"reset" }
-                    td { c("String") }
-                    td { +"css to reset browser's defaults and set your own" }
-                }
-                tr {
-                    td { +"name" }
-                    td { c("String") }
-                    td { +"an human readable name" }
-                }
-                tr {
-                    td { +"breakPoints" }
-                    td { c("ResponsiveValue") }
-                    td { +"break points for different screen sizes that apply when working with ResponsiveValues" }
-                }
-                tr {
-                    td { +"space" }
-                    td { c("ScaledValue") }
-                    td { +"scale for spacing (margin, padding, etc.)" }
-                }
-                tr {
-                    td { +"position" }
-                    td { c("ScaledValue") }
-                    td { +"scale for positions (top, bottom, etc.)" }
-                }
-                tr {
-                    td { +"fontSizes" }
-                    td { c("ScaledValue") }
-                    td { +"scale for font-sizes" }
-                }
-                tr {
-                    td { +"colors" }
-                    td { c("Colors") }
-                    td { +"theme's color-scheme" }
-                }
-                tr {
-                    td { +"fonts" }
-                    td { c("Fonts") }
-                    td { +"definition of used fonts" }
-                }
-                tr {
-                    td { +"lineHeights" }
-                    td { c("ScaledValue") }
-                    td { +"scale for line-heights" }
-                }
-                tr {
-                    td { +"letterSpacings" }
-                    td { c("ScaledValue") }
-                    td { +"scale for letter-spacing" }
-                }
-                tr {
-                    td { +"sizes" }
-                    td { c("Sizes") }
-                    td { +"scale for sizes (width, height)" }
-                }
-                tr {
-                    td { +"borderWidths" }
-                    td { c("Thickness") }
-                    td { +"scale for border-widths" }
-                }
-                tr {
-                    td { +"radii" }
-                    td { c("ScaledValue") }
-                    td { +"scale for border-radius" }
-                }
-                tr {
-                    td { +"shadows" }
-                    td { c("Shadows") }
-                    td { +"set of shadows used in the theme" }
-                }
-                tr {
-                    td { +"zIndices" }
-                    td { c("ZIndices") }
-                    td { +"scheme used for layering" }
-                }
-                tr {
-                    td { +"opacities" }
-                    td { c("WeightedValue") }
-                    td { +"scale for opacities" }
-                }
-                tr {
-                    td { +"gaps" }
-                    td { c("ScaledValue") }
-                    td { +"scale for gaps" }
-                }
-                tr {
-                    td { +"icons" }
-                    td { c("Icons") }
-                    td { +"set of icons used in the theme" }
-                }
-
+        table("settings-table") {
+            tr {
+                th { +"Name" }
+                th { +"Type" }
+                th { +"Description" }
             }
+            tr {
+                td { +"reset" }
+                td { c("String") }
+                td { +"CSS to reset browser's defaults and set your own" }
+            }
+            tr {
+                td { +"name" }
+                td { c("String") }
+                td { +"A human-readable name" }
+            }
+            tr {
+                td { +"breakPoints" }
+                td { c("ResponsiveValue") }
+                td { +"Break points for different screen sizes when working with ResponsiveValues" }
+            }
+            tr {
+                td { +"space" }
+                td { c("ScaledValue") }
+                td { +"Scale for spacing (margin, padding, etc.)" }
+            }
+            tr {
+                td { +"position" }
+                td { c("ScaledValue") }
+                td { +"Scale for positions (top, bottom, etc.)" }
+            }
+            tr {
+                td { +"fontSizes" }
+                td { c("ScaledValue") }
+                td { +"Scale for font-sizes" }
+            }
+            tr {
+                td { +"colors" }
+                td { c("Colors") }
+                td { +"Theme's color-scheme, see "
+                    internalLink("Colors", colors_)
+                }
+            }
+            tr {
+                td { +"fonts" }
+                td { c("Fonts") }
+                td { +"Definition of used fonts" }
+            }
+            tr {
+                td { +"lineHeights" }
+                td { c("ScaledValue") }
+                td { +"Scale for line-heights" }
+            }
+            tr {
+                td { +"letterSpacings" }
+                td { c("ScaledValue") }
+                td { +"Scale for letter-spacing" }
+            }
+            tr {
+                td { +"sizes" }
+                td { c("Sizes") }
+                td { +"Scale for sizes (width, height)" }
+            }
+            tr {
+                td { +"borderWidths" }
+                td { c("Thickness") }
+                td { +"Scale for border-widths" }
+            }
+            tr {
+                td { +"radii" }
+                td { c("ScaledValue") }
+                td { +"Scale for border-radius" }
+            }
+            tr {
+                td { +"shadows" }
+                td { c("Shadows") }
+                td { +"Set of shadows used in the theme" }
+            }
+            tr {
+                td { +"zIndices" }
+                td { c("ZIndices") }
+                td { +"Scheme used for layering" }
+            }
+            tr {
+                td { +"opacities" }
+                td { c("WeightedValue") }
+                td { +"Scale for opacities" }
+            }
+            tr {
+                td { +"gaps" }
+                td { c("ScaledValue") }
+                td { +"Scale for gaps" }
+            }
+            tr {
+                td { +"icons" }
+                td { c("Icons") }
+                td { +"Set of icons used in the theme, see "
+                    internalLink("Icons", icons_) }
+            }
+
+        }
 
         showcaseSection("Custom Themes")
         paragraph {
-            +"To create a custom"
+            +"To create a custom "
             c("Theme")
-            +" you can easily create a new class inheriting from"
+            +", simply create a new class inheriting from "
             c("DefaultTheme")
-            +" and change just the definitions you want."
+            +" and change only the definitions you want."
 
         }
         playground {
@@ -166,17 +173,17 @@ fun RenderContext.themeDemo(): Div {
 
         showcaseSection("Changing the current Theme")
         paragraph {
-            +"To access the current theme use"
+            +"To access the current theme, use "
             c("Theme()")
-            +". Change the current theme by"
-            c("Theme.use(someTheme)")
+            +". Change the current theme with "
+            c("Theme.use(myTheme)")
             +"."
         }
         componentFrame {
             lineUp {
                 items {
                     switch {
-                        label("use large Fonts")
+                        label("Use large fonts theme")
                         checked { ThemeStore.data.map { it == 1 } }
                         events {
                             changes.states().map { if (it) 1 else 0 } handledBy ThemeStore.selectTheme
@@ -202,44 +209,15 @@ fun RenderContext.themeDemo(): Div {
                         //...
 
                         switch {
-                            label("use large Fonts")
-                            checked { ThemeStore.data.map {it == 1} }
+                            label("Use large fonts theme")
+                            checked { ThemeStore.data.map { it == 1 } }
                             events {
-                                changes.states().map { if (it) 1 else 0 } handledBy ThemeStore.update
+                                changes.states().map { if (it) 1 else 0 } handledBy ThemeStore.selectTheme
                             }
                         }
                     }
                 """
             )
         }
-        showcaseSection("Colors")
-        paragraph { +"These are the colors fritz2 uses in its default theme. There are "
-            c("primary")
-            +", "
-            c("primary_hover")
-            +", "
-            c("secondary")
-            +", "
-            c("tertiary")
-            +", "
-            c("dark")
-            +", "
-            c("light")
-            +", "
-            c("light_hover")
-            +", "
-            c("info")
-            +", "
-            c("success")
-            +", "
-            c("warning")
-            +" and "
-            c("danger")
-            +"."
-        }
-        colorDemo()
     }
 }
-
-
-

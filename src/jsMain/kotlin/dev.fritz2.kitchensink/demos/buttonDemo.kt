@@ -22,7 +22,7 @@ fun RenderContext.buttonDemo(): Div {
         content {
             lineUp {
                 items {
-                    icon({ color { "darkgreen" } }) { fromTheme { circleCheck } }
+                    icon({ color { success } }) { fromTheme { circleCheck } }
                     p { +"Your data has been saved successfully." }
                 }
             }
@@ -44,86 +44,104 @@ fun RenderContext.buttonDemo(): Div {
 
     return contentFrame {
 
-        showcaseHeader("Buttons")
+        showcaseHeader("Button")
 
         paragraph {
             +"""
-            Using a Button, you can trigger an action which can be handled by your Store or by another
-            component, like launching a modal dialog. 
+            Use a button to trigger an action which can then be handled by a store or by another
+            component, for example launching a modal dialog. 
             """.trimIndent()
         }
 
         showcaseSection("Usage")
         paragraph {
-            +"Define your button by adding text and / or an icon to its content and setting the color. A"
+            +"Define your button by adding text and/or an icon to its content and setting the color. A "
             c("pushButton")
-            +" gives you full control over the underlying HTML-button. The"
+            +" gives you full control over the underlying HTML-button. The "
             c("clickButton")
-            +" exposes the Flow of click-events, so you can conveniently connect it to a Handler or another component."
+            +" exposes the Flow of click-events, so you can conveniently connect it to a handler or to another component."
         }
 
         componentFrame {
             lineUp(switchLayoutSm) {
                 items {
-                    clickButton { text("click me") } handledBy modal
+                    clickButton { text("Show Modal") } handledBy modal
 
-                    pushButton {
+                    pushButton ({
+                        background { color { info }}
+                    }) {
                         icon { fromTheme { arrowLeft } }
-                        color { danger }
-                        text("previous")
+                        text("Previous")
                     }
 
-                    pushButton {
+                    pushButton ({
+                        background { color { warning }}
+                    }) {
                         icon { fromTheme { arrowRight } }
                         iconRight()
-                        color { warning }
-                        text("next")
+                        text("Next")
                     }
 
-                    pushButton { icon { fromTheme { check } } }
+                    pushButton({
+                        background { color { danger } }
+                    }) {
+                        icon { fromTheme { check } }
+                        events {
+                            clicks handledBy modal
+                        }
+                    }
                 }
             }
         }
         playground {
             source(
                 """
-                    clickButton { text("click me") } handledBy modal
+                    clickButton { text("Show Modal") } handledBy modal
 
-                    pushButton {
+                    pushButton ({
+                        background { color { info }}
+                    }) {
                         icon { fromTheme { arrowLeft } }
-                        color { danger }
-                        text("previous")
+                        text("Previous")
                     }
 
-                    pushButton {
+                    pushButton ({
+                        background { color { warning }}
+                    }) {
                         icon { fromTheme { arrowRight } }
                         iconRight()
-                        color { warning }
-                        text("next")
+                        text("Next")
                     }
 
-                    pushButton { icon { fromTheme { check } } }
+                    pushButton({
+                        background { color { danger } }
+                    }) {
+                        icon { fromTheme { check } }
+                        events {
+                            clicks handledBy modal
+                        }
+                    }
                 """
             )
         }
 
         showcaseSection("Variants")
         paragraph {
-            +"fritz2 offers three different flavours of buttons for the various use cases: "
+            +"fritz2 offers three different flavors of buttons for various use cases: "
             c("solid")
-            +", "
+            +" (default), "
             c("outline")
             +", "
             c("ghost")
             +", and "
             c("link")
+            +"."
         }
         componentFrame {
             lineUp {
                 items {
                     clickButton {
                         text("solid")
-                        variant { solid } // default
                     }
                     clickButton {
                         text("outline")
@@ -143,38 +161,37 @@ fun RenderContext.buttonDemo(): Div {
         playground {
             source(
                 """
-                                    clickButton { 
-                                        text("solid")
-                                        variant { solid }
-                                    }
-                                    
-                                    clickButton {
-                                        text("outline")
-                                        variant { outline } // default
-                                    }
-                                    
-                                    clickButton {
-                                        text("ghost")
-                                        variant { ghost } 
-                                    }
-                                    
-                                    clickButton {
-                                        text("link")
-                                        variant { link } 
-                                    }
-                                """
+                clickButton { 
+                    text("solid")
+                }
+                
+                clickButton {
+                    text("outline")
+                    variant { outline }
+                }
+                
+                clickButton {
+                    text("ghost")
+                    variant { ghost } 
+                }
+                
+                clickButton {
+                    text("link")
+                    variant { link } 
+                }
+                """
             )
         }
 
         showcaseSection("Sizes")
         paragraph {
-            +"Choose from on three predefined sizes ("
+            +"Choose from the three predefined sizes "
             c("small")
             +", "
             c("normal")
-            +", or  "
+            +" (default), or  "
             c("large")
-            +"), or scale your button to your needs using the styling parameter."
+            +", or scale your button to your needs using the styling parameter."
         }
         componentFrame {
             lineUp({
@@ -187,7 +204,6 @@ fun RenderContext.buttonDemo(): Div {
                     }
                     clickButton {
                         text("normal")
-                        size { normal } // default
                     }
                     clickButton {
                         text("large")
@@ -199,19 +215,18 @@ fun RenderContext.buttonDemo(): Div {
         playground {
             source(
                 """
-                                   clickButton {
-                                        text("small")
-                                        size { small }
-                                    }
-                                    clickButton {
-                                        text("normal")
-                                        size { normal } // default
-                                    }
-                                    clickButton {
-                                        text("large")
-                                        size { large }
-                                    }
-                                """
+               clickButton {
+                    text("small")
+                    size { small }
+                }
+                clickButton {
+                    text("normal")
+                }
+                clickButton {
+                    text("large")
+                    size { large }
+                }
+                """
             )
         }
 
@@ -219,26 +234,26 @@ fun RenderContext.buttonDemo(): Div {
         paragraph {
             +"Connect a button to a "
             c("Tracker")
-            +" to show its loading state. You can specify a different text which is shown while loading."
+            +" to show its loading state. You can specify a loading text to replace the button text during loading."
         }
         componentFrame {
             lineUp(switchLayoutSm) {
                 items {
                     clickButton {
-                        text("play")
+                        text("Play")
                         loading(buttonStore.loading)
                     } handledBy buttonStore.showMsg
 
                     clickButton {
-                        text("play")
+                        text("Play")
                         loading(buttonStore.loading)
-                        loadingText("playing...")
+                        loadingText("Playing..")
                         variant { outline }
                     } handledBy buttonStore.showMsg
 
                     clickButton {
                         icon { fromTheme { play } }
-                        text("play")
+                        text("Play")
                         loading(buttonStore.loading)
                     } handledBy buttonStore.showMsg
 
@@ -265,24 +280,21 @@ fun RenderContext.buttonDemo(): Div {
                         }
                     }
 
-                    clickButton { text("play") } handledBy buttonStore.showMsg
+                    clickButton { text("Play") } handledBy buttonStore.showMsg
 
                     clickButton {
                         icon { fromTheme { play } }
-                        text("play")
-                        loadingText("playing")
+                        text("Play")
+                        loadingText("Playing..")
                     } handledBy buttonStore.showMsg
 
-                                    clickButton {
-                                        icon { fromTheme { play } }
-                                        loading(buttonStore.loading)
-                                        variant { outline }
-                                    } handledBy buttonStore.showMsg
-                                """
+                    clickButton {
+                        icon { fromTheme { play } }
+                        loading(buttonStore.loading)
+                        variant { outline }
+                    } handledBy buttonStore.showMsg
+                """
             )
         }
     }
 }
-
-
-

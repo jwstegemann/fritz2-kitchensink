@@ -7,9 +7,7 @@ import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.kitchensink.theme_
-import dev.fritz2.styling.params.BasicParams
-import dev.fritz2.styling.params.Style
-import dev.fritz2.styling.params.styled
+import dev.fritz2.styling.params.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
@@ -21,7 +19,7 @@ fun RenderContext.stylingDemo(): Div {
 
         paragraph {
             +"""
-            fritz2 allows you to style its components, as well as standard HTML-elements, using a type-safe DSL that 
+            fritz2 allows you to style its components, as well as standard HTML-elements, using a type-safe DSL which 
             enables you to conveniently set the most common style properties.""".trimIndent()
         }
 
@@ -36,21 +34,23 @@ fun RenderContext.stylingDemo(): Div {
 
         showcaseSection("Styling Elements")
         paragraph {
-            +"To style an existing HTML-element like"
+            +"To style an existing HTML-element like "
             c("span")
-            +", define your properties using the"
+            +", define your properties using the "
             c("styled()")
-            +" function"
+            +" function."
         }
         componentFrame {
             lineUp {
                 items {
                     (::span.styled {
-                        background { color { dark } }
-                        color { light }
+                        background { color { secondary } }
+                        color { base }
+                        fontWeight { "700" }
                         boxShadow { raised }
                         padding { normal }
-                    }) { +"raised text" }
+                        radius { small }
+                    }) { +"Raised Text" }
                 }
             }
         }
@@ -58,27 +58,30 @@ fun RenderContext.stylingDemo(): Div {
             source(
                 """
                 (::span.styled {
-                    background { color { dark } }
-                    color { light }
+                    background { color { secondary } }
+                    color { base }
+                    fontWeight { "700" }
                     boxShadow { raised }
                     padding { normal }
-                }) { +"raised text" }
+                    radius { small }
+                }) { +"Raised Text" }
                 """
             )
         }
 
         paragraph {
-            +"To remain as flexible as possible, values of properties can alternatively be passed as"
+            +"To remain as flexible as possible, values of properties can alternatively be passed as "
             c("String")
-            +"s, like"
-            c("""width { "75%" } """)
-            +". Additionally, you can set any other property that is not part of the DSL by using"
+            +"s, like "
+            c("""width { "75%" }""")
+            +". Additionally, you can set any other property that is not part of the DSL by using "
             c("""css()""")
+            +"."
         }
 
         showcaseSection("Styling Components")
         paragraph {
-            +"Every component, like"
+            +"Every component, like "
             c("icon")
             +" for example, can easily be styled by using the first parameter of its factory-function:"
         }
@@ -86,15 +89,15 @@ fun RenderContext.stylingDemo(): Div {
             lineUp {
                 items {
                     icon({
-                        size { giant }
-                        color { "red" }
+                        size { small }
+                        color { "tomato" }
                     }) { fromTheme { heart } }
 
                     icon({
                         size { huge }
                         border {
                             width { normal }
-                            color { "green" }
+                            color { primary }
                         }
                         radius { full }
                     }) { fromTheme { chevronUp } }
@@ -104,16 +107,18 @@ fun RenderContext.stylingDemo(): Div {
         playground {
             source(
                 """
-                icon ({
-                    size { giant }
-                    color { "red" }
-                }) { fromTheme { heart } }
+                icon(
+                    {  // styling is the first parameter 
+                        size { small }
+                        color { "tomato"" }
+                    }
+                ) { fromTheme { heart } }
 
-                icon ({
+                icon({
                     size { huge }
                     border {
                         width { normal }
-                        color { "green" }
+                        color { primary }
                     }
                     radius { full }
                 }) { fromTheme { chevronUp } }
@@ -123,21 +128,29 @@ fun RenderContext.stylingDemo(): Div {
 
         showcaseSection("Predefined Styles")
         paragraph {
-            +"You can group and reuse a set of related properties:"
+            +"You can group a set of styling properties and reuse them throughout your source code:"
         }
         componentFrame {
             lineUp {
                 items {
-                    val veryImportantButton: Style<BasicParams> = {
+                    val veryImportant: Style<BasicParams> = {
                         boxShadow { raised }
                         background { color { danger } }
-                        color { light }
-                        radius { "1.5rem" }
+                        color { base }
+                        radius { larger }
+                        hover {
+                            background { color { warning } }
+                        }
+                        active {
+                            border { color { warning } }
+                        }
+                        focus {
+                            boxShadow { danger }
+                        }
                     }
-
                     pushButton({
-                        veryImportantButton()
-                    }) { text("very important button") }
+                        veryImportant()
+                    }) { text("Very Important Button") }
                 }
             }
         }
@@ -147,25 +160,25 @@ fun RenderContext.stylingDemo(): Div {
                 val veryImportant: Style<BasicParams> = {
                     boxShadow { raised }
                     background { color { danger } }
-                    color { light }
-                    radius { "1.5rem" }
+                    color { base }
+                    radius { larger }
+                    hover {
+                        background { color { danger.darker } }
+                    }
+                    active {
+                        border { color { warning } }
+                    }
+                    focus {
+                        boxShadow { danger }
+                    }
                 }
 
-                //use it somewhere else
                 pushButton ({
                     veryImportant()
-                }) { text("very important button") }
-                
-                //and again...
-                (::a.styled {
-                    veryImportant()                
-                }) {
-                    href("https://some.url")
-                    +"very important link"
-                }
+                }) { text("Very Important Button") }
+
                 """
             )
         }
-
     }
 }

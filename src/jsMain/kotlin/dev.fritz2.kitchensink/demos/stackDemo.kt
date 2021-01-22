@@ -1,7 +1,6 @@
 package dev.fritz2.kitchensink.demos
 
 import dev.fritz2.components.box
-import dev.fritz2.components.flexBox
 import dev.fritz2.components.lineUp
 import dev.fritz2.components.stackUp
 import dev.fritz2.dom.html.Div
@@ -9,9 +8,7 @@ import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.kitchensink.flexbox_
 import dev.fritz2.kitchensink.gridbox_
-import dev.fritz2.styling.params.Color
 import dev.fritz2.styling.params.ColorProperty
-import dev.fritz2.styling.theme.Colors
 import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -24,16 +21,17 @@ fun RenderContext.stackDemo(): Div {
             justifyContent { center }
             alignItems { center }
             background { color { color } }
-            color { "white" }
+            color { base }
             size { "40px" }
+            radius { small }
         }) { p { +text } }
     }
 
     return contentFrame {
-        showcaseHeader("Stacks")
+        showcaseHeader("Stack")
         paragraph {
             +"A stack is a layout component which allows arbitrary elements to be aligned either in a vertical or"
-            +" horizontal way. We offer dedicated components for each use case:"
+            +" horizontal way. We offer dedicated components for both use cases:"
         }
         ul {
             li {
@@ -46,30 +44,30 @@ fun RenderContext.stackDemo(): Div {
             }
         }
         paragraph {
-            +"They are basically specialized "
+            +"These stacks are basically specialized "
             internalLink("Flexboxes", flexbox_)
-            +" which expose a built-in way to set the alignment direction and define the spacing "
-            +" between the items."
+            +" which expose a built-in way to set the content direction and define the spacing"
+            +" between items."
         }
         paragraph {
-            +"You can put arbitrary content into the stack components, like just one HTML element, a complex"
+            +"You can put arbitrary content into the stack components, which can be anything from just one HTML element to a complex"
             +" structure of elements, or other components of course."
         }
 
         showcaseSection("Usage")
         paragraph {
-            +"In order to line up items horizontally, just use the "
+            +"In order to arrange items horizontally, just use a "
             c("lineUp")
-            +" component and put some "
+            +" component and put your content within the "
             c("items")
-            +" in it:"
+            +" context:"
         }
         componentFrame {
             lineUp {
                 items {
                     item(Theme().colors.primary, "1")
-                    item(Theme().colors.danger, "2")
-                    item(Theme().colors.warning, "3")
+                    item(Theme().colors.primaryEffect, "2")
+                    item(Theme().colors.secondary, "3")
                 }
             }
         }
@@ -78,16 +76,18 @@ fun RenderContext.stackDemo(): Div {
                 """
                 lineUp {
                     items {
-                        // put some arbitrary content into the lineUp!
+                        // some styled boxes for content:
                         box({
                             display { flex }
                             justifyContent { center }
                             alignItems { center }
-                            background { color { color } }
-                            color { "white" }
-                            size { "40px" }                        
+                            background { color { primary } }
+                            color { base }
+                            size { "40px" }       
+                            radius { small }
                         }) { p { +"1" } }
-                        // all following items without styling for better readability!
+                        
+                        // styling omitted for readability
                         box { p { +"2" } }
                         box { p { +"3" } }
                     }
@@ -99,14 +99,17 @@ fun RenderContext.stackDemo(): Div {
         paragraph {
             +"Use "
             c("stackUp")
-            +" to stack items vertically:"
+            +" to arrange items vertically. Always remember to use the "
+            c("items")
+            +" context for your content."
+
         }
         componentFrame {
             stackUp {
                 items {
                     item(Theme().colors.primary, "1")
-                    item(Theme().colors.danger, "2")
-                    item(Theme().colors.warning, "3")
+                    item(Theme().colors.primaryEffect, "2")
+                    item(Theme().colors.secondary, "3")
                 }
             }
         }
@@ -115,7 +118,8 @@ fun RenderContext.stackDemo(): Div {
                 """
                 stackUp {
                     items {
-                        box { p { +"1" } } // simplified for readability
+                        // styling omitted for readability
+                        box { p { +"1" } }
                         box { p { +"2" } }
                         box { p { +"3" } }
                     }
@@ -124,22 +128,14 @@ fun RenderContext.stackDemo(): Div {
             )
         }
 
-        showcaseSection("Customization")
+        showcaseSection("Arranging Items")
         paragraph {
-            +"Stacks can be customized by..."
-            ul {
-                li {
-                    +".. defining the "
-                    c("spacing")
-                    +" between each item"
-                }
-                li {
-                    +".. changing the order by setting "
-                    c("reverse")
-                    +" to"
-                    c("true")
-                }
-            }
+            +"Stacks can be customized by changing their order of appearance using the boolean "
+            c("reverse")
+            +" property, and by defining the "
+            c("spacing")
+            +" between items. Of course you could change the spacing via the regular styling DSL as well, but the stack"
+            +" components additionally offer this spacing context."
         }
         componentFrame {
             lineUp {
@@ -149,13 +145,13 @@ fun RenderContext.stackDemo(): Div {
                         spacing { tiny }
                         reverse { true }
                         items {
-                            item(Theme().colors.primary, "se")
-                            item(Theme().colors.danger, "ver")
-                            item(Theme().colors.warning, "re")
+                            item(Theme().colors.primary, "1")
+                            item(Theme().colors.primaryEffect, "2")
+                            item(Theme().colors.secondary, "3")
                         }
                     }
-                    item(Theme().colors.danger, "1")
-                    item(Theme().colors.primary, "2")
+                    item(Theme().colors.secondaryEffect, "4")
+                    item(Theme().colors.warning, "5")
                 }
             }
         }
@@ -168,41 +164,24 @@ fun RenderContext.stackDemo(): Div {
                         stackUp {
                             spacing { tiny }
                             reverse { true }
-                            items { // will be rendered in reverse order
-                                box { p { +"se" } }
-                                box { p { +"ver" } }
-                                box { p { +"re" } }
+                            items {
+                                box { p { +"1" } }
+                                box { p { +"2" } }
+                                box { p { +"3" } }
                             }
                         }
-                        box { p { +"1" } }
-                        box { p { +"2" } }
+                        box { p { +"4" } }
+                        box { p { +"5" } }
                     }
                 }
                 """.trimIndent()
             )
         }
 
-        showcaseSection("Other layout techniques")
-
-        warningBox {
-            p {
-                strong { +"Tip:" }
-                +" Favor the application of a "
-                internalLink("Gridbox", gridbox_)
-                +" over complex styling for stack components."
-            }
-            p {
-                +"The "
-                externalLink(
-                    "CSS grid model ",
-                    "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout"
-                )
-                +" offers much more control over the layout than flexbox approaches."
-            }
-        }
+        showcaseSection("Other Layout Techniques")
 
         paragraph {
-            +"The default layout of our stack components is based on the following properties:"
+            +"The default layout of our stack components uses the following properties:"
         }
         ul {
             li {
@@ -213,17 +192,18 @@ fun RenderContext.stackDemo(): Div {
             }
         }
         paragraph {
-            +"In order to adopt the alignment to your needs, you need to apply the appropriate values via the"
+            +"In order to adopt the alignment to your needs, apply the appropriate values via the "
             c("styling")
-            +" attribute of the components:"
+            +" attribute of the components."
         }
         componentFrame {
-            val sizedBox: RenderContext.(Int, Int) -> Unit = { w, h ->
+            val sizedBox: RenderContext.(Int, Int, ColorProperty) -> Unit = { w, h, color ->
                 box({
-                    background { color { "gold" } }
+                    background { color { color } }
                     width { "${w}px" }
                     height { "${h}px" }
                     textAlign { center }
+                    radius { small }
                 }) { p { +"${w}x${h}" } }
             }
 
@@ -233,16 +213,16 @@ fun RenderContext.stackDemo(): Div {
             }) {
                 items {
                     stackUp({
-                        alignItems { end }
+                        alignItems { flexEnd }
                     }) {
                         items {
-                            sizedBox(60, 60)
-                            sizedBox(100, 100)
-                            sizedBox(80, 30)
+                            sizedBox(60, 60, Theme().colors.secondary)
+                            sizedBox(100, 100, Theme().colors.secondary)
+                            sizedBox(80, 30, Theme().colors.secondary)
                         }
                     }
-                    sizedBox(100, 40)
-                    sizedBox(80, 80)
+                    sizedBox(100, 40, Theme().colors.secondary)
+                    sizedBox(80, 80, Theme().colors.secondary)
                 }
             }
         }
@@ -250,21 +230,25 @@ fun RenderContext.stackDemo(): Div {
             source(
                 """
                 val sizedBox: RenderContext.(Int, Int) -> Unit = { w, h ->
+                    // some styling omitted for readability
                     box({
                         width { "${'$'}{w}px" }
                         height{ "${'$'}{h}px" }
-                    }) {  }
+                    }) { ... }
                 }
     
                 lineUp({
-                    justifyContent { center } // put the whole stack into the middle
-                    alignItems { center } // put the items of the lineUp in the middle of the cross axis
+                    // center the stack
+                    justifyContent { center } 
+                    // vertically align around cross axis
+                    alignItems { center } 
                 }) {
                     items {
                         stackUp({
-                            alignItems { end } // put the vertical column items on the left side
+                            // right-align the column items
+                            alignItems { flexEnd } 
                         }) {
-                            items {
+                            items { 
                                 sizedBox(60, 60)
                                 sizedBox(100, 100)
                                 sizedBox(80, 30)
@@ -276,6 +260,20 @@ fun RenderContext.stackDemo(): Div {
                 }                    
                 """.trimIndent()
             )
+        }
+
+        coloredBox(Theme().colors.info) {
+            p {
+                strong { +"Tip for complex layouts:" }
+                +" Favor the application of a "
+                internalLink("Gridbox", gridbox_)
+                +" over complex styling for stack components. The "
+                externalLink(
+                        "CSS grid model ",
+                        "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout"
+                )
+                +" offers much more control over the layout than a flexbox approach."
+            }
         }
 
     }

@@ -167,17 +167,17 @@ fun RenderContext.iconsDemo(): Div {
             +" icon."
         }
 
-        warningBox {
+        coloredBox(Theme().colors.info) {
             p { +"Most of our included icons are taken from the excellent mono icons project." }
             p {
                 +"Please have look at their "
                 externalLink("project page", "https://icons.mono.company/")
+                +". These icons are licensed under the "
+                externalLink("MIT", "https://github.com/mono-company/mono-icons/blob/master/LICENSE.md")
                 +"."
             }
             p {
-                +"The icons are licensed under the "
-                externalLink("MIT license", "https://github.com/mono-company/mono-icons/blob/master/LICENSE.md")
-                +"."
+
             }
         }
 
@@ -198,9 +198,9 @@ fun RenderContext.iconsDemo(): Div {
                     icon { fromTheme { favorite } }
 
                     icon({
-                        size { larger }
-                        // .2rem)
+                        size { "4rem" }
                     }) { fromTheme { fritz2 } }
+
 
                     icon({
                         size { giant }
@@ -216,7 +216,7 @@ fun RenderContext.iconsDemo(): Div {
                 icon { fromTheme { favorite } }
 
                 icon({
-                    size { lager }
+                    size { "4rem" }
                 }) { fromTheme { fritz2 } }
 
                 icon({
@@ -227,7 +227,7 @@ fun RenderContext.iconsDemo(): Div {
             )
         }
 
-        showcaseSection("Custom icon")
+        showcaseSection("Custom Icon")
         paragraph {
             +"You can include a custom icon by providing a "
             c("displayName")
@@ -342,6 +342,7 @@ fun RenderContext.iconsDemo(): Div {
                         color { light }
                         width { normal }
                     }
+                    radius { small }
                     padding (
                         sm = { tiny },
                         md = { smaller },
