@@ -4,6 +4,7 @@ plugins {
 
 repositories {
     jcenter()
+    maven("https://oss.jfrog.org/artifactory/jfrog-dependencies")
     maven("https://dl.bintray.com/jwstegemann/fritz2")
     maven(url = "https://kotlin.bintray.com/kotlinx/") // soon will be just jcenter()
 }
