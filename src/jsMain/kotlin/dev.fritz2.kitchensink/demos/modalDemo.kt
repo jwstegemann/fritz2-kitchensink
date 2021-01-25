@@ -5,10 +5,8 @@ import dev.fritz2.components.*
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
-import dev.fritz2.styling.params.BackgroundBlendModes.normal
 import dev.fritz2.styling.params.BasicParams
 import dev.fritz2.styling.params.Style
-import dev.fritz2.styling.params.styled
 import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -85,6 +83,91 @@ fun RenderContext.modalDemo(): Div {
                 } handledBy modal {
                     content {
                         p { +"You can put any HTML element, component or structure into a modal." }
+                    }
+                }
+                """.trimIndent()
+            )
+        }
+
+        showcaseSection("Sizes")
+        paragraph {
+            +"There are four predefined sizes for your modal to choose from: "
+            c("small")
+            +", "
+            c("normal")
+            +" (default), "
+            c("large")
+            +", and "
+            c("full")
+            +". The additional option "
+            c("variant { verticalFilled }")
+            +" creates a modal of your chosen size which uses the entire height of the viewport."
+        }
+        componentFrame {
+            lineUp({
+                alignItems { start }
+            }) {
+                items {
+                    clickButton {
+                        text("Small")
+                    } handledBy createDeepDialogs(30, Theme().modal.sizes.small)
+                    clickButton {
+                        text("Normal")
+                    } handledBy createDeepDialogs(30, Theme().modal.sizes.normal)
+                    clickButton {
+                        text("Large")
+                    } handledBy createDeepDialogs(30, Theme().modal.sizes.large)
+                    clickButton {
+                        text("Full")
+                    } handledBy createDeepDialogs(30, Theme().modal.sizes.full)
+                }
+            }
+        }
+
+        playground {
+            source(
+                """
+                clickButton {
+                    text("full")
+                } handledBy modal {
+                    size { full }
+                }
+            """.trimIndent()
+            )
+        }
+
+        paragraph {
+            +"In addition to the "
+            c("size")
+            +" option, fritz2 offers the variant function "
+            c("variant { verticalFilled }")
+            +" for creating a modal which uses the entire height of the viewport."
+        }
+        componentFrame {
+
+            // todo next row for space issues
+            clickButton {
+                text("Small, VerticalFilled Modal")
+            } handledBy modal {
+                variant { verticalFilled }
+                size { small }
+                content {
+                    p { +"This small modal takes all vertical space within the viewport." }
+                }
+            }
+
+        }
+
+        playground {
+            source(
+                """
+                clickButton {
+                    text("Small, VerticalFilled Modal")
+                } handledBy modal {
+                    variant { verticalFilled }
+                    size { small }
+                    content {
+                        p { +"This small modal takes all vertical space within the viewport." }
                     }
                 }
                 """.trimIndent()
@@ -173,7 +256,7 @@ fun RenderContext.modalDemo(): Div {
                         }) {
                             size { small }
                             text("Nope")
-                            iconRight()
+                            iconPlacement{right}
                         }
                     }
                 }
@@ -308,91 +391,6 @@ fun RenderContext.modalDemo(): Div {
                     }
                 }
             }
-        }
-
-        showcaseSection("Sizes")
-        paragraph {
-            +"There are four predefined sizes for your modal to choose from: "
-            c("small")
-            +", "
-            c("normal")
-            +" (default), "
-            c("large")
-            +", and "
-            c("full")
-            +". The additional option "
-            c("variant { verticalFilled }")
-            +" creates a modal of your chosen size which uses the entire height of the viewport."
-        }
-        componentFrame {
-            lineUp({
-                alignItems { start }
-            }) {
-                items {
-                    clickButton {
-                        text("Small")
-                    } handledBy createDeepDialogs(30, Theme().modal.sizes.small)
-                    clickButton {
-                        text("Normal")
-                    } handledBy createDeepDialogs(30, Theme().modal.sizes.normal)
-                    clickButton {
-                        text("Large")
-                    } handledBy createDeepDialogs(30, Theme().modal.sizes.large)
-                    clickButton {
-                        text("Full")
-                    } handledBy createDeepDialogs(30, Theme().modal.sizes.full)
-                }
-            }
-        }
-
-        playground {
-            source(
-                """
-                clickButton {
-                    text("full")
-                } handledBy modal {
-                    size { full }
-                }
-            """.trimIndent()
-            )
-        }
-
-        paragraph {
-            +"In addition to the "
-            c("size")
-            +" option, fritz2 offers the variant function "
-            c("variant { verticalFilled }")
-            +" for creating a modal which uses the entire height of the viewport."
-        }
-        componentFrame {
-
-            // todo next row for space issues
-            clickButton {
-                text("Small, VerticalFilled Modal")
-            } handledBy modal {
-                variant { verticalFilled }
-                size { small }
-                content {
-                    p { +"This small modal takes all vertical space within the viewport." }
-                }
-            }
-
-        }
-
-        playground {
-            source(
-                """
-                clickButton {
-                    text("Small, VerticalFilled Modal")
-                } handledBy modal {
-                    variant { verticalFilled }
-                    size { small }
-                    content {
-                        p { +"This small modal takes all vertical space within the viewport." }
-                    }
-                }
-                """.trimIndent()
-            )
         }
     }
 }

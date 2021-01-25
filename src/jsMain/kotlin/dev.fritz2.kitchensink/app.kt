@@ -23,6 +23,7 @@ const val welcome_ = "Welcome"
 const val gettingStarted_ = "Getting Started"
 const val spinner_ = "Spinner"
 const val input_ = "InputField"
+const val select_ = "SelectField"
 const val buttons_ = "Button"
 const val formcontrol_ = "FormControl"
 const val flexbox_ = "FlexBox"
@@ -257,9 +258,10 @@ fun main() {
                             menuAnchor(buttons_)
                             menuAnchor(checkboxes_)
                             menuAnchor(input_)
+                            menuAnchor(select_)
                             menuAnchor(radios_)
-                            menuAnchor(switch_)
                             menuAnchor(textarea_)
+                            menuAnchor(switch_)
                             menuAnchor(formcontrol_)
 
                             menuHeader("OVERLAY")
@@ -295,6 +297,7 @@ fun main() {
                                 icons_ -> iconsDemo()
                                 spinner_ -> spinnerDemo()
                                 input_ -> inputDemo()
+                                select_ -> selectDemo()
                                 buttons_ -> buttonDemo()
                                 formcontrol_ -> formControlDemo()
                                 flexbox_ -> flexBoxDemo()

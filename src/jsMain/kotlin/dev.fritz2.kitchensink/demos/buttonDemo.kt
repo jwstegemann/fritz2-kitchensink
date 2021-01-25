@@ -78,7 +78,7 @@ fun RenderContext.buttonDemo(): Div {
                         background { color { warning }}
                     }) {
                         icon { fromTheme { arrowRight } }
-                        iconRight()
+                        iconPlacement { right }
                         text("Next")
                     }
 
@@ -121,6 +121,53 @@ fun RenderContext.buttonDemo(): Div {
                             clicks handledBy modal
                         }
                     }
+                """
+            )
+        }
+
+        showcaseSection("Sizes")
+        paragraph {
+            +"Choose from the three predefined sizes "
+            c("small")
+            +", "
+            c("normal")
+            +" (default), or  "
+            c("large")
+            +", or scale your button to your needs using the styling parameter."
+        }
+        componentFrame {
+            lineUp({
+                alignItems { center }
+            }) {
+                items {
+                    clickButton {
+                        text("small")
+                        size { small }
+                    }
+                    clickButton {
+                        text("normal")
+                    }
+                    clickButton {
+                        text("large")
+                        size { large }
+                    }
+                }
+            }
+        }
+        playground {
+            source(
+                """
+               clickButton {
+                    text("small")
+                    size { small }
+                }
+                clickButton {
+                    text("normal")
+                }
+                clickButton {
+                    text("large")
+                    size { large }
+                }
                 """
             )
         }
@@ -183,52 +230,6 @@ fun RenderContext.buttonDemo(): Div {
             )
         }
 
-        showcaseSection("Sizes")
-        paragraph {
-            +"Choose from the three predefined sizes "
-            c("small")
-            +", "
-            c("normal")
-            +" (default), or  "
-            c("large")
-            +", or scale your button to your needs using the styling parameter."
-        }
-        componentFrame {
-            lineUp({
-                alignItems { center }
-            }) {
-                items {
-                    clickButton {
-                        text("small")
-                        size { small }
-                    }
-                    clickButton {
-                        text("normal")
-                    }
-                    clickButton {
-                        text("large")
-                        size { large }
-                    }
-                }
-            }
-        }
-        playground {
-            source(
-                """
-               clickButton {
-                    text("small")
-                    size { small }
-                }
-                clickButton {
-                    text("normal")
-                }
-                clickButton {
-                    text("large")
-                    size { large }
-                }
-                """
-            )
-        }
 
         showcaseSection("Loading State")
         paragraph {

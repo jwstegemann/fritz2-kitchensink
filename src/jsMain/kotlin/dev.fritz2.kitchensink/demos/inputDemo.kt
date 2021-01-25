@@ -54,9 +54,9 @@ fun RenderContext.inputDemo(): Div {
             stackUp {
                 items {
                     inputField {
-                        base {
+                        placeholder("Enter text")
+                        events {
                             changes.values() handledBy userNameStore.update
-                            placeholder("Enter text")
                         }
                     }
                 }
@@ -110,20 +110,14 @@ fun RenderContext.inputDemo(): Div {
                 items {
                     inputField {
                         size { small }
-                        base {
-                            placeholder("small")
-                        }
+                        placeholder("small")
                     }
                     inputField {
-                        base {
-                            placeholder("normal (default)")
-                        }
+                        placeholder("normal (default)")
                     }
                     inputField {
                         size { large }
-                        base {
-                            placeholder("large")
-                        }
+                        placeholder("large")
                     }
                 }
             }
@@ -164,16 +158,11 @@ fun RenderContext.inputDemo(): Div {
             stackUp {
                 items {
                     inputField {
-                        base {
-                            value("outline")
-                        }
+                        value("outline")
                     }
                     inputField {
                         variant { filled }
-
-                        base {
-                            value("filled")
-                        }
+                        value("filled")
                     }
                 }
             }
@@ -207,16 +196,13 @@ fun RenderContext.inputDemo(): Div {
             stackUp {
                 items {
                     inputField {
-                        base {
-                            value("readonly")
-                            readOnly(true)
-                        }
+                        value("readonly")
+                        readonly(true)
+
                     }
                     inputField {
-                        base {
-                            value("disabled (skips tab)")
-                            disabled(true)
-                        }
+                        value("disabled (skips tab)")
+                        disabled(true)
                     }
                 }
             }
@@ -265,23 +251,17 @@ fun RenderContext.inputDemo(): Div {
             stackUp {
                 items {
                     inputField {
-                        base {
-                            type("password")
-                            placeholder("password")
-                        }
+                        type("password")
+                        placeholder("password")
                     }
                     inputField {
-                        base {
-                            type("date")
-                            placeholder("date")
-                        }
+                        type("date")
+                        placeholder("date")
                     }
                     inputField {
-                        base {
-                            type("number")
-                            placeholder("42")
-                            step("1")
-                        }
+                        type("number")
+                        placeholder("42")
+                        step("1")
                     }
                 }
             }
