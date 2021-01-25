@@ -17,16 +17,16 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 
 // extend ControlComponent in order to override or extend functions for controls
-// and for setting up other renderers!
+// and for setting up other renderers
 class MyFormControlComponent : FormControlComponent() {
 
-    // override default implementation of a radio group within a form control
-    override fun radioGroup(
-        styling: BasicParams.() -> Unit,
+    //  custom implementation of radio group within custom form control
+    fun myRadioGroup(
+        styling: BasicParams.() -> Unit ={},
         store: Store<String>,
-        baseClass: StyleClass?,
-        id: String?,
-        prefix: String,
+        baseClass: StyleClass? = null,
+        id: String? = null,
+        prefix: String = "myradiogroup",
         build: RadioGroupComponent<String>.() -> Unit
     ) {
         val returnStore = object : RootStore<String>("") {
@@ -216,7 +216,7 @@ fun RenderContext.formControlDemo(): Div {
                         framework.data.map {
                             // any non-empty string will display as error message
                             if (it.isNotEmpty() && it.toLowerCase() != solution) {
-                                "'"${'$'}"it' is completely wrong."
+                                "'${'$'}it' is completely wrong."
                             } else ""
                         }
                     }
@@ -244,13 +244,13 @@ fun RenderContext.formControlDemo(): Div {
             }
         }
 
-        showcaseSubSection("FormControl for required Switch")
+        showcaseSubSection("FormControl for Switch")
         componentFrame {
             val favStore = storeOf(true)
 
             formControl {
                 required(true)
-                label { "You must control me." }
+                label { "Required input switch" }
                 switch {
                     checked { favStore.data }
                     events {
@@ -260,7 +260,7 @@ fun RenderContext.formControlDemo(): Div {
                 errorMessage {
                     favStore.data.map {
                         if (!it) {
-                            "Please switch me on."
+                            "Please activate this switch."
                         } else ""
                     }
                 }
@@ -329,7 +329,7 @@ fun RenderContext.formControlDemo(): Div {
 
 
 
-        showcaseSubSection("FormControl for a CheckboxGroup")
+        showcaseSubSection("FormControl for CheckboxGroup")
 
         val myItemList = "fritz2".toCharArray().map { it.toString() }
         val mySelectedItems = myItemList.take(2)
@@ -343,6 +343,7 @@ fun RenderContext.formControlDemo(): Div {
                     items { flowOf(myItemList) }
                     direction { row }
                 }
+                helperText { "The order of checking influences the selection." }
             }
         }
 
@@ -375,7 +376,7 @@ fun RenderContext.formControlDemo(): Div {
             )
         }
 
-        showcaseSubSection("TextArea validation in a FormControl")
+        showcaseSubSection("FormControl for TextArea")
         componentFrame {
             val textStore = storeOf("Please don't delete my text.")
 
@@ -418,7 +419,7 @@ fun RenderContext.formControlDemo(): Div {
             )
         }
 
-        showcaseSubSection("FormControl for a SelectField")
+        showcaseSubSection("FormControl for SelectField")
 
         val selectList = "-fritz2".toCharArray().map { it.toString() }
         val selected = storeOf(selectList[0])
@@ -478,11 +479,19 @@ fun RenderContext.formControlDemo(): Div {
         }
 
         showcaseSection("Embed Custom Controls: RadioGroup example")
+        paragraph {
+            +"Write custom FormControls for your components. You can either write your own functions which"
+            +" simply extend "
+            c( "FormControlComponent")
+            +", or you can override the default functions for the supported components. The following example"
+            +" is created as an extension and uses Strings as items."
+
+        }
         val selectedRadio = storeOf(selectList[2])
         componentFrame {
             myFormControl {
-                label { "Write custom FormControls for your components." }
-                radioGroup(store = selectedRadio) {
+                label { "myFormControl wraps myRadioGroup" }
+                myRadioGroup(store = selectedRadio) {
                     items(myItemList)
                     direction { column }
                 }
@@ -502,21 +511,21 @@ fun RenderContext.formControlDemo(): Div {
         playground {
             source(
                 """
-                /* Please note that all styling was omitted for readability! */
+                /* Please note that all styling was omitted to shorten the source example. */
                 
                 // Extend ControlComponent in order to override or extend functions for controls
                 // and for setting up other renderers.
                 class MyFormControlComponent : FormControlComponent() {
 
-                    // override default implementation of a radioGroup within form controls
-                    override fun radioGroup(
-                        styling: BasicParams.() -> Unit,
-                        store: Store<String>,
-                        baseClass: StyleClass?,
-                        id: String?,
-                        prefix: String,
-                        build: RadioGroupComponent<String>.() -> Unit
-                    ) {
+                //  custom implementation of radio group within custom form control
+                fun myRadioGroup(
+                    styling: BasicParams.() -> Unit ={},
+                    store: Store<String>,
+                    baseClass: StyleClass? = null,
+                    id: String? = null,
+                    prefix: String = "myradiogroup",
+                    build: RadioGroupComponent<String>.() -> Unit
+                ) {
                         val returnStore = object : RootStore<String>("") {
                             val syncHandlerSelect = handleAndEmit<String, String> { _, new ->
                                 if (new == "custom") ""
@@ -570,7 +579,7 @@ fun RenderContext.formControlDemo(): Div {
                         }
                     }
 
-                    // Define your own renderer for RadioGroups
+                    // Define your own renderer for your RadioGroup
                     class MyRadioRenderer(private val component: FormControlComponent) : ControlRenderer {
                         override fun render(
                             styling: BasicParams.() -> Unit,
@@ -618,7 +627,7 @@ fun RenderContext.formControlDemo(): Div {
            
                 // In your renderContext, call the custom FormControl.
                 myFormControl {
-                    label { "Write custom formControls for your components." }
+                    label { "myFormControl wraps myRadioGroup"  }
                     radioGroup(store = selectedRadio) {
                         items(myItemList)
                         direction { column }
