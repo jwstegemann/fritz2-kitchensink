@@ -22,10 +22,7 @@ fun RenderContext.checkboxesDemo(): Div {
         showcaseHeader("Checkbox")
 
         paragraph {
-            c("Checkboxes")
-            +" and"
-            c("CheckboxGroups")
-            +" provide a solution for multi selections. They come with their own options, and"
+            +"Checkboxes and CheckboxGroups provide a solution for multi selections. They come with their own options, and"
             +" of course you can customize their appearance with the use of the styling parameter."
         }
 
@@ -97,6 +94,68 @@ fun RenderContext.checkboxesDemo(): Div {
                     direction { row }
                 }
                 """
+            )
+        }
+
+        showcaseSection("Sizes")
+        paragraph {
+            +"Choose from the three predefined sizes "
+            c("small")
+            +", "
+            c("normal")
+            +" (default), or  "
+            c("large")
+            +", or scale your checkboxes to your needs using the styling parameter."
+        }
+
+        componentFrame {
+            lineUp(
+                {
+                    alignItems { center }
+                }
+            ){
+                items {
+                    checkbox {
+                        label("small")
+                        size { small }
+                        checked { sizesCheckboxStore1.data }
+                        events {
+                            changes.states() handledBy sizesCheckboxStore1.update
+                        }
+                    }
+                    checkbox {
+                        label("normal")
+                        checked { sizesCheckboxStore2.data }
+                        events {
+                            changes.states() handledBy sizesCheckboxStore2.update
+                        }
+                    }
+                    checkbox {
+                        label("large")
+                        size { large }
+                        checked { sizesCheckboxStore3.data }
+                        events {
+                            changes.states() handledBy sizesCheckboxStore3.update
+                        }
+                    }
+                }
+            }
+        }
+        playground {
+            source(
+                """
+                    checkbox {
+                        label("small")
+                        size { small }
+                    }
+                    checkbox {
+                        label("normal")
+                    }
+                    checkbox {
+                        label("large")
+                        size { large }
+                    }
+                    """
             )
         }
 
@@ -185,67 +244,7 @@ fun RenderContext.checkboxesDemo(): Div {
             )
         }
 
-        showcaseSection("Sizes")
-        paragraph {
-            +"Choose from the three predefined sizes "
-            c("small")
-            +", "
-            c("normal")
-            +" (default), or  "
-            c("large")
-            +", or scale your checkboxes to your needs using the styling parameter."
-        }
 
-        componentFrame {
-            lineUp(
-                {
-                    alignItems { center }
-                }
-            ){
-                items {
-                    checkbox {
-                        label("small")
-                        size { small }
-                        checked { sizesCheckboxStore1.data }
-                        events {
-                            changes.states() handledBy sizesCheckboxStore1.update
-                        }
-                    }
-                    checkbox {
-                        label("normal")
-                        checked { sizesCheckboxStore2.data }
-                        events {
-                            changes.states() handledBy sizesCheckboxStore2.update
-                        }
-                    }
-                    checkbox {
-                        label("large")
-                        size { large }
-                        checked { sizesCheckboxStore3.data }
-                        events {
-                            changes.states() handledBy sizesCheckboxStore3.update
-                        }
-                    }
-                }
-            }
-        }
-        playground {
-            source(
-                """
-                    checkbox {
-                        label("small")
-                        size { small }
-                    }
-                    checkbox {
-                        label("normal")
-                    }
-                    checkbox {
-                        label("large")
-                        size { large }
-                    }
-                    """
-            )
-        }
 
         showcaseSection("Disabled")
         componentFrame {
