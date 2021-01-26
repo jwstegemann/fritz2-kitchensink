@@ -105,7 +105,7 @@ class MyFormControlComponent : FormControlComponent() {
                         textAlign { right }
                         minHeight { full }
                         height { full }
-                    }){ +component.label }
+                    }){ component.label }
 
                     stackUp({
                         width { full }
@@ -209,7 +209,7 @@ fun RenderContext.formControlDemo(): Div {
                 
                 formControl {
                     label { "Favorite web framework" }
-                    required { true }
+                    required ( true )
                     helperText { "Input the name of your favorite Kotlin based web framework." }
                     errorMessage {
                         framework.data.map {
@@ -248,13 +248,13 @@ fun RenderContext.formControlDemo(): Div {
             val favStore = storeOf(true)
 
             formControl {
-                required(true)
                 label { "Required input switch" }
-                switch {
-                    checked ( favStore.data )
+                required(true)
+                switch(store = favStore) {
+                    /*checked ( favStore.data )
                     events {
                         changes.states() handledBy favStore.update
-                    }
+                    }*/
                 }
                 errorMessage {
                     favStore.data.map {
@@ -270,7 +270,7 @@ fun RenderContext.formControlDemo(): Div {
                 """
             formControl {
                 required(true)
-                label { "Control me" }
+                label { "Required input switch" }
                 switch {
                     checked ( favStore.data )
                     events {
@@ -293,7 +293,7 @@ fun RenderContext.formControlDemo(): Div {
             formControl {
                 label { "How do you feel about fritz2?" }
                 // embed a single checkbox using its specific API
-                checkbox {
+                checkbox(store = favStore) {
                     label(favStore.data.map { labels[it]!! })
                     checked ( favStore.data )
                     events {
