@@ -65,8 +65,8 @@ fun RenderContext.textareaDemo(): Div {
             lineUp {
                 items {
                     textArea {
-                        value { dataStore.data }
-                        base {
+                        value ( dataStore.data )
+                        element {
                             changes.values() handledBy dataStore.update
                         }
                     }
@@ -226,7 +226,7 @@ fun RenderContext.textareaDemo(): Div {
                 items {
                     textArea {
                         placeholder("disabled")
-                        disable(true)
+                        disabled(true)
                     }
                 }
             }

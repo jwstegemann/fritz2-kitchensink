@@ -248,7 +248,7 @@ fun RenderContext.iconsDemo(): Div {
                 size { small }
                 text("Visit us on Github!")
                 icon {
-                    def = IconDefinition(
+                    IconDefinition(
                         displayName = "github",
                         viewBox = "0 0 496 512",
                         svg = """

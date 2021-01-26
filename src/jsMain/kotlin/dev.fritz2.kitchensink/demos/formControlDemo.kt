@@ -13,9 +13,7 @@ import dev.fritz2.styling.StyleClass
 import dev.fritz2.styling.params.BasicParams
 import dev.fritz2.styling.params.styled
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
-import selectField
 
 // extend ControlComponent in order to override or extend functions for controls
 // and for setting up other renderers
@@ -66,9 +64,8 @@ class MyFormControlComponent : FormControlComponent() {
                 items {
                     radioGroup(styling, returnStore.selectedStore, baseClass, id, prefix) {
                         build()
-                        items {
-                            items.map { it + "custom" }
-                        }
+                        items.values.map { it + "custom" }
+                        //items { items.map { it + "custom"}}
                     }
                     inputField {
                         size { small }

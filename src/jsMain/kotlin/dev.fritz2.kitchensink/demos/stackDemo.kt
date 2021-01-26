@@ -143,7 +143,7 @@ fun RenderContext.stackDemo(): Div {
                 items {
                     stackUp {
                         spacing { tiny }
-                        reverse { true }
+                        reversed ( true )
                         items {
                             item(Theme().colors.primary, "1")
                             item(Theme().colors.primaryEffect, "2")
