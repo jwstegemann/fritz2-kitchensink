@@ -64,8 +64,9 @@ class MyFormControlComponent : FormControlComponent() {
                 items {
                     radioGroup(styling, returnStore.selectedStore, baseClass, id, prefix) {
                         build()
-                        items.values.map { it + "custom" }
-                        //items { items.map { it + "custom"}}
+                        direction { row }
+                        items ( items.values.map { it + "custom" })
+                        //items { items.map { it + "custom" } }
                     }
                     inputField {
                         size { small }
@@ -250,7 +251,7 @@ fun RenderContext.formControlDemo(): Div {
                 required(true)
                 label { "Required input switch" }
                 switch {
-                    checked { favStore.data }
+                    checked ( favStore.data )
                     events {
                         changes.states() handledBy favStore.update
                     }
