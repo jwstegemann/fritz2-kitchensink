@@ -157,7 +157,7 @@ fun RenderContext.radiosDemo(): Div {
                  val allItems = listOf("item 1", "item 2", "item 3")
                  val selectedItem = storeOf("item 2")
                  radioGroup(store = selectedItem) {
-                    items{ flowOf(allItems) }
+                    items( flowOf(allItems) )
                     direction { row }
                  }
                 """
@@ -255,7 +255,7 @@ fun RenderContext.radiosDemo(): Div {
                     }
                     
                     radioGroup(store = usageRadioGroupStore) {
-                        items { flowOf(demoItems) }
+                        items ( flowOf(demoItems) )
                         direction { column }
                         disabled(flowOf(true))
                     }

@@ -281,7 +281,7 @@ fun RenderContext.modalDemo(): Div {
                     }) {
                         size { small }
                         text("Nope")
-                        iconRight()
+                        iconPlacement{right}
                     }
                 }
             """.trimIndent()

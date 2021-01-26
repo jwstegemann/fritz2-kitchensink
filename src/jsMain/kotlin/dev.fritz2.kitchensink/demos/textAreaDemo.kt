@@ -79,7 +79,7 @@ fun RenderContext.textareaDemo(): Div {
                 """
                 textArea {
                     value { dataStore.data }
-                    base {
+                    element {
                         changes.values() handledBy dataStore.update
                     }
                 }
@@ -237,7 +237,7 @@ fun RenderContext.textareaDemo(): Div {
                     """
                  textArea {
                     placeholder("disabled")
-                    disable(true)
+                    disabled(true)
                  }
                 """.trimIndent()
             )

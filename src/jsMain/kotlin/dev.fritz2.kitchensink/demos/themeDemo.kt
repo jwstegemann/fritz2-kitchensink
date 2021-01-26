@@ -209,7 +209,7 @@ fun RenderContext.themeDemo(): Div {
 
                         switch {
                             label("Use large fonts theme")
-                            checked { ThemeStore.data.map { it == 1 } }
+                            checked ( ThemeStore.data.map { it == 1 } )
                             events {
                                 changes.states().map { if (it) 1 else 0 } handledBy ThemeStore.selectTheme
                             }

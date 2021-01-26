@@ -109,7 +109,7 @@ fun RenderContext.buttonDemo(): Div {
                         background { color { warning }}
                     }) {
                         icon { fromTheme { arrowRight } }
-                        iconRight()
+                        iconPlacement { right }
                         text("Next")
                     }
 

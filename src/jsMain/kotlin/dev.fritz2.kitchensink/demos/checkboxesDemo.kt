@@ -60,7 +60,7 @@ fun RenderContext.checkboxesDemo(): Div {
                 """
                 checkbox {
                     label("A single Checkbox")
-                    checked { store.data }
+                    checked ( store.data )
                     events {
                         changes.states() handledBy store.update
                     }
@@ -79,7 +79,7 @@ fun RenderContext.checkboxesDemo(): Div {
             +" function, you can display the group in a row or as a column."
         }
         componentFrame {
-            checkboxGroup(store = usageCheckboxGroupStore, items =  demoItems) {
+            checkboxGroup(store = usageCheckboxGroupStore, items = demoItems) {
                 direction { row }
             }
         }
@@ -88,8 +88,7 @@ fun RenderContext.checkboxesDemo(): Div {
                 """
                 val allItems = listOf("item 1", "item 2", "item 3")
                 val checkedItems = storeOf(listOf("item 2", "item 3"))
-                checkboxGroup(store = storeOf(checkedItems)) {
-                    items { flowOf(allItems) }
+                checkboxGroup(store = storeOf(checkedItems), items = allItems) {
                     direction { row }
                 }
                 """
@@ -231,7 +230,7 @@ fun RenderContext.checkboxesDemo(): Div {
 
                     checkbox {
                         label("Changed checkmark to fritz2 icon")
-                        checked { flowOf(true) }
+                        checked ( flowOf(true) )
                         icon { Theme().icons.fritz2 }
                     }
 
@@ -270,13 +269,12 @@ fun RenderContext.checkboxesDemo(): Div {
                 """
                     checkbox {
                         label("A disabled Checkbox or CheckboxGroup can not be selected.")
-                        disabled { flowOf(true) }
+                        disabled ( flowOf(true) )
                     }
                     
-                    checkboxGroup(store = selectedItemsStore) {
-                        items { flowOf(allItems) }
+                    checkboxGroup(store = selectedItemsStore, items = allItems) {
                         direction { column }
-                        disabled { flowOf(true) }
+                        disabled ( flowOf(true) )
                     }
                     """
             )

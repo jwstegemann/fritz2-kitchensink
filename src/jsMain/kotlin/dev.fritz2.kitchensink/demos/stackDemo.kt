@@ -163,7 +163,7 @@ fun RenderContext.stackDemo(): Div {
                     items {
                         stackUp {
                             spacing { tiny }
-                            reverse { true }
+                            reverse ( true )
                             items {
                                 box { p { +"1" } }
                                 box { p { +"2" } }

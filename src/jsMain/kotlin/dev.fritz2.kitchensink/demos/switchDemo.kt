@@ -45,7 +45,7 @@ fun RenderContext.switchDemo(): Div {
                 """
                 switch {
                     label("Simple Switch")
-                    checked { checkedStore.data }
+                    checked ( checkedStore.data )
                     events {
                         changes.states() handledBy checkedStore.update
                     }

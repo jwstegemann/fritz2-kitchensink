@@ -169,7 +169,7 @@ fun RenderContext.spinnerDemo(): Div {
         playground {
             source("""
                 spinner {
-                    speed { "3s" }
+                    speed ( "3s" )
                 }
             """.trimIndent())
         }
@@ -214,7 +214,7 @@ fun RenderContext.spinnerDemo(): Div {
                         size { "5rem" }
                     }) {
                         icon { fritz2 }
-                        speed { "1.5s" }
+                        speed ( "1.5s" )
                     }
             """.trimIndent())
         }

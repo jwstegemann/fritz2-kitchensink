@@ -271,8 +271,8 @@ fun RenderContext.formControlDemo(): Div {
             formControl {
                 required(true)
                 label { "Control me" }
-                switch(store = favStore) {
-                     checked { favStore.data }
+                switch {
+                    checked ( favStore.data )
                     events {
                         changes.states() handledBy favStore.update
                     }
@@ -316,7 +316,7 @@ fun RenderContext.formControlDemo(): Div {
                 // embed a single checkbox using its form control specific API
                 checkbox {
                     label(favStore.data.map { labels[it]!! })
-                    checked { favStore.data }
+                    checked ( favStore.data )
                     events {
                         changes.states() handledBy favStore.update
                     }
@@ -365,8 +365,7 @@ fun RenderContext.formControlDemo(): Div {
                                     
                 formControl {
                     label { "A simple, labeled CheckboxGroup:" }
-                    checkboxGroup(store = selectedItemsStore) {
-                        items { flowOf(myItemList) }
+                    checkboxGroup(store = selectedItemsStore, items = myItemList) {
                         direction { row }
                     }
                 }

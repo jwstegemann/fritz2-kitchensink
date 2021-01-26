@@ -67,8 +67,8 @@ fun RenderContext.inputDemo(): Div {
                 """
                 val userNameStore = storeOf("")
                 inputField {
-                    base {
-                        placeholder("Enter text")
+                    placeholder("Enter text")
+                    events {
                         changes.values() handledBy userNameStore.update
                     }
                 }
@@ -125,22 +125,16 @@ fun RenderContext.inputDemo(): Div {
         playground {
             source(
                 """
-                 inputField {
+                inputField {
                     size { small }
-                    base {
-                        placeholder("small")
-                    }
+                    placeholder("small")
                 }
                 inputField {
-                    base {
-                        placeholder("normal (default)")
-                    }
+                    placeholder("normal (default)")
                 }
                 inputField {
                     size { large }
-                    base {
-                        placeholder("large")
-                    }
+                    placeholder("large")
                 }
                 """
             )
@@ -171,9 +165,7 @@ fun RenderContext.inputDemo(): Div {
             source(
                 """
                     inputField {
-                        base {
-                            value("outline")
-                        }
+                        value("outline")
                     }
                     inputField {
                         variant { filled }
@@ -211,16 +203,12 @@ fun RenderContext.inputDemo(): Div {
             source(
                 """
                     inputField {
-                        base {
-                            value("readonly")
-                            readOnly(true)
-                        }
+                        value("readonly")
+                        readonly(true)
                     }
                     inputField {
-                        base {
-                            value("disabled (skips tab)")
-                            disabled(true)
-                        }
+                        value("disabled (skips tab)")
+                        disabled(true)
                     }
                 """
             )
@@ -270,22 +258,17 @@ fun RenderContext.inputDemo(): Div {
             source(
                 """
                 inputField {
-                    base {
-                        type("password")
-                        placeholder("password")
-                    }
+                    type("password")
+                    placeholder("password")
                 }
                 inputField {
-                    base {
-                        type("date")
-                    }
+                    type("date")
+                    placeholder("date")
                 }
                 inputField {
-                    base {
-                        type("number")
-                        placeholder("42")
-                        step("42")
-                    }
+                    type("number")
+                    placeholder("42")
+                    step("1")
                 }
                 """
             )
