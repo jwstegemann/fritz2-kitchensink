@@ -19,7 +19,7 @@ fun RenderContext.inputDemo(): Div {
     val userNameStore = storeOf("")
 
     return contentFrame {
-        showcaseHeader("Input Field")
+        showcaseHeader("InputField")
 
         paragraph {
             +"""

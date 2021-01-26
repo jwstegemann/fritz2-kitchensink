@@ -250,7 +250,7 @@ fun RenderContext.formControlDemo(): Div {
                 required(true)
                 label { "Required input switch" }
                 switch {
-                    checked ( favStore.data )
+                    checked { favStore.data }
                     events {
                         changes.states() handledBy favStore.update
                     }
@@ -428,7 +428,7 @@ fun RenderContext.formControlDemo(): Div {
                 selectField(store = selected) {
                     items(selectList)
                 }
-                required( true )
+                required(true)
                 errorMessage {
                     selected.data.map {
                         // any non-empty string will display as error message
