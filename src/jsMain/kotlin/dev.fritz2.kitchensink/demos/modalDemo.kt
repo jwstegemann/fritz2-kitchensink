@@ -366,15 +366,13 @@ fun RenderContext.modalDemo(): Div {
             stackUp {
                 items {
                     // todo this radio group should have default selected
-                    radioGroup(store = ModalComponent.overlay) {
+                    radioGroup(store = ModalComponent.overlay, items = overlayVariants.values.toList()) {
                         direction { row }
                         label { overlay ->
                             overlayVariants.filter { it.value == overlay }.map {
                                 it.key
                             }[0]
                         }
-                        items(overlayVariants.values.toList())
-
                     }
 
                     clickButton { text("Stack'em") } handledBy modal {

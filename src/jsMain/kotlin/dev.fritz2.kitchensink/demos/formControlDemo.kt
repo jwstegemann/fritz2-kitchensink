@@ -21,7 +21,8 @@ class MyFormControlComponent : FormControlComponent() {
 
     //  custom implementation of radio group within custom form control
     fun myRadioGroup(
-        styling: BasicParams.() -> Unit ={},
+        styling: BasicParams.() -> Unit = {},
+        items: List<String>,
         store: Store<String>,
         baseClass: StyleClass? = null,
         id: String? = null,
@@ -60,13 +61,20 @@ class MyFormControlComponent : FormControlComponent() {
 
         control.set(Companion.ControlNames.radioGroup)
         {
-            lineUp {
+            lineUp({
+                alignItems { center }
+            }) {
                 items {
-                    radioGroup(styling, returnStore.selectedStore, baseClass, id, prefix) {
+                    radioGroup(
+                        styling,
+                        items = items + "custom",
+                        returnStore.selectedStore,
+                        baseClass,
+                        id,
+                        prefix
+                    ) {
                         build()
                         direction { row }
-                        items ( items.values.map { it + "custom" })
-                        //items { items.map { it + "custom" } }
                     }
                     inputField {
                         size { small }
@@ -95,32 +103,30 @@ class MyFormControlComponent : FormControlComponent() {
             control: RenderContext.() -> Unit
         ) {
             renderContext.lineUp({
-                verticalAlign { top }
-                alignItems { start }
+                alignItems { center }
                 styling()
             }, baseClass, id, prefix) {
                 items {
                     (::p.styled {
-                        alignItems { start }
                         textAlign { right }
                         minHeight { full }
                         height { full }
-                    }){ component.label }
-
-                    stackUp({
-                        width { full }
-                        alignItems { start }
                         borders {
-                            left {
+                            right {
                                 color { light }
                                 width { fat }
                             }
                         }
                         paddings {
-                            left {
+                            right {
                                 normal
                             }
                         }
+                    }){ +component.label.value }
+
+                    stackUp({
+                        width { full }
+                        alignItems { center }
                     }) {
                         spacing { tiny }
                         items {
@@ -180,17 +186,17 @@ fun RenderContext.formControlDemo(): Div {
             val solution = "fritz2"
             val framework = storeOf("")
             formControl {
-                label { "Favorite web framework" }
+                label("Favorite web framework")
                 required(true)
-                helperText { "Input the name of your favorite Kotlin based web framework." }
-                errorMessage {
+                helperText("Input the name of your favorite Kotlin based web framework.")
+                errorMessage(
                     framework.data.map {
                         // any non-empty string will display as error message
                         if (it.isNotEmpty() && it.toLowerCase() != solution) {
                             "'$it' is completely wrong."
                         } else ""
                     }
-                }
+                )
                 // use the appropriate single element control with its specific API
                 inputField(store = framework) {
                     placeholder("Your answer here")
@@ -209,7 +215,7 @@ fun RenderContext.formControlDemo(): Div {
                 
                 formControl {
                     label { "Favorite web framework" }
-                    required ( true )
+                    required { true }
                     helperText { "Input the name of your favorite Kotlin based web framework." }
                     errorMessage {
                         framework.data.map {
@@ -248,21 +254,21 @@ fun RenderContext.formControlDemo(): Div {
             val favStore = storeOf(true)
 
             formControl {
-                label { "Required input switch" }
                 required(true)
-                switch(store = favStore) {
-                    /*checked ( favStore.data )
+                label("Required input switch")
+                switch {
+                    checked(favStore.data)
                     events {
                         changes.states() handledBy favStore.update
-                    }*/
+                    }
                 }
-                errorMessage {
+                errorMessage(
                     favStore.data.map {
                         if (!it) {
                             "Please activate this switch."
                         } else ""
                     }
-                }
+                )
             }
         }
         playground {
@@ -291,11 +297,11 @@ fun RenderContext.formControlDemo(): Div {
             )
 
             formControl {
-                label { "How do you feel about fritz2?" }
+                label("How do you feel about fritz2?")
                 // embed a single checkbox using its specific API
-                checkbox(store = favStore) {
+                checkbox {
                     label(favStore.data.map { labels[it]!! })
-                    checked ( favStore.data )
+                    checked(favStore.data)
                     events {
                         changes.states() handledBy favStore.update
                     }
@@ -337,11 +343,11 @@ fun RenderContext.formControlDemo(): Div {
         componentFrame {
 
             formControl {
-                label { "A simple, labeled CheckboxGroup" }
+                label("A simple, labeled CheckboxGroup")
                 checkboxGroup(store = selectedItemsStore, items = myItemList) {
                     direction { row }
                 }
-                helperText { "The order of checking influences the selection." }
+                helperText("The order of checking influences the selection.")
             }
         }
 
@@ -383,14 +389,14 @@ fun RenderContext.formControlDemo(): Div {
                     changes.values() handledBy textStore.update
                 }
                 required(true)
-                label { "Type something in to make a FormControl very happy." }
-                errorMessage {
+                label("Type something in to make a FormControl very happy.")
+                errorMessage(
                     textStore.data.map {
                         if (it.isEmpty()) {
                             "I can't believe you did that."
                         } else ""
                     }
-                }
+                )
             }
         }
         playground {
@@ -424,19 +430,19 @@ fun RenderContext.formControlDemo(): Div {
         componentFrame {
 
             formControl {
-                label { "Single selection form control with validation" }
+                label("Single selection form control with validation")
                 selectField(store = selected) {
                     items(selectList)
                 }
                 required(true)
-                errorMessage {
+                errorMessage(
                     selected.data.map {
                         // any non-empty string will display as error message
                         if (it == "-") {
                             "Please select a character."
                         } else ""
                     }
-                }
+                )
             }
         }
 
@@ -479,7 +485,7 @@ fun RenderContext.formControlDemo(): Div {
         paragraph {
             +"Write custom FormControls for your components. You can either write your own functions which"
             +" simply extend "
-            c( "FormControlComponent")
+            c("FormControlComponent")
             +", or you can override the default functions for the supported components. The following example"
             +" is created as an extension and uses Strings as items."
 
@@ -487,9 +493,8 @@ fun RenderContext.formControlDemo(): Div {
         val selectedRadio = storeOf(selectList[2])
         componentFrame {
             myFormControl {
-                label { "myFormControl wraps myRadioGroup" }
-                myRadioGroup(store = selectedRadio) {
-                    items(myItemList)
+                label("myFormControl wraps myRadioGroup")
+                myRadioGroup(items = myItemList, store = selectedRadio) {
                     direction { column }
                 }
             }

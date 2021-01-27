@@ -36,6 +36,7 @@ fun RenderContext.checkboxesDemo(): Div {
         val customCheckboxStore1 = storeOf(false)
         val customCheckboxStore2 = storeOf(true)
         val customCheckboxStore3 = storeOf(false)
+        val customCheckboxStore4 = storeOf(false)
         val sizesCheckboxStore1 = storeOf(false)
         val sizesCheckboxStore2 = storeOf(true)
         val sizesCheckboxStore3 = storeOf(true)
@@ -186,27 +187,27 @@ fun RenderContext.checkboxesDemo(): Div {
                         checkedStyle {
                             { border { color { secondary }}}
                         }
-                        checked ( customCheckboxStore1.data )
+                        checked ( customCheckboxStore2.data )
                         events {
-                            changes.states() handledBy customCheckboxStore1.update
+                            changes.states() handledBy customCheckboxStore2.update
                         }
                     }
 
                     checkbox {
                         label("Changed checkmark to fritz2 icon")
                         icon { Theme().icons.fritz2 }
-                        checked ( customCheckboxStore2.data )
+                        checked ( customCheckboxStore3.data )
                         events {
-                            changes.states() handledBy customCheckboxStore1.update
+                            changes.states() handledBy customCheckboxStore3.update
                         }
                     }
 
                     checkbox {
                         label("Custom label style: larger margin")
                         labelStyle { { margins { left { larger } } } }
-                        checked ( customCheckboxStore3.data )
+                        checked ( customCheckboxStore4.data )
                         events {
-                            changes.states() handledBy customCheckboxStore1.update
+                            changes.states() handledBy customCheckboxStore4.update
                         }
                     }
                 }

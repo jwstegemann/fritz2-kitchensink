@@ -146,8 +146,7 @@ fun RenderContext.radiosDemo(): Div {
             +" parameter, you can display the radios in a row or as a column."
         }
         componentFrame {
-            radioGroup(store = usageRadioGroupStore ) {
-                items ( flowOf(demoItems) )
+            radioGroup(store = usageRadioGroupStore, items = demoItems ) {
                 direction { row }
             }
         }
@@ -237,8 +236,7 @@ fun RenderContext.radiosDemo(): Div {
                         selected (usageRadioStore.data)
                     }
 
-                    radioGroup(store = usageRadioGroupStore) {
-                        items ( flowOf(demoItems) )
+                    radioGroup(store = usageRadioGroupStore, items = demoItems) {
                         direction { column }
                         disabled(flowOf(true))
                     }
