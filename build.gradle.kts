@@ -3,7 +3,6 @@ plugins {
 }
 
 repositories {
-    mavenLocal()
     jcenter()
     maven("https://oss.jfrog.org/artifactory/jfrog-dependencies")
     maven("https://dl.bintray.com/jwstegemann/fritz2")
