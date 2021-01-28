@@ -16,6 +16,23 @@ data class Person(val name: String = "", val id: Int = 0)
 fun RenderContext.selectDemo(): Div {
     val myOptions = listOf("fr", "it", "z2")
     val selectedItem = storeOf("")
+    val myOptionsOutline = listOf("Banana", "Strawberry", "Mango")
+    val selectedItemOutline = storeOf("")
+    val myOptionsFilled = listOf("Guacamole", "Salsa", "Sour Cream")
+    val selectedItemFilled = storeOf("")
+    val myOptionsSmall = listOf("Some", "things", "are", "little")
+    val selectedItemSmall = storeOf("")
+    val myOptionsNormal = listOf("some", "are", "boring")
+    val selectedItemNormal = storeOf("")
+    val myOptionsLarge = listOf("and", "some", "things", "are", "huge")
+    val selectedItemLarge = storeOf("")
+    val myOptionsCircle = listOf("sunny", "rainy", "cloudy", "snowy")
+    val selectedItemCircle = storeOf("")
+    val myOptionsArrow = listOf("rabbits", "squirrels", "mice", "foxes")
+    val selectedItemArrow = storeOf("")
+    val myOptionsDisabled = listOf("day", "night")
+    val selectedItemDisabled = storeOf("")
+
 
 
 
@@ -38,9 +55,8 @@ fun RenderContext.selectDemo(): Div {
         componentFrame {
             stackUp {
                 items {
-                    selectField(store = selectedItem) {
+                    selectField(store = selectedItem, items = myOptions) {
                         placeholder("placeholder")
-                        items(myOptions)
                     }
                     storeContentBox {
                         p {
@@ -85,15 +101,15 @@ fun RenderContext.selectDemo(): Div {
         componentFrame {
             stackUp {
                 items {
-                    selectField(store = selectedItem) {
+                    selectField(store = selectedItemSmall, items = myOptionsSmall) {
                         placeholder("small")
                         size { small }
 
                     }
-                    selectField(store = selectedItem) {
+                    selectField(store = selectedItemNormal, items = myOptionsNormal) {
                         placeholder("normal (default)")
                     }
-                    selectField(store = selectedItem) {
+                    selectField(store = selectedItemLarge, items = myOptionsLarge) {
                         placeholder("large")
                         size { large }
                     }
@@ -132,10 +148,10 @@ fun RenderContext.selectDemo(): Div {
         componentFrame {
             stackUp {
                 items {
-                    selectField(store = selectedItem) {
+                    selectField(store = selectedItemOutline, items = myOptionsOutline) {
                         placeholder("outline (default)")
                     }
-                    selectField(store = selectedItem) {
+                    selectField(store = selectedItemFilled, items = myOptionsFilled) {
                         placeholder("filled")
                         variant { filled }
                     }
@@ -167,12 +183,12 @@ fun RenderContext.selectDemo(): Div {
         componentFrame {
             stackUp {
                 items {
-                    selectField(store = selectedItem) {
+                    selectField(store = selectedItemCircle, items = myOptionsCircle) {
                         placeholder("Large with circleAdd-Icon")
                         icon { Theme().icons.circleAdd }
                         size { large }
                     }
-                    selectField(store = selectedItem) {
+                    selectField(store = selectedItemArrow, items = myOptionsArrow) {
                         placeholder("Small with arrowDown-Icon")
                         icon { Theme().icons.arrowDown }
                         size { small }
@@ -217,8 +233,7 @@ fun RenderContext.selectDemo(): Div {
 
             stackUp {
                 items {
-                    selectField(store = store) {
-                        items(persons)
+                    selectField(store = store, items = persons) {
                         label { it.name }
                     }
                     storeContentBox {
@@ -256,9 +271,8 @@ fun RenderContext.selectDemo(): Div {
         componentFrame {
             lineUp {
                 items {
-                    selectField(store = selectedItem) {
+                    selectField(store = selectedItemDisabled, items = myOptionsDisabled) {
                         placeholder("disabled selectField")
-                        items(myOptions)
                         disabled(true)
                     }
                 }

@@ -431,8 +431,7 @@ fun RenderContext.formControlDemo(): Div {
 
             formControl {
                 label("Single selection form control with validation")
-                selectField(store = selected) {
-                    items(selectList)
+                selectField(store = selected, items = selectList) {
                 }
                 required(true)
                 errorMessage(
