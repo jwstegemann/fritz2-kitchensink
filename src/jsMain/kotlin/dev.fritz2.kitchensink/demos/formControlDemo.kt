@@ -464,8 +464,7 @@ fun RenderContext.formControlDemo(): Div {
                 
                 formControl {
                     label { "Single selection form control with validation" }
-                    selectField(store = selected) {
-                        items(selectList)
+                    selectField(store = selected, items = selectItems) {
                     }
                     required(true)
                     errorMessage {
@@ -629,8 +628,7 @@ fun RenderContext.formControlDemo(): Div {
                 // In your renderContext, call the custom FormControl.
                 myFormControl {
                     label { "myFormControl wraps myRadioGroup"  }
-                    radioGroup(store = selectedRadio) {
-                        items(myItemList)
+                    radioGroup(store = selectedRadio, items = myItemList) {
                         direction { column }
                     }
                 }
