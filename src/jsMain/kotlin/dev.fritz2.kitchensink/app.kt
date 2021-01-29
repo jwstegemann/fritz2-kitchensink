@@ -7,7 +7,6 @@ import dev.fritz2.kitchensink.base.*
 import dev.fritz2.kitchensink.demos.*
 import dev.fritz2.routing.router
 import dev.fritz2.styling.name
-import dev.fritz2.styling.params.alterHexColorBrightness
 import dev.fritz2.styling.params.styled
 import dev.fritz2.styling.staticStyle
 import dev.fritz2.styling.theme.Theme
@@ -92,7 +91,7 @@ fun main() {
     val menuStore = storeOf(false)
 
     // todo: change to lightEffect? Would be very dark. White also not good.
-    val menuBackgroundColor = alterHexColorBrightness(Theme().colors.light, 1.95 )
+    val menuBackgroundColor = Theme().colors.lightestGray
 
     render(themes.first()) {
         (::div.styled {
@@ -114,7 +113,7 @@ fun main() {
                         after {
                             textAlign { center }
                             background { color { primary } }
-                            color { light }
+                            color { lightGray }
                         }
                         alignItems { end }
                     }) {

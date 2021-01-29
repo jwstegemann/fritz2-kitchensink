@@ -8,7 +8,10 @@ import dev.fritz2.dom.html.P
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.kitchensink.theme_
-import dev.fritz2.styling.params.*
+import dev.fritz2.styling.params.ColorProperty
+import dev.fritz2.styling.params.SizesProperty
+import dev.fritz2.styling.params.alterHexColorBrightness
+import dev.fritz2.styling.params.styled
 import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -54,6 +57,17 @@ fun RenderContext.colorDemo(): Div {
         }
 
         colorBars()
+
+        (::div.styled {
+            margins { top { huge } }
+        }) {
+            createColorBar(Theme().colors.lightestGray, "lightestGray", { "55%" }, { "60%" })
+            createColorBar(Theme().colors.lighterGray, "lighterGray", { "60%" }, { "65%" })
+            createColorBar(Theme().colors.lightGray, "lightGray", { "65%" }, { "70%" })
+            createColorBar(Theme().colors.gray, "gray", { "70%" }, { "75%" })
+            createColorBar(Theme().colors.darkGray, "darkGray", { "75%" }, { "80%" })
+            createColorBar(Theme().colors.darkerGray, "darkerGray", { "80%" }, { "85%" })
+        }
 
         showcaseSection("Color Brightness")
         val demoBrightness = 1.5
@@ -132,12 +146,10 @@ fun RenderContext.colorBars(): Div {
         createColorBar(Theme().colors.secondary, "secondary", { "85%" }, { "90%" })
         createColorBar(Theme().colors.secondaryEffect, "secondaryEffect", { "80%" }, { "85%" })
         createColorBar(Theme().colors.dark, "dark", { "75%" }, { "80%" })
-        createColorBar(Theme().colors.light, "light", { "70%" }, { "75%" })
-        createColorBar(Theme().colors.lightEffect, "lightEffect", { "65%" }, { "70%" })
-        createColorBar(Theme().colors.info, "info", { "60%" }, { "65%" })
-        createColorBar(Theme().colors.success, "success", { "55%" }, { "60%" })
-        createColorBar(Theme().colors.warning, "warning", { "50%" }, { "55%" })
-        createColorBar(Theme().colors.danger, "danger", { "45%" }, { "50%" })
+        createColorBar(Theme().colors.info, "info", { "70%" }, { "75%" })
+        createColorBar(Theme().colors.success, "success", { "65%" }, { "70%" })
+        createColorBar(Theme().colors.warning, "warning", { "60%" }, { "65%" })
+        createColorBar(Theme().colors.danger, "danger", { "55%" }, { "60%" })
     }
 }
 
@@ -204,7 +216,6 @@ fun RenderContext.colorBrightnessDemo(brightness: Double): P {
         createBrightnessDemoBar(Theme().colors.primary, "primary", brightness)
         createBrightnessDemoBar(Theme().colors.secondary, "secondary", brightness)
         createBrightnessDemoBar(Theme().colors.dark, "dark", brightness)
-        createBrightnessDemoBar(Theme().colors.light, "light", brightness)
         createBrightnessDemoBar(Theme().colors.info, "info", brightness)
         createBrightnessDemoBar(Theme().colors.success, "success", brightness)
         createBrightnessDemoBar(Theme().colors.warning, "warning", brightness)

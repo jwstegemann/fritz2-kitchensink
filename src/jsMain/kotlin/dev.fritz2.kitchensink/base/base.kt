@@ -6,7 +6,10 @@ import dev.fritz2.dom.html.P
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.router
 import dev.fritz2.styling.*
-import dev.fritz2.styling.params.*
+import dev.fritz2.styling.params.BasicParams
+import dev.fritz2.styling.params.ColorProperty
+import dev.fritz2.styling.params.alterHexColorBrightness
+import dev.fritz2.styling.params.styled
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -134,7 +137,7 @@ fun RenderContext.componentFrame(padding: Boolean = true, init: Div.() -> Unit):
         }
         border {
             width { thin }
-            color { light }
+            color { lightGray }
         }
         radius { small }
         if (padding) padding { normal }
@@ -148,7 +151,7 @@ fun RenderContext.storeContentBox(
 ): Div =
         (::div.styled {
             background {
-                color { lightEffect }
+                color { lighterGray }
             }
             margins {
                 top { "1.25rem" }
@@ -201,7 +204,7 @@ fun RenderContext.navAnchor(linkText: String, href: String): Div {
         }
         hover {
             background {
-                color { lightEffect }
+                color { lighterGray }
             }
         }
         paddings {

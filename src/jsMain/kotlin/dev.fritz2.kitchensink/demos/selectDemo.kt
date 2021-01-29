@@ -16,25 +16,6 @@ data class Person(val name: String = "", val id: Int = 0)
 fun RenderContext.selectDemo(): Div {
     val myOptions = listOf("fr", "it", "z2")
     val selectedItem = storeOf("")
-    val myOptionsOutline = listOf("Banana", "Strawberry", "Mango")
-    val selectedItemOutline = storeOf("")
-    val myOptionsFilled = listOf("Guacamole", "Salsa", "Sour Cream")
-    val selectedItemFilled = storeOf("")
-    val myOptionsSmall = listOf("Some", "things", "are", "little")
-    val selectedItemSmall = storeOf("")
-    val myOptionsNormal = listOf("some", "are", "boring")
-    val selectedItemNormal = storeOf("")
-    val myOptionsLarge = listOf("and", "some", "things", "are", "huge")
-    val selectedItemLarge = storeOf("")
-    val myOptionsCircle = listOf("sunny", "rainy", "cloudy", "snowy")
-    val selectedItemCircle = storeOf("")
-    val myOptionsArrow = listOf("rabbits", "squirrels", "mice", "foxes")
-    val selectedItemArrow = storeOf("")
-    val myOptionsDisabled = listOf("day", "night")
-    val selectedItemDisabled = storeOf("")
-
-
-
 
     return contentFrame {
 

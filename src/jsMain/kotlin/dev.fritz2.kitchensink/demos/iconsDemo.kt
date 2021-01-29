@@ -337,7 +337,7 @@ fun RenderContext.iconsDemo(): Div {
                     alignItems { center }
                     border {
                         style { solid }
-                        color { light }
+                        color { lightGray }
                         width { normal }
                     }
                     radius { small }

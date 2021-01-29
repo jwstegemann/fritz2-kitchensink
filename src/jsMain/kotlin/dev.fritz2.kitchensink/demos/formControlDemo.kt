@@ -113,7 +113,7 @@ class MyFormControlComponent : FormControlComponent() {
                         height { full }
                         borders {
                             right {
-                                color { light }
+                                color { lighterGray }
                                 width { fat }
                             }
                         }
