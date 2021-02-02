@@ -38,6 +38,31 @@ fun RenderContext.alertDemo(): Div {
             )
         }
 
+
+        showcaseSection("Styling")
+
+        paragraph {
+            +"The alert's icon can be changed via the "
+            c("icon")
+            +" property."
+        }
+        componentFrame {
+            alert {
+                icon { fritz2 }
+                content("Alert with the fritz2 logo")
+            }
+        }
+        playground {
+            source(
+                """
+                    alert {
+                        icon { fritz2 }
+                        content("Alert with the fritz2 logo")
+                    }
+                """.trimIndent()
+            )
+        }
+
         showcaseSection("Customizing")
 
         paragraph {
@@ -149,29 +174,6 @@ fun RenderContext.alertDemo(): Div {
                     alert {
                         content("This is a top-accented alert.")
                         variant { topAccent }
-                    }
-                """.trimIndent()
-            )
-        }
-
-        showcaseSubSection("Icon")
-        paragraph {
-            +"The alert's icon can be changed via the "
-            c("icon")
-            +" property."
-        }
-        componentFrame {
-            alert {
-                icon { fritz2 }
-                content("Alert with the fritz2 logo")
-            }
-        }
-        playground {
-            source(
-                """
-                    alert {
-                        icon { fritz2 }
-                        content("Alert with the fritz2 logo")
                     }
                 """.trimIndent()
             )
