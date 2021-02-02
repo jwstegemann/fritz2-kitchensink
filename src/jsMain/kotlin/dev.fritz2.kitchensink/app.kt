@@ -40,6 +40,7 @@ const val icons_ = "Icons"
 const val tooltip_ = "Tooltip"
 const val responsive_ = "Responsiveness"
 const val textarea_ = "TextArea"
+const val alert_ = "Alert"
 const val toasts_ = "Toast"
 
 val router = router(welcome_)
@@ -263,6 +264,7 @@ fun main() {
                             menuAnchor(textarea_)
                             menuAnchor(switch_)
                             menuAnchor(formcontrol_)
+                            menuAnchor(alert_)
 
                             menuHeader("OVERLAY")
                             menuAnchor(modal_)
@@ -316,6 +318,7 @@ fun main() {
                                 colors_ -> colorDemo()
                                 responsive_ -> responsiveDemo()
                                 textarea_ -> textareaDemo()
+                                alert_ -> alertDemo()
                                 toasts_ -> toastDemo()
                                 else -> welcome()
                             }
