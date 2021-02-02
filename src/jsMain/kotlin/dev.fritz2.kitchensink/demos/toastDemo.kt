@@ -15,7 +15,12 @@ import kotlinx.coroutines.flow.flow
 
 private fun RenderContext.basicStyledToastContent(title: String = "Toast"): P {
     return (::p.styled {
-        margin { normal }
+        margins {
+            top { small }
+            left { small }
+            bottom { small }
+            right { "80px" }
+        }
         color { lightGray }
     }) {
         +title
@@ -336,9 +341,153 @@ fun RenderContext.toastDemo(): Div {
         }
 
 
-        showcaseSection("Closing Toasts")
+        showcaseSection("Styling")
 
-        // TODO: Add info about the close button, it's style and the toast's background
+        paragraph {
+            +"Both the background color and the look of a toast's close-button can be customized."
+        }
+
+        showcaseSubSection("Background")
+        paragraph {
+            +"The toast'S background color can be changed via the "
+            c("background")
+            +" property."
+        }
+        componentFrame {
+            clickButton {
+                text("Show")
+            } handledBy toast {
+                background { darkerGray }
+                content {
+                    basicStyledToastContent("Toast with custom background color")
+                }
+            }
+        }
+        playground {
+            source(
+                """
+                    showToast {
+                        background { darkerGray }
+                        content {
+                            // Content omitted
+                        }
+                    }
+                """.trimIndent()
+            )
+        }
+
+        showcaseSubSection("Close-Button")
+        paragraph {
+            +"The close button's style can optionally be overridden via the "
+            c("closeButtonStyle")
+            +" property."
+        }
+        componentFrame {
+            clickButton {
+                text("Show")
+            } handledBy toast {
+                closeButtonStyle {
+                    background { color { lightGray } }
+                    color { darkGray }
+                }
+                content {
+                    basicStyledToastContent()
+                }
+            }
+        }
+        playground {
+            source(
+                """
+                    showToast {
+                        closeButtonStyle {
+                            background { color { lightGray } }
+                            color { darkGray }
+                        }
+                        content {
+                            basicStyledToastContent()
+                        }
+                    }
+                """.trimIndent()
+            )
+        }
+
+
+        showcaseSection("Duration")
+
+        paragraph {
+            +"By default a toast is automatically dismissed after 5000 ms. You can change the duration by setting the "
+            c("duration")
+            +" property in ms."
+        }
+        componentFrame {
+            lineUp {
+                items {
+                    clickButton {
+                        text("Default")
+                    } handledBy toast {
+                        content {
+                            basicStyledToastContent()
+                        }
+                    }
+
+                    clickButton {
+                        text("2000ms")
+                    } handledBy toast {
+                        duration { 2000 }
+                        content {
+                            basicStyledToastContent()
+                        }
+                    }
+                }
+            }
+        }
+        playground {
+            source(
+                """
+                toast {
+                    duration { 2000 }
+                    content {
+                        // Content omitted
+                    }
+                }
+                """.trimIndent()
+            )
+        }
+
+
+        showcaseSection("Closing Toasts Manually")
+
+        showcaseSubSection("Close-Button")
+        paragraph {
+            +"Toasts can manually be dismissed by clicking on it's close button which is part of every toast"
+            +" by default. The close button can be enabled/disabled via the "
+            c("isCloseable")
+            +" property."
+        }
+        componentFrame {
+            clickButton {
+                text("Show")
+            } handledBy toast {
+                isCloseable(false)
+                content {
+                    basicStyledToastContent()
+                }
+            }
+        }
+        playground {
+            source(
+                """
+                    showToast {
+                        isCloseable(false)
+                        content {
+                            basicStyledToastContent()
+                        }
+                    }
+                """.trimIndent()
+            )
+        }
+
+        showcaseSubSection("Dismissing Multiple Toasts")
         paragraph {
             +"As mentioned before, toasts close themselves after a specified time or can be closed by the close button."
             br {}
@@ -360,7 +509,6 @@ fun RenderContext.toastDemo(): Div {
                         content {
                             basicStyledToastContent()
                         }
-
                     }
                     clickButton {
                         text("No Close Button")
@@ -400,49 +548,5 @@ fun RenderContext.toastDemo(): Div {
                 """.trimIndent()
             )
         }
-
-
-        showcaseSection("Duration")
-
-        paragraph {
-            +"As default, a toast is shown 5000 ms. You can change the duration by setting the "
-            c("duration")
-            +" property in ms."
-        }
-        componentFrame {
-            lineUp {
-                items {
-                    clickButton {
-                        text("Default")
-                    } handledBy toast {
-                        content {
-                            basicStyledToastContent()
-                        }
-                    }
-
-                    clickButton {
-                        text("2000ms")
-                    } handledBy toast {
-                        duration { 2000 }
-                        content {
-                            basicStyledToastContent()
-                        }
-                    }
-                }
-            }
-        }
-        playground {
-            source(
-                """
-                toast {
-                    duration { 2000 }
-                    content {
-                        // Content omitted
-                    }
-                }
-                """.trimIndent()
-            )
-        }
     }
-
 }
