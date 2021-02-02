@@ -6,7 +6,6 @@ import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.styling.params.styled
 
-// TODO: Add info about changing the alert's icon
 fun RenderContext.alertDemo(): Div {
     return contentFrame {
         showcaseHeader("Alerts")
@@ -40,11 +39,13 @@ fun RenderContext.alertDemo(): Div {
         }
 
         showcaseSection("Customizing")
+
         paragraph {
             +"You can customize the alert's color scheme, choose from a variety of layout variants and even use "
             +" custom layouts for the title and content."
         }
 
+        showcaseSubSection("Severity")
         paragraph {
             +"The color scheme can be changed by specifying the alert's severity using the "
             c("severity")
@@ -99,6 +100,7 @@ fun RenderContext.alertDemo(): Div {
             )
         }
 
+        showcaseSubSection("Layout Variant")
         paragraph {
             +"The alert's layout variant can be changed via the "
             c("variant")
@@ -152,6 +154,30 @@ fun RenderContext.alertDemo(): Div {
             )
         }
 
+        showcaseSubSection("Icon")
+        paragraph {
+            +"The alert's icon can be changed via the "
+            c("icon")
+            +" property."
+        }
+        componentFrame {
+            alert {
+                icon { fritz2 }
+                content("Alert with the fritz2 logo")
+            }
+        }
+        playground {
+            source(
+                """
+                    alert {
+                        icon { fritz2 }
+                        content("Alert with the fritz2 logo")
+                    }
+                """.trimIndent()
+            )
+        }
+
+        showcaseSubSection("Custom Title And Content")
         paragraph {
             +"It is also possible to pass custom layouts for the title and content. This can be done via the "
             c("title")
