@@ -44,8 +44,8 @@ fun RenderContext.toastDemo(): Div {
         paragraph {
             +"A basic toast can created by just defining the "
             c("content")
-            +"property ."
-            +"This will create a toast with the given content, a default timer with 5000 ms as well as a background"
+            +"property."
+            +" This will create a toast with the given content, a default timer with 5000 ms as well as a background"
             +" color matching the info color defined in the theme."
         }
         componentFrame {
@@ -87,8 +87,18 @@ fun RenderContext.toastDemo(): Div {
 
         showcaseSubSection("Use Alerts As The Toasts Content")
         paragraph {
-            +"Since the toast component offers a minimal API only which requires you to build the toast's content on"
-            +" manually all the time, it is recommended to use an alert as your toast's content. This way it is much"
+            alert {
+                icon { circleInformation }
+                variant { leftAccent }
+                content {
+                    p {
+                        +"Since the toast component offers a minimal API only which requires you to build the toast's "
+                        +" content manually all the time, it is recommended to use an alert as your toast's content."
+                    }
+                }
+            }
+            br {  }
+            +"This way it is much"
             +" easier to create rich contents with less lines of code. You can either pass the alert yourself or use"
             +" one of the provided convenience functions "
             c("showAlertToast")
