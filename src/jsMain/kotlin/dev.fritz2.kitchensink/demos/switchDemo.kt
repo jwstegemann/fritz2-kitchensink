@@ -33,7 +33,7 @@ fun RenderContext.switchDemo(): Div {
         componentFrame {
             switch {
                 label("Simple Switch")
-                checked { checkedStore1.data }
+                checked ( checkedStore1.data )
                 events {
                     changes.states() handledBy checkedStore1.update
                 }
@@ -45,7 +45,7 @@ fun RenderContext.switchDemo(): Div {
                 """
                 switch {
                     label("Simple Switch")
-                    checked { checkedStore.data }
+                    checked ( checkedStore.data )
                     events {
                         changes.states() handledBy checkedStore.update
                     }
@@ -70,7 +70,7 @@ fun RenderContext.switchDemo(): Div {
             switch() {
                 label("Small")
                 size { small }
-                checked { checkedStore4.data }
+                checked ( checkedStore4.data )
                 events {
                     changes.states() handledBy checkedStore4.update
                 }
@@ -79,7 +79,7 @@ fun RenderContext.switchDemo(): Div {
         componentFrame {
             switch() {
                 label("Normal (default)")
-                checked { checkedStore5.data }
+                checked ( checkedStore5.data )
                 events {
                     changes.states() handledBy checkedStore5.update
                 }
@@ -89,7 +89,7 @@ fun RenderContext.switchDemo(): Div {
             switch() {
                 label("Large")
                 size { large }
-                checked { checkedStore6.data }
+                checked ( checkedStore6.data )
                 events {
                     changes.states() handledBy checkedStore6.update
                 }
@@ -124,7 +124,7 @@ fun RenderContext.switchDemo(): Div {
                 }
             }) {
                 label("Custom background colors")
-                checked { checkedStore2.data }
+                checked ( checkedStore2.data )
                 checkedStyle {
                     { background { color { secondary } } }
                 }
@@ -136,7 +136,7 @@ fun RenderContext.switchDemo(): Div {
         componentFrame {
             switch {
                 label("Custom dot")
-                checked { checkedStore3.data }
+                checked ( checkedStore3.data )
                 dotStyle {
                     {
                         size { "0.8rem" }

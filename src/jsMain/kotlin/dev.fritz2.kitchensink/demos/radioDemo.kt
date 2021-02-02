@@ -146,8 +146,7 @@ fun RenderContext.radiosDemo(): Div {
             +" parameter, you can display the radios in a row or as a column."
         }
         componentFrame {
-            radioGroup(store = usageRadioGroupStore) {
-                items { flowOf(demoItems) }
+            radioGroup(store = usageRadioGroupStore, items = demoItems ) {
                 direction { row }
             }
         }
@@ -156,8 +155,7 @@ fun RenderContext.radiosDemo(): Div {
                 """
                  val allItems = listOf("item 1", "item 2", "item 3")
                  val selectedItem = storeOf("item 2")
-                 radioGroup(store = selectedItem) {
-                    items{ flowOf(allItems) }
+                 radioGroup(store = selectedItem, items = allItems) {
                     direction { row }
                  }
                 """
@@ -237,8 +235,7 @@ fun RenderContext.radiosDemo(): Div {
                         selected (usageRadioStore.data)
                     }
 
-                    radioGroup(store = usageRadioGroupStore) {
-                        items { flowOf(demoItems) }
+                    radioGroup(store = usageRadioGroupStore, items = demoItems) {
                         direction { column }
                         disabled(flowOf(true))
                     }
@@ -254,8 +251,7 @@ fun RenderContext.radiosDemo(): Div {
                         disabled(flowOf(true))
                     }
                     
-                    radioGroup(store = usageRadioGroupStore) {
-                        items { flowOf(demoItems) }
+                    radioGroup(store = usageRadioGroupStore, items = demoItems) {
                         direction { column }
                         disabled(flowOf(true))
                     }

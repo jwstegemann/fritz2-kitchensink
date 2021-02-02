@@ -1,14 +1,11 @@
 package dev.fritz2.kitchensink.demos
 
-import dev.fritz2.components.box
 import dev.fritz2.components.lineUp
 import dev.fritz2.components.spinner
 import dev.fritz2.components.stackUp
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
-import dev.fritz2.styling.params.AlignContentValues.flexStart
-import dev.fritz2.styling.params.AlignContentValues.start
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
@@ -153,7 +150,7 @@ fun RenderContext.spinnerDemo(): Div {
                     stackUp({ alignItems { center } }) {
                         items {
                             spinner {
-                                speed { "1s" }
+                                speed ( "1s" )
                             }
                             p { +"1s" }
                         }
@@ -161,7 +158,7 @@ fun RenderContext.spinnerDemo(): Div {
                     stackUp({ alignItems { center } }) {
                         items {
                             spinner {
-                                speed { "3s" }
+                                speed ( "3s" )
                             }
                             p { +"3s" }
                         }
@@ -172,7 +169,7 @@ fun RenderContext.spinnerDemo(): Div {
         playground {
             source("""
                 spinner {
-                    speed { "3s" }
+                    speed ( "3s" )
                 }
             """.trimIndent())
         }
@@ -204,7 +201,7 @@ fun RenderContext.spinnerDemo(): Div {
                                 size { "5rem" }
                             }) {
                                 icon { fritz2 }
-                                speed { "1.5s" }
+                                speed ( "1.5s" )
                             }
                         }
                     }
@@ -217,7 +214,7 @@ fun RenderContext.spinnerDemo(): Div {
                         size { "5rem" }
                     }) {
                         icon { fritz2 }
-                        speed { "1.5s" }
+                        speed ( "1.5s" )
                     }
             """.trimIndent())
         }

@@ -5,10 +5,8 @@ import dev.fritz2.components.*
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
-import dev.fritz2.styling.params.BackgroundBlendModes.normal
 import dev.fritz2.styling.params.BasicParams
 import dev.fritz2.styling.params.Style
-import dev.fritz2.styling.params.styled
 import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -258,7 +256,7 @@ fun RenderContext.modalDemo(): Div {
                         }) {
                             size { small }
                             text("Nope")
-                            iconRight()
+                            iconPlacement{right}
                         }
                     }
                 }
@@ -283,7 +281,7 @@ fun RenderContext.modalDemo(): Div {
                     }) {
                         size { small }
                         text("Nope")
-                        iconRight()
+                        iconPlacement{right}
                     }
                 }
             """.trimIndent()
@@ -368,15 +366,13 @@ fun RenderContext.modalDemo(): Div {
             stackUp {
                 items {
                     // todo this radio group should have default selected
-                    radioGroup(store = ModalComponent.overlay) {
+                    radioGroup(store = ModalComponent.overlay, items = overlayVariants.values.toList()) {
                         direction { row }
                         label { overlay ->
                             overlayVariants.filter { it.value == overlay }.map {
                                 it.key
                             }[0]
                         }
-                        items(overlayVariants.values.toList())
-
                     }
 
                     clickButton { text("Stack'em") } handledBy modal {

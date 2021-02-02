@@ -9,7 +9,6 @@ import dev.fritz2.kitchensink.ThemeStore
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.kitchensink.colors_
 import dev.fritz2.kitchensink.icons_
-import dev.fritz2.kitchensink.theme_
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.map
 
@@ -184,7 +183,7 @@ fun RenderContext.themeDemo(): Div {
                 items {
                     switch {
                         label("Use large fonts theme")
-                        checked { ThemeStore.data.map { it == 1 } }
+                        checked ( ThemeStore.data.map { it == 1 } )
                         events {
                             changes.states().map { if (it) 1 else 0 } handledBy ThemeStore.selectTheme
                         }
@@ -210,7 +209,7 @@ fun RenderContext.themeDemo(): Div {
 
                         switch {
                             label("Use large fonts theme")
-                            checked { ThemeStore.data.map { it == 1 } }
+                            checked ( ThemeStore.data.map { it == 1 } )
                             events {
                                 changes.states().map { if (it) 1 else 0 } handledBy ThemeStore.selectTheme
                             }
