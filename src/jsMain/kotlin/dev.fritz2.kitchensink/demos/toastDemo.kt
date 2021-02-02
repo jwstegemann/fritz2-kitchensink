@@ -25,7 +25,7 @@ fun RenderContext.toastDemo(): Div {
 
 
     return contentFrame {
-        showcaseHeader("Toast")
+        /*showcaseHeader("Toast")
         paragraph {
             +"As known from mobile devices, a toast provides some feedback in form of an alert after some action has taken placed ."
             br { }
@@ -501,7 +501,7 @@ fun RenderContext.toastDemo(): Div {
                     }
             """.trimIndent()
             )
-        }
+        }*/
     }
 
 }
