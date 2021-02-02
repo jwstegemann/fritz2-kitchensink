@@ -6,6 +6,7 @@ import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.styling.params.styled
 
+// TODO: Add info about changing the alert's icon
 fun RenderContext.alertDemo(): Div {
     return contentFrame {
         showcaseHeader("Alerts")
