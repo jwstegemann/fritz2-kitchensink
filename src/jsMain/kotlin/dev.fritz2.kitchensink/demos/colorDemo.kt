@@ -4,563 +4,221 @@ import dev.fritz2.components.box
 import dev.fritz2.components.lineUp
 import dev.fritz2.components.tooltip
 import dev.fritz2.dom.html.Div
+import dev.fritz2.dom.html.P
 import dev.fritz2.dom.html.RenderContext
+import dev.fritz2.kitchensink.base.*
+import dev.fritz2.kitchensink.theme_
+import dev.fritz2.styling.params.ColorProperty
+import dev.fritz2.styling.params.SizesProperty
+import dev.fritz2.styling.params.alterHexColorBrightness
 import dev.fritz2.styling.params.styled
 import dev.fritz2.styling.theme.Theme
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 fun RenderContext.colorDemo(): Div {
-    return div {
-        lineUp({
-            margins {
-                top { huge }
-            }
-        }) {
-            items {
-                box({
-                    width(sm = { "100%" }, md = { "90%" })
-                    //height { "2.35rem" }
-                    background {
-                        color { primary }
-                    }
-                    border {
-                        width { fat }
-                        color { primary }
-                    }
-                    hover {
-                        width(sm = { "100%" }, md = { "100%" })
-                        tooltip("${Theme().colors.primary}") { right }()
-                    }
-                    radius { "1.3rem" }
-                }) {
-                    lineUp {
-                        items {
-                            (::p.styled {
-                                textAlign { right }
-                                width { "8rem" }
-                                background {
-                                    color { base }
-                                }
-                                radii {
-                                    left { "1rem" }
-                                }
-                                color { primary }
-                                paddings {
-                                    left { small }
-                                    right { small }
-                                }
-                            }) { +"primary" }
-                            (::p.styled {
-                                color{ base }
-                                fontSize(sm = { normal }, md = { "0rem" })
-                            }) {
-                                +"${Theme().colors.primary}"
-                            }
-                        }
-                    }
-                }
 
-            }
-        }
-        lineUp({
-            margins {
-                top { tiny }
-            }
-        }) {
-            items {
-                box({
-                    width(sm = { "100%" }, md = { "85%" })
-                    //height { "2.35rem" }
-                    background {
-                        color { primary_hover }
-                    }
-                    border {
-                        width { fat }
-                        color { "transparent" }
-                    }
-                    hover {
-                        width(sm = { "100%" }, md = { "95%" })
-                        tooltip("${Theme().colors.primary_hover}") { right }()
-                    }
-                    radius { "1.3rem" }
-                }) {
-                    lineUp {
-                        items {
-                            (::p.styled {
-                                width { "8rem" }
-                                background {
-                                    color { base }
-                                }
-                                radii {
-                                    left { "1rem" }
-                                }
-                                color { primary_hover }
-                                paddings {
-                                    left { small }
-                                    right { small }
-                                }
-                            }) { +"primary_hover" }
-                            (::p.styled {
-                                color{ dark }
-                                fontSize(sm = { normal }, md = { "0rem" })
-                            }) {
-                                +"${Theme().colors.primary_hover}"
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        lineUp({
-            margins {
-                top { tiny }
-            }
-        }) {
-            items {
-                box({
-                    width(sm = { "100%" }, md = { "80%" })
-                    //height { "2.35rem" }
-                    background {
-                        color { secondary }
-                    }
-                    border {
-                        width { fat }
-                        color { secondary }
-                    }
-                    hover {
-                        width(sm = { "100%" }, md = { "90%" })
-                        tooltip("${Theme().colors.secondary}") { right }()
-                    }
-                    radius { "1.3rem" }
-                }) {
-                    lineUp {
-                        items {
-                            (::p.styled {
-                                textAlign { right }
-                                width { "8rem" }
-                                background {
-                                    color { base }
-                                }
-                                radii {
-                                    left { "1rem" }
-                                }
-                                color { secondary }
-                                paddings {
-                                    left { small }
-                                    right { small }
-                                }
-                            }) { +"secondary" }
-                            (::p.styled {
-                                color{ dark }
-                                fontSize(sm = { normal }, md = { "0rem" })
-                            }) {
-                                +"${Theme().colors.secondary}"
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        lineUp({
-            margins {
-                top { tiny }
-            }
-        }) {
-            items {
-                box({
-                    width(sm = { "100%" }, md = { "75%" })
-                    //height { "2.35rem" }
-                    background {
-                        color { tertiary }
-                    }
-                    border {
-                        width { fat }
-                        color { tertiary }
-                    }
-                    hover {
-                        width(sm = { "100%" }, md = { "85%" })
-                        tooltip("${Theme().colors.tertiary}") { right }()
-                    }
-                    radius { "1.3rem" }
-                }) {
-                    lineUp {
-                        items {
-                            (::p.styled {
-                                textAlign { right }
-                                width { "8rem" }
-                                background {
-                                    color { base }
-                                }
-                                radii {
-                                    left { "1rem" }
-                                }
-                                color { tertiary }
-                                paddings {
-                                    left { small }
-                                    right { small }
-                                }
-                            }) { +"tertiary" }
-                            (::p.styled {
-                                color{ base }
-                                fontSize(sm = { normal }, md = { "0rem" })
-                            }) {
-                                +"${Theme().colors.tertiary}"
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        lineUp({
-            margins {
-                top { tiny }
-            }
-        }) {
-            items {
-                box({
-                    width(sm = { "100%" }, md = { "70%" })
-                    //height { "2.35rem" }
-                    background {
-                        color { dark }
-                    }
-                    border {
-                        width { fat }
-                        color { dark }
-                    }
-                    hover {
-                        width(sm = { "100%" }, md = { "80%" })
-                        tooltip("${Theme().colors.dark}") { right }()
-                    }
-                    radius { "1.3rem" }
-                }) {
-                    lineUp {
-                        items {
-                            (::p.styled {
-                                textAlign { right }
-                                width { "8rem" }
-                                background {
-                                    color { base }
-                                }
-                                radii {
-                                    left { "1rem" }
-                                }
-                                color { dark }
-                                paddings {
-                                    left { small }
-                                    right { small }
-                                }
-                            }) { +"dark" }
-                            (::p.styled {
-                                color{ base }
-                                fontSize(sm = { normal }, md = { "0rem" })
-                            }) {
-                                +"${Theme().colors.dark}"
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        lineUp({
-            margins {
-                top { tiny }
-            }
-        }) {
-            items {
-                box({
-                    width(sm = { "100%" }, md = { "65%" })
-                    //height { "2.35rem" }
-                    background {
-                        color { light }
-                    }
-                    border {
-                        width { fat }
-                        color { light }
-                    }
-                    hover {
-                        width(sm = { "100%" }, md = { "75%" })
-                        tooltip("${Theme().colors.light}") { right }()
-                    }
-                    radius { "1.3rem" }
+    return contentFrame {
 
-                }) {
-                    lineUp {
-                        items {
-                            (::p.styled {
-                                textAlign { right }
-                                width { "8rem" }
-                                background {
-                                    color { base }
-                                }
-                                radii {
-                                    left { "1rem" }
-                                }
-                                color { light }
-                                paddings {
-                                    left { small }
-                                    right { small }
-                                }
-                            }) { +"light" }
-                            (::p.styled {
-                                color{ dark }
-                                fontSize(sm = { normal }, md = { "0rem" })
-                            }) {
-                                +"${Theme().colors.light}"
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        lineUp({
-            margins {
-                top { tiny }
-            }
-        }) {
-            items {
-                box({
-                    width(sm = { "100%" }, md = { "60%" })
-                    //height { "2.35rem" }
-                    background {
-                        color { light_hover }
-                    }
-                    border {
-                        width { fat }
-                        color { "transparent" }
-                    }
-                    hover {
-                        width(sm = { "100%" }, md = { "70%" })
-                        tooltip("${Theme().colors.light_hover}") { right }()
-                    }
-                    radius { "1.3rem" }
-                }) {
-                    lineUp {
-                        items {
-                            (::p.styled {
-                                textAlign { right }
-                                width { "8rem" }
-                                background {
-                                    color { base }
-                                }
-                                radii {
-                                    left { "1rem" }
-                                }
-                                color { light_hover }
-                                paddings {
-                                    left { small }
-                                    right { small }
-                                }
-                            }) { +"light_hover" }
-                            (::p.styled {
-                                color{ dark }
-                                fontSize(sm = { normal }, md = { "0rem" })
-                            }) {
-                                +"${Theme().colors.light_hover}"
-                            }
-                        }
-                    }
-                }
-            }
+        showcaseHeader("Colors")
+
+        paragraph {
+            +"The fritz2 components default theme has its own set of colors which you can view here."
+            +" Please see "
+            internalLink("the themes page", theme_)
+            +" for more information on using themes. "
         }
 
-        lineUp({
-            margins {
-                top { tiny }
-            }
+        paragraph {
+            +"The default theme provides the following colors: "
+            c("primary")
+            +", "
+            c("primaryEffect")
+            +", "
+            c("secondary")
+            +", "
+            c("secondaryEffect")
+            +", "
+            c("dark")
+            +", "
+            c("light")
+            +", "
+            c("lightEffect")
+            +", "
+            c("info")
+            +", "
+            c("success")
+            +", "
+            c("warning")
+            +" and "
+            c("danger")
+            +"."
+
+        }
+
+        colorBars()
+
+        (::div.styled {
+            margins { top { huge } }
         }) {
-            items {
-                box({
-                    width(sm = { "100%" }, md = { "55%" })
-                    //height { "2.35rem" }
+            createColorBar(Theme().colors.lightestGray, "lightestGray", { "55%" }, { "60%" })
+            createColorBar(Theme().colors.lighterGray, "lighterGray", { "60%" }, { "65%" })
+            createColorBar(Theme().colors.lightGray, "lightGray", { "65%" }, { "70%" })
+            createColorBar(Theme().colors.gray, "gray", { "70%" }, { "75%" })
+            createColorBar(Theme().colors.darkGray, "darkGray", { "75%" }, { "80%" })
+            createColorBar(Theme().colors.darkerGray, "darkerGray", { "80%" }, { "85%" })
+        }
+
+        showcaseSection("Color Brightness")
+        val demoBrightness = 1.5
+
+        paragraph {   + "Additionally, you can use the function "
+            c("alterHexColorBrightness(ColorProperty, double)")
+            +" to freely change the brightness setting of any "
+            b { +"hex (#rrggbb)" }
+            +" color."
+            +" Use a value between 1 and 2 to lighten up the color, and a value between 0 and 1 to darken it."
+            +" The colors on the right side use a brightness setting of "
+            c("$demoBrightness")
+            +"."
+        }
+
+        colorBrightnessDemo(demoBrightness)
+        val demoDarkness = 0.7
+        paragraph {
+            +"These colors use a brightness of "
+            c("$demoDarkness")
+            +"."
+        }
+        colorBrightnessDemo(demoDarkness)
+    }
+}
+
+fun RenderContext.createColorBar(color: ColorProperty, colorName: String, boxSizeMd: SizesProperty, hoverSizeMd: SizesProperty) : Div {
+    return lineUp({
+        margins {
+            top { tiny }
+        }
+    }) {
+        items {
+            box({
+                width(sm = { "100%" }, boxSizeMd)
+                background {
+                    color { color }
+                }
+                border {
+                    width { fat }
+                    color { "transparent" }
+                }
+                hover {
+                    width(sm = { "100%" }, hoverSizeMd)
+                    tooltip(color) { right } ()
+                }
+                radius { "1.3rem" }
+                textAlign { right }
+            }) {
+                (::p.styled {
+                    width { "8rem" }
                     background {
-                        color { info }
+                        color { base }
                     }
-                    border {
-                        width { fat }
-                        color { info }
+                    radii {
+                        left { "1rem" }
                     }
-                    hover {
-                        width(sm = { "100%" }, md = { "65%" })
-                        tooltip("${Theme().colors.info}") { right }()
+                    color { color }
+                    paddings {
+                        left { small }
+                        right { small }
                     }
-                    radius { "1.3rem" }
-                }) {
-                    lineUp {
-                        items {
-                            (::p.styled {
-                                textAlign { right }
-                                width { "8rem" }
-                                background {
-                                    color { base }
-                                }
-                                radii {
-                                    left { "1rem" }
-                                }
-                                color { info }
-                                paddings {
-                                    left { small }
-                                    right { small }
-                                }
-                            }) { +"info" }
-                            (::p.styled {
-                                color{ base }
-                                fontSize(sm = { normal }, md = { "0rem" })
-                            }) {
-                                +"${Theme().colors.info}"
+                }) { +colorName }
+            }
+        }
+    }
+}
+
+// TODO: Remove lighter version
+fun RenderContext.colorBars(): Div {
+    return (::div.styled {
+        margins { top { huge } }
+    }) {
+        createColorBar(Theme().colors.primary, "primary", { "95%" }, { "100%" })
+        createColorBar(Theme().colors.primaryEffect, "primaryEffect", { "90%" }, { "95%" })
+        createColorBar(Theme().colors.secondary, "secondary", { "85%" }, { "90%" })
+        createColorBar(Theme().colors.secondaryEffect, "secondaryEffect", { "80%" }, { "85%" })
+        createColorBar(Theme().colors.dark, "dark", { "75%" }, { "80%" })
+        createColorBar(Theme().colors.info, "info", { "70%" }, { "75%" })
+        createColorBar(Theme().colors.success, "success", { "65%" }, { "70%" })
+        createColorBar(Theme().colors.warning, "warning", { "60%" }, { "65%" })
+        createColorBar(Theme().colors.danger, "danger", { "55%" }, { "60%" })
+    }
+}
+
+fun RenderContext.createBrightnessDemoBar(color: ColorProperty, colorName: String, brightness: Double): Div {
+    return lineUp({
+        margins {
+            top { tiny }
+        }
+    }) {
+        items {
+            box({
+                width(sm = { "45%" }, md = { "40%" })
+                background {
+                    color { color }
+                }
+                border {
+                    width { fat }
+                    color { color }
+                }
+                hover {
+                    tooltip(color) { right }()
+                }
+                radius { "1.3rem" }
+            }) {
+                lineUp {
+                    items {
+                        (::p.styled {
+                            textAlign { center }
+                            width { "6rem" }
+                            background {
+                                color { base }
                             }
-                        }
+                            radius { "1rem" }
+                            color { color }
+                            paddings {
+                                left { small }
+                                right { small }
+                            }
+                        }) { +colorName }
                     }
                 }
             }
-        }
-        lineUp({
-            margins {
-                top { tiny }
-            }
-        }) {
-            items {
-                box({
-                    width(sm = { "100%" }, md = { "50%" })
-                    //height { "2.35rem" }
-                    background {
-                        color { success }
-                    }
-                    border {
-                        width { fat }
-                        color { success }
-                    }
-                    hover {
-                        width(sm = { "100%" }, md = { "60%" })
-                        tooltip("${Theme().colors.success}") { right }()
-                    }
-                    radius { "1.3rem" }
-                }) {
-                    lineUp {
-                        items {
-                            (::p.styled {
-                                textAlign { right }
-                                width { "8rem" }
-                                background {
-                                    color { base }
-                                }
-                                radii {
-                                    left { "1rem" }
-                                }
-                                color { success }
-                                paddings {
-                                    left { small }
-                                    right { small }
-                                }
-                            }) { +"success" }
-                            (::p.styled {
-                                color{ base }
-                                fontSize(sm = { normal }, md = { "0rem" })
-                            }) {
-                                +"${Theme().colors.success}"
-                            }
-                        }
-                    }
+            box({
+                width(sm = { "45%" }, md = { "40%" })
+                height { "2.2rem" }
+                background {
+                    color { alterHexColorBrightness(color, brightness) }
                 }
-            }
-        }
-        lineUp({
-            margins {
-                top { tiny }
-            }
-        }) {
-            items {
-                box({
-                    width(sm = { "100%" }, md = { "45%" })
-                    //height { "2.35rem" }
-                    background {
-                        color { warning }
-                    }
-                    border {
-                        width { fat }
-                        color { warning }
-                    }
-                    hover {
-                        width(sm = { "100%" }, md = { "55%" })
-                        tooltip("${Theme().colors.warning}") { right }()
-                    }
-                    radius { "1.3rem" }
-                }) {
-                    lineUp {
-                        items {
-                            (::p.styled {
-                                textAlign { right }
-                                width { "8rem" }
-                                background {
-                                    color { base }
-                                }
-                                radii {
-                                    left { "1rem" }
-                                }
-                                color { warning }
-                                paddings {
-                                    left { small }
-                                    right { small }
-                                }
-                            }) { +"warning" }
-                            (::p.styled {
-                                color{ dark }
-                                fontSize(sm = { normal }, md = { "0rem" })
-                            }) {
-                                +"${Theme().colors.warning}"
-                            }
-                        }
-                    }
+                border {
+                    width { fat }
+                    color { alterHexColorBrightness(color, brightness) }
                 }
-            }
-        }
-        lineUp({
-            margins {
-                top { tiny }
-            }
-        }) {
-            items {
-                box({
-                    width(sm = { "100%" }, md = { "40%" })
-                    //height { "2.35rem" }
-                    background {
-                        color { danger }
-                    }
-                    border {
-                        width { fat }
-                        color { danger }
-                    }
-                    hover {
-                        width(sm = { "100%" }, md = { "50%" })
-                        tooltip("${Theme().colors.danger}") { right }()
-                    }
-                    radius { "1.3rem" }
-                }) {
-                    lineUp {
-                        items {
-                            (::p.styled {
-                                textAlign { right }
-                                width { "8rem" }
-                                background {
-                                    color { base }
-                                }
-                                radii {
-                                    left { "1rem" }
-                                }
-                                color { danger }
-                                paddings {
-                                    left { small }
-                                    right { small }
-                                }
-                            }) { +"danger" }
-                            (::p.styled {
-                                color{ base }
-                                fontSize(sm = { normal }, md = { "0rem" })
-                            }) {
-                                +"${Theme().colors.danger}"
-                            }
-                        }
-                    }
+                hover {
+                    tooltip(alterHexColorBrightness(color, brightness)) { right }()
                 }
-            }
+                radius { "1.3rem" }
+            }) {}
         }
+    }
+}
+
+fun RenderContext.colorBrightnessDemo(brightness: Double): P {
+    return paragraph {
+        createBrightnessDemoBar(Theme().colors.primary, "primary", brightness)
+        createBrightnessDemoBar(Theme().colors.secondary, "secondary", brightness)
+        createBrightnessDemoBar(Theme().colors.dark, "dark", brightness)
+        createBrightnessDemoBar(Theme().colors.info, "info", brightness)
+        createBrightnessDemoBar(Theme().colors.success, "success", brightness)
+        createBrightnessDemoBar(Theme().colors.warning, "warning", brightness)
+        createBrightnessDemoBar(Theme().colors.danger, "danger", brightness)
     }
 }

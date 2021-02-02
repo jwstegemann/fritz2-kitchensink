@@ -3,7 +3,9 @@ plugins {
 }
 
 repositories {
+    mavenLocal()
     jcenter()
+    maven("https://oss.jfrog.org/artifactory/jfrog-dependencies")
     maven("https://dl.bintray.com/jwstegemann/fritz2")
     maven(url = "https://kotlin.bintray.com/kotlinx/") // soon will be just jcenter()
 }
@@ -24,7 +26,8 @@ kotlin {
 
         val commonMain by getting {
             dependencies {
-                implementation("dev.fritz2:components:0.8")
+                implementation("dev.fritz2:components:0.9-SNAPSHOT")
+                implementation("dev.fritz2:styling:0.9-SNAPSHOT")
             }
         }
 

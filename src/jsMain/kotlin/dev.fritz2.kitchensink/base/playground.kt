@@ -71,14 +71,9 @@ class PlaygroundComponent {
     fun size(value: Int) {
         size = value
     }
-
 }
 
 fun RenderContext.playground(
-    styling: BasicParams.() -> Unit = {},
-    baseClass: StyleClass? = null,
-    id: String? = null,
-    prefix: String = "playground",
     build: PlaygroundComponent.() -> Unit = {}
 ) {
     val component = PlaygroundComponent().apply(build)

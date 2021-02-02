@@ -17,30 +17,26 @@ fun RenderContext.flexBoxDemo(): Div {
     val item: RenderContext.(String, Int) -> Unit = { color, number ->
         flexBox({
             background { color { color } }
-            color { "white" }
+            color { base }
             width (sm = { "50px" }, md = { "110px" }, lg = { "150px" })
             height { "50px" }
             justifyContent { center }
             alignItems { center }
             margin { smaller }
+            radius { small }
         }) { +"Box $number" }
     }
 
     val threeItems: RenderContext.() -> Unit = {
-        listOf(Theme().colors.primary, Theme().colors.danger, Theme().colors.warning)
+        listOf(Theme().colors.primary, Theme().colors.primaryEffect, Theme().colors.secondary)
             .forEachIndexed { index, value -> item(value, index + 1) }
     }
-
-    val nineItems: RenderContext.() -> Unit = {
+    val fiveItems: RenderContext.() -> Unit = {
         listOf(
             Theme().colors.primary,
-            Theme().colors.danger,
-            Theme().colors.warning,
-            Theme().colors.primary,
-            Theme().colors.danger,
-            Theme().colors.warning,
-            Theme().colors.primary,
-            Theme().colors.danger,
+            Theme().colors.primaryEffect,
+            Theme().colors.secondary,
+            Theme().colors.secondaryEffect,
             Theme().colors.warning,
         ).forEachIndexed { index, value -> item(value, index + 1) }
     }
@@ -49,21 +45,18 @@ fun RenderContext.flexBoxDemo(): Div {
 
         showcaseHeader("Flexbox")
         paragraph {
-            +"The main idea behind the flex layout is to give a container the ability to alter its items' width,"
+            +"The flex layout enables a container to alter its items' width,"
             +" height, and order to best fill the available space. The container is basically a box which has the css"
-            +" property"
+            +" property "
             c("display: flex")
             +" attached."
 
         }
         showcaseSection("Usage")
         paragraph {
-            +"Just use the "
-            c("flexBox")
-            +" component without much ceremony."
-            +" Our Flexbox does not offer special properties, so there is no layer of abstraction upon the CSS"
-            +" based possibilities. We believe those are sufficient, have a good level of abstraction and offer"
-            +" a great flexibility."
+            +"A Flexbox does not need special properties, so this fritz2 component does not abstract anything"
+            +" on top of the css basics. We believe their level of abstraction to be sufficient, and they"
+            +" also offer enough flexibility."
         }
         componentFrame {
             lineUp {
@@ -82,7 +75,7 @@ fun RenderContext.flexBoxDemo(): Div {
                 flexBox({
                     width { full }
                 }) {
-                    // put some arbitrary content into the flexBox!
+                    
                     box({
                         display { flex }
                         justifyContent { center }
@@ -90,26 +83,30 @@ fun RenderContext.flexBoxDemo(): Div {
                         margin { smaller }
                         width { "150px" }
                         height { "50px" }
-                        background { color { primary } } // danger & warning for others
-                        color { "white" }
-                    }) { +"Box 1" }
-                    // all following items without styling for better readability!
+                        background { color { primary } }
+                        color { base }
+                    }) { 
+                        // choose any content for your flexbox
+                        +"Box 1" 
+                    }
+                    
+                    // styling omitted
                     box { +"Box 2" }
                     box { +"Box 3" }
                 }
-            """.trimIndent()
+                """.trimIndent()
             )
         }
 
-        showcaseSection("Flex-Direction")
+        showcaseSection("Flex Direction")
         paragraph {
-            +"fritz2's styling DSL provides these well known flex-direction properties : "
-            c("row (default)")
-            +", "
+            +"fritz2's styling DSL provides these well-known flex-direction properties: "
+            c("row")
+            +" (default), "
             c("rowReverse")
             +", "
             c("column")
-            +", "
+            +", and "
             c("columnReverse")
         }
 
@@ -133,7 +130,7 @@ fun RenderContext.flexBoxDemo(): Div {
             source(
                 """
                 flexBox({
-                    direction { row } // put the appropriate value here
+                    direction { row }
                 }) {
                     box { +"Box 1"}
                     box { +"Box 2"}
@@ -145,9 +142,9 @@ fun RenderContext.flexBoxDemo(): Div {
 
         showcaseSection("Justify Content")
         paragraph {
-            +"Justify Content defines the alignment along the main axis. Our flexbox provides the default properties:"
-            c("flextStart (default)")
-            +", "
+            +"Justify Content defines the alignment along the main axis. Our flexbox provides these property values:"
+            c("flexStart")
+            +" (default), "
             c("flexEnd")
             +", "
             c("center")
@@ -155,7 +152,7 @@ fun RenderContext.flexBoxDemo(): Div {
             c("spaceBetween")
             +", "
             c("spaceAround")
-            +", "
+            +", and "
             c("spaceEvenly")
         }
 
@@ -181,7 +178,7 @@ fun RenderContext.flexBoxDemo(): Div {
             source(
                 """
                 flexBox({
-                    justifyContent { flexStart } // put the appropriate value here
+                    justifyContent { flexStart }
                 }) {
                     box { +"Box 1"}
                     box { +"Box 2"}
@@ -196,11 +193,11 @@ fun RenderContext.flexBoxDemo(): Div {
         paragraph {
             +"Flex items, by default, try to fit into one line. With flex wrap, you can change this behavior and"
             +" allow the items to wrap as needed."
-            +"fritz2 provides these common properties for flex-wrap: "
-            c("nowrap (default)")
-            +", "
+            +" fritz2 provides these common properties for flex-wrap: "
+            c("nowrap")
+            +" (default), "
             c("wrap")
-            +", "
+            +", and "
             c("wrap-reverse")
 
 
@@ -216,7 +213,7 @@ fun RenderContext.flexBoxDemo(): Div {
                     width { full }
                     wrap { it }
                 }) {
-                    nineItems()
+                    fiveItems()
                 }
             }
         }
@@ -225,17 +222,13 @@ fun RenderContext.flexBoxDemo(): Div {
             source(
                 """
                 flexBox({
-                    wrap { noWrap } // put the appropriate value here
+                    wrap { noWrap }
                 }) {
                     box { +"Box 1"}
                     box { +"Box 2"}
                     box { +"Box 3"}
                     box { +"Box 4"}
                     box { +"Box 5"}
-                    box { +"Box 6"}
-                    box { +"Box 7"}
-                    box { +"Box 8"}
-                    box { +"Box 9"}
                 }                    
             """.trimIndent()
             )

@@ -5,11 +5,11 @@ import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.P
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.router
-import dev.fritz2.styling.name
+import dev.fritz2.styling.*
+import dev.fritz2.styling.params.BasicParams
+import dev.fritz2.styling.params.ColorProperty
+import dev.fritz2.styling.params.alterHexColorBrightness
 import dev.fritz2.styling.params.styled
-import dev.fritz2.styling.staticStyle
-import dev.fritz2.styling.style
-import dev.fritz2.styling.whenever
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -19,12 +19,13 @@ fun RenderContext.showcaseHeader(text: String) {
         fontFamily { "Inter, sans-serif" }
         margins {
             top { "2rem" }
-            bottom { ".25rem" }
+            bottom { "2rem" }
         }
+        color { primary }
         lineHeight { tiny }
         fontWeight { "700" }
         fontSize { huge }
-        letterSpacing { small }
+        paddings { bottom { normal } }
     }) { +text }
 }
 
@@ -48,23 +49,21 @@ fun RenderContext.showcaseSection(text: String) {
         lineHeight { smaller }
         fontWeight { "600" }
         fontSize { large }
+        color { primary }
         letterSpacing { small }
-
-        borders {
-            left {
-                width { "6px" }
-                style { solid }
-                color { primary }
-            }
-        }
         radii { left { small } }
         margins { top { "3rem !important" } }
-        paddings { left { smaller } }
     }) { +text }
 }
 
-fun RenderContext.paragraph(init: P.() -> Unit): P {
-    return (::p.styled {
+fun RenderContext.paragraph(
+    styling: BasicParams.() -> Unit = {},
+    baseClass: StyleClass? = null,
+    id: String? = null,
+    prefix: String = "paragraph",
+    init: P.() -> Unit = {}
+): P =
+    ::p.styled(styling, baseClass, id, prefix) {
         fontFamily { "Inter, sans-serif" }
         margins {
             top { "1.25rem" }
@@ -73,32 +72,34 @@ fun RenderContext.paragraph(init: P.() -> Unit): P {
         fontWeight { "400" }
         fontSize { normal }
         letterSpacing { small }
-    })  {
-        init()
-    }
-}
+    } (init)
 
-fun RenderContext.contentFrame(init: Div.() -> Unit): Div {
-    return (::div.styled {
-        margins {
-            top { "2rem" }
-        }
-        maxWidth(sm = { unset }, md = { "75%" }, lg = { "48rem" })
-        paddings(
-            sm = {
-                top { normal }
-            },
-            md = {
+fun RenderContext.contentFrame(
+        styling: BasicParams.() -> Unit = {},
+        baseClass: StyleClass? = null,
+        id: String? = null,
+        prefix: String = "contentframe",
+        init: Div.() -> Unit = {}
+): Div =
+        ::div.styled(styling, baseClass, id, prefix) {
+            margins {
                 top { huge }
-                left { normal }
-                right { normal }
-            })
-    }) {
-        init()
-    }
-}
+                bottom { huge }
+            }
+            maxWidth(sm = { unset }, md = { "75%" }, lg = { "48rem" })
+            paddings(
+                    sm = {
+                        top { normal }
+                    },
+                    md = {
+                        top { huge }
+                        left { normal }
+                        right { normal }
+                    }
+            )
+        } (init)
 
-fun RenderContext.warningBox(init: P.() -> Unit): Div {
+fun RenderContext.coloredBox(baseColorAsHex: ColorProperty, init: P.() -> Unit): Div {
     return (::div.styled {
         margins {
             top { larger }
@@ -112,14 +113,14 @@ fun RenderContext.warningBox(init: P.() -> Unit): Div {
         }
         borders {
             left {
-                width { "4px" }
+                width { "6px" }
                 style { solid }
-                color { danger }
+                color { baseColorAsHex }
             }
         }
         radius { small }
         background {
-            color { "rgb(254, 235, 200)" }
+            color { alterHexColorBrightness(baseColorAsHex, 1.8) }
         }
     }){
         p {
@@ -136,23 +137,46 @@ fun RenderContext.componentFrame(padding: Boolean = true, init: Div.() -> Unit):
         }
         border {
             width { thin }
-            color { light }
+            color { lightGray }
         }
-        radius { larger }
+        radius { small }
         if (padding) padding { normal }
     }){
         init()
     }
 }
 
+fun RenderContext.storeContentBox(
+        init: Div.() -> Unit = {}
+): Div =
+        (::div.styled {
+            background {
+                color { lighterGray }
+            }
+            margins {
+                top { "1.25rem" }
+            }
+            paddings {
+                left { "0.5rem" }
+                right { "0.5rem" }
+            }
+            radius { larger }
+        })(init)
+
 val RenderContext.link
     get() = (::a.styled {
-        fontSize { normal }
-        color { primary }
+        paddings {
+            left { "2px" }
+            right { "2px" }
+            top { "2px" }
+            bottom { "3px" }
+        }
+        fontSize { inherit }
+        color { secondary }
         hover {
-            color { tertiary }
-            background { color { light_hover } }
-            radius { normal }
+            color { primary }
+            background { color {  primaryEffect } }
+            radius { small }
         }
         css("cursor: pointer")
     })
@@ -174,13 +198,13 @@ fun RenderContext.internalLink(text: String, page: String): A {
 
 fun RenderContext.navAnchor(linkText: String, href: String): Div {
     return (::div.styled {
-        radius { normal }
+        radius { small }
         border {
             width { none }
         }
         hover {
             background {
-                color { light_hover }
+                color { lighterGray }
             }
         }
         paddings {
@@ -201,81 +225,88 @@ fun RenderContext.navAnchor(linkText: String, href: String): Div {
     }
 }
 
-
-fun RenderContext.menuHeader(init: P.() -> Unit): P {
-    return (::p.styled {
-        paddings {
-            top { large }
-            left { small }
-            right { small }
-        }
-        fontSize { small }
-        fontWeight { bold }
-        color { tertiary }
-    })  {
-        init()
+fun RenderContext.menuHeader(text: String): Div {
+    return (::div.styled {
+        width { "100%" }
+    }) {
+        (::p.styled {
+            paddings {
+                top { large }
+                left { tiny }
+                right { small }
+            }
+            fontSize { small }
+            fontWeight { bold }
+            letterSpacing { giant }
+            color { secondary }
+        })  { +text }
     }
 }
-
 
 fun RenderContext.menuAnchor(linkText: String): P {
 
     val selected = style {
-        width { "90%" }
-        radius { normal }
-        border {
-            width { none }
-        }
-        background { color { secondary } }
-        paddings {
-            top { tiny }
-            bottom { tiny }
-            left { small }
-            right { small }
-        }
+        color { primaryEffect }
     }
 
     val isActive = router.data.map { hash -> hash == linkText }
         .distinctUntilChanged().onEach { if (it) PlaygroundComponent.update() }
 
     return (::p.styled {
-        width { full }
-        radius { normal }
-        border {
-            width { none }
-        }
-        hover {
-            background {
-                color { light_hover }
-            }
-        }
-        paddings {
+        //color { dark }
+        margins {
             top { tiny }
             bottom { tiny }
-            left { small }
-            right { small }
+            left { none }
         }
-//        fontSize { small }
+        width { "90%" }
+        radius { small }
+        hover {
+            color { primary }
+            background { color { base } }
+        }
+        paddings {
+            top { "0.05rem" }
+            bottom { "0.05rem" }
+            left { tiny }
+            right { tiny }
+        }
+        css("""text-overflow: ellipsis; overflow: hidden;""")
         fontWeight { medium }
         css("cursor: pointer")
+
     }) {
-        className(selected.whenever(isActive).name) // der Name der StyleClass wird das zu stylende Element (in diesem Fall der Div-Container) angehängt
+        className(selected.whenever(isActive).name)
         clicks.map { linkText } handledBy router.navTo
         +linkText
     }
 }
 
-val showcaseCode = staticStyle(
-    "showcase-code", """
-            padding: 2px 0.25rem;
-            font-size: 0.875em;
-            white-space: nowrap;
-            line-height: normal;
-            color: rgb(128, 90, 213);
-            font-family: SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    """
-)
-
+val codeInText = staticStyle(
+    "showcasecode", """
+        white-space: nowrap;
+        font-family: Courier;
+    """)
 fun RenderContext.c(text: String) {
-    span(showcaseCode.name) { +text }
+    (::span.styled(baseClass = codeInText) {
+        padding { "0px 0.15rem" }
+        fontSize { normal }
+        fontWeight { "650" }
+        fontFamily { "Courier" } // todo: added static code because this does not work
+        lineHeight { larger }
+        color { primary }
+        letterSpacing { small }
+    }) { +text }
 }
+
+fun RenderContext.teaserText(
+    init: Div.() -> Unit = {}
+): Div =
+    ::div.styled {
+        fontSize { small }
+        textTransform { capitalize }
+        color { info }
+        fontWeight { semiBold }
+        margins { bottom { "0.7rem" } }
+        fontSize { small }
+    } (init)

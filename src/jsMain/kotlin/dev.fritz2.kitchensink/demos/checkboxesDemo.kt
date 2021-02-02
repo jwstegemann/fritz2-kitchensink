@@ -19,13 +19,10 @@ import kotlinx.coroutines.flow.flowOf
 fun RenderContext.checkboxesDemo(): Div {
 
     return contentFrame {
-        showcaseHeader("Checkboxes")
+        showcaseHeader("Checkbox")
 
         paragraph {
-            c("Checkboxes")
-            +" and"
-            c("CheckboxGroups")
-            +" provide a solution for multi selections. They come with their own options, and"
+            +"Checkboxes and CheckboxGroups provide a solution for multi selections. They come with their own options, and"
             +" of course you can customize their appearance with the use of the styling parameter."
         }
 
@@ -39,22 +36,21 @@ fun RenderContext.checkboxesDemo(): Div {
         val customCheckboxStore1 = storeOf(false)
         val customCheckboxStore2 = storeOf(true)
         val customCheckboxStore3 = storeOf(false)
+        val customCheckboxStore4 = storeOf(false)
         val sizesCheckboxStore1 = storeOf(false)
         val sizesCheckboxStore2 = storeOf(true)
         val sizesCheckboxStore3 = storeOf(true)
 
         showcaseSection("Usage")
         paragraph {
-            +"Single "
-            c("Checkboxes")
-            +" simply need a Flow of Boolean representing their state, passed via the"
+            +"Single checkboxes simply need a Flow of Boolean representing their state, passed via the"
             c("checked")
             +" function. If you want to connect a handler to the state changes, use the event context."
         }
         componentFrame {
             checkbox {
                 label("A single Checkbox")
-                checked { usageCheckboxStore.data }
+                checked ( usageCheckboxStore.data )
                 events {
                     changes.states() handledBy usageCheckboxStore.update
                 }
@@ -65,7 +61,7 @@ fun RenderContext.checkboxesDemo(): Div {
                 """
                 checkbox {
                     label("A single Checkbox")
-                    checked { store.data }
+                    checked ( store.data )
                     events {
                         changes.states() handledBy store.update
                     }
@@ -81,11 +77,10 @@ fun RenderContext.checkboxesDemo(): Div {
             +" The example below uses Strings, but any type can be displayed. Since the store is a non-optional"
             +" argument anyway, the component always connects the checked-handler automatically. Using the"
             c("direction")
-            +" parameter, you can display the group in a row or as a column."
+            +" function, you can display the group in a row or as a column."
         }
         componentFrame {
-            checkboxGroup(store = usageCheckboxGroupStore) {
-                items { flowOf(demoItems) }
+            checkboxGroup(store = usageCheckboxGroupStore, items = demoItems) {
                 direction { row }
             }
         }
@@ -94,80 +89,10 @@ fun RenderContext.checkboxesDemo(): Div {
                 """
                 val allItems = listOf("item 1", "item 2", "item 3")
                 val checkedItems = storeOf(listOf("item 2", "item 3"))
-                checkboxGroup(store = storeOf(checkedItems)) {
-                    items { flowOf(allItems) }
+                checkboxGroup(store = storeOf(checkedItems), items = allItems) {
                     direction { row }
                 }
                 """
-            )
-        }
-
-        showcaseSection("Customizing")
-        paragraph {
-            +"You can customize the checked styles, unchecked styles, and the component label. The unchecked"
-            +" styles go directly into the styling parameter, while you need to use the component functions "
-            c("checkedStyle")
-            +" and "
-            c("labelStyle")
-            +" for their respective changes in appearance."
-            +" Additionally, you can change your checkboxes' check mark with any "
-            c("icon")
-            +" from the fritz2 icon-Set."
-        }
-
-        componentFrame {
-            stackUp {
-                items {
-                    checkbox({
-                        background { color { "tomato" } }
-                    }) {
-                        label("changed unchecked background color")
-                        checked { customCheckboxStore1.data }
-                        events {
-                            changes.states() handledBy customCheckboxStore1.update
-                        }
-                    }
-
-                    checkbox {
-                        label("changed checkmark to fritz2 icon")
-                        icon { Theme().icons.fritz2 }
-                        checked { customCheckboxStore2.data }
-                        events {
-                            changes.states() handledBy customCheckboxStore2.update
-                        }
-                    }
-
-                    checkbox {
-                        label("custom label style: larger margin")
-                        labelStyle { { margins { left { larger } } } }
-                        checked { customCheckboxStore3.data }
-                        events {
-                            changes.states() handledBy customCheckboxStore3.update
-                        }
-                    }
-                }
-            }
-        }
-        playground {
-            source(
-                """
-                    checkbox({
-                        background { color { "tomato" } }
-                    }) {
-                        label("changed unchecked background color")
-                    }
-
-                    checkbox {
-                        label("changed checkmark to fritz2 icon")
-                        checked { flowOf(true) }
-                        icon { Theme().icons.fritz2 }
-                    }
-
-                    checkbox {
-                        label("custom label style: larger margin")
-                        labelStyle { { margins { left { larger } } } }
-                    }
-                    """
             )
         }
 
@@ -177,7 +102,7 @@ fun RenderContext.checkboxesDemo(): Div {
             c("small")
             +", "
             c("normal")
-            +", or  "
+            +" (default), or  "
             c("large")
             +", or scale your checkboxes to your needs using the styling parameter."
         }
@@ -192,14 +117,14 @@ fun RenderContext.checkboxesDemo(): Div {
                     checkbox {
                         label("small")
                         size { small }
-                        checked { sizesCheckboxStore1.data }
+                        checked ( sizesCheckboxStore1.data )
                         events {
                             changes.states() handledBy sizesCheckboxStore1.update
                         }
                     }
                     checkbox {
                         label("normal")
-                        checked { sizesCheckboxStore2.data }
+                        checked ( sizesCheckboxStore2.data )
                         events {
                             changes.states() handledBy sizesCheckboxStore2.update
                         }
@@ -207,7 +132,7 @@ fun RenderContext.checkboxesDemo(): Div {
                     checkbox {
                         label("large")
                         size { large }
-                        checked { sizesCheckboxStore3.data }
+                        checked ( sizesCheckboxStore3.data )
                         events {
                             changes.states() handledBy sizesCheckboxStore3.update
                         }
@@ -233,22 +158,108 @@ fun RenderContext.checkboxesDemo(): Div {
             )
         }
 
+        showcaseSection("Customizing")
+        paragraph {
+            +"You can customize the checked styles, unchecked styles, and the component label. The unchecked"
+            +" styles go directly into the styling parameter, while you need to use the component functions "
+            c("checkedStyle")
+            +" and "
+            c("labelStyle")
+            +" for their respective changes in appearance."
+            +" Additionally, you can replace the checkmark with an icon."
+        }
+
+        componentFrame {
+            stackUp {
+                items {
+                    checkbox({
+                        background { color { secondary } }
+                    }) {
+                        label("Changed unchecked background color")
+                        checked ( customCheckboxStore1.data )
+                        events {
+                            changes.states() handledBy customCheckboxStore1.update
+                        }
+                    }
+
+                    checkbox {
+                        label("Changed checked border color")
+                        checkedStyle {
+                            { border { color { secondary }}}
+                        }
+                        checked ( customCheckboxStore2.data )
+                        events {
+                            changes.states() handledBy customCheckboxStore2.update
+                        }
+                    }
+
+                    checkbox {
+                        label("Changed checkmark to fritz2 icon")
+                        icon { Theme().icons.fritz2 }
+                        checked ( customCheckboxStore3.data )
+                        events {
+                            changes.states() handledBy customCheckboxStore3.update
+                        }
+                    }
+
+                    checkbox {
+                        label("Custom label style: larger margin")
+                        labelStyle { { margins { left { larger } } } }
+                        checked ( customCheckboxStore4.data )
+                        events {
+                            changes.states() handledBy customCheckboxStore4.update
+                        }
+                    }
+                }
+            }
+        }
+        playground {
+            source(
+                """
+                    checkbox({
+                        background { color { secondary } }
+                    }) {
+                        label("Changed unchecked background color")
+                    }
+
+                    checkbox {
+                        label("Changed checked border color")
+                        checkedStyle {
+                            { border { color { secondary }}}
+                        }
+                    }
+
+                    checkbox {
+                        label("Changed checkmark to fritz2 icon")
+                        checked ( flowOf(true) )
+                        icon { Theme().icons.fritz2 }
+                    }
+
+                    checkbox {
+                        label("Custom label style: larger margin")
+                        labelStyle { { margins { left { larger } } } }
+                    }
+                    """
+            )
+        }
+
+
+
         showcaseSection("Disabled")
         componentFrame {
             stackUp {
                 items {
                     checkbox {
-                        checked { usageCheckboxStore.data }
+                        checked ( usageCheckboxStore.data )
                         label("A disabled checkbox or checkboxGroup can not be selected.")
-                        disabled { flowOf(true) }
+                        disabled ( flowOf(true) )
                         events {
                             changes.states() handledBy usageCheckboxStore.update
                         }
                     }
-                    checkboxGroup(store = usageCheckboxGroupStore) {
-                        items { flowOf(demoItems) }
+                    checkboxGroup(store = usageCheckboxGroupStore, items = demoItems) {
                         direction { column }
-                        disabled { flowOf(true) }
+                        disabled ( flowOf(true) )
                     }
                 }
 
@@ -259,13 +270,12 @@ fun RenderContext.checkboxesDemo(): Div {
                 """
                     checkbox {
                         label("A disabled Checkbox or CheckboxGroup can not be selected.")
-                        disabled { flowOf(true) }
+                        disabled ( flowOf(true) )
                     }
                     
-                    checkboxGroup(store = selectedItemsStore) {
-                        items { flowOf(allItems) }
+                    checkboxGroup(store = selectedItemsStore, items = allItems) {
                         direction { column }
-                        disabled { flowOf(true) }
+                        disabled ( flowOf(true) )
                     }
                     """
             )

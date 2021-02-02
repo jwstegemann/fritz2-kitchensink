@@ -11,109 +11,49 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @ExperimentalCoroutinesApi
 fun RenderContext.switchDemo(): Div {
     val checkedStore1 = RootStore(false)
-    val checkedStore2 = RootStore(true)
+    val checkedStore2 = RootStore(false)
     val checkedStore3 = RootStore(false)
     val checkedStore4 = RootStore(false)
-    val checkedStore5 = RootStore(true)
+    val checkedStore5 = RootStore(false)
     val checkedStore6 = RootStore(false)
 
     return contentFrame {
         showcaseHeader("Switch")
         paragraph {
             +"A switch button works like a checkbox. It can be used to set a single property in your application."
+            +" It comes with its own styling contexts for the dot style and the checked style."
         }
         showcaseSection("Usage")
         paragraph {
-            +"Create a switch with your own label and size. You can set the background color for the unchecked and"
-            +" checked state, and even customize the color of the dot."
+            +"Create a switch by defining a label and a Flow of Boolean for its state. You also want to use the "
+            c("events")
+            +" context to connect your handlers."
         }
 
         componentFrame {
-            switch() {
-                label("Default style")
-                checked { checkedStore1.data }
+            switch {
+                label("Simple Switch")
+                checked ( checkedStore1.data )
                 events {
                     changes.states() handledBy checkedStore1.update
                 }
             }
         }
-        componentFrame {
-            switch(styling = {
-                background {
-                    color { danger }
-                }
-            }) {
-                label("Custom background color")
-                checked { checkedStore2.data }
-                dotStyle {
-                    {
-                        background { color { base } }
-                    }
-                }
-                events {
-                    changes.states() handledBy checkedStore2.update
-                }
-            }
-        }
-        componentFrame {
-            switch(styling = {
-                background {
-                    color { info }
-                }
-            }) {
-                label("Different dot color")
-                checked { checkedStore3.data }
-                checkedStyle {
-                    {
-                        background {
-                            color { "pink" }
-                        }
-                    }
-                }
-                dotStyle {
-                    {
-                        background {
-                            color { danger }
-                        }
-                    }
-                }
-                events {
-                    changes.states() handledBy checkedStore3.update
-                }
-            }
-        }
+
         playground {
             source(
                 """
-                    switch(styling = {
-                        background {
-                            color { info } // change background color here
-                        }
-                    }) {
-                        label("Different dot color")
-                        checked { <your boolean> } // defines whether switch is checked or not 
-                        checkedStyle {
-                            {
-                                background {
-                                    color { "pink" } // change checked background color here
-                                }
-                            }
-                        }
-                        dotStyle {
-                            {
-                                background {
-                                    color { danger } // change dot color here
-                                }
-                            }
-                        }
-                        events {
-                            changes.states() handledBy <your boolean>.update
-                            //changes the state of your check boolean
-                        }
+                switch {
+                    label("Simple Switch")
+                    checked ( checkedStore.data )
+                    events {
+                        changes.states() handledBy checkedStore.update
                     }
+                }
                 """
             )
         }
+
 
         showcaseSection("Sizes")
         paragraph {
@@ -128,9 +68,9 @@ fun RenderContext.switchDemo(): Div {
 
         componentFrame {
             switch() {
-                label("Small size")
+                label("Small")
                 size { small }
-                checked { checkedStore4.data }
+                checked ( checkedStore4.data )
                 events {
                     changes.states() handledBy checkedStore4.update
                 }
@@ -138,9 +78,8 @@ fun RenderContext.switchDemo(): Div {
         }
         componentFrame {
             switch() {
-                label("Normal size")
-                size { normal }
-                checked { checkedStore5.data }
+                label("Normal (default)")
+                checked ( checkedStore5.data )
                 events {
                     changes.states() handledBy checkedStore5.update
                 }
@@ -148,9 +87,9 @@ fun RenderContext.switchDemo(): Div {
         }
         componentFrame {
             switch() {
-                label("Large size")
+                label("Large")
                 size { large }
-                checked { checkedStore6.data }
+                checked ( checkedStore6.data )
                 events {
                     changes.states() handledBy checkedStore6.update
                 }
@@ -159,12 +98,87 @@ fun RenderContext.switchDemo(): Div {
         playground {
             source(
                 """
-                    switch() {
-                        label("Small size")
-                        size { small } // change size here
+                    switch {
+                        label("Small")
+                        size { small }
                     }
                 """
             )
         }
+
+        showcaseSection("Customizing")
+        paragraph {
+            +"Use the component's context functions "
+            c("checkedStyle")
+            +" and "
+            c("dotStyle")
+            +" to change their respective appearances. Any styling for the unchecked state can be done via the regular styling parameter."
+            +" Please note that some stores and events were omitted in the code fragments below to increase readability."
+        }
+
+
+        componentFrame {
+            switch(styling = {
+                background {
+                    color { secondaryEffect }
+                }
+            }) {
+                label("Custom background colors")
+                checked ( checkedStore2.data )
+                checkedStyle {
+                    { background { color { secondary } } }
+                }
+                events {
+                    changes.states() handledBy checkedStore2.update
+                }
+            }
+        }
+        componentFrame {
+            switch {
+                label("Custom dot")
+                checked ( checkedStore3.data )
+                dotStyle {
+                    {
+                        size { "0.8rem" }
+                        radius { "3px" }
+                        background { color { dark } }
+                    }
+                }
+                events {
+                    changes.states() handledBy checkedStore3.update
+                }
+            }
+        }
+        playground {
+            source(
+                """
+                switch(styling = {
+                    // change unchecked style via styling parameter
+                    background { 
+                        color { tertiary }
+                    }
+                }) {
+                    label("Custom background colors")
+                    // use component function to change checked style
+                    checkedStyle {
+                        { background { color { primary } } }
+                    }
+                }    
+
+                switch {
+                    label("Custom dot")
+                    // use component function to change dot style
+                    dotStyle {
+                        {
+                            size { "0.8rem" }
+                            radius { "3px" }
+                            background { color { dark } }
+                        }
+                    }
+                }
+                """
+            )
+        }
+
     }
 }

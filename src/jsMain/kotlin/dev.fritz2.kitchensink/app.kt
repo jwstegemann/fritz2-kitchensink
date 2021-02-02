@@ -3,7 +3,6 @@ package dev.fritz2.kitchensink
 import dev.fritz2.binding.RootStore
 import dev.fritz2.binding.storeOf
 import dev.fritz2.components.*
-import dev.fritz2.dom.mount
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.kitchensink.demos.*
 import dev.fritz2.routing.router
@@ -18,26 +17,29 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 val themes = listOf<ExtendedTheme>(SmallFonts(), LargeFonts())
 
+/* All component names must be singular */
 const val welcome_ = "Welcome"
 const val gettingStarted_ = "Getting Started"
-const val icons_ = "Icons"
 const val spinner_ = "Spinner"
-const val input_ = "Input"
-const val buttons_ = "Buttons"
-const val formcontrol_ = "Formcontrol"
-const val flexbox_ = "Flexbox"
-const val gridbox_ = "Gridbox"
-const val checkboxes_ = "Checkboxes"
-const val radios_ = "Radios"
+const val input_ = "InputField"
+const val select_ = "SelectField"
+const val buttons_ = "Button"
+const val formcontrol_ = "FormControl"
+const val flexbox_ = "FlexBox"
+const val gridbox_ = "GridBox"
+const val checkboxes_ = "Checkbox"
+const val radios_ = "Radio"
 const val switch_ = "Switch"
 const val stack_ = "Stack"
 const val modal_ = "Modal"
 const val popover_ = "Popover"
 const val styling_ = "Styling"
-const val theme_ = "Theme"
+const val theme_ = "Themes"
+const val colors_ = "Colors"
+const val icons_ = "Icons"
 const val tooltip_ = "Tooltip"
 const val responsive_ = "Responsiveness"
-const val textarea_ = "Textarea"
+const val textarea_ = "TextArea"
 const val toasts_ = "Toast"
 
 val router = router(welcome_)
@@ -89,8 +91,12 @@ fun main() {
 
     val menuStore = storeOf(false)
 
+    // todo: change to lightEffect? Would be very dark. White also not good.
+    val menuBackgroundColor = Theme().colors.lightestGray
+
     render(themes.first()) {
         (::div.styled {
+            height { "100%" }
             width { "100%" }
             position { relative {} }
             children("&[data-menu-open] #menu-left") {
@@ -101,13 +107,14 @@ fun main() {
             navBar({
                 border { width { "0" } }
                 boxShadow { flat }
+                background { color { menuBackgroundColor}  }
             }) {
                 brand {
                     (::a.styled {
                         after {
                             textAlign { center }
                             background { color { primary } }
-                            color { light }
+                            color { lightGray }
                         }
                         alignItems { end }
                     }) {
@@ -115,12 +122,12 @@ fun main() {
                         target("_new")
 
                         icon({
-                            size { "2.5rem" }
+                            size { "3rem" }
                             color { primary }
                         }) { fromTheme { fritz2 } }
 
                         (::span.styled {
-                            margins { left { normal } }
+                            margins { left { smaller } }
                             verticalAlign { sub }
                             fontSize(sm = { large }, md = { larger })
                             fontWeight { lighter }
@@ -130,17 +137,17 @@ fun main() {
                     (::span.styled {
                         css(
                             """
-                    display: inline-flex;
-                    vertical-align: top;
-                    -moz-box-align: center;
-                    align-items: center;
-                    max-width: 100%;
-                    font-weight: 500;
-                    min-height: 1.5rem;
-                    min-width: 1.5rem;
-                    border-radius: 0.375rem;
-                    background: none repeat scroll 0% 0%;
-                    """.trimIndent()
+                            display: inline-flex;
+                            vertical-align: top;
+                            -moz-box-align: center;
+                            align-items: center;
+                            max-width: 100%;
+                            font-weight: 500;
+                            min-height: 1.5rem;
+                            min-width: 1.5rem;
+                            border-radius: 0.375rem;
+                            background: none repeat scroll 0% 0%;
+                            """.trimIndent()
                         )
                         paddings(
                             sm = { horizontal { "0.25rem" } },
@@ -157,6 +164,7 @@ fun main() {
                         background {
                             color { warning }
                         }
+                        color { base }
                         margins {
                             left { small }
                         }
@@ -186,7 +194,6 @@ fun main() {
             }
 
             lineUp({
-
                 alignItems { stretch }
                 color { dark }
                 minHeight { "100%" }
@@ -198,29 +205,32 @@ fun main() {
                             top { larger }
                         }
                         padding { "1rem" }
-                        minWidth (
-                            md = { "180px" },
-                            lg = { "200px" }
+                        minWidth(
+                            md = { "220px" },
+                            lg = { "240px" }
                         )
                         minHeight { "100%" }
                         display(sm = { none }, md = { flex })
                         wrap { nowrap }
                         direction { column }
                         alignItems { flexStart }
-                        background { color { base } }
+
                         color { dark }
                         paddings {
                             top { "50px" }
+                            left { "1.6rem" }
+                            right { "1.6rem" }
                         }
-                        borders (
+                        borders(
                             sm = {
-                                bottom { width { "4px" } }
+                                bottom { width { "1rem" } }
                             },
                             md = {
                                 bottom { width { "0px" } }
                             }
                         )
                         border { color { "light" } }
+                        background { color { menuBackgroundColor } }
                     }, id = "menu-left")
                     {
                         spacing { tiny }
@@ -228,56 +238,56 @@ fun main() {
                             (::p.styled {
                                 width { "100%" }
                                 margins { top { huge } }
-                                paddings {
-                                    bottom { "1rem" }
-                                }
                             }) {
                                 menuAnchor(welcome_)
-                                menuAnchor(gettingStarted_)
                             }
-                            menuHeader { +"FEATURES" }
+                            menuAnchor(gettingStarted_)
+
+                            menuHeader("FEATURES")
+                            menuAnchor(responsive_)
                             menuAnchor(styling_)
                             menuAnchor(theme_)
-                            menuAnchor(responsive_)
+                            menuAnchor(colors_)
 
-
-                            menuHeader { +"LAYOUT" }
+                            menuHeader("LAYOUT")
                             menuAnchor(flexbox_)
                             menuAnchor(gridbox_)
                             menuAnchor(stack_)
 
-                            menuHeader { +"FORMS" }
+                            menuHeader("FORMS")
                             menuAnchor(buttons_)
                             menuAnchor(checkboxes_)
-                            menuAnchor(formcontrol_)
                             menuAnchor(input_)
+                            menuAnchor(select_)
                             menuAnchor(radios_)
-                            menuAnchor(switch_)
                             menuAnchor(textarea_)
+                            menuAnchor(switch_)
+                            menuAnchor(formcontrol_)
 
-                            menuHeader { +"FEEDBACK" }
-                            menuAnchor(spinner_)
-                            menuAnchor(toasts_)
-
-                            menuHeader { +"OVERLAY" }
+                            menuHeader("OVERLAY")
                             menuAnchor(modal_)
                             menuAnchor(popover_)
                             menuAnchor(tooltip_)
+                            menuAnchor(toasts_)
 
-                            menuHeader { +"ICONS" }
+                            menuHeader("MISC")
                             menuAnchor(icons_)
+                            menuAnchor(spinner_)
+
                         }
                     }
                     (::div.styled(id = "content-right") {
                         paddings {
-                            all { huge }
+                            left { huge }
+                            top { small }
                         }
                         margins {
                             left { "0 !important" }
                         }
-                        width {
-                            "100%"
-                        }
+                        width { "100%" }
+                        radius { small }
+                        background { color { base } }
+
                     }) {
                         className(welcomeContent.whenever(router.data) { it == welcome_ }.name)
 
@@ -288,6 +298,7 @@ fun main() {
                                 icons_ -> iconsDemo()
                                 spinner_ -> spinnerDemo()
                                 input_ -> inputDemo()
+                                select_ -> selectDemo()
                                 buttons_ -> buttonDemo()
                                 formcontrol_ -> formControlDemo()
                                 flexbox_ -> flexBoxDemo()
@@ -302,8 +313,9 @@ fun main() {
                                 welcome_ -> welcome()
                                 styling_ -> stylingDemo()
                                 theme_ -> themeDemo()
+                                colors_ -> colorDemo()
                                 responsive_ -> responsiveDemo()
-                                textarea_ -> textAreaDemo()
+                                textarea_ -> textareaDemo()
                                 toasts_ -> toastDemo()
                                 else -> welcome()
                             }
@@ -312,5 +324,5 @@ fun main() {
                 }
             }
         }
-    }.mount("target")
+    }
 }

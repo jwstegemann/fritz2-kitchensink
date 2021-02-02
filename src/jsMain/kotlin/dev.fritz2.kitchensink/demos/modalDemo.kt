@@ -28,14 +28,14 @@ fun RenderContext.modalDemo(): Div {
                 }
             } else {
                 return modal({
-                    background { color { "snow" } }
+//                    background { color { base } }
                 }) {
                     size { size }
                     variant { auto }
                     closeButton()
                     content {
                         h1 { +"Modal Dialog" }
-                        paragraph { +"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet." }
+                        paragraph { +"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet." }
                         lineUp({
                             margins { top { normal } }
                             justifyContent { end }
@@ -43,7 +43,7 @@ fun RenderContext.modalDemo(): Div {
                             spacing { small }
                             items {
                                 clickButton {
-                                    text("open another")
+                                    text("Open Another Modal")
                                 } handledBy createDeepDialogs(count - 1, size)
                             }
                         }
@@ -54,66 +54,147 @@ fun RenderContext.modalDemo(): Div {
 
         showcaseHeader("Modal Dialogs")
         paragraph {
-            +"Use a modal dialog to support the user with more information about a specific component of your"
-            +" application."
+            +"A modal dialog is a pop up window which opens as a new layer on screen. It demands the user's attention because"
+            +" the application below is not accessible until the dialog is closed. "
         }
 
         showcaseSection("Usage")
-        paragraph { +"Modals can be layered and stacked over one another." }
+        paragraph {
+            +"The fritz2 default modal can be opened with a simple clickButton - just connect it to the button's click event."
+        }
         componentFrame {
-            lineUp({
-                alignItems { start }
-            }) {
+            lineUp {
                 items {
                     clickButton {
-                        variant { outline }
-                        text("Blank dialog with closeButton")
-                    } handledBy modal { }
-
+                        text("Default Modal Dialog")
+                    } handledBy modal {
+                        content {
+                            p { +"You can put any HTML element, component or structure into a modal." }
+                        }
+                    }
                 }
             }
         }
         playground {
             source(
                 """
-                 clickButton {
-                    variant { outline }
-                    text("Blank dialog with closeButton")
-                } handledBy modal { }
-            """.trimIndent()
+                clickButton {
+                    text("Default Modal Dialog")
+                } handledBy modal {
+                    content {
+                        p { +"You can put any HTML element, component or structure into a modal." }
+                    }
+                }
+                """.trimIndent()
             )
         }
 
+        showcaseSection("Sizes")
+        paragraph {
+            +"There are four predefined sizes for your modal to choose from: "
+            c("small")
+            +", "
+            c("normal")
+            +" (default), "
+            c("large")
+            +", and "
+            c("full")
+            +". The additional option "
+            c("variant { verticalFilled }")
+            +" creates a modal of your chosen size which uses the entire height of the viewport."
+        }
         componentFrame {
             lineUp({
                 alignItems { start }
             }) {
                 items {
                     clickButton {
-                        variant { outline }
-                        text("Stacking modals")
-                    } handledBy modal {
+                        text("Small")
+                    } handledBy createDeepDialogs(30, Theme().modal.sizes.small)
+                    clickButton {
+                        text("Normal")
+                    } handledBy createDeepDialogs(30, Theme().modal.sizes.normal)
+                    clickButton {
+                        text("Large")
+                    } handledBy createDeepDialogs(30, Theme().modal.sizes.large)
+                    clickButton {
+                        text("Full")
+                    } handledBy createDeepDialogs(30, Theme().modal.sizes.full)
+                }
+            }
+        }
+
+        playground {
+            source(
+                """
+                clickButton {
+                    text("full")
+                } handledBy modal {
+                    size { full }
+                }
+            """.trimIndent()
+            )
+        }
+
+        paragraph {
+            +"In addition to the "
+            c("size")
+            +" option, fritz2 offers the variant function "
+            c("variant { verticalFilled }")
+            +" for creating a modal which uses the entire height of the viewport."
+        }
+        componentFrame {
+
+            // todo next row for space issues
+            clickButton {
+                text("Small, VerticalFilled Modal")
+            } handledBy modal {
+                variant { verticalFilled }
+                size { small }
+                content {
+                    p { +"This small modal takes all vertical space within the viewport." }
+                }
+            }
+
+        }
+
+        playground {
+            source(
+                """
+                clickButton {
+                    text("Small, VerticalFilled Modal")
+                } handledBy modal {
+                    variant { verticalFilled }
+                    size { small }
+                    content {
+                        p { +"This small modal takes all vertical space within the viewport." }
+                    }
+                }
+                """.trimIndent()
+            )
+        }
+
+        showcaseSection("Layered Modals")
+        paragraph { +"Modals can be stacked over one another with only the topmost modal accepting input." }
+        componentFrame {
+            lineUp {
+                items {
+                    clickButton { text("Stack'em") } handledBy modal {
                         content {
-                            h1 { +"Level One!" }
-                            paragraph { +"You can put any content or structure into a modal." }
-                            clickButton({
-                                margins { top { "1.25rem" } }
-                                color { dark }
-                                background { color { light } }
-                            }) { text("open next level") } handledBy modal {
-                                size { small }
+                            h1 { +"Level 1" }
+                            paragraph(
+                                { paddings { bottom { larger } } }
+                            ) { +"You can stack as many modals as you like." }
+                            clickButton { text("Open Next Level") } handledBy modal {
                                 content {
-                                    h1 { +"Level Two!" }
-                                    paragraph { +"You can stack as many as you like." }
-                                    clickButton({
-                                        margins { top { "1.25rem" } }
-                                        color { dark }
-                                        background { color { light } }
-                                    }) { text("open final Level") } handledBy modal {
-                                        size { small }
+                                    h1 { +"Level 2" }
+                                    paragraph(
+                                        { paddings { bottom { larger } } }
+                                    ) { +"But just because you can does not mean you should." }
+                                    clickButton { text("Open Final Level") } handledBy modal {
                                         content {
-                                            h1 { +"Final message" }
-                                            paragraph { +"This is the next level modal dialog." }
+                                            h1 { +"The End" }
+                                            paragraph { +"This is the final dialog in our example." }
                                         }
                                     }
                                 }
@@ -126,50 +207,56 @@ fun RenderContext.modalDemo(): Div {
         playground {
             source(
                 """
-                clickButton {
-                    variant { outline }
-                    text("Stacking modals")
-                } handledBy modal {
+                clickButton { text("Stack'em") } handledBy modal {
                     content {
-                        h1 { +"Level One!" }
-                        clickButton {
-                            text("open next level")
-                        } handledBy modal {
-                            // "stacked" modal
+                    
+                        h1 { +"Level 1" }
+                        paragraph { +"You can stack as many modals as you like." }
+                        clickButton { text("Open Next Level") } handledBy modal {
+                            content {
+                            
+                                h1 { +"Level 2" }
+                                paragraph { +"But just because you can does not mean you should." }
+                                clickButton { text("Open Final Level") } handledBy modal {
+                                    content {
+                                    
+                                        h1 { +"The End" }
+                                        paragraph { +"This is the final dialog in our example." }
+                                    }
+                                }
+                            }
                         }
-                    }   
+                    }
                 }
             """.trimIndent()
             )
         }
 
-        showcaseSection("CloseButton variants")
+        showcaseSection("Customized Close Buttons")
         paragraph {
-            +"You can customize the close button or even define your own button to do the job."
+            +"You can customize the close button calling the modal's function "
+            c("closeButton")
+            +" with your own styling parameters:"
         }
         componentFrame {
-            lineUp({
-                alignItems { start }
-            }) {
+            lineUp {
                 items {
                     clickButton {
-                        variant { outline }
-                        text("custom-styled closeButton")
+                        text("Styled Close Button")
                     } handledBy modal {
                         closeButton({
                             background { color { danger } }
                             color { base }
                             position {
                                 absolute {
-                                    left { normal }
                                     top { normal }
                                 }
                             }
-                            css("transform: rotate(-30deg) translateX(-.5rem)")
+                            css("transform: rotate(20deg) translateX(-.5rem)")
                         }) {
                             size { small }
-                            text("Close")
-                            iconRight()
+                            text("Nope")
+                            iconPlacement{right}
                         }
                     }
                 }
@@ -180,47 +267,49 @@ fun RenderContext.modalDemo(): Div {
             source(
                 """
                 clickButton {
-                    variant { outline }
-                    text("<your button title here>")
+                    text("Styled Close Button")
                 } handledBy modal {
                     closeButton({
                         background { color { danger } }
                         color { base }
                         position {
                             absolute {
-                                left { normal }
                                 top { normal }
                             }
                         }
-                        css("transform: rotate(-30deg) translateX(-.5rem)")
+                        css("transform: rotate(20deg) translateX(-.5rem)")
                     }) {
                         size { small }
-                        text("Close")
-                        iconRight()
+                        text("Nope")
+                        iconPlacement{right}
                     }
                 }
             """.trimIndent()
             )
         }
+
+        paragraph {
+            +"You can also define your own close button. Use the modal's context to add your new button to the "
+            c("content")
+            +" area. Unless you want to have two close buttons, remember to remove the default button as well, using "
+            c("hasCloseButton(false)")
+            +" (this only removes the built-in close button). The modal provides a close handler"
+            +" to connect to your button events."
+        }
         componentFrame {
-            lineUp({
-                alignItems { start }
-            }) {
+            lineUp {
                 items {
                     clickButton {
-                        variant { outline }
-                        text("custom closeButton")
+                        text("Custom Close Button")
                     } handledBy modal { close ->
                         hasCloseButton(false)
                         content {
                             clickButton({
-                                position {
-                                    absolute {
-                                        right { normal }
-                                        bottom { normal }
-                                    }
-                                }
-                            }) { text("Terminate") } handledBy close // use close handler!
+                                color { base }
+                                background { color { warning } }
+                            }) {
+                                icon { fromTheme { logOut } }
+                            } handledBy close
                         }
                     }
                 }
@@ -230,36 +319,36 @@ fun RenderContext.modalDemo(): Div {
             source(
                 """
                 clickButton {
-                    variant { outline }
-                    text("Blank dialog with closeButton")
-                } handledBy modal { close -> // inject close handler
+                    text("Custom Close Button")
+                } handledBy modal { close -> // use the close handler provided by the modal
                     hasCloseButton(false)
                     content {
-                        clickButton ({
-                            position {
-                                absolute {
-                                    right { normal }
-                                    bottom { normal }
-                                }
-                            }
-                        }){ text("Terminate") } handledBy close // use close handler!
+                        clickButton({
+                            color { base }
+                            background { color { warning } }
+                        }) {
+                            icon { fromTheme { logOut } }
+                        } handledBy close
                     }
                 }
-            """.trimIndent()
+                """.trimIndent()
             )
         }
 
-        showcaseSection("Overlay variants")
+        // todo this should have a code example
+        showcaseSection("Overlay Variants")
         paragraph {
-            +"Decide what happens with your background when your modal opens. The options are default, create an overlay for each level of dialog opened, or use a styled overlay. Try the below listed variants of overlay and stack a few modals in the example above to see the change."
+            +"You can decide what happens in the background when a modal opens. By default, the background receives an"
+            +" overlay. Another option is to add another overlay for each level of dialog opened, or to use a single,"
+            +" styled overlay. Select one of the variants below and try our stack example again to see the difference."
         }
         componentFrame {
             val overlayVariants = mapOf(
-                Pair("Activate default overlay", DefaultOverlay()),
-                Pair("Activate overlay for each nested level", DefaultOverlay(OverlayMethod.CoveringEach)),
-                Pair("Activate styled overlay", DefaultOverlay(OverlayMethod.CoveringTopMost) {
+                Pair("Default Overlay", DefaultOverlay()),
+                Pair("Overlay For Each Level", DefaultOverlay(OverlayMethod.CoveringEach)),
+                Pair("Styled Overlay", DefaultOverlay(OverlayMethod.CoveringTopMost) {
                     width { "100%" }
-                    height { "100%" }
+                    height { "400%" }
                     position {
                         absolute {
                             horizontal { "0" }
@@ -267,103 +356,39 @@ fun RenderContext.modalDemo(): Div {
                         }
                     }
                     background {
-                        image { "https://via.placeholder.com/150x50/?text=BACKGROUND" }
+                        image { "https://via.placeholder.com/150x50/?text=fritz2" }
                         repeat { repeat }
                     }
-                    css("transform: rotate(-30deg) translateX(-.5rem) scale(200%)")
                     opacity { "0.8" }
                 })
             )
 
-            radioGroup(store = ModalComponent.overlay) {
-                direction { row }
-                label { overlay ->
-                    overlayVariants.filter { it.value == overlay }.map {
-                        it.key
-                    }[0]
-                }
-                items(overlayVariants.values.toList())
-            }
-        }
-        showcaseSection("Sizes")
-        paragraph {
-            +"There are four different sizes for your modal to choose from. "
-            c("small")
-            +", "
-            c("normal (default)")
-            +", "
-            c("large")
-            +" and "
-            c("full")
-            +"."
-        }
-        componentFrame {
-            lineUp({
-                alignItems { start }
-            }) {
+            stackUp {
                 items {
-                    clickButton {
-                        text("small")
-                    } handledBy createDeepDialogs(30, Theme().modal.sizes.small)
-                    clickButton {
-                        text("normal")
-                    } handledBy createDeepDialogs(30, Theme().modal.sizes.normal)
-                    clickButton {
-                        text("large")
-                    } handledBy createDeepDialogs(30, Theme().modal.sizes.large)
-                    clickButton {
-                        text("full")
-                    } handledBy createDeepDialogs(30, Theme().modal.sizes.full)
-                }
-            }
-        }
-        playground {
-            source(
-                """
-                clickButton {
-                        text("small")
-                    } handledBy modal {
-                        size{small} // change size here
-                        content {
-                            //create your content here
+                    // todo this radio group should have default selected
+                    radioGroup(store = ModalComponent.overlay, items = overlayVariants.values.toList()) {
+                        direction { row }
+                        label { overlay ->
+                            overlayVariants.filter { it.value == overlay }.map {
+                                it.key
+                            }[0]
                         }
                     }
-            """.trimIndent()
-            )
-        }
-        showcaseSection("Variants")
-        paragraph { +"You can also make your modal cover the entire height of your viewport." }
-        componentFrame {
-            lineUp({
-                alignItems { start }
-            }) {
-                items {
-                    clickButton {
-                        text("verticalFilled")
-                    } handledBy modal {
-                        variant { verticalFilled }
+
+                    clickButton { text("Stack'em") } handledBy modal {
                         content {
-                            h1 { +"Dialog takes all vertical space within the viewport" }
-                            paragraph { +"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet." }
+                            paragraph(
+                                { paddings { bottom { larger } } }
+                            ) { +"Overlay Demonstration Layer 1" }
+                            clickButton { text("Open Another Modal") } handledBy modal {
+                                content {
+                                    paragraph { +"Overlay Demonstration Layer 2" }
+                                }
+                            }
                         }
                     }
                 }
             }
-        }
-        playground {
-            source(
-                """
-                 clickButton {
-                    text("verticalFilled")
-                } handledBy modal {
-                    variant { verticalFilled }
-                    content {
-                        h1 { +"<your modal title here>" }
-                        // add text here 
-                    }
-                }
-            """.trimIndent()
-            )
         }
     }
 }

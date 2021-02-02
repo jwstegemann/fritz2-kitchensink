@@ -1,6 +1,5 @@
 package dev.fritz2.kitchensink.demos
 
-import dev.fritz2.binding.RootStore
 import dev.fritz2.binding.storeOf
 import dev.fritz2.components.lineUp
 import dev.fritz2.components.radio
@@ -10,7 +9,6 @@ import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.dom.states
 import dev.fritz2.kitchensink.base.*
-import dev.fritz2.styling.params.AlignContentValues.center
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 
@@ -23,9 +21,9 @@ fun RenderContext.radiosDemo(): Div {
 
         paragraph {
             c("Radios")
-            +" and"
+            +" and "
             c("RadioGroups")
-            +" offer smart options for single selections. Like other components, they come with their own options, and"
+            +" are single selection components. They come with their own options, and"
             +" of course you can customize their appearance with the use of the styling parameter."
         }
 
@@ -42,14 +40,16 @@ fun RenderContext.radiosDemo(): Div {
             +"Single "
             c("Radios")
             +" do not have a wide range of use cases, but we provide them anyway. You"
-            +" need to supply a Flow of Boolean representing the selected state via the"
+            +" need to supply a Flow of "
+            c("List<T>")
+            +" representing the selected state via the "
             c("selected")
-            +" function. If you want to connect a handler to the state changes, use the event context."
+            +" function. If you want to connect a handler to the state changes, use the events context."
         }
         componentFrame {
             radio {
                 label("A single Radio")
-                selected { usageRadioStore.data }
+                selected(usageRadioStore.data)
                 events {
                     changes.states() handledBy usageRadioStore.update
                 }
@@ -60,39 +60,11 @@ fun RenderContext.radiosDemo(): Div {
                 """
                 radio {
                     label("A single Radio")
-                    selected { usageRadioStore.data }
+                    selected (usageRadioStore.data)
                     events {
                         changes.states() handledBy usageRadioStore.update
                     }
                 }
-                """
-            )
-        }
-
-        paragraph {
-            +" For most use cases, you will want a radio group. It accepts a Flow of"
-            c("List<T>")
-            +" as group items, and its selection event returns the currently selected entry instead of Boolean."
-            +" The example below uses Strings, but any type can be displayed. Since the store is a non-optional"
-            +" argument anyway, the component always connects the selected-handler automatically. Using the"
-            c("direction")
-            +" parameter, you can display the radios in a row or as a column."
-        }
-        componentFrame {
-            radioGroup(store = usageRadioGroupStore) {
-                items { flowOf(demoItems) }
-                direction { row }
-            }
-        }
-        playground {
-            source(
-                """
-                 val allItems = listOf("item 1", "item 2", "item 3")
-                 val selectedItem = storeOf("item 2")
-                 radioGroup(store = selectedItem) {
-                    items{ flowOf(allItems) }
-                    direction { row }
-                 }
                 """
             )
         }
@@ -122,14 +94,14 @@ fun RenderContext.radiosDemo(): Div {
                     radio {
                         label("small")
                         size { small }
-                        selected { smallStore.data }
+                        selected (smallStore.data)
                         events {
                             changes.states() handledBy smallStore.update
                         }
                     }
                     radio {
                         label("normal")
-                        selected { normalStore.data }
+                        selected (normalStore.data)
                         events {
                             changes.states() handledBy normalStore.update
                         }
@@ -137,7 +109,7 @@ fun RenderContext.radiosDemo(): Div {
                     radio {
                         label("large")
                         size { large }
-                        selected { largeStore.data }
+                        selected (largeStore.data)
                         events {
                             changes.states() handledBy largeStore.update
                         }
@@ -163,6 +135,35 @@ fun RenderContext.radiosDemo(): Div {
             )
         }
 
+        showcaseSection("RadioGroups And Layouts")
+        paragraph {
+            +" For most use cases, you will want a radio group. It accepts a Flow of "
+            c("List<T>")
+            +" as group items, and its selection event returns the currently selected entry instead of Boolean."
+            +" The example below uses Strings, but any type can be displayed. Since the store is a non-optional"
+            +" argument anyway, the component always connects the selected-handler automatically. Using the "
+            c("direction")
+            +" parameter, you can display the radios in a row or as a column."
+        }
+        componentFrame {
+            radioGroup(store = usageRadioGroupStore, items = demoItems ) {
+                direction { row }
+            }
+        }
+        playground {
+            source(
+                """
+                 val allItems = listOf("item 1", "item 2", "item 3")
+                 val selectedItem = storeOf("item 2")
+                 radioGroup(store = selectedItem, items = allItems) {
+                    direction { row }
+                 }
+                """
+            )
+        }
+
+
+
 
         showcaseSection("Customizing")
         paragraph {
@@ -175,24 +176,24 @@ fun RenderContext.radiosDemo(): Div {
         }
 
         componentFrame {
-            lineUp {
+            lineUp(switchLayoutSm) {
                 items {
                     radio({
-                        border { color { "tomato" } }
+                        border { color { secondary } }
                     }) {
-                        label("custom unselected style")
-                        selected { flowOf(false) }
+                        label("Custom unselected style")
+                        selected (flowOf(false))
                     }
 
                     radio {
-                        label("custom selected style")
-                        selected { flowOf(true) }
-                        selectedStyle { { background { color { "tomato" } } } }
+                        label("Custom selected style")
+                        selected(flowOf(true))
+                        selectedStyle { { background { color { secondary } } } }
                     }
 
                     radio {
-                        label("custom label style: margin")
-                        selected { usageRadioStore.data }
+                        label("Custom label style: margin")
+                        selected (usageRadioStore.data)
                         labelStyle { { margins { left { larger } } } }
                         events {
                             changes.states() handledBy usageRadioStore.update
@@ -205,19 +206,19 @@ fun RenderContext.radiosDemo(): Div {
             source(
                 """
                     radio({
-                        border { color { "tomato" } }
+                        border { color { secondary } }
                     }) {
-                        label("custom unselected style")
+                        label("Custom unselected style")
                     }
 
                     radio {
-                        label("custom selected style")
-                        selected { flowOf(true) }
-                        selectedStyle { { background { color { "tomato" } } } }
+                        label("Custom selected style")
+                        selected (flowOf(true))
+                        selectedStyle { { background { color { secondary } } } }
                     }
 
                     radio {
-                        label("custom label style: margin")
+                        label("Custom label style: margin")
                         labelStyle { { margins { left { larger } } } }
                     }
                     """
@@ -230,14 +231,13 @@ fun RenderContext.radiosDemo(): Div {
                 items {
                     radio {
                         label("A disabled Radio or RadioGroup can not be selected.")
-                        disabled { flowOf(true) }
-                        selected { usageRadioStore.data }
+                        disabled(flowOf(true))
+                        selected (usageRadioStore.data)
                     }
 
-                    radioGroup(store = usageRadioGroupStore) {
-                        items { flowOf(demoItems) }
+                    radioGroup(store = usageRadioGroupStore, items = demoItems) {
                         direction { column }
-                        disabled { flowOf(true) }
+                        disabled(flowOf(true))
                     }
                 }
 
@@ -248,13 +248,12 @@ fun RenderContext.radiosDemo(): Div {
                 """
                     radio {
                         label("A disabled Radio or RadioGroup can not be selected.")
-                        disabled { flowOf(true) }
+                        disabled(flowOf(true))
                     }
                     
-                    radioGroup(store = usageRadioGroupStore) {
-                        items { flowOf(demoItems) }
+                    radioGroup(store = usageRadioGroupStore, items = demoItems) {
                         direction { column }
-                        disabled { flowOf(true) }
+                        disabled(flowOf(true))
                     }
                     """
             )
