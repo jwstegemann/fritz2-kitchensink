@@ -52,7 +52,7 @@ fun RenderContext.modalDemo(): Div {
             }
         }
 
-        showcaseHeader("Modal Dialogs")
+        showcaseHeader("Modal Dialog")
         paragraph {
             +"A modal dialog is a pop up window which opens as a new layer on screen. It demands the user's attention because"
             +" the application below is not accessible until the dialog is closed. "

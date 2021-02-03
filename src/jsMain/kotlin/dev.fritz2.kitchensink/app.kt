@@ -264,7 +264,6 @@ fun main() {
                             menuAnchor(textarea_)
                             menuAnchor(switch_)
                             menuAnchor(formcontrol_)
-                            menuAnchor(alert_)
 
                             menuHeader("OVERLAY")
                             menuAnchor(modal_)
@@ -273,6 +272,7 @@ fun main() {
                             menuAnchor(toasts_)
 
                             menuHeader("MISC")
+                            menuAnchor(alert_)
                             menuAnchor(icons_)
                             menuAnchor(spinner_)
 

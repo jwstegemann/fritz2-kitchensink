@@ -21,7 +21,7 @@ private fun RenderContext.basicStyledToastContent(title: String = "Toast"): P {
             bottom { small }
             right { "80px" }
         }
-        color { lightGray }
+        color { base }
     }) {
         +title
     }
@@ -33,7 +33,7 @@ fun RenderContext.toastDemo(): Div {
     return contentFrame {
         showcaseHeader("Toast")
         paragraph {
-            +"As known from mobile devices, a toast provides some feedback in form of an alert after some action has"
+            +"As known from mobile devices, a toast provides feedback in form of an alert after some action has"
             +" taken place."
             br { }
             +""
@@ -42,11 +42,13 @@ fun RenderContext.toastDemo(): Div {
         showcaseSection("Usage")
 
         paragraph {
-            +"A basic toast can created by just defining the "
+            +"A basic toast can created by defining just the "
             c("content")
             +"property."
-            +" This will create a toast with the given content, a default timer with 5000 ms as well as a background"
-            +" color matching the info color defined in the theme."
+            +" This will create a toast with the given content, a default timer with 5000 ms, as well as a background"
+            +" color matching the "
+            c("info")
+            +" color defined in the theme."
         }
         componentFrame {
             lineUp {
@@ -57,7 +59,7 @@ fun RenderContext.toastDemo(): Div {
                         content {
                             (::p.styled {
                                 margin { normal }
-                                color { lightGray }
+                                color { base }
                             }) {
                                 +"This is a basic toast."
                             }
@@ -70,12 +72,13 @@ fun RenderContext.toastDemo(): Div {
         playground {
             source(
                 """
-                showToast {
+                    clickButton {
+                        text("Show")
+                    } handledBy toast {
                         content {
-                            // Styled for better readability; any other content is okay as well!
                             (::p.styled {
                                 margin { normal }
-                                color { lightGray }
+                                color { base }
                             }) {
                                 +"This is a basic toast."
                             }
@@ -85,7 +88,7 @@ fun RenderContext.toastDemo(): Div {
             )
         }
 
-        showcaseSubSection("Use Alerts As The Toasts Content")
+        showcaseSubSection("Use Alerts As Content")
         paragraph {
             alert {
                 icon { circleInformation }
@@ -93,7 +96,7 @@ fun RenderContext.toastDemo(): Div {
                 content {
                     p {
                         +"Since the toast component offers a minimal API only which requires you to build the toast's "
-                        +" content manually all the time, it is recommended to use an alert as your toast's content."
+                        +" content manually, it is recommended to use an alert as content."
                     }
                 }
             }
@@ -101,7 +104,7 @@ fun RenderContext.toastDemo(): Div {
             +"This way it is much"
             +" easier to create rich contents with less lines of code. You can either pass the alert yourself or use"
             +" one of the provided convenience functions "
-            c("showAlertToast")
+            c("showAlertToast") // todo: there is no example on how to use this function and what it does
             +" and "
             c("alertToast")
             +"."
@@ -110,54 +113,45 @@ fun RenderContext.toastDemo(): Div {
             clickButton {
                 text("Create An Alert-Toast")
             } handledBy alertToast {
-                title("Alert")
+                title("AlertToast!")
                 content("This is an alert in a toast.")
             }
         }
         playground {
             source(
                 """
-                    showToast {
-                        content {
-                            alert {
-                                title("Alert")
-                                content("This is an alert in a toast.")
-                            }
-                        }
-                    }
-                """.trimIndent()
-            )
-        }
-        playground {
-            source(
-                """
-                    showAlertToast {
-                        title("Alert")
-                        content("This is an alert in a toast.")
-                    }
+                clickButton {
+                    text("Create An Alert-Toast")
+                } handledBy alertToast {
+                    title("AlertToast!")
+                    content("This is an alert in a toast.")
+                }
                 """.trimIndent()
             )
         }
 
-        showcaseSection("How To Handle The Toast Component")
+
+
+        showcaseSection("Toast Handling")
 
         paragraph {
-            +"To use a toast we offer two options. First, you can create a toast by binding it to an component that "
-            +"offers a flow of events or actions, like for example a clickbutton."
-            +" This way, every time you click the button, a toast is created. In this case the "
+            +"To connect a toast, we offer two options. First, you can create a toast by binding it to an component that"
+            +" offers a flow of events or actions, a clickButton for example:"
+            +" Every time you click the button, a toast is created. In this case the "
             c("toast")
             +" method is used to create that toast as it returns a handler."
             br { }
-            +" The second option is to create so called standalone toast. Therefore you call the render function on any"
-            +" Flow and call the regular "
+            +"The second option is to create a so called standalone toast. For a standalone toast, call the render"
+            +" function on any Flow and simply call the regular "
             c("showToast")
             +" method from there."
         }
 
+
         showcaseSubSection("Handle A Components Flow ")
         paragraph {
-            +"This is how we create a toast most of the time in this documentation. We use a button whose events"
-            +" are handled by the toast component."
+            +"Most of the time, you want to use a button whose events"
+            +" are handled by the toast component: "
         }
         componentFrame {
             lineUp {
@@ -175,11 +169,15 @@ fun RenderContext.toastDemo(): Div {
         playground {
             source(
                 """
-                clickButton {
-                    text("Show")
-                } handledBy toast {
-                    content {
-                        // Content omitted
+                lineUp {
+                    items {
+                        clickButton {
+                            text("Show")
+                        } handledBy toast {
+                            content {
+                                // content omitted for readability
+                            }
+                        }
                     }
                 }
                 """.trimIndent()
@@ -192,7 +190,7 @@ fun RenderContext.toastDemo(): Div {
             c("standAlone")
             +" to"
             c("true")
-            +". Keep in mind, that pressing the button is only necessary for demonstration purpose."
+            +". Keep in mind that pressing the button is only necessary for demonstration purposes."
 
         }
 
@@ -225,7 +223,7 @@ fun RenderContext.toastDemo(): Div {
                             // Styled for better readability; any other content is okay as well!
                             (::p.styled {
                                 margin { normal }
-                                color { lightGray }
+                                color { base }
                             }) {
                                 +flowItem
                             }
@@ -253,7 +251,7 @@ fun RenderContext.toastDemo(): Div {
                             // Styled for better readability; any other content is okay as well!
                             (::p.styled {
                                 margin { normal }
-                                color { lightGray }
+                                color { base }
                             }) {
                                 +flowItem
                             }
@@ -270,19 +268,19 @@ fun RenderContext.toastDemo(): Div {
         paragraph {
             +"You can configure the position in which your toast will be displayed."
             br { }
-            +"Predefined positions are : "
-            c("bottom ")
-            +"|"
-            c(" bottomLeft ")
-            +"|"
-            c(" bottomRight ")
-            +"|"
-            c("top ")
-            +"|"
-            c(" topLeft ")
-            +"|"
-            c(" topRight ")
-            +" where bottomRight is the default."
+            +"Predefined positions are: "
+            c("bottom")
+            +", "
+            c("bottomLeft")
+            +", "
+            c("bottomRight")
+            +" (default), "
+            c("top")
+            +", "
+            c("topLeft")
+            +", and "
+            c("topRight")
+            +"."
         }
         componentFrame {
             lineUp {
@@ -341,11 +339,11 @@ fun RenderContext.toastDemo(): Div {
             source(
                 """
                 showToast {
-                        position { top }
-                        content {
-                            // Content omitted
-                        }
+                    position { top }
+                    content {
+                        // Content omitted
                     }
+                }
             """.trimIndent()
             )
         }
@@ -359,7 +357,7 @@ fun RenderContext.toastDemo(): Div {
 
         showcaseSubSection("Background")
         paragraph {
-            +"The toast'S background color can be changed via the "
+            +"The toast's background color can be changed via the "
             c("background")
             +" property."
         }
@@ -376,12 +374,12 @@ fun RenderContext.toastDemo(): Div {
         playground {
             source(
                 """
-                    showToast {
-                        background { darkerGray }
-                        content {
-                            // Content omitted
-                        }
+                showToast {
+                    background { darkerGray }
+                    content {
+                        // Content omitted
                     }
+                }
                 """.trimIndent()
             )
         }
@@ -466,10 +464,13 @@ fun RenderContext.toastDemo(): Div {
 
 
         showcaseSection("Closing Toasts Manually")
+        paragraph {
+            +"Toasts can manually be dismissed by clicking on it's close button which is part of every toast"
+        }
 
         showcaseSubSection("Close-Button")
         paragraph {
-            +"Toasts can manually be dismissed by clicking on it's close button which is part of every toast"
+            +"Toasts can manually be dismissed by clicking on the close buttons which are part of every toast"
             +" by default. The close button can be enabled/disabled via the "
             c("isCloseable")
             +" property."
@@ -499,16 +500,14 @@ fun RenderContext.toastDemo(): Div {
 
         showcaseSubSection("Dismissing Multiple Toasts")
         paragraph {
-            +"As mentioned before, toasts close themselves after a specified time or can be closed by the close button."
-            br {}
-            +"But you have two more possibilities to close toasts: Namely "
+            +"Apart from closing single toasts with their close buttons or waiting for them to close themselves, "
+            +" there are two more options to close toasts: "
             c("ToastComponent.closeLastToast()")
             +" and "
             c("ToastComponent.closeAllToasts()")
             +"."
-            br { }
             +"You can also remove the close button so that the toast can't be closed by the user. In this case it will"
-            +" still disappear when the timer hits zero."
+            +" still disappear when the timer runs out."
         }
         componentFrame {
             lineUp {
@@ -541,20 +540,28 @@ fun RenderContext.toastDemo(): Div {
         playground {
             source(
                 """
-                    toast {
-                        isCloseable { false }
+                    clickButton {
+                        text("Add Toast")
+                    } handledBy toast {
                         content {
-                            // Content omitted
+                            // content.. 
                         }
                     }
-                    
+                    clickButton {
+                        text("No Close Button")
+                    } handledBy toast {
+                        isCloseable { false }
+                        content {
+                            // content.. 
+                        }
+                    }
                     clickButton {
                         text("Close Latest")
-                    } handledBy ToastComponent().closeLastToast()
+                    } handledBy ToastComponent.closeLastToast()
 
                     clickButton {
-                         text("Close All")
-                    } handledBy ToastComponent().closeAllToasts()
+                        text("Close All")
+                    } handledBy ToastComponent.closeAllToasts()
                 """.trimIndent()
             )
         }

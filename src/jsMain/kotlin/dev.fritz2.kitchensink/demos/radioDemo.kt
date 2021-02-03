@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.flowOf
 fun RenderContext.radiosDemo(): Div {
 
     return contentFrame {
-        showcaseHeader("Radios")
+        showcaseHeader("Radio")
 
         paragraph {
             c("Radios")

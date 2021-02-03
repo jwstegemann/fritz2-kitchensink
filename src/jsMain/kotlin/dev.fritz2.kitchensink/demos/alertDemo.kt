@@ -4,42 +4,45 @@ import dev.fritz2.components.alert
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
+import dev.fritz2.kitchensink.theme_
+import dev.fritz2.kitchensink.toasts_
 import dev.fritz2.styling.params.styled
 
 fun RenderContext.alertDemo(): Div {
     return contentFrame {
-        showcaseHeader("Alerts")
+        showcaseHeader("Alert")
 
         paragraph {
-            c("Alerts")
-            +" provide a solution to display content in a highlighted way."
-            +" They come with a variety of color schemes and layout variants to choose from,"
-            +" and can be custom-styled as well."
+            +"Alerts provide a solution for highlighting important content."
+            +" They come with a variety of color schemes and layout variants to choose from "
+            +" and can of course be custom-styled as well."
+            +" They can also be used as content for "
+            internalLink("Toasts", toasts_)
+            +"."
         }
 
         showcaseSection("Usage")
         paragraph {
             +"A simple alert with default properties can be created by simply specifying a title and content."
         }
-        contentFrame {
+        componentFrame {
             alert {
-                title("Alert")
-                content("This is an alert.")
+                title("Alert: ")
+                content("This is a basic alert.")
             }
         }
         playground {
             source(
                 """
-                    alert {
-                    title("Alert")
-                    content("This is an alert.")
+                alert {
+                    title("Alert: ")
+                    content("This is a basic alert.")
                 }
                 """.trimIndent()
             )
         }
 
-
-        showcaseSection("Styling")
+        showcaseSection("Icon")
 
         paragraph {
             +"The alert's icon can be changed via the "
@@ -49,16 +52,16 @@ fun RenderContext.alertDemo(): Div {
         componentFrame {
             alert {
                 icon { fritz2 }
-                content("Alert with the fritz2 logo")
+                content("Alert using the fritz2 logo")
             }
         }
         playground {
             source(
                 """
-                    alert {
-                        icon { fritz2 }
-                        content("Alert with the fritz2 logo")
-                    }
+                alert {
+                    icon { fritz2 }
+                    content("Alert using the fritz2 logo")
+                }
                 """.trimIndent()
             )
         }
@@ -66,39 +69,46 @@ fun RenderContext.alertDemo(): Div {
         showcaseSection("Customizing")
 
         paragraph {
-            +"You can customize the alert's color scheme, choose from a variety of layout variants and even use "
-            +" custom layouts for the title and content."
+            +"You can customize the alert's color scheme, choose from a variety of layouts and even use "
+            +" custom layouts for title and content."
         }
 
-        showcaseSubSection("Severity")
+        showcaseSubSection("Severity Color Scheme")
         paragraph {
             +"The color scheme can be changed by specifying the alert's severity using the "
             c("severity")
-            +" property. Possible values are info, success, warning and error."
+            +" property. Possible values are "
+            c("info")
+            +" (default), "
+            c("success")
+            +", "
+            c("warning")
+            +", and "
+            c("error")
+            +"."
         }
         componentFrame {
             alert({
                 margin { tiny }
             }) {
-                content("Severity: Info")
-                severity { info }
+                content("Severity: info")
             }
             alert({
                 margin { tiny }
             }) {
-                content("Severity: Success")
+                content("Severity: success")
                 severity { success }
             }
             alert({
                 margin { tiny }
             }) {
-                content("Severity: Warning")
+                content("Severity: warning")
                 severity { warning }
             }
             alert({
                 margin { tiny }
             }) {
-                content("Severity: Error")
+                content("Severity: error")
                 severity { error }
             }
         }
@@ -106,19 +116,18 @@ fun RenderContext.alertDemo(): Div {
             source(
                 """
                     alert {
-                        content("Severity: Info")
-                        severity { info }
+                        content("Severity: info (default)")
                     }
                     alert {
-                        content("Severity: Success")
+                        content("Severity: success")
                         severity { success }
                     }
                     alert {
-                        content("Severity: Warning")
+                        content("Severity: warning")
                         severity { warning }
                     }
                     alert {
-                        content("Severity: Error")
+                        content("Severity: error")
                         severity { error }
                     }
                 """.trimIndent()
@@ -129,14 +138,14 @@ fun RenderContext.alertDemo(): Div {
         paragraph {
             +"The alert's layout variant can be changed via the "
             c("variant")
-            +" property. Currently a subtle (default) and solid variant are available as well as variants with either"
+            +" property. Currently a subtle (default) and subtle variant are available as well as variants with either"
             +" a colored left or top accent."
         }
         componentFrame {
             alert({
                 margin { tiny }
             }) {
-                content("This is a subtle alert.")
+                content("This is a default subtle alert.")
             }
             alert({
                 margin { tiny }
@@ -161,7 +170,7 @@ fun RenderContext.alertDemo(): Div {
             source(
                 """
                     alert {
-                        content("This is a subtle alert.")
+                        content("This is a default subtle alert.")
                     }
                     alert {
                         content("This is a solid alert.")
@@ -185,7 +194,7 @@ fun RenderContext.alertDemo(): Div {
             c("title")
             +" and "
             c("content")
-            +" methods as well."
+            +" methods."
         }
         componentFrame {
             alert({
