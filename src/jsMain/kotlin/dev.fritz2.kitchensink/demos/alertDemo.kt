@@ -138,7 +138,7 @@ fun RenderContext.alertDemo(): Div {
         paragraph {
             +"The alert's layout variant can be changed via the "
             c("variant")
-            +" property. Currently a subtle (default) and subtle variant are available as well as variants with either"
+            +" property. Currently a solid (default) and subtle variant are available as well as variants with either"
             +" a colored left or top accent."
         }
         componentFrame {
@@ -146,12 +146,12 @@ fun RenderContext.alertDemo(): Div {
                 margin { tiny }
             }) {
                 content("This is a default subtle alert.")
+                variant { subtle }
             }
             alert({
                 margin { tiny }
             }) {
                 content("This is a solid alert.")
-                variant { solid }
             }
             alert({
                 margin { tiny }
@@ -170,11 +170,11 @@ fun RenderContext.alertDemo(): Div {
             source(
                 """
                     alert {
-                        content("This is a default subtle alert.")
+                        content("This is a subtle alert.")
+                        variant { subtle }
                     }
                     alert {
-                        content("This is a solid alert.")
-                        variant { solid }
+                        content("This is a default solid alert.")
                     }
                     alert {
                         content("This is a left-accented alert.")
