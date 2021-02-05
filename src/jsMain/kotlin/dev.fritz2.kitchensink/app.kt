@@ -24,6 +24,7 @@ const val spinner_ = "Spinner"
 const val input_ = "InputField"
 const val select_ = "SelectField"
 const val buttons_ = "Button"
+const val files_ = "Files"
 const val formcontrol_ = "FormControl"
 const val flexbox_ = "FlexBox"
 const val gridbox_ = "GridBox"
@@ -255,6 +256,7 @@ fun main() {
 
                             menuHeader("FORMS")
                             menuAnchor(buttons_)
+                            menuAnchor(files_)
                             menuAnchor(checkboxes_)
                             menuAnchor(input_)
                             menuAnchor(select_)
@@ -298,6 +300,7 @@ fun main() {
                                 input_ -> inputDemo()
                                 select_ -> selectDemo()
                                 buttons_ -> buttonDemo()
+                                files_ -> fileDemo()
                                 formcontrol_ -> formControlDemo()
                                 flexbox_ -> flexBoxDemo()
                                 gridbox_ -> gridBoxDemo()
