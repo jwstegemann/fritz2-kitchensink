@@ -94,14 +94,14 @@ fun RenderContext.radiosDemo(): Div {
                     radio {
                         label("small")
                         size { small }
-                        selected (smallStore.data)
+                        selected(smallStore.data)
                         events {
                             changes.states() handledBy smallStore.update
                         }
                     }
                     radio {
                         label("normal")
-                        selected (normalStore.data)
+                        selected(normalStore.data)
                         events {
                             changes.states() handledBy normalStore.update
                         }
@@ -109,7 +109,7 @@ fun RenderContext.radiosDemo(): Div {
                     radio {
                         label("large")
                         size { large }
-                        selected (largeStore.data)
+                        selected(largeStore.data)
                         events {
                             changes.states() handledBy largeStore.update
                         }
@@ -146,7 +146,7 @@ fun RenderContext.radiosDemo(): Div {
             +" parameter, you can display the radios in a row or as a column."
         }
         componentFrame {
-            radioGroup(store = usageRadioGroupStore, items = demoItems ) {
+            radioGroup(store = usageRadioGroupStore, items = demoItems) {
                 direction { row }
             }
         }
@@ -182,19 +182,23 @@ fun RenderContext.radiosDemo(): Div {
                         border { color { secondary } }
                     }) {
                         label("Custom unselected style")
-                        selected (flowOf(false))
+                        selected(false)
                     }
 
                     radio {
                         label("Custom selected style")
-                        selected(flowOf(true))
-                        selectedStyle { { background { color { secondary } } } }
+                        selected(true)
+                        selectedStyle {
+                            background { color { secondary } }
+                        }
                     }
 
                     radio {
                         label("Custom label style: margin")
-                        selected (usageRadioStore.data)
-                        labelStyle { { margins { left { larger } } } }
+                        selected(usageRadioStore.data)
+                        labelStyle {
+                            margins { left { larger } }
+                        }
                         events {
                             changes.states() handledBy usageRadioStore.update
                         }
@@ -213,31 +217,35 @@ fun RenderContext.radiosDemo(): Div {
 
                     radio {
                         label("Custom selected style")
-                        selected (flowOf(true))
-                        selectedStyle { { background { color { secondary } } } }
+                        selected(true)
+                        selectedStyle { 
+                            background { color { secondary } }  
+                        }
                     }
 
                     radio {
                         label("Custom label style: margin")
-                        labelStyle { { margins { left { larger } } } }
+                        labelStyle { 
+                            margins { left { larger } } 
+                        }     
                     }
                     """
             )
         }
 
-       showcaseSection("Disabled Radios")
+        showcaseSection("Disabled Radios")
         componentFrame {
             stackUp {
                 items {
                     radio {
                         label("A disabled Radio or RadioGroup can not be selected.")
-                        disabled(flowOf(true))
-                        selected (usageRadioStore.data)
+                        disabled(true)
+                        selected(usageRadioStore.data)
                     }
 
                     radioGroup(store = usageRadioGroupStore, items = demoItems) {
                         direction { column }
-                        disabled(flowOf(true))
+                        disabled(true)
                     }
                 }
 
@@ -248,12 +256,12 @@ fun RenderContext.radiosDemo(): Div {
                 """
                     radio {
                         label("A disabled Radio or RadioGroup can not be selected.")
-                        disabled(flowOf(true))
+                        disabled(true)
                     }
                     
                     radioGroup(store = usageRadioGroupStore, items = demoItems) {
                         direction { column }
-                        disabled(flowOf(true))
+                        disabled(true)
                     }
                     """
             )
