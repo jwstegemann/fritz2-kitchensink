@@ -6,6 +6,7 @@ import dev.fritz2.components.*
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
+import dev.fritz2.styling.params.styled
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
@@ -40,12 +41,14 @@ fun RenderContext.fileDemo(): Div {
         content {
             stackUp {
                 items {
+                    h2{ +"Selected files" }
+                    (::hr.styled { width { full } }){}
                     files.forEach {
                         lineUp {
                             items {
-                                h3 { +it.name }
+                                h4 { +it.name }
                                 p { +it.type }
-                                code { +it.content.substring(0, 15) }
+                                p { +it.content.substring(0, 15) }
                             }
                         }
                     }
