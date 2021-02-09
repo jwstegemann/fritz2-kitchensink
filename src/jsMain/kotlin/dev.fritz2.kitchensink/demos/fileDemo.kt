@@ -3,14 +3,18 @@ package dev.fritz2.kitchensink.demos
 import dev.fritz2.binding.RootStore
 import dev.fritz2.binding.invoke
 import dev.fritz2.components.*
+import dev.fritz2.components.data.File
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
+import dev.fritz2.kitchensink.buttons_
 import dev.fritz2.styling.params.styled
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
 fun RenderContext.fileDemo(): Div {
+
+    fun Long.asKB(digits: Int = 0): String = "${(this / 1000.toDouble()).asDynamic().toFixed(digits)} KB"
 
     fun fileModal(file: File) = modal {
         size { small }
@@ -18,18 +22,11 @@ fun RenderContext.fileDemo(): Div {
         content {
             stackUp {
                 items {
-                    lineUp {
-                        items {
-                            h3 { +file.name }
-                            p { +file.type }
-                        }
-                    }
-                    textArea({
-                        height { "30rem" }
-                    }) {
-                        value(file.content)
-                        size { large }
-                    }
+                    h2{ +"Selected file" }
+                    (::hr.styled { width { full } }){}
+                    p { +"Name: ${file.name}" }
+                    p { +"Media Type: ${file.type}" }
+                    p { +"Size: ${file.size.asKB(2)}" }
                 }
             }
         }
@@ -46,9 +43,8 @@ fun RenderContext.fileDemo(): Div {
                     files.forEach {
                         lineUp {
                             items {
-                                h4 { +it.name }
-                                p { +it.type }
-                                p { +it.content.substring(0, 15) }
+                                p { +it.name }
+                                p { +"Size: ${it.size.asKB(2)}" }
                             }
                         }
                     }
@@ -72,17 +68,72 @@ fun RenderContext.fileDemo(): Div {
 
         paragraph {
             +"""
-            Use a button to open a file selection dialog which returns a file which can be handled 
-            by a store, for example showing the content in a modal dialog. 
+            Use this component to open a file selection dialog which returns a single or multiple file(s) 
+            which can be received by a handler of a store. 
             """.trimIndent()
+        }
+        paragraph {
+            +"Please note that the creation of modal dialogs was omitted in some of the examples to keep the source fragments short."
         }
 
         showcaseSection("Usage")
         paragraph {
-            +"Setup your handler for a single file which gets load by the "
-            c("fileButton")
-            +" . You can specify the accepted file types (mime-types) and use encodings for parsing the content. "
-            +"By default you get the content of the selected file as base64 string."
+            +"Use the "
+            c("file{}")
+            +" function for a single file selection and or the "
+            c("files{}")
+            +" function for selecting multiple files. "
+            +"As visible button you can use everything that is described on "
+            internalLink("button page", buttons_)
+            +" , just by calling the "
+            c("button()")
+            +" function inside."
+            +"Both functions return a "
+            c("File")
+            +" or a list of them wich can directed to a matching handler of store."
+        }
+        paragraph {
+            +"Note: For selecting multiple files at once you need to press and hold the "
+            c("Shift")
+            +" key while selection the files."
+        }
+        componentFrame {
+            lineUp(switchLayoutSm) {
+                items {
+                    file {
+                        button { text("Single select") }
+                    } handledBy fileStore.showFile
+
+                    files {
+                        button { text("Multi select") }
+                    } handledBy fileStore.showFiles
+                }
+            }
+        }
+        playground {
+            source(
+                """
+                    val fileStore = object : RootStore<Unit>(Unit) {
+                        val showFile = handle<File> { _, file -> fileModal(file)() }
+                        val showFiles = handle<List<File>> { _, files -> filesModal(files)() }
+                    }
+                    
+                    file {
+                        button { text("Single select") }
+                    } handledBy fileStore.showFile
+
+                    files {
+                        button { text("Multi select") }
+                    } handledBy fileStore.showFiles
+                """
+            )
+        }
+
+        showcaseSection("Accept")
+        paragraph {
+            +"An important property for the the file selection is the "
+            externalLink("accept.", "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#htmlattrdefaccept")
+            +" property, which is used differently in the example below."
         }
         componentFrame {
             lineUp(switchLayoutSm) {
@@ -92,23 +143,27 @@ fun RenderContext.fileDemo(): Div {
                             background { color { info } }
                         }) {
                             icon { fromTheme { cloudUpload } }
+                            text("Accept every file")
                         }
                     } handledBy fileStore.showFile
 
                     file {
-                        accept("text/plain")
-                        button {
-                            icon { fromTheme { cloudUpload } }
-                            text("Select a text file (base64)")
+                        accept("image/*")
+                        button({
+                            background { color { warning } }
+                        }) {
+                            icon { fromTheme { image } }
+                            text("Accept only image files")
                         }
                     } handledBy fileStore.showFile
 
                     file {
-                        encoding("utf-8")
-                        accept("text/plain")
-                        button {
-                            icon { fromTheme { cloudUpload } }
-                            text("Select a text file (utf-8)")
+                        accept("application/pdf")
+                        button({
+                            background { color { danger } }
+                        }) {
+                            icon { fromTheme { document } }
+                            text("Accept only pdf files")
                         }
                     } handledBy fileStore.showFile
                 }
@@ -117,35 +172,53 @@ fun RenderContext.fileDemo(): Div {
         playground {
             source(
                 """
-                    val fileStore = object : RootStore<Unit>(Unit) {
-                        val showFile = handle<FileRead> { _, file ->
-                            fileModal(file)()
+                    file {
+                        button({
+                            background { color { info } }
+                        }) {
+                            icon { fromTheme { cloudUpload } }
+                            text("Accept every file")
                         }
-                    }
+                    } handledBy fileStore.showFile
 
-                     fileButton {
-                        encoding("utf-8")
-                        accept("text/plain")
-                        text("Select a text file")
+                    file {
+                        accept("image/*")
+                        button({
+                            background { color { warning } }
+                        }) {
+                            icon { fromTheme { image } }
+                            text("Accept only image files")
+                        }
+                    } handledBy fileStore.showFile
+
+                    file {
+                        accept("application/pdf")
+                        button({
+                            background { color { danger } }
+                        }) {
+                            icon { fromTheme { document } }
+                            text("Accept only pdf files")
+                        }
                     } handledBy fileStore.showFile
                 """
             )
         }
 
-        showcaseSection("Usage")
+        showcaseSection("Text files")
         paragraph {
-            +"Setup your handler for a single file which gets load by the "
-            c("fileButton")
-            +" . You can specify the accepted file types (mime-types) and use encodings for parsing the content. "
-            +"By default you get the content of the selected file as base64 string."
+            +"When working with text files you can use parse it contents by providing a encoding string to the "
+            c("encoding()")
+            +" function."
         }
         componentFrame {
             lineUp(switchLayoutSm) {
                 items {
                     files {
+                        encoding("utf-8")
+                        accept("plain/*")
                         button {
                             icon { fromTheme { cloudUpload } }
-                            text("Select multiple files")
+                            text("Text files")
                         }
                     } handledBy fileStore.showFiles
                 }
@@ -154,17 +227,14 @@ fun RenderContext.fileDemo(): Div {
         playground {
             source(
                 """
-                    val fileStore = object : RootStore<Unit>(Unit) {
-                        val showFile = handle<FileRead> { _, file ->
-                            fileModal(file)()
-                        }
-                    }
-
-                     fileButton {
+                    files {
                         encoding("utf-8")
-                        accept("text/plain")
-                        text("Select a text file")
-                    } handledBy fileStore.showFile
+                        accept("plain/*")
+                        button {
+                            icon { fromTheme { cloudUpload } }
+                            text("Text files")
+                        }
+                    } handledBy fileStore.showFiles
                 """
             )
         }
