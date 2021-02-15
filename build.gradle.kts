@@ -1,9 +1,10 @@
 plugins {
+    id("dev.fritz2.fritz2-gradle") version "0.8"
     kotlin("multiplatform") version "1.4.10"
 }
 
 repositories {
-    mavenLocal()
+    //mavenLocal()
     jcenter()
     maven("https://oss.jfrog.org/artifactory/jfrog-dependencies")
     maven("https://dl.bintray.com/jwstegemann/fritz2")
@@ -27,7 +28,6 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation("dev.fritz2:components:0.9-SNAPSHOT")
-                implementation("dev.fritz2:styling:0.9-SNAPSHOT")
             }
         }
 

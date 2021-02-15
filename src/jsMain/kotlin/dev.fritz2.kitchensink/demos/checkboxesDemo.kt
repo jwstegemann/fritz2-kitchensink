@@ -35,7 +35,7 @@ fun RenderContext.checkboxesDemo(): Div {
         val usageCheckboxGroupStore = RootStore(listOf("item 2", "item 3"))
         val customCheckboxStore1 = storeOf(false)
         val customCheckboxStore2 = storeOf(true)
-        val customCheckboxStore3 = storeOf(false)
+        val customCheckboxStore3 = storeOf(true)
         val customCheckboxStore4 = storeOf(false)
         val sizesCheckboxStore1 = storeOf(false)
         val sizesCheckboxStore2 = storeOf(true)
@@ -50,7 +50,7 @@ fun RenderContext.checkboxesDemo(): Div {
         componentFrame {
             checkbox {
                 label("A single Checkbox")
-                checked ( usageCheckboxStore.data )
+                checked(usageCheckboxStore.data)
                 events {
                     changes.states() handledBy usageCheckboxStore.update
                 }
@@ -112,19 +112,19 @@ fun RenderContext.checkboxesDemo(): Div {
                 {
                     alignItems { center }
                 }
-            ){
+            ) {
                 items {
                     checkbox {
                         label("small")
                         size { small }
-                        checked ( sizesCheckboxStore1.data )
+                        checked(sizesCheckboxStore1.data)
                         events {
                             changes.states() handledBy sizesCheckboxStore1.update
                         }
                     }
                     checkbox {
                         label("normal")
-                        checked ( sizesCheckboxStore2.data )
+                        checked(sizesCheckboxStore2.data)
                         events {
                             changes.states() handledBy sizesCheckboxStore2.update
                         }
@@ -132,7 +132,7 @@ fun RenderContext.checkboxesDemo(): Div {
                     checkbox {
                         label("large")
                         size { large }
-                        checked ( sizesCheckboxStore3.data )
+                        checked(sizesCheckboxStore3.data)
                         events {
                             changes.states() handledBy sizesCheckboxStore3.update
                         }
@@ -176,7 +176,7 @@ fun RenderContext.checkboxesDemo(): Div {
                         background { color { secondary } }
                     }) {
                         label("Changed unchecked background color")
-                        checked ( customCheckboxStore1.data )
+                        checked(customCheckboxStore1.data)
                         events {
                             changes.states() handledBy customCheckboxStore1.update
                         }
@@ -185,9 +185,9 @@ fun RenderContext.checkboxesDemo(): Div {
                     checkbox {
                         label("Changed checked border color")
                         checkedStyle {
-                            { border { color { secondary }}}
+                            border { color { secondary } }
                         }
-                        checked ( customCheckboxStore2.data )
+                        checked(customCheckboxStore2.data)
                         events {
                             changes.states() handledBy customCheckboxStore2.update
                         }
@@ -195,8 +195,8 @@ fun RenderContext.checkboxesDemo(): Div {
 
                     checkbox {
                         label("Changed checkmark to fritz2 icon")
-                        icon { Theme().icons.fritz2 }
-                        checked ( customCheckboxStore3.data )
+                        icon { fritz2 }
+                        checked(customCheckboxStore3.data)
                         events {
                             changes.states() handledBy customCheckboxStore3.update
                         }
@@ -204,8 +204,8 @@ fun RenderContext.checkboxesDemo(): Div {
 
                     checkbox {
                         label("Custom label style: larger margin")
-                        labelStyle { { margins { left { larger } } } }
-                        checked ( customCheckboxStore4.data )
+                        labelStyle { margins { left { larger } } }
+                        checked(customCheckboxStore4.data)
                         events {
                             changes.states() handledBy customCheckboxStore4.update
                         }
@@ -225,19 +225,21 @@ fun RenderContext.checkboxesDemo(): Div {
                     checkbox {
                         label("Changed checked border color")
                         checkedStyle {
-                            { border { color { secondary }}}
+                            border { color { secondary } }
                         }
                     }
 
                     checkbox {
                         label("Changed checkmark to fritz2 icon")
-                        checked ( flowOf(true) )
-                        icon { Theme().icons.fritz2 }
+                        checked(true)
+                        icon { fritz2 }
                     }
 
                     checkbox {
                         label("Custom label style: larger margin")
-                        labelStyle { { margins { left { larger } } } }
+                        labelStyle { 
+                            margins { left { larger } } 
+                        }
                     }
                     """
             )
@@ -250,16 +252,16 @@ fun RenderContext.checkboxesDemo(): Div {
             stackUp {
                 items {
                     checkbox {
-                        checked ( usageCheckboxStore.data )
+                        checked(usageCheckboxStore.data)
                         label("A disabled checkbox or checkboxGroup can not be selected.")
-                        disabled ( flowOf(true) )
+                        disabled(flowOf(true))
                         events {
                             changes.states() handledBy usageCheckboxStore.update
                         }
                     }
                     checkboxGroup(store = usageCheckboxGroupStore, items = demoItems) {
                         direction { column }
-                        disabled ( flowOf(true) )
+                        disabled(flowOf(true))
                     }
                 }
 
@@ -270,12 +272,12 @@ fun RenderContext.checkboxesDemo(): Div {
                 """
                     checkbox {
                         label("A disabled Checkbox or CheckboxGroup can not be selected.")
-                        disabled ( flowOf(true) )
+                        disabled(true)
                     }
                     
                     checkboxGroup(store = selectedItemsStore, items = allItems) {
                         direction { column }
-                        disabled ( flowOf(true) )
+                        disabled(true)
                     }
                     """
             )

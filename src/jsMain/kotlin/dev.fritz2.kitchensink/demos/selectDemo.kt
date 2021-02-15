@@ -86,10 +86,10 @@ fun RenderContext.selectDemo(): Div {
                         size { small }
 
                     }
-                    selectField<Any>(items = emptyList())  {
+                    selectField<Any>(items = emptyList()) {
                         placeholder("normal (default)")
                     }
-                    selectField<Any>(items = emptyList())  {
+                    selectField<Any>(items = emptyList()) {
                         placeholder("large")
                         size { large }
                     }
@@ -128,10 +128,10 @@ fun RenderContext.selectDemo(): Div {
         componentFrame {
             stackUp {
                 items {
-                    selectField<Any>(items = emptyList())  {
+                    selectField<Any>(items = emptyList()) {
                         placeholder("outline (default)")
                     }
-                    selectField<Any>(items = emptyList())  {
+                    selectField<Any>(items = emptyList()) {
                         placeholder("filled")
                         variant { filled }
                     }
@@ -163,14 +163,14 @@ fun RenderContext.selectDemo(): Div {
         componentFrame {
             stackUp {
                 items {
-                    selectField<Any>(items = emptyList())  {
+                    selectField<Any>(items = emptyList()) {
                         placeholder("Large with circleAdd-Icon")
-                        icon { Theme().icons.circleAdd }
+                        icon { circleAdd }
                         size { large }
                     }
-                    selectField<Any>(items = emptyList())  {
+                    selectField<Any>(items = emptyList()) {
                         placeholder("Small with arrowDown-Icon")
-                        icon { Theme().icons.arrowDown }
+                        icon { arrowDown }
                         size { small }
                     }
                 }
@@ -181,12 +181,12 @@ fun RenderContext.selectDemo(): Div {
                 """
             selectField(items = myList) {
                 placeholder("Large with circleAdd-Icon")
-                icon { Theme().icons.circleAdd }
+                icon { circleAdd }
                 size { large }
             }
             select(items = myList) {
                 placeholder("Small with arrowDown-Icon")
-                icon { Theme().icons.arrowDown }
+                icon { arrowDown }
                 size { small }
             }
                 """.trimIndent()
@@ -200,7 +200,7 @@ fun RenderContext.selectDemo(): Div {
         paragraph {
             +"As mentioned in the usage section, you can pass items of any type to the select. You can specify how the label is generated (if "
             +" you don't specify anything, the "
-            c( "toString()")
+            c("toString()")
             +" method of your class will be used). The following example renders a list of persons with name and id."
 
 
@@ -234,7 +234,7 @@ fun RenderContext.selectDemo(): Div {
                  val persons = listOf(Person("John Doe", 16), Person("Jane Doe", 42))
                  val store = storeOf(persons[0])
                  selectField(store = store, items = persons) {
-                        label { it.name } // instead of person.toString(), use name member as label
+                     label { it.name } // instead of person.toString(), use name member as label
                  }
                 """.trimIndent()
             )
@@ -250,7 +250,7 @@ fun RenderContext.selectDemo(): Div {
         componentFrame {
             lineUp {
                 items {
-                    selectField<Any>(items = emptyList())  {
+                    selectField<Any>(items = emptyList()) {
                         placeholder("disabled selectField")
                         disabled(true)
                     }

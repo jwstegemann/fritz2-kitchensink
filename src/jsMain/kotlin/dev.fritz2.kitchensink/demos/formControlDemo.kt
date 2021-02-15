@@ -1,165 +1,25 @@
 package dev.fritz2.kitchensink.demos
 
 import dev.fritz2.binding.RootStore
+import dev.fritz2.binding.SimpleHandler
 import dev.fritz2.binding.Store
 import dev.fritz2.binding.storeOf
 import dev.fritz2.components.*
+import dev.fritz2.components.validation.*
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
-import dev.fritz2.dom.states
-import dev.fritz2.dom.values
+import dev.fritz2.kitchensink.Account
+import dev.fritz2.kitchensink.AccountCreationPhase
+import dev.fritz2.kitchensink.AccountValidator
+import dev.fritz2.kitchensink.L
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.styling.StyleClass
 import dev.fritz2.styling.params.BasicParams
 import dev.fritz2.styling.params.styled
+import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
-
-// extend ControlComponent in order to override or extend functions for controls
-// and for setting up other renderers
-class MyFormControlComponent : FormControlComponent() {
-
-    //  custom implementation of radio group within custom form control
-    fun myRadioGroup(
-        styling: BasicParams.() -> Unit = {},
-        items: List<String>,
-        store: Store<String>,
-        baseClass: StyleClass? = null,
-        id: String? = null,
-        prefix: String = "myradiogroup",
-        build: RadioGroupComponent<String>.() -> Unit
-    ) {
-        val returnStore = object : RootStore<String>("") {
-            val syncHandlerSelect = handleAndEmit<String, String> { _, new ->
-                if (new == "custom") ""
-                else {
-                    emit("")
-                    new
-                }
-            }
-
-            val selectedStore = storeOf("")
-
-            val inputStore = object : RootStore<String>("") {
-
-                val syncInput = handleAndEmit<String, String> { _, new ->
-                    if (selectedStore.current == "custom") {
-                        emit(new)
-                    }
-                    new
-                }
-
-            }
-
-            init {
-                selectedStore.syncBy(syncHandlerSelect)
-                inputStore.syncInput handledBy update
-                syncHandlerSelect handledBy inputStore.update
-                this.data handledBy store.update
-            }
-        }
-
-        control.set(Companion.ControlNames.radioGroup)
-        {
-            lineUp({
-                alignItems { center }
-            }) {
-                items {
-                    radioGroup(
-                        styling,
-                        items = items + "custom",
-                        returnStore.selectedStore,
-                        baseClass,
-                        id,
-                        prefix
-                    ) {
-                        build()
-                        direction { row }
-                    }
-                    inputField {
-                        size { small }
-                        disabled(returnStore.selectedStore.data.map { it != "custom" })
-                        value(returnStore.inputStore.data)
-                        placeholder("custom value")
-                        events {
-                            changes.values() handledBy returnStore.inputStore.syncInput
-                        }
-
-                    }
-                }
-
-            }
-        }
-    }
-
-    // Define your own renderer
-    class MyRadioRenderer(private val component: FormControlComponent) : ControlRenderer {
-        override fun render(
-            styling: BasicParams.() -> Unit,
-            baseClass: StyleClass?,
-            id: String?,
-            prefix: String,
-            renderContext: RenderContext,
-            control: RenderContext.() -> Unit
-        ) {
-            renderContext.lineUp({
-                alignItems { center }
-                styling()
-            }, baseClass, id, prefix) {
-                items {
-                    (::p.styled {
-                        textAlign { right }
-                        minHeight { full }
-                        height { full }
-                        borders {
-                            right {
-                                color { lighterGray }
-                                width { fat }
-                            }
-                        }
-                        paddings {
-                            right {
-                                normal
-                            }
-                        }
-                    }){ +component.label.value }
-
-                    stackUp({
-                        width { full }
-                        alignItems { center }
-                    }) {
-                        spacing { tiny }
-                        items {
-                            fieldset {
-                                control(this)
-                            }
-                            component.renderHelperText(this)
-                            component.renderErrorMessage(this)
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    init {
-        // Overrule default strategy for ``multiSelectCheckbox``
-        // You could also add a new *control* function with a corresponding renderer of course
-        renderStrategies[Companion.ControlNames.radioGroup] = MyRadioRenderer(this)
-    }
-}
-
-fun RenderContext.myFormControl(
-    styling: BasicParams.() -> Unit = {},
-    baseClass: StyleClass? = null,
-    id: String? = null,
-    prefix: String = "formControl",
-    build: MyFormControlComponent.() -> Unit = {}
-) {
-    val component = MyFormControlComponent().apply(build)
-    component.render(styling, baseClass, id, prefix, this)
-}
-
 
 @ExperimentalCoroutinesApi
 fun RenderContext.formControlDemo(): Div {
@@ -171,66 +31,611 @@ fun RenderContext.formControlDemo(): Div {
             +" form element and take care of wrapping it with..."
             ul {
                 li { +"a label" }
-                li { +"an optional marker to indicate a required field" }
                 li { +"an optional helper-text" }
-                li { +"an error message and marker to indicate invalid input" }
+                li { +"some validation messages and marker to indicate invalid input." }
+            }
+        }
+        paragraph {
+            +"They can handle the event handling automatically (as all wrapped control can so too) but also "
+            +"manage to process validation without additional effort!"
+        }
+        paragraph {
+            +"In order to make the whole concept comprehensible we start with some rather complete use case "
+            +"showing how all these concepts work together hand in hand."
+        }
+
+        showcaseSection("Complete form example")
+        paragraph {
+            +"Here is a fully featured example showing how to realize a working form based upon our "
+            strong { +"formControl" }
+            +" combined with essential fritz2's core concepts like data classes with lenses as model, "
+            +" stores and substores and validation facilities."
+        }
+
+        val accountStore = object : RootStore<Account>(
+            Account("", "", emptyList(), false)
+        ), WithValidator<Account, AccountCreationPhase> {
+            override val validator = AccountValidator
+
+            init {
+                validate(AccountCreationPhase.Input)
+            }
+
+            val register = handle<SimpleHandler<Unit>> { model, handler ->
+                if (validator.isValid(model, AccountCreationPhase.Registration)) {
+                    handler(Unit)
+                }
+                model
             }
         }
 
-        showcaseSection("Usage")
-        paragraph {
-            +"The following FormControl wraps an InputField. It marks the field as required, catches incorrect inputs "
-            +" with a custom error message, and provides a helper-text:"
+        val nameStore = accountStore.sub(L.Account.username)
+        val passphraseStore = accountStore.sub(L.Account.passphrase)
+        val interestStore = accountStore.sub(L.Account.interests)
+        val confirmationStore = accountStore.sub(L.Account.confirmation)
+
+        val registerSuccessDialog = modal { close ->
+            size { small }
+            hasCloseButton(false)
+            content {
+                flexBox({
+                    justifyContent { spaceEvenly }
+                    alignItems { center }
+                    direction { column }
+                    height { "100" }
+                }) {
+                    p { +"Your have been successfully registered!" }
+                    clickButton { text("fritz:it up") } handledBy close
+                }
+            }
         }
+
         componentFrame {
-            val solution = "fritz2"
-            val framework = storeOf("")
-            formControl {
-                label("Favorite web framework")
-                required(true)
-                helperText("Input the name of your favorite Kotlin based web framework.")
-                errorMessage(
-                    framework.data.map {
-                        // any non-empty string will display as error message
-                        if (it.isNotEmpty() && it.toLowerCase() != solution) {
-                            "'$it' is completely wrong."
-                        } else ""
+            h3 { +"Create your fritz:it user account" }
+            stackUp {
+                spacing { large }
+                items {
+                    formControl {
+                        label("Username")
+                        inputField(store = nameStore) {
+                            placeholder("enter your username")
+                        }
                     }
+                    formControl {
+                        label("Passphrase")
+                        helperText("Remember: the longer, the better!")
+                        inputField(store = passphraseStore) {
+                            placeholder("enter a secure passphrase")
+                            type("password")
+                        }
+                    }
+                    formControl {
+                        label("Choose your interests")
+                        helperText("Please pick at most three items")
+                        checkboxGroup(
+                            items = listOf("Kotlin", "fritz2", "Html", "CSS", "Design", "Open Source"),
+                            store = interestStore
+                        ) {
+                            direction { column }
+                        }
+                    }
+                    formControl {
+                        label("Confirm license agreement")
+                        switch(store = confirmationStore) {
+                            label("I accept the MIT license")
+                        }
+                    }
+                    lineUp({
+                        justifyContent { flexEnd }
+                        width { full }
+                    }) {
+                        items {
+                            clickButton {
+                                text("Register")
+                            }.map { registerSuccessDialog } handledBy accountStore.register
+                        }
+                    }
+                }
+            }
+        }
+
+        paragraph {
+            +"Just try different inputs and watch out for the validation messages. Some are only warnings or "
+            +" information, the required forms show a success check icon if input is valid and finally there are "
+            +" red error messages that reject the final registration after clicking the button."
+        }
+        paragraph {
+            +"After you are familiar with the functionality, read the following explanations."
+        }
+
+        showcaseSubSection("The model")
+        paragraph {
+            +"The model is kept quite simple: We just use a data class in order to model an account object."
+            +"We annotate it as a "
+            em { +"Lens" }
+            +" so that we can create substores of a store handling the account data later on!"
+        }
+        playground {
+            source(
+                """
+                @Lenses
+                data class Account(
+                    val username: String,
+                    val passphrase: String,
+                    val interests: List<String>,
+                    val confirmation: Boolean
                 )
-                // use the appropriate single element control with its specific API
-                inputField(store = framework) {
-                    placeholder("Your answer here")
+                """.trimIndent()
+            )
+        }
+
+        showcaseSubSection("Initial store")
+        paragraph {
+            +"As next step we create a "
+            c("RootStore")
+            +" to hold the account we want to create based upon the user input."
+            +"We then derive substores for each account property which will be injected into the controls later on."
+        }
+        playground {
+            source(
+                """
+                val accountStore = object : RootStore<Account>(
+                    Account("", "", emptyList(), false)
+                )
+
+                val nameStore = accountStore.sub(L.Account.username)
+                val passphraseStore = accountStore.sub(L.Account.passphrase)
+                val interestStore = accountStore.sub(L.Account.interests)
+                val confirmationStore = accountStore.sub(L.Account.confirmation)                                        
+                """.trimIndent()
+            )
+        }
+
+        showcaseSubSection("Declaring the form")
+        paragraph {
+            +"Using a "
+            c("formControl")
+            +"itself is quite simple: "
+            ul {
+                li { +"declare a label" }
+                li { +"declare the control itself: Remember to provide a (sub-)store at this step!" }
+                li { +"make additional customizations (will be covered in detail after this example)" }
+            }
+        }
+        paragraph {
+            +"In order to set up the control itself, just use the same declarative syntax as for the corresponding "
+            +"stand alone component. You should prefer to pass in a store in order to benefit from the automatic "
+            +"validation and messages. Of course you can customize the control in every way the underlying component "
+            +"is designed for, like changing the styling, the orientation, the mode (password input for example) and "
+            +"similar aspects."
+        }
+        playground {
+            source(
+                """
+                // surrounding layout (``stackUp``) omitted for better readability 
+                formControl {
+                    label("Username")
+                    // Declare the control itself - the declaration mimics exactly 
+                    // the stand alone call of the component
+                    inputField(store = nameStore) {
+                        placeholder("enter your username")
+                    }
                 }
-                // throws an exception: only one (and the first) control is accepted
-                inputField {
-                    placeholder("This control throws an exception because a form control may only contain one control.")
+                formControl {
+                    label("Passphrase")
+                    helperText("Remember: the longer, the better!")
+                    inputField(store = passphraseStore) {
+                        placeholder("enter a secure passphrase")
+                        type("password")
+                    }
                 }
+                formControl {
+                    label("Choose your interests")
+                    helperText("Please pick at most three items")
+                    checkboxGroup(
+                        items = listOf("Kotlin", "fritz2", "Html", "CSS", "Design", "Open Source"),
+                        store = interestStore
+                    ) { }
+                }
+                formControl {
+                    label("Confirm license agreement")
+                    switch(store = confirmationStore) {
+                        label("I accept the MIT license")
+                    }
+                }
+            """.trimIndent()
+            )
+        }
+
+        showcaseSubSection("Validation")
+        paragraph {
+            +"Let's step back from the UI part for an important step: the "
+            em { +"validation" }
+            +" of the user input."
+        }
+        paragraph {
+            +"The validation is realized regarding the "
+            em { +"separation of concern" }
+            +" so it must be placed inside the "
+            c("commonMain")
+            +" folder of your project."
+        }
+        paragraph {
+            +"You simply must implement the "
+            c("ComponentValidator<D, T>")
+            +" interface by using the "
+            c("validate")
+            +" method as starting point for the whole validation process of your data model."
+            +"The generic types refer to these aspects:"
+            ul {
+                li {
+                    c("D")
+                    +" represent the data model type, so the model that should be validated."
+                }
+                li {
+                    c("T")
+                    +" represent an additional meta data type in order to optionally pass more information into "
+                    +"the validation process than just the model itself."
+                }
+            }
+        }
+        paragraph {
+            +" The key aspect is to validate the whole model at once and to generate and return a list of "
+            c("ComponentValidationMessage")
+            +" instances, which requires an"
+            c("id")
+            +". This property enables one formControl later on to automatically filter and process "
+            +"all messages for its wrapped control, if it has got a (sub-)store provided with the same id."
+        }
+        coloredBox(Theme().colors.info) {
+            p {
+                strong { +"Recab:" }
+                +" Bind the "
+                c("id")
+                +" of a lens created by an inspector to the message of a property and pass a substore for this "
+                +"property to the corresponding "
+                c("formControl")
+                +" control so that both ids match."
             }
         }
         playground {
             source(
                 """
-                val solution = "fritz2"
-                val framework = storeOf("")
+                // Simplified first implementation for explaining the core aspects:
+                object AccountValidator : ComponentValidator<Account, Unit>() {
+                    override fun validate(data: Account, metadata: Unit): List<ComponentValidationMessage> {
+                        val messages = mutableListOf<ComponentValidationMessage>()
                 
-                formControl {
-                    label { "Favorite web framework" }
-                    required { true }
-                    helperText { "Input the name of your favorite Kotlin based web framework." }
-                    errorMessage {
-                        framework.data.map {
-                            // any non-empty string will display as error message
-                            if (it.isNotEmpty() && it.toLowerCase() != solution) {
-                                "'${'$'}it' is completely wrong."
-                            } else ""
+                        // create an inspector for "ad hoc" model inspection
+                        val inspector = inspect(data)
+                        val username = inspector.sub(L.Account.username)
+                        val passphrase = inspector.sub(L.Account.passphrase)
+                
+                        // some simple validation tasks
+                        if (username.data.isBlank()) {
+                            // use a predefined factory function to create a fitting message (error, 
+                            // warning, success or info) and bind the *id* of the lens to the message 
+                            // -> this is the trick that enables formControl to automatically apply
+                            // a specific message to a corresponding control!
+                            messages.add(errorMessage(username.id, "Username should not be empty!"))
+                        }
+                        if (passphrase.data.isBlank()) {
+                            messages.add(errorMessage(passphrase.id, "Passphrase should not be empty!"))
+                        } else if (passphrase.data.length < 16) {
+                            messages.add(warningMessage(passphrase.id, "Consider a longer passphrase!"))
+                        }
+                
+                        // return all the generated messages - might be empty of course
+                        return messages
+                    }
+                }                    
+                """.trimIndent()
+            )
+        }
+        paragraph {
+            +"In the simplified first approach above we focused only on the model type itself and ignore "
+            +"the meta data which will simply be "
+            c("Unit")
+            +" therefore."
+        }
+        paragraph {
+            +"But often this is not sufficient, but we need some more context information in order to process the "
+            +"validation or we have different "
+            em { +"modes" }
+            +" as validation."
+        }
+        paragraph {
+            +"Consider the example form: There is a registration button, that obviously should validate the input "
+            +"before further processing (typically sending the data to a backend service). But we also want to "
+            +"validate the input immediately after the content has changed. "
+            +"As the latter mode would mark every "
+            em { +"blank" }
+            +" field immediately as an error, the form would be flooded with errors before the user has the chance to "
+            +"provide correct content."
+        }
+        paragraph {
+            +"In order to solve this problem, we introduce the following enum type that we will use as metadata "
+            +"for our validator:"
+        }
+        playground {
+            source(
+                """
+                enum class AccountCreationPhase {
+                    Input,
+                    Registration
+                }                    
+                """.trimIndent()
+            )
+        }
+        paragraph {
+            +"For the immediate validation, we simply pass "
+            c("Input")
+            +" as value for the metadata parameter and for the final validation after the button click we pass "
+            c("Registration")
+            +" as metadata. This allows us to reflect the current phase within our validator and to process blank "
+            +"data only after the button click."
+        }
+        paragraph {
+            +"The following code shows exactly the validation used for the example. Don't panic because of the length, "
+            +"because there are more or less only more constraints getting tested and the metadata is used to "
+            +"differentiate between the two described modes."
+        }
+        playground {
+            source(
+                """
+                object AccountValidator : ComponentValidator<Account, AccountCreationPhase>() {
+                    override fun validate(data: Account, metadata: AccountCreationPhase): List<ComponentValidationMessage> {
+                        val inspector = inspect(data)
+                        return validateUsername(inspector, metadata) +
+                                validatePassphrase(inspector, metadata) +
+                                validateInterests(inspector) +
+                                validateConfirmation(inspector, metadata)
+                    }
+                
+                    private fun addSuccessMessage(
+                        messages: MutableList<ComponentValidationMessage>,
+                        phase: AccountCreationPhase,
+                        id: String
+                    ) {
+                        if (phase == AccountCreationPhase.Input && !messages.any { it.isError() }) {
+                            messages.add(successMessage(id, ""))
                         }
                     }
-                    // embed the desired control with its form control specific API
-                    inputField(store = framework) {
-                        placeholder("Your answer here")
+                
+                    private fun validateUsername(
+                        inspector: RootInspector<Account>,
+                        phase: AccountCreationPhase
+                    ): List<ComponentValidationMessage> {
+                        val messages = mutableListOf<ComponentValidationMessage>()
+                        val username = inspector.sub(L.Account.username)
+                        if (username.data.isBlank() && phase == AccountCreationPhase.Registration) {
+                            messages.add(errorMessage(username.id, "Username should not be empty!"))
+                        } else if (username.data.isNotBlank()) {
+                            if (username.data.contains(':')) {
+                                messages.add(errorMessage(username.id, "Username should not contain a colon!"))
+                            }
+                            if (username.data.length < 3) {
+                                messages.add(warningMessage(username.id, "Consider a longer name!"))
+                            }
+                            addSuccessMessage(messages, phase, username.id)
+                        }
+                        return messages
+                    }
+                
+                    private fun validatePassphrase(
+                        inspector: RootInspector<Account>,
+                        phase: AccountCreationPhase
+                    ): List<ComponentValidationMessage> {
+                        val messages = mutableListOf<ComponentValidationMessage>()
+                        val passphrase = inspector.sub(L.Account.passphrase)
+                        if (passphrase.data.isBlank() && phase == AccountCreationPhase.Registration) {
+                            messages.add(errorMessage(passphrase.id, "Passphrase should not be empty!"))
+                        } else if (passphrase.data.isNotBlank()) {
+                            if (passphrase.data.length < 16) {
+                                messages.add(
+                                    warningMessage(passphrase.id, "Consider a passphrase with at least 16 characters")
+                                )
+                            }
+                            if (passphrase.data.toLowerCase() == "fritz2") {
+                                messages.add(
+                                    warningMessage(passphrase.id, "'fritz2' is a great framework, but a poor passphrase!")
+                                )
+                            }
+                            addSuccessMessage(messages, phase, passphrase.id)
+                        }
+                        return messages
+                    }
+                
+                    private fun validateInterests(
+                        inspector: RootInspector<Account>,
+                    ): List<ComponentValidationMessage> {
+                        val messages = mutableListOf<ComponentValidationMessage>()
+                        val interests = inspector.sub(L.Account.interests)
+                        if (interests.data.size > 3) {
+                            messages.add(
+                                errorMessage(
+                                    interests.id,
+                                    "You have chosen $'{interests.data.size'} items, but only 3 items are allowed!"
+                                )
+                            )
+                        }
+                        if (interests.data.contains("fritz2")) {
+                            messages.add(
+                                infoMessage(
+                                    interests.id,
+                                    "Thank you for choosing fritz2! We appreciate your interest \uD83D\uDE00"
+                                )
+                            )
+                        }
+                        return messages
+                    }
+                
+                    private fun validateConfirmation(
+                        inspector: RootInspector<Account>,
+                        phase: AccountCreationPhase
+                    ): List<ComponentValidationMessage> {
+                        val messages = mutableListOf<ComponentValidationMessage>()
+                        val confirmation = inspector.sub(L.Account.confirmation)
+                        if (!confirmation.data && phase == AccountCreationPhase.Registration) {
+                            messages.add(errorMessage(confirmation.id, "You must accept license conditions to register!"))
+                        } else if (confirmation.data) {
+                            addSuccessMessage(messages, phase, confirmation.id)
+                        }
+                        return messages
                     }
                 }
+                """.trimIndent()
+            )
+        }
+        paragraph {
+            +"Remember that this example does not intend to show sophisticated validation code, but instead focuses "
+            +"on simplicity for demonstration purposes!"
+            +" Feel free to structure your validation logic in an appropriate way like relying on the strategy pattern "
+            +"or other common methods."
+        }
+
+        coloredBox(Theme().colors.info) {
+            p {
+                strong { +"Hint:" }
+                +"You should recognize that the validation code does not rely on anything UI specific so it fits "
+                +"perfectly for unit testing!"
+            }
+        }
+
+        showcaseSubSection("Gluing it all together")
+        paragraph {
+            +"Now that we have almost all separate pieces right in place, we can finally glue it all together to "
+            +" have a fully functional form."
+        }
+        paragraph {
+            +"We have already connected our data instance via the store and it's substores to the form itself, but "
+            +" there is no connection between the validation code and our form yet."
+        }
+        paragraph {
+            +"In order to integrate the validation to the changes of our model, we can augment the store by "
+            +" applying a special interface named "
+            c("WithValidator<D, T>")
+            +" that adds validation to the store."
+        }
+        playground {
+            source(
+                """
+                val accountStore = object : RootStore<Account>(
+                    Account("", "", emptyList(), false)
+                ), // use the same type for the model and metadata as for the ``ComponentValidator<D, T>`` 
+                WithValidator<Account, AccountCreationPhase> {
+                    // set the used validator instance; could be injected too of course 
+                    override val validator = AccountValidator
+        
+                    // use the built-in ``validate`` method to sync every data change with 
+                    // the execution of the validator
+                    init {
+                        // pass the appropriate metadata
+                        validate(AccountCreationPhase.Input)
+                    }
+        
+                    // create a custom handler to validate after a specific event:
+                    // - pass the fitting metadata; see section about validation
+                    // - execute a given action, here a SimpleHandler<Unit> to continue
+                    //   processing if validation is successful
+                    val register = handle<SimpleHandler<Unit>> { model, handler ->
+                        if (validator.isValid(model, AccountCreationPhase.Registration)) {
+                            handler(Unit)
+                        }
+                        model
+                    }
+                }
+                """.trimIndent()
+            )
+        }
+        paragraph {
+            +"As last missing piece we must connect the registration button with our special handler:"
+        }
+        playground {
+            source(
+                """
+                // styling omitted for better readability
+                val registerSuccessDialog = modal { close ->
+                    hasCloseButton(false)
+                    content {
+                        flexBox {
+                            p { +"Your have been successfully registered!" }
+                            clickButton { text("fritz:it up") } handledBy close
+                        }
+                    }
+                }
+                     
+                clickButton {
+                    text("Register")
+                    // pass the further handler to the validating handler
+                }.map { registerSuccessDialog } handledBy accountStore.register
             """.trimIndent()
+            )
+        }
+
+        paragraph {
+            +"The example at the start consists exactly of all those code fragments, only some styling and "
+            +"layout code was intentionally omitted to shrink the code as much as possible without touching "
+            +"functionality!"
+        }
+        paragraph {
+            +"In the former example we focused more on the whole combination of model, store, validation and "
+            +"formControl rather than on this special component itself. We believe it is very important "
+            +"to present a rather complex component by a fitting example use case and within a common applicable "
+            +"context in order to really grasp the core concepts and to enable our users to apply those patterns "
+            +"by themselves."
+        }
+        paragraph {
+            +"On the other hand the "
+            c("formControl")
+            +"itself offers a lot more than we have shown so far! So in the next sections we focus on aspects like "
+            +"styling and customization technics without a complex context."
+        }
+
+        showcaseSection("Usage")
+        paragraph {
+            +"You have already seen the basic usage, so let's keep it short and simple. "
+            +"Just pay attention to the fact, that a formControl is only intended to wrap "
+            strong { +"one" }
+            +" control! (If you want to embed more than one control, you have to customize this component as shown "
+            +" in the customization section at the end of this guide!)"
+        }
+        componentFrame {
+            formControl {
+                label("Username")
+                helperText("Just choose a good user name")
+                // use the appropriate single element control with its specific API
+                inputField(store = nameStore) {
+                    placeholder("Some placeholder text")
+                }
+                // throws an exception: only one (and the first) control is accepted
+                inputField {
+                    placeholder(
+                        "This control throws an exception " +
+                                "because a form control may only contain one control."
+                    )
+                }
+            }
+        }
+
+        playground {
+            source(
+                """
+                formControl {
+                    label("Username")
+                    helperText("Just choose a good user name")
+                    // use the appropriate single element control with its specific API
+                    inputField(store = nameStore) {
+                        placeholder("Some placeholder text")
+                    }
+                    // throws an exception: only one (and the first) control is accepted
+                    // have a look into the browser dev tools console!
+                    inputField {
+                        placeholder("This control throws an exception " +
+                                "because a form control may only contain one control.")
+                    }
+                }                    
+                """.trimIndent()
             )
         }
 
@@ -249,258 +654,477 @@ fun RenderContext.formControlDemo(): Div {
             }
         }
 
-        showcaseSubSection("FormControl for Switch")
+        showcaseSection("Styling")
+        paragraph {
+            +"You can change the appearance of the sub-elements of a formControl in many different ways."
+            +"In the example below we show you some aspects like:"
+            ul {
+                li { +"changing the size" }
+                li { +"styling the label text" }
+                li { +"styling the helper text" }
+            }
+        }
         componentFrame {
-            val favStore = storeOf(true)
-
-            formControl {
-                required(true)
-                label("Required input switch")
-                switch {
-                    checked(favStore.data)
-                    events {
-                        changes.states() handledBy favStore.update
-                    }
-                }
-                errorMessage(
-                    favStore.data.map {
-                        if (!it) {
-                            "Please activate this switch."
-                        } else ""
-                    }
-                )
-            }
-        }
-        playground {
-            source(
-                """
-            formControl {
-                required(true)
-                label { "Required input switch" }
-                switch {
-                    checked ( favStore.data )
-                    events {
-                        changes.states() handledBy favStore.update
-                    }
-                }
-            }
-            """.trimIndent()
-            )
-        }
-
-        showcaseSubSection("FormControl for Single Checkbox")
-        componentFrame {
-            val favStore = storeOf(true)
-            val labels = mapOf(
-                true to "fritz2 is my favorite framework.",
-                false to "fritz2 is my least favorite framework."
-            )
-
-            formControl {
-                label("How do you feel about fritz2?")
-                // embed a single checkbox using its specific API
-                checkbox {
-                    label(favStore.data.map { labels[it]!! })
-                    checked(favStore.data)
-                    events {
-                        changes.states() handledBy favStore.update
-                    }
-                }
-            }
-        }
-        playground {
-            source(
-                """
-                val favStore = storeOf(true)
-                val labels = mapOf(
-                    true to "fritz2 is my favorite framework.",
-                    false to "fritz2 is my least favorite framework."
-                )
-    
-                formControl {
-                label { "How do you feel about fritz2?" }
-                // embed a single checkbox using its form control specific API
-                checkbox {
-                    label(favStore.data.map { labels[it]!! })
-                    checked ( favStore.data )
-                    events {
-                        changes.states() handledBy favStore.update
-                    }
-                }
-            }
-            """.trimIndent()
-            )
-        }
-
-
-
-        showcaseSubSection("FormControl for CheckboxGroup")
-
-        val myItemList = "fritz2".toCharArray().map { it.toString() }
-        val mySelectedItems = myItemList.take(2)
-        val selectedItemsStore = storeOf(mySelectedItems)
-
-        componentFrame {
-
-            formControl {
-                label("A simple, labeled CheckboxGroup")
-                checkboxGroup(store = selectedItemsStore, items = myItemList) {
-                    direction { row }
-                }
-                helperText("The order of checking influences the selection.")
-            }
-        }
-
-        storeContentBox {
-            p {
-                b { +"Selected: " }
-                selectedItemsStore.data.render {
-                    span {
-                        +it.joinToString("")
-                    }
-                }
-            }
-        }
-
-        playground {
-            source(
-                """
-                val myItemList = "fritz2".toCharArray().map { it.toString() }
-                val mySelectedItems = myItemList.take(2)
-                val selectedItemsStore = storeOf(mySelectedItems)
-                                    
-                formControl {
-                    label { "A simple, labeled CheckboxGroup:" }
-                    checkboxGroup(store = selectedItemsStore, items = myItemList) {
-                        direction { row }
-                    }
-                }
-                """.trimIndent()
-            )
-        }
-
-        showcaseSubSection("FormControl for TextArea")
-        componentFrame {
-            val textStore = storeOf("Please don't delete my text.")
-
-            formControl {
-                textArea {
-                    value(textStore.data)
-                    changes.values() handledBy textStore.update
-                }
-                required(true)
-                label("Type something in to make a FormControl very happy.")
-                errorMessage(
-                    textStore.data.map {
-                        if (it.isEmpty()) {
-                            "I can't believe you did that."
-                        } else ""
-                    }
-                )
-            }
-        }
-        playground {
-            source(
-                """
-            formControl {
-                textArea {
-                    value(textStore.data)
-                    changes.values() handledBy textStore.update
-                }
-                required(true)
-                label { "Type something in to make a FormControl very happy." }
-                errorMessage {
-                    textStore.data.map {
-                        if (it.isEmpty()) {
-                            "I can't believe you did that."
-                        } else ""
-                    }
-                }
-            }
-            
-            """.trimIndent()
-            )
-        }
-
-        showcaseSubSection("FormControl for SelectField")
-
-        val selectList = "-fritz2".toCharArray().map { it.toString() }
-        val selected = storeOf(selectList[0])
-
-        componentFrame {
-
-            formControl {
-                label("Single selection form control with validation")
-                selectField(store = selected, items = selectList) {
-                }
-                required(true)
-                errorMessage(
-                    selected.data.map {
-                        // any non-empty string will display as error message
-                        if (it == "-") {
-                            "Please select a character."
-                        } else ""
-                    }
-                )
-            }
-        }
-
-        storeContentBox {
-            p {
-                b { +"Selected: " }
-                selected.data.render {
-                    span {
-                        +it
-                    }
-                }
-            }
-        }
-
-        playground {
-            source(
-                """
-                val selectList = "-fritz2".toCharArray().map { it.toString() }
-                val selected = storeOf(selectList[0])
-                
-                formControl {
-                    label { "Single selection form control with validation" }
-                    selectField(store = selected, items = selectItems) {
-                    }
-                    required(true)
-                    errorMessage {
-                        selected.data.map {
-                            if (it == "-") {
-                                "Please select a character."
-                            } else ""
+            stackUp {
+                spacing { large }
+                items {
+                    sequenceOf(
+                        Pair(FormControlComponent.FormSizeContext.small, "Small"),
+                        Pair(FormControlComponent.FormSizeContext.normal, "Normal"),
+                        Pair(FormControlComponent.FormSizeContext.large, "Large")
+                    ).forEach {
+                        formControl {
+                            size { it.first }
+                            label("${it.second} sized Passphrase")
+                            labelStyle {
+                                // It is a good advice to apply the *default* first and only modify remains
+                                Theme().formControl.label()
+                                color { info }
+                            }
+                            helperText("Remember: the longer, the better!")
+                            helperTextStyle {
+                                // Just as above, rely on the default styling first
+                                Theme().formControl.helperText()
+                                fontStyle { italic }
+                                color { secondary }
+                            }
+                            inputField(store = passphraseStore) {
+                                placeholder("enter a secure passphrase")
+                                type("password")
+                            }
                         }
                     }
                 }
+            }
+        }
+        playground {
+            source(
+                """
+                formControl {
+                    size { small }
+                    label("Small sized Passphrase")
+                    labelStyle {
+                        // It is a good advice to apply the *default* first and only modify remains
+                        Theme().formControl.label()
+                        color { info }
+                    }
+                    helperText("Remember: the longer, the better!")
+                    helperTextStyle {
+                        // Just as above, rely on the default styling first
+                        Theme().formControl.helperText()
+                        fontStyle { italic }
+                        color { secondary }
+                    }
+                    inputField(store = passphraseStore) {
+                        placeholder("enter a secure passphrase")
+                        type("password")
+                    }
+                }             
+                
+                // The following snippets only show changes for better readability
+                       
+                formControl {
+                    size { normal } // is default value, so can be omitted 
+                    label("Normal sized Passphrase")
+                    // ... and so on
+                }
+                                         
+                formControl {
+                    size { large } 
+                    label("Large sized Passphrase")
+                    // ... and so on
+                }                                                                  
                 """.trimIndent()
             )
         }
 
-        showcaseSection("Embed Custom Controls: RadioGroup example")
+        showcaseSection("Custom validation messages")
+        paragraph {
+            +"Also we recommend to use the validation approach with a store as shown in the first example, "
+            +"formControl allows you to define validation messages ad hoc. "
+        }
+        componentFrame {
+            formControl {
+                label("Username")
+                inputField(store = nameStore) {
+                }
+                // just create one message at once
+                validationMessage {
+                    nameStore.data.map {
+                        if (it.length < 3) {
+                            errorMessage(nameStore.id, "The username must be at least 4 chars long!")
+                        } else null
+                    }
+                }
+            }
+            formControl {
+                label("Username")
+                inputField(store = nameStore) {
+                }
+                // create an arbitrary amount of messages
+                validationMessages {
+                    nameStore.data.map {
+                        val messages = mutableListOf<ComponentValidationMessage>()
+                        if (it.length < 4) {
+                            messages.add(
+                                errorMessage(nameStore.id, "The username must be at least 4 chars long!")
+                            )
+                        } else if (it.length > 16) {
+                            messages.add(
+                                warningMessage(nameStore.id, "Using more than 16 chars might be cumbersome")
+                            )
+                        }
+                        if (it.toCharArray().toHashSet().size == 1) {
+                            messages.add(
+                                warningMessage(
+                                    nameStore.id,
+                                    "To only use one char as name is not very expressive!"
+                                )
+                            )
+                        }
+                        if (it.contains("fritz2")) {
+                            messages.add(infoMessage(nameStore.id, "What a great username!"))
+                        }
+                        messages
+                    }
+                }
+                validationMessageRendering { message ->
+                    alert({
+                        margins { vertical { tiny } }
+                    }) {
+                        severity {
+                            when (message.severity) {
+                                Severity.Info -> info
+                                Severity.Success -> success
+                                Severity.Warning -> warning
+                                Severity.Error -> error
+                            }
+                        }
+                        icon {
+                            when (message.severity) {
+                                Severity.Info -> circleInformation
+                                Severity.Success -> circleCheck
+                                Severity.Warning -> circleWarning
+                                Severity.Error -> circleError
+                            }
+                        }
+                        variant { solid }
+                        sizes { small }
+                        stacking { separated }
+                        content(message.message)
+                    }
+                }
+            }
+        }
+        playground {
+            source(
+                """
+                formControl {
+                    label("Username")
+                    inputField(store = nameStore) {
+                    }
+                    // just create one message at once
+                    validationMessage {
+                        nameStore.data.map {
+                            if (it.length < 3) {
+                                errorMessage(nameStore.id, "The username must be at least 4 chars long!")
+                            } else null
+                        }
+                    }
+                }
+                formControl {
+                    label("Username")
+                    inputField(store = nameStore) {
+                    }
+                    // create an arbitrary amount of messages
+                    validationMessages {
+                        nameStore.data.map {
+                            val messages = mutableListOf<ComponentValidationMessage>()
+                            if (it.length < 4) {
+                                messages.add(
+                                    errorMessage(nameStore.id, "The username must be at least 4 chars long!")
+                                )
+                            } else if (it.length > 16) {
+                                messages.add(
+                                    warningMessage(nameStore.id, "Using more than 16 chars might be cumbersome")
+                                )
+                            }
+                            if (it.toCharArray().toHashSet().size == 1) {
+                                messages.add(
+                                    warningMessage(
+                                        nameStore.id,
+                                        "To only use one char as name is not very expressive!"
+                                    )
+                                )
+                            }
+                            if (it.contains("fritz2")) {
+                                messages.add(infoMessage(nameStore.id, "What a great username!"))
+                            }
+                            messages
+                        }
+                    }
+                }                    
+                """.trimIndent()
+            )
+        }
+        paragraph {
+            +"You can also customize the way they get rendered too."
+        }
+        playground {
+            source(
+                """
+                formControl {
+                    label("Username")
+                    inputField(store = nameStore) {
+                    }
+                    validationMessages {
+                        // omitted for better readability
+                    }
+                    // One ``ComponentValidationMessage``is passed into the expression
+                    validationMessageRendering { message ->
+                        alert({
+                            margins { vertical { tiny } }
+                        }) {
+                            severity {
+                                when (message.severity) {
+                                    Severity.Info -> info
+                                    Severity.Success -> success
+                                    Severity.Warning -> warning
+                                    Severity.Error -> error
+                                }
+                            }
+                            icon {
+                                when (message.severity) {
+                                    Severity.Info -> circleInformation
+                                    Severity.Success -> circleCheck
+                                    Severity.Warning -> circleWarning
+                                    Severity.Error -> circleError
+                                }
+                            }
+                            variant { solid }
+                            sizes { small }
+                            stacking { separated }
+                            content(message.message)
+                        }
+                    }                    
+                }                    
+                """.trimIndent()
+            )
+        }
+
+        showcaseSection("Deep customizations")
+
+        /*
+         * Complex customization example
+         *
+         * extend ControlComponent in order to override or extend functions for controls and for setting up
+         * other renderers
+         *
+         */
+        class ExtendedFormControlComponent : FormControlComponent() {
+
+            inner class Selection(val value: String, val mode: String)
+
+            private fun createStores(clientStore: Store<String>) =
+                object : RootStore<Selection>(Selection(clientStore.current, "inputDisabled")) {
+                    val self = this
+
+                    private val inputActivated = "inputActivated"
+                    private val inputActive = "inputActive"
+                    val inputDisabled = "inputDisabled"
+                    val custom = "custom"
+
+                    val selectedStore = object : RootStore<String>(current.value) {
+                        override val update = handle<String> { old, value ->
+                            if (old == custom) {
+                                inputStore.reset(Unit)
+                            }
+                            self.select(Selection(value, if (value == custom) inputActivated else inputDisabled))
+                            value
+                        }
+                    }
+
+                    val inputStore = object : RootStore<String>("") {
+                        override val update = handle<String> { _, value ->
+                            self.select(Selection(value, inputActive))
+                            value
+                        }
+
+                        val reset: SimpleHandler<Unit> = handle { _ -> "" }
+                    }
+
+                    val select = handleAndEmit<Selection, String> { old, new ->
+                        if (new.mode == inputActivated) {
+                            emit(old.value)
+                        } else {
+                            emit(new.value)
+                        }
+                        new
+                    }
+
+                    init {
+                        select handledBy clientStore.update
+                    }
+                }
+
+            //  custom implementation of a radio group variant within custom form control
+            fun radioGroupWithInput(
+                styling: BasicParams.() -> Unit = {},
+                items: List<String>,
+                store: Store<String>,
+                baseClass: StyleClass? = null,
+                id: String? = null,
+                prefix: String = "radioGroupWithInput",
+                build: RadioGroupComponent<String>.() -> Unit
+            ) {
+                val innerStore = createStores(store)
+                val validationMessagesBuilder = ValidationResult.builderOf(this, store)
+                registerControl("radioGroupWithInput", {
+                    radioGroup(
+                        styling,
+                        items = items + innerStore.custom,
+                        innerStore.selectedStore,
+                        baseClass,
+                        id,
+                        prefix
+                    ) {
+                        size { this@ExtendedFormControlComponent.sizeBuilder(this) }
+                        severity(validationMessagesBuilder().hasSeverity)
+                        build()
+                        direction { column }
+                    }
+                    inputField({
+                        margins { top { tiny } }
+                    }, store = innerStore.inputStore) {
+                        size { this@ExtendedFormControlComponent.sizeBuilder(this) }
+                        severity(validationMessagesBuilder().hasSeverity)
+                        disabled(innerStore.data.map { it.mode == innerStore.inputDisabled })
+                        value(innerStore.inputStore.data)
+                        placeholder("custom value")
+                    }
+                }, {
+                    this@ExtendedFormControlComponent.validationMessagesBuilder = validationMessagesBuilder
+                })
+            }
+
+            // Define your own renderer
+            inner class VerticalRenderer(private val component: FormControlComponent) : ControlRenderer {
+                override fun render(
+                    styling: BasicParams.() -> Unit,
+                    baseClass: StyleClass?,
+                    id: String?,
+                    prefix: String,
+                    renderContext: RenderContext,
+                    control: RenderContext.() -> Unit
+                ) {
+                    renderContext.stackUp({
+                        alignItems { start }
+                        component.ownSize()()
+                        styling()
+                    }, baseClass, id, prefix) {
+                        spacing { tiny }
+                        items {
+                            (::p.styled {
+                                textAlign { right }
+                                borders {
+                                    bottom {
+                                        color { lighterGray }
+                                        width { fat }
+                                    }
+                                }
+                            }){ +component.label.value }
+                            component.renderHelperText(this)
+                            fieldset {
+                                control(this)
+                            }
+                            component.renderValidationMessages(this)
+                        }
+                    }
+                }
+            }
+
+            init {
+                // apply the new renderer to the new form
+                registerRenderStrategy("radioGroupWithInput", VerticalRenderer(this))
+            }
+        }
+
+        fun RenderContext.extendedFormControl(
+            styling: BasicParams.() -> Unit = {},
+            baseClass: StyleClass? = null,
+            id: String? = null,
+            prefix: String = "extendedFormControl",
+            build: ExtendedFormControlComponent.() -> Unit = {}
+        ) {
+            val component = ExtendedFormControlComponent().apply(build)
+            component.render(styling, baseClass, id, prefix, this)
+        }
+
+        val favoriteFrameworks = listOf("fritz2", "Ktor", "EXPOSED", "Spring", "patternfly-fritz2")
+
         paragraph {
             +"Write custom FormControls for your components. You can either write your own functions which"
             +" simply extend "
             c("FormControlComponent")
-            +", or you can override the default functions for the supported components. The following example"
-            +" is created as an extension and uses Strings as items."
-
+            +", or you can override the default functions for the supported components. "
         }
-        val selectedRadio = storeOf(selectList[2])
+        paragraph {
+            +"If the modification of the control itself is not sufficient, you can even implement your own renderer, "
+            +"that means adopting the whole process and structure of the rendered formControl."
+        }
+        paragraph {
+            +"But remember: "
+        }
+        coloredBox(Theme().colors.warning) {
+            strong { +"With great power comes great responsibility!" }
+        }
+        paragraph {
+            +" In order to keep all the functionality, you must process the properties appropriate. So we recommend "
+            +"to study the two built-in's renderer code!"
+        }
+        paragraph {
+            +"The following example adds a wrapping function and also a custom renderer, so you get the whole picture:"
+        }
+        paragraph {
+            +"Imagine the use case that the user has to choose between different predefined values but to allow him "
+            +"optionally to pass a custom value alternatively. "
+            +"This can be realized by combining a "
+            c("radioGroup")
+            +" with an "
+            c("inputField")
+            +". "
+            +"Both stand alone forms must be merged into one control, so that the client can benefit from all the "
+            +"features a formControl offers. On top we would like to adjust the rendering of this control, so "
+            +"that the helper text is shown right below the label and some other minor aspects."
+        }
+        paragraph {
+            +"Have a look at the result and the usage of the newly created "
+            c("extendedFormControl")
+            +" component function and its new "
+            c("radioGroupWithInput")
+            +" control:"
+        }
+
+        val selectedFramework = storeOf(favoriteFrameworks.first())
         componentFrame {
-            myFormControl {
-                label("myFormControl wraps myRadioGroup")
-                myRadioGroup(items = myItemList, store = selectedRadio) {
-                    direction { column }
+            extendedFormControl {
+                label("Select one framework")
+                helperText("Note that you can't provide an empty name!")
+                radioGroupWithInput(items = favoriteFrameworks, store = selectedFramework) {
+                }
+                validationMessage {
+                    selectedFramework.data.map {
+                        if (it.isBlank()) {
+                            errorMessage(selectedFramework.id, "Empty custom selection is not allowed!")
+                        } else null
+                    }
                 }
             }
         }
         storeContentBox {
             p {
                 b { +"Selected: " }
-                selectedRadio.data.render {
+                selectedFramework.data.render {
                     span {
                         +it
                     }
@@ -511,130 +1135,373 @@ fun RenderContext.formControlDemo(): Div {
         playground {
             source(
                 """
-                /* Please note that all styling was omitted to shorten the source example. */
-                
-                // Extend ControlComponent in order to override or extend functions for controls
-                // and for setting up other renderers.
-                class MyFormControlComponent : FormControlComponent() {
+                val favoriteFrameworks = listOf("fritz2", "Ktor", "EXPOSED", "Spring", "patternfly-fritz2")
+                val selectedFramework = storeOf(favoriteFrameworks.first())
 
-                //  custom implementation of radio group within custom form control
-                fun myRadioGroup(
-                    styling: BasicParams.() -> Unit ={},
-                    store: Store<String>,
-                    baseClass: StyleClass? = null,
-                    id: String? = null,
-                    prefix: String = "myradiogroup",
-                    build: RadioGroupComponent<String>.() -> Unit
-                ) {
-                        val returnStore = object : RootStore<String>("") {
-                            val syncHandlerSelect = handleAndEmit<String, String> { _, new ->
-                                if (new == "custom") ""
-                                else {
-                                    emit("")
-                                    new
-                                }
-                            }
-
-                            val selectedStore = storeOf("")
-
-                            val inputStore = object : RootStore<String>("") {
-                                val syncInput = handleAndEmit<String, String> { _, new ->
-                                    if (selectedStore.current == "custom") {
-                                        emit(new)
-                                    }
-                                    new
-                                }
-                            }
-
-                            init {
-                                selectedStore.syncBy(syncHandlerSelect)
-                                inputStore.syncInput handledBy update
-                                syncHandlerSelect handledBy inputStore.update
-                                this.data handledBy store.update
-                            }
-                        }
-
-                        control.set(Companion.ControlNames.radioGroup)
-                        {
-                            lineUp {
-                                items {
-                                    radioGroup(styling, returnStore.selectedStore, baseClass, id, prefix) {
-                                        build()
-                                        direction { row }
-                                        items {
-                                            items.map { it + "custom" }
-                                        }
-                                    }
-                                    inputField {
-                                        base {
-                                            disabled(returnStore.selectedStore.data.map { it != "custom" })
-                                            changes.values() handledBy returnStore.inputStore.syncInput
-                                            value(returnStore.inputStore.data)
-                                            placeholder("custom value")
-                                        }
-                                    }
-                                }
-
-                            }
+                // use the new factory method to have access to the new wrapped control
+                extendedFormControl {
+                    label("Select one framework")
+                    helperText("Note that you can't provide an empty name!")
+                    // call the new wrapped control
+                    radioGroupWithInput(items = favoriteFrameworks, store = selectedFramework) {
+                    }
+                    validationMessage {
+                        selectedFramework.data.map {
+                            if (it.isBlank()) {
+                                errorMessage(selectedFramework.id, "Empty custom selection is not allowed!")
+                            } else null
                         }
                     }
+                }                    
+                """.trimIndent()
+            )
+        }
 
-                    // Define your own renderer for your RadioGroup
-                    class MyRadioRenderer(private val component: FormControlComponent) : ControlRenderer {
-                        override fun render(
-                            styling: BasicParams.() -> Unit,
-                            baseClass: StyleClass?,
-                            id: String?,
-                            prefix: String,
-                            renderContext: RenderContext,
-                            control: RenderContext.() -> Unit
-                        ) {
-                            renderContext.lineUp({
-                                styling()
-                            }, baseClass, id, prefix) {
-                                items {
-                                    p { +component.label }
-                                    stackUp {
-                                        items {
-                                            fieldset { control(this) }
-                                            component.renderHelperText(this)
-                                            component.renderErrorMessage(this)
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
+        paragraph {
+            +"Let's walk through the design process step by step."
+        }
 
+        showcaseSubSection("Component setup")
+        paragraph {
+            +"The first thing you need to do is to derive from "
+            c("FormControlComponent")
+            +" class in order to extend its functionality and to mimic the original factory function in order to "
+            +"bring the new component in place."
+        }
+        playground {
+            source(
+                """
+                class ExtendedFormControlComponent : FormControlComponent() {
+
+                    // we place all further snippets here! 
+                    
                     init {
-                        // Overrule default strategy for ``radioGroup``.
-                        // You could also add a new control function with a corresponding renderer of course.
-                        renderStrategies[Companion.ControlNames.radioGroup] = MyRadioRenderer(this)
+                        // we need to set up some things here
                     }
                 }
-
-                fun RenderContext.myFormControl(
+                
+                // new factory function for using the new component
+                fun RenderContext.extendedFormControl(
                     styling: BasicParams.() -> Unit = {},
                     baseClass: StyleClass? = null,
                     id: String? = null,
-                    prefix: String = "formControl",
-                    build: MyFormControlComponent.() -> Unit = {}
+                    prefix: String = "extendedFormControl",
+                    build: ExtendedFormControlComponent.() -> Unit = {}
                 ) {
-                    val component = MyFormControlComponent().apply(build)
+                    val component = ExtendedFormControlComponent().apply(build)
                     component.render(styling, baseClass, id, prefix, this)
+                }                
+                """.trimIndent()
+            )
+        }
+
+        showcaseSubSection("Internal store concept")
+        paragraph {
+            +"In order to handle the user input correctly, we create an internal store, or to be more precise, even "
+            +"three of them:"
+            ul {
+                li {
+                    +"The first is the main store that is responsible for emitting the new values to the external "
+                    +"client side store."
                 }
+                li {
+                    +"One store is dedicated for the "
+                    c("radioGroup")
+                    +" component and will manage its selection updates. It will propagate its state to the main store."
+                }
+                li {
+                    +"The final store is dedicated for the "
+                    c("inputField")
+                    +" component. It will propagate its changes to the main store too."
+                }
+            }
+        }
+        paragraph {
+            +"There is one "
+            strong { +"critical" }
+            +" aspect in the combination of two input components to deal with: We must manage the decision, which "
+            +"component holds the current value we have to emit to the client?"
+        }
+        paragraph {
+            +"Our solution is to tie some "
+            strong { +"state" }
+            +" information to the value itself in the internal stores. It is "
+            c("String")
+            +" based here and totally sufficient as we use it only in the context of an object."
+        }
+        paragraph {
+            +"We have to decide between three different states:"
+            ul {
+                li { +"the inputField is not active (so the radioGroup is instead)." }
+                li {
+                    +"the inputField just was activated, by selecting the "
+                    strong { +"custom" }
+                    +" option."
+                }
+                li { +"the inputField is active (so the radioGroup is not)" }
+            }
+        }
+        paragraph {
+            +"Armed with this state information we can "
+            ul {
+                li { +"reset the inputField if the radioGroup is active" }
+                li {
+                    +"avoid to send an empty value to the client if the user activates the inputField by "
+                    +"selecting the custom option."
+                }
+            }
+        }
+        playground {
+            source(
+                """
+                // simple value class to combine the current value and the internal state                     
+                inner class Selection(val value: String, val mode: String)
+    
+                private fun createStores(clientStore: Store<String>) =
+                    object : RootStore<Selection>(Selection(clientStore.current, "inputDisabled")) {
+                        val self = this
+    
+                        // the three states
+                        private val inputActivated = "inputActivated"
+                        private val inputActive = "inputActive"
+                        val inputDisabled = "inputDisabled"
+                        
+                        val custom = "custom"
+    
+                        val selectedStore = object : RootStore<String>(current.value) {
+                            override val update = handle<String> { old, value ->
+                                // reset the inputField, if the user switches back to some predefined value
+                                if (old == custom) {
+                                    inputStore.reset(Unit)
+                                }
+                                // attach the appropriate state to the selected value
+                                self.select(Selection(value, if (value == custom) inputActivated else inputDisabled))
+                                value
+                            }
+                        }
+    
+                        val inputStore = object : RootStore<String>("") {
+                            override val update = handle<String> { _, value ->
+                                self.select(Selection(value, inputActive))
+                                value
+                            }
+    
+                            val reset: SimpleHandler<Unit> = handle { _ -> "" }
+                        }
+    
+                        // emit the value to the client  
+                        val select = handleAndEmit<Selection, String> { old, new ->
+                            // the user just activated the input -> do not send its value yet!
+                            if (new.mode == inputActivated) {
+                                emit(old.value)
+                            } else {
+                                emit(new.value)
+                            }
+                            new
+                        }
+    
+                        init {
+                            // propagate the value to the client side store
+                            select handledBy clientStore.update
+                        }
+                    }
+                """.trimIndent()
+            )
+        }
+
+        showcaseSubSection("Wrapping function")
+        paragraph {
+            +"Now we can create the wrapping function that will be the entry point for using the new control."
+            +"To keep this example simple, we do not create a stand alone control as you could do of course, but "
+            +"we create the combination of radioGroup and inputField just in place."
+        }
+        paragraph {
+            +"You can of course also override an existing wrapping function in order to replace its behaviour!"
+        }
+        paragraph {
+            +"Be aware of the fact that some internal functions need to be called and therefore have to be manually "
+            +"integrated into your custom code in order to achieve a complete integration with "
+            +"formControl's functionalities like automatic validation messages, some styling aspects and so on!"
+        }
+        playground {
+            source(
+                """                                    
+                fun radioGroupWithInput(
+                    styling: BasicParams.() -> Unit = {},
+                    items: List<String>,
+                    store: Store<String>,
+                    baseClass: StyleClass? = null,
+                    id: String? = null,
+                    prefix: String = "radioGroupWithInput",
+                    build: RadioGroupComponent<String>.() -> Unit
+                ) {
+                    val innerStore = createStores(store)
+                    val validationMessagesBuilder = ValidationResult.builderOf(this, store)
+                    // Important to choose some unique key; if you override a function, use the appropriate
+                    // key from the predefined ones in ``FormControlComponent.ControlNames``
+                    registerControl("radioGroupWithInput", {
+                        // Within this renderContext place all components you wish.
+                        // For our example we need the following two:                     
+                        radioGroup(
+                            styling,
+                            items = items + innerStore.custom,
+                            innerStore.selectedStore,
+                            baseClass,
+                            id,
+                            prefix
+                        ) {
+                            size { this@ExtendedFormControlComponent.sizeBuilder(this) }
+                            severity(validationMessagesBuilder().hasSeverity)
+                            build()
+                            direction { column }
+                        }
+                        inputField({
+                            margins { top { tiny } }
+                        }, store = innerStore.inputStore) {
+                            size { this@ExtendedFormControlComponent.sizeBuilder(this) }
+                            severity(validationMessagesBuilder().hasSeverity)
+                            // rely on the internal state to manage the activation 
+                            disabled(innerStore.data.map { it.mode == innerStore.inputDisabled })
+                            value(innerStore.inputStore.data)
+                            placeholder("custom value")
+                        }
+                    }, {
+                        this@ExtendedFormControlComponent.validationMessagesBuilder = validationMessagesBuilder
+                    })
+                }
+                """.trimIndent()
+            )
+        }
+        paragraph {
+            +"There is one very important sub step left: We must bind our control to a fitting renderer. "
+            +"There are already two built-ins used for our standard wrapped controls:"
+            ul {
+                li {
+                    c("SingleControlRenderer")
+                    +"is used to render the form with a single control like an inputField for example."
+                }
+                li {
+                    c("ControlGroupRenderer")
+                    +"is used to render groups of controls as checkBoxGroup and radiogroup."
+                }
+            }
+            +"You can also write your own custom renderer, as we will explore in the next section."
+        }
+        playground {
+            source(
+                """
+                class ExtendedFormControlComponent : FormControlComponent() {
                 
-           
-                // In your renderContext, call the custom FormControl.
-                myFormControl {
-                    label { "myFormControl wraps myRadioGroup"  }
-                    radioGroup(store = selectedRadio, items = myItemList) {
-                        direction { column }
+                    // all other stuff omitted
+                    
+                    // we recommend to put this into the ``init`` block
+                    init {
+                        registerRenderStrategy("radioGroupWithInput", ControlGroupRenderer(this))
                     }
                 }
-
-            """.trimIndent()
+                """.trimIndent()
             )
+        }
+
+        coloredBox(Theme().colors.warning) {
+            +"If you don't provide a renderer for a control, "
+            strong { +"nothing" }
+            +" of the form is rendered."
+            +"So if you don't see anything you probably forgot the registration or have some typo in it!"
+        }
+
+        showcaseSubSection("Custom renderer")
+        paragraph {
+            +"As last step we would like to change the way the form gets rendered:"
+            ul {
+                li { +"Separate the label from the form with a decent bar" }
+                li { +"Lifting up the helper text directly beneath the label" }
+            }
+            +"To do this, we only need to implement the "
+            c("ControlRenderer")
+            +" interface and register our control with the new renderer."
+        }
+        playground {
+            source(
+                """
+                // to simplify our code, we chose to embed the renderer into our new
+                // component class - feel free to put it anywhere it fits for your use case! 
+                inner class VerticalRenderer(private val component: FormControlComponent) : ControlRenderer {
+                    override fun render(
+                        styling: BasicParams.() -> Unit,
+                        baseClass: StyleClass?,
+                        id: String?,
+                        prefix: String,
+                        renderContext: RenderContext,
+                        control: RenderContext.() -> Unit
+                    ) {
+                        renderContext.stackUp({
+                            alignItems { start }
+                            component.ownSize()()
+                            styling()
+                        }, baseClass, id, prefix) {
+                            spacing { tiny }
+                            items {
+                                (::p.styled {
+                                    textAlign { right }
+                                    borders {
+                                        bottom {
+                                            color { lighterGray }
+                                            width { fat }
+                                        }
+                                    }
+                                }){ +component.label.value }
+                                component.renderHelperText(this)
+                                fieldset {
+                                    control(this)
+                                }
+                                component.renderValidationMessages(this)
+                            }
+                        }
+                    }
+                }                    
+                """.trimIndent()
+            )
+        }
+
+        paragraph {
+            +"Don't forget to register the new renderer with the control:"
+        }
+        playground {
+            source(
+                """
+                class ExtendedFormControlComponent : FormControlComponent() {
+                
+                    // all other stuff omitted
+                    
+                    // change the registration to use the newly created renderer
+                    init {
+                        registerRenderStrategy("radioGroupWithInput", VerticalRenderer(this))
+                    }
+                }
+                """.trimIndent()
+            )
+        }
+
+        showcaseSubSection("Recap")
+        paragraph {
+            +"We have shown the complete process and all relevant aspects in order to create your own control and "
+            +"renderer in order to customize the formControl in the deepest possible ways. "
+            +"We have explained how to..."
+            ul {
+                li { +"set up a new component and its factory function" }
+                li { +"write a new wrapping function for a control" }
+                li {
+                    +"explained en passant one approach to use internal stores to process the state changes and "
+                    +"communicate it back to the client side"
+                }
+                li { +"write your own custom renderer for the whole form" }
+            }
+        }
+        paragraph {
+            +"We offer those possibilities because we know it is sometimes necessary to change or extend our "
+            +"built-in components and their behavior, but we recommend you to do this in a very thoughtful way and "
+            +"not to clutter your UI with lots of different looking and behaving forms!"
         }
     }
 }
