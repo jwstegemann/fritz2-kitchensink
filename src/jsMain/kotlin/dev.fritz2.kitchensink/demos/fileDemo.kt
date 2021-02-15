@@ -212,9 +212,9 @@ fun RenderContext.fileDemo(): Div {
         paragraph {
             +"In case of selecting text-files only you can parse their contents by providing an encoding to the "
             c("encoding()")
-            +" function. Then the content of the resulting "
+            +" function. The content of the resulting "
             c("File")
-            +" object is a string of that encoding."
+            +" object is than encoded in this format (e.g. utf-8)."
         }
         componentFrame {
             lineUp(switchLayoutSm) {
