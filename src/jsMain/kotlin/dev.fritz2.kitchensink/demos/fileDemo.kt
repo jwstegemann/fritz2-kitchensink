@@ -68,8 +68,8 @@ fun RenderContext.fileDemo(): Div {
 
         paragraph {
             +"""
-            Use this component to open a file selection dialog which returns a single or multiple files 
-            which can be received by a handler of a store. 
+            Use this component to open a file selection dialog. The dialog returns a single or multiple files 
+            which can be received by the handler of a store. 
             """.trimIndent()
         }
         paragraph {
@@ -79,27 +79,27 @@ fun RenderContext.fileDemo(): Div {
         showcaseSection("Usage")
         paragraph {
             +"Use the "
-            c("file{}")
-            +" function for a single file selection and or the "
-            c("files{}")
-            +" function for selecting multiple files. "
-            +"As visible button you can use everything that is described on "
+            c("file {}")
+            +" function for a single file selection, or "
+            c("files {}")
+            +" for selecting multiple files. "
+            +"You can use any button described on our "
             internalLink("button page", buttons_)
-            +" , just by calling the "
+            +" - just call the "
             c("button()")
-            +" function inside. "
-            +"Both functions return a "
+            +" function inside the file function context."
+            +"The functions return a "
             c("File")
             +" or a "
-            c("List")
-            +" of them wich can directed to a matching handler by using "
+            c("List<File>")
+            +"  which can directed to a matching handler using "
             c("handledBy()")
             +"."
         }
         paragraph {
-            +"Note: For selecting multiple files at once you need to press and hold the "
+            +"Note: To select multiple files at once, you need to press and hold the "
             c("Shift")
-            +" key while selection the files."
+            +" key while selecting the files."
         }
         componentFrame {
             lineUp(switchLayoutSm) {
@@ -133,7 +133,7 @@ fun RenderContext.fileDemo(): Div {
             )
         }
 
-        showcaseSection("Accept")
+        showcaseSection("Accepting File Types")
         paragraph {
             +"An important property for the the file selection is the "
             externalLink("accept", "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#htmlattrdefaccept")
@@ -208,13 +208,13 @@ fun RenderContext.fileDemo(): Div {
             )
         }
 
-        showcaseSection("Text files")
+        showcaseSection("Text Files")
         paragraph {
-            +"In case of selecting text-files only you can parse their contents by providing an encoding to the "
+            +"In case of selecting text-files only, you can parse their contents by passing a value to the "
             c("encoding()")
             +" function. The content of the resulting "
             c("File")
-            +" object is than encoded in this format (e.g. utf-8)."
+            +" object is then encoded in this format (e.g. utf-8)."
         }
         componentFrame {
             lineUp(switchLayoutSm) {

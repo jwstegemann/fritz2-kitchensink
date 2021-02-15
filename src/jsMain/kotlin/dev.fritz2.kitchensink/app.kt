@@ -24,12 +24,12 @@ const val spinner_ = "Spinner"
 const val input_ = "InputField"
 const val select_ = "SelectField"
 const val buttons_ = "Button"
-const val files_ = "Files"
+const val file_ = "File"
 const val formcontrol_ = "FormControl"
 const val flexbox_ = "FlexBox"
 const val gridbox_ = "GridBox"
-const val checkboxes_ = "Checkbox"
-const val radios_ = "Radio"
+const val checkbox_ = "Checkbox"
+const val radio_ = "Radio"
 const val switch_ = "Switch"
 const val stack_ = "Stack"
 const val modal_ = "Modal"
@@ -256,11 +256,11 @@ fun main() {
 
                             menuHeader("FORMS")
                             menuAnchor(buttons_)
-                            menuAnchor(files_)
-                            menuAnchor(checkboxes_)
                             menuAnchor(input_)
                             menuAnchor(select_)
-                            menuAnchor(radios_)
+                            menuAnchor(file_)
+                            menuAnchor(checkbox_)
+                            menuAnchor(radio_)
                             menuAnchor(textarea_)
                             menuAnchor(switch_)
                             menuAnchor(formcontrol_)
@@ -300,12 +300,12 @@ fun main() {
                                 input_ -> inputDemo()
                                 select_ -> selectDemo()
                                 buttons_ -> buttonDemo()
-                                files_ -> fileDemo()
+                                file_ -> fileDemo()
                                 formcontrol_ -> formControlDemo()
                                 flexbox_ -> flexBoxDemo()
                                 gridbox_ -> gridBoxDemo()
-                                checkboxes_ -> checkboxesDemo()
-                                radios_ -> radiosDemo()
+                                checkbox_ -> checkboxesDemo()
+                                radio_ -> radiosDemo()
                                 switch_ -> switchDemo()
                                 stack_ -> stackDemo()
                                 modal_ -> modalDemo()
