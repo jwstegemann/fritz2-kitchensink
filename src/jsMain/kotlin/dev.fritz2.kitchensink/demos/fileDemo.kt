@@ -68,7 +68,7 @@ fun RenderContext.fileDemo(): Div {
 
         paragraph {
             +"""
-            Use this component to open a file selection dialog which returns a single or multiple file(s) 
+            Use this component to open a file selection dialog which returns a single or multiple files 
             which can be received by a handler of a store. 
             """.trimIndent()
         }
@@ -87,10 +87,14 @@ fun RenderContext.fileDemo(): Div {
             internalLink("button page", buttons_)
             +" , just by calling the "
             c("button()")
-            +" function inside."
+            +" function inside. "
             +"Both functions return a "
             c("File")
-            +" or a list of them wich can directed to a matching handler of store."
+            +" or a "
+            c("List")
+            +" of them wich can directed to a matching handler by using "
+            c("handledBy()")
+            +"."
         }
         paragraph {
             +"Note: For selecting multiple files at once you need to press and hold the "
@@ -132,8 +136,8 @@ fun RenderContext.fileDemo(): Div {
         showcaseSection("Accept")
         paragraph {
             +"An important property for the the file selection is the "
-            externalLink("accept.", "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#htmlattrdefaccept")
-            +" property, which is used differently in the example below."
+            externalLink("accept", "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#htmlattrdefaccept")
+            +" property, which controls the default file-types in the file selection dialog."
         }
         componentFrame {
             lineUp(switchLayoutSm) {
@@ -206,9 +210,11 @@ fun RenderContext.fileDemo(): Div {
 
         showcaseSection("Text files")
         paragraph {
-            +"When working with text files you can use parse it contents by providing a encoding string to the "
+            +"In case of selecting text-files only you can parse their contents by providing an encoding to the "
             c("encoding()")
-            +" function."
+            +" function. Then the content of the resulting "
+            c("File")
+            +" object is a string of that encoding."
         }
         componentFrame {
             lineUp(switchLayoutSm) {
