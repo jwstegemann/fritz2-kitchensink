@@ -29,18 +29,16 @@ fun RenderContext.buttonDemo(): Div {
         }
     }
 
-    val buttonStore = object : RootStore<Int>(0) {
+    val buttonStore = object : RootStore<Unit>(Unit) {
         val loading = tracker()
 
-        val showMsg = handle { model ->
+        val showMsg = handle {
             loading.track("running...") {
                 delay(3000)
                 modal()
             }
-            model
         }
     }
-    buttonStore.watch()
 
     return contentFrame {
 
@@ -67,15 +65,15 @@ fun RenderContext.buttonDemo(): Div {
                 items {
                     clickButton { text("Show Modal") } handledBy modal
 
-                    pushButton ({
-                        background { color { info }}
+                    pushButton({
+                        background { color { info } }
                     }) {
                         icon { fromTheme { arrowLeft } }
                         text("Previous")
                     }
 
-                    pushButton ({
-                        background { color { warning }}
+                    pushButton({
+                        background { color { warning } }
                     }) {
                         icon { fromTheme { arrowRight } }
                         iconPlacement { right }
@@ -269,15 +267,14 @@ fun RenderContext.buttonDemo(): Div {
         playground {
             source(
                 """
-                    val buttonStore = object : RootStore<Int>(0) {
+                    val buttonStore = object : RootStore<Unit>(Unit) {
                         val loading = tracker()
-                    
-                        val showMsg = handle { model ->
+                
+                        val showMsg = handle {
                             loading.track("running...") {
                                 delay(3000)
                                 modal()
                             }
-                            model
                         }
                     }
 
