@@ -219,7 +219,7 @@ fun RenderContext.fileDemo(): Div {
                 items {
                     files {
                         encoding("utf-8")
-                        accept("plain/*")
+                        accept("text/plain")
                         button {
                             icon { fromTheme { cloudUpload } }
                             text("Text files")
@@ -233,7 +233,7 @@ fun RenderContext.fileDemo(): Div {
                 """
                     files {
                         encoding("utf-8")
-                        accept("plain/*")
+                        accept("text/plain")
                         button {
                             icon { fromTheme { cloudUpload } }
                             text("Text files")
