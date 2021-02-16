@@ -8,9 +8,9 @@ import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.dom.values
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.kitchensink.buttons_
-import dev.fritz2.kitchensink.checkboxes_
+import dev.fritz2.kitchensink.checkbox_
 import dev.fritz2.kitchensink.formcontrol_
-import dev.fritz2.kitchensink.radios_
+import dev.fritz2.kitchensink.radio_
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
@@ -220,12 +220,12 @@ fun RenderContext.inputDemo(): Div {
             +"You can specify any input type for the component. ("
             internalLink(
                 "radios",
-                radios_
+                radio_
             )
             +", "
             internalLink(
                 "checkboxes",
-                checkboxes_
+                checkbox_
             )
             +", and "
             internalLink(
