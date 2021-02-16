@@ -18,7 +18,6 @@ fun RenderContext.fileDemo(): Div {
 
     fun fileModal(file: File) = modal {
         size { small }
-        closeButton()
         content {
             stackUp {
                 items {
@@ -34,7 +33,6 @@ fun RenderContext.fileDemo(): Div {
 
     fun filesModal(files: List<File>) = modal {
         size { small }
-        closeButton()
         content {
             stackUp {
                 items {
