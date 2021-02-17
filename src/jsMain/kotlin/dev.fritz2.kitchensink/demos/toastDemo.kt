@@ -135,13 +135,14 @@ fun RenderContext.toastDemo(): Div {
         showcaseSection("Toast Handling")
 
         paragraph {
-            +"To connect a toast, we offer two options. First, you can create a toast by binding it to an component that"
-            +" offers a flow of events or actions, a clickButton for example:"
+            +"There are two ways to handle your toasts. You can create a toast by binding it to a component that"
+            +" offers a Flow of events or actions, a clickButton for example."
             +" Every time you click the button, a toast is created. In this case the "
             c("toast")
             +" method is used to create that toast as it returns a handler."
             br { }
-            +"The second option is to create a so called standalone toast. For a standalone toast, call the render"
+            +"The second option is to create a so called standalone toast. For a standalone toast, call the "
+            c("render")
             +" function on any Flow and simply call the regular "
             c("showToast")
             +" method from there."
