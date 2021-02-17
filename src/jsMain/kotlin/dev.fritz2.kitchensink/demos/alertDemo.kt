@@ -138,20 +138,20 @@ fun RenderContext.alertDemo(): Div {
         paragraph {
             +"The alert's layout variant can be changed via the "
             c("variant")
-            +" property. Currently a solid (default) and subtle variant are available as well as variants with either"
+            +" property. Currently a solid and subtle variant are available as well as variants with either"
             +" a colored left or top accent."
         }
         componentFrame {
             alert({
                 margin { tiny }
             }) {
-                content("This is a default subtle alert.")
-                variant { subtle }
+                content("This is the default solid alert.")
             }
             alert({
                 margin { tiny }
             }) {
-                content("This is a solid alert.")
+                content("This is a subtle alert.")
+                variant { subtle }
             }
             alert({
                 margin { tiny }
@@ -170,11 +170,11 @@ fun RenderContext.alertDemo(): Div {
             source(
                 """
                     alert {
-                        content("This is a subtle alert.")
-                        variant { subtle }
+                        content("This is the default solid alert.")
                     }
                     alert {
-                        content("This is a default solid alert.")
+                        content("This is a subtle alert.")
+                        variant { subtle }
                     }
                     alert {
                         content("This is a left-accented alert.")
@@ -228,7 +228,7 @@ fun RenderContext.alertDemo(): Div {
                 """
                     alert {
                         title {
-                            // Title that takes up the whole line
+                            // Title in its own line
                             (::div.styled {
                                 fontWeight { bold }
                             }) {
