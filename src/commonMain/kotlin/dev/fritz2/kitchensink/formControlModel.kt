@@ -44,13 +44,13 @@ object AccountValidator : ComponentValidator<Account, AccountCreationPhase>() {
         val messages = mutableListOf<ComponentValidationMessage>()
         val username = inspector.sub(L.Account.username)
         if (username.data.isBlank() && phase == AccountCreationPhase.Registration) {
-            messages.add(errorMessage(username.id, "Username should not be empty!"))
+            messages.add(errorMessage(username.id, "Please choose a username."))
         } else if (username.data.isNotBlank()) {
             if (username.data.contains(':')) {
-                messages.add(errorMessage(username.id, "Username should not contain a colon!"))
+                messages.add(errorMessage(username.id, "Colon is not allowed in username."))
             }
             if (username.data.length < 3) {
-                messages.add(warningMessage(username.id, "Consider a longer name!"))
+                messages.add(warningMessage(username.id, "We recommend a username with at least 3 characters."))
             }
             addSuccessMessage(messages, phase, username.id)
         }
@@ -64,16 +64,16 @@ object AccountValidator : ComponentValidator<Account, AccountCreationPhase>() {
         val messages = mutableListOf<ComponentValidationMessage>()
         val passphrase = inspector.sub(L.Account.passphrase)
         if (passphrase.data.isBlank() && phase == AccountCreationPhase.Registration) {
-            messages.add(errorMessage(passphrase.id, "Passphrase should not be empty!"))
+            messages.add(errorMessage(passphrase.id, "Please specify a passphrase."))
         } else if (passphrase.data.isNotBlank()) {
             if (passphrase.data.length < 16) {
                 messages.add(
-                    warningMessage(passphrase.id, "Consider a passphrase with at least 16 characters")
+                    warningMessage(passphrase.id, "We recommend a passphrase with at least 16 characters.")
                 )
             }
             if (passphrase.data.toLowerCase() == "fritz2") {
                 messages.add(
-                    warningMessage(passphrase.id, "'fritz2' is a great framework, but a poor passphrase!")
+                    warningMessage(passphrase.id, "'fritz2' is a great framework, but a poor choice of passphrase.")
                 )
             }
             addSuccessMessage(messages, phase, passphrase.id)
@@ -90,7 +90,7 @@ object AccountValidator : ComponentValidator<Account, AccountCreationPhase>() {
             messages.add(
                 errorMessage(
                     interests.id,
-                    "You have chosen ${interests.data.size} items, but only 3 items are allowed!"
+                    "You have chosen ${interests.data.size} items, but only 3 items are allowed."
                 )
             )
         }
@@ -98,7 +98,7 @@ object AccountValidator : ComponentValidator<Account, AccountCreationPhase>() {
             messages.add(
                 infoMessage(
                     interests.id,
-                    "Thank you for choosing fritz2! We appreciate your interest \uD83D\uDE00"
+                    "Thank you for choosing fritz2 - we appreciate your interest \uD83D\uDE00"
                 )
             )
         }
@@ -112,7 +112,7 @@ object AccountValidator : ComponentValidator<Account, AccountCreationPhase>() {
         val messages = mutableListOf<ComponentValidationMessage>()
         val confirmation = inspector.sub(L.Account.confirmation)
         if (!confirmation.data && phase == AccountCreationPhase.Registration) {
-            messages.add(errorMessage(confirmation.id, "You must accept license conditions to register!"))
+            messages.add(errorMessage(confirmation.id, "You must accept the license terms to register."))
         } else if (confirmation.data) {
             addSuccessMessage(messages, phase, confirmation.id)
         }

@@ -36,20 +36,15 @@ fun RenderContext.formControlDemo(): Div {
             }
         }
         paragraph {
-            +"They can handle the event handling automatically (as all wrapped control can so too) but also "
-            +"manage to process validation without additional effort!"
-        }
-        paragraph {
-            +"In order to make the whole concept comprehensible we start with some rather complete use case "
-            +"showing how all these concepts work together hand in hand."
+            +"Like the controls they wrap, FormControls can handle events automatically. Additionally, they"
+            +" process field validation without additional programming effort."
         }
 
-        showcaseSection("Complete form example")
+        showcaseSection("Complete Form Example")
         paragraph {
-            +"Here is a fully featured example showing how to realize a working form based upon our "
-            strong { +"formControl" }
-            +" combined with essential fritz2's core concepts like data classes with lenses as model, "
-            +" stores and substores and validation facilities."
+            +"Here's a comprehensible but complete FormControl example"
+            +" featuring fritz2 core concepts like data classes and lenses, "
+            +" stores with substores, and field validation."
         }
 
         val accountStore = object : RootStore<Account>(
@@ -84,7 +79,7 @@ fun RenderContext.formControlDemo(): Div {
                     direction { column }
                     height { "100" }
                 }) {
-                    p { +"Your have been successfully registered!" }
+                    p { +"Registration successful!" }
                     clickButton { text("fritz:it up") } handledBy close
                 }
             }
@@ -92,26 +87,27 @@ fun RenderContext.formControlDemo(): Div {
 
         componentFrame {
             h3 { +"Create your fritz:it user account" }
+            br {}
             stackUp {
                 spacing { large }
                 items {
                     formControl {
                         label("Username")
                         inputField(store = nameStore) {
-                            placeholder("enter your username")
+                            placeholder("Choose a username")
                         }
                     }
                     formControl {
                         label("Passphrase")
                         helperText("Remember: the longer, the better!")
                         inputField(store = passphraseStore) {
-                            placeholder("enter a secure passphrase")
+                            placeholder("Enter a secure passphrase")
                             type("password")
                         }
                     }
                     formControl {
-                        label("Choose your interests")
-                        helperText("Please pick at most three items")
+                        label("Choose up to three interests:")
+
                         checkboxGroup(
                             items = listOf("Kotlin", "fritz2", "Html", "CSS", "Design", "Open Source"),
                             store = interestStore
@@ -120,9 +116,8 @@ fun RenderContext.formControlDemo(): Div {
                         }
                     }
                     formControl {
-                        label("Confirm license agreement")
                         switch(store = confirmationStore) {
-                            label("I accept the MIT license")
+                            label("I accept the terms of the MIT license.")
                         }
                     }
                     lineUp({
@@ -140,20 +135,18 @@ fun RenderContext.formControlDemo(): Div {
         }
 
         paragraph {
-            +"Just try different inputs and watch out for the validation messages. Some are only warnings or "
-            +" information, the required forms show a success check icon if input is valid and finally there are "
-            +" red error messages that reject the final registration after clicking the button."
-        }
-        paragraph {
-            +"After you are familiar with the functionality, read the following explanations."
+            +"Depending on your input, the validation messages change type and appearance - some are only warnings or"
+            +" information and do not prevent the completion of the registration process. Each required field shows a"
+            +" success icon if the input is valid, even if it has warning- or information type messages."
+            +" The red error messages indicate hard errors which reject registration when clicking the button."
         }
 
-        showcaseSubSection("The model")
+        showcaseSubSection("The Model")
         paragraph {
-            +"The model is kept quite simple: We just use a data class in order to model an account object."
-            +"We annotate it as a "
-            em { +"Lens" }
-            +" so that we can create substores of a store handling the account data later on!"
+            +"The example above uses a data class in order to model an account object."
+            +" We annotate it with "
+            c ("@Lenses")
+            +" to easily derive substores from the data later."
         }
         playground {
             source(
@@ -169,12 +162,12 @@ fun RenderContext.formControlDemo(): Div {
             )
         }
 
-        showcaseSubSection("Initial store")
+        showcaseSubSection("Initial Store")
         paragraph {
-            +"As next step we create a "
+            +"Next, a "
             c("RootStore")
-            +" to hold the account we want to create based upon the user input."
-            +"We then derive substores for each account property which will be injected into the controls later on."
+            +" is created to hold the account we want to create from the user's input."
+            +" We then derive substores for each account property which will be used for the input fields."
         }
         playground {
             source(
@@ -191,117 +184,102 @@ fun RenderContext.formControlDemo(): Div {
             )
         }
 
-        showcaseSubSection("Declaring the form")
+        showcaseSubSection("Assembling The Form")
         paragraph {
-            +"Using a "
-            c("formControl")
-            +"itself is quite simple: "
+            +"For each FormControl for this account example, do the following: "
             ul {
-                li { +"declare a label" }
-                li { +"declare the control itself: Remember to provide a (sub-)store at this step!" }
-                li { +"make additional customizations (will be covered in detail after this example)" }
+                li { +"declare a label for the field" }
+                li { +"declare the field itself, using one of the substores" }
+                li { +"make additional customizations (see below for more details)" }
             }
         }
         paragraph {
-            +"In order to set up the control itself, just use the same declarative syntax as for the corresponding "
-            +"stand alone component. You should prefer to pass in a store in order to benefit from the automatic "
-            +"validation and messages. Of course you can customize the control in every way the underlying component "
-            +"is designed for, like changing the styling, the orientation, the mode (password input for example) and "
-            +"similar aspects."
+            +"The syntax for declaring a control inside a form control is exactly the same as for standalone controls."
+            +" Preferably pass a store to it in order to benefit from the automatic "
+            +" validation and messages. Of course you can customize the control in every way the underlying component "
+            +" supports, like changing styling, orientation, input type, and "
+            +" other aspects."
         }
         playground {
             source(
                 """
-                // surrounding layout (``stackUp``) omitted for better readability 
-                formControl {
-                    label("Username")
-                    // Declare the control itself - the declaration mimics exactly 
-                    // the stand alone call of the component
-                    inputField(store = nameStore) {
-                        placeholder("enter your username")
+                    // surrounding layout (``stackUp``) omitted for better readability 
+                    formControl {
+                        label("Username")
+                        inputField(store = nameStore) {
+                            placeholder("Choose a username")
+                        }
                     }
-                }
-                formControl {
-                    label("Passphrase")
-                    helperText("Remember: the longer, the better!")
-                    inputField(store = passphraseStore) {
-                        placeholder("enter a secure passphrase")
-                        type("password")
+                    formControl {
+                        label("Passphrase")
+                        helperText("Remember: the longer, the better!")
+                        inputField(store = passphraseStore) {
+                            placeholder("Enter a secure passphrase")
+                            type("password")
+                        }
                     }
-                }
-                formControl {
-                    label("Choose your interests")
-                    helperText("Please pick at most three items")
-                    checkboxGroup(
-                        items = listOf("Kotlin", "fritz2", "Html", "CSS", "Design", "Open Source"),
-                        store = interestStore
-                    ) { }
-                }
-                formControl {
-                    label("Confirm license agreement")
-                    switch(store = confirmationStore) {
-                        label("I accept the MIT license")
+                    formControl {
+                        label("Choose up to three interests:")
+
+                        checkboxGroup(
+                            items = listOf("Kotlin", "fritz2", "Html", "CSS", "Design", "Open Source"),
+                            store = interestStore
+                        ) {
+                            direction { column }
+                        }
                     }
-                }
+                    formControl {
+                        switch(store = confirmationStore) {
+                            label("I accept the terms of the MIT license.")
+                        }
+                    }
             """.trimIndent()
             )
         }
 
         showcaseSubSection("Validation")
-        paragraph {
-            +"Let's step back from the UI part for an important step: the "
-            em { +"validation" }
-            +" of the user input."
+
+        coloredBox(Theme().colors.info) {
+            strong { +"Hint: " }
+            +"The validation code does not rely on anything UI specific so it's"
+            +" perfect for unit testing."
         }
+
         paragraph {
-            +"The validation is realized regarding the "
-            em { +"separation of concern" }
-            +" so it must be placed inside the "
+            +"fritz2 aims to implement the separation of concern principle,"
+            +" so your validation must be placed inside the "
             c("commonMain")
             +" folder of your project."
         }
         paragraph {
-            +"You simply must implement the "
+            +"To use validation for your store, implement the "
             c("ComponentValidator<D, T>")
             +" interface by using the "
             c("validate")
-            +" method as starting point for the whole validation process of your data model."
+            +" method as starting point."
             +"The generic types refer to these aspects:"
             ul {
                 li {
                     c("D")
-                    +" represent the data model type, so the model that should be validated."
+                    +": the model to be validated"
                 }
                 li {
                     c("T")
-                    +" represent an additional meta data type in order to optionally pass more information into "
-                    +"the validation process than just the model itself."
+                    +": meta data for additional information (Unit if not needed)"
                 }
             }
         }
         paragraph {
-            +" The key aspect is to validate the whole model at once and to generate and return a list of "
+            +"The whole model is validated at once. This validation process generates a list of "
             c("ComponentValidationMessage")
-            +" instances, which requires an"
-            c("id")
-            +". This property enables one formControl later on to automatically filter and process "
-            +"all messages for its wrapped control, if it has got a (sub-)store provided with the same id."
+            +" instances, each of which includes the id of the field it refers to (the substore's id)."
+            +" The formControl component filters the list for messages with its own control's id and displays them."
         }
-        coloredBox(Theme().colors.info) {
-            p {
-                strong { +"Recab:" }
-                +" Bind the "
-                c("id")
-                +" of a lens created by an inspector to the message of a property and pass a substore for this "
-                +"property to the corresponding "
-                c("formControl")
-                +" control so that both ids match."
-            }
-        }
+
         playground {
             source(
                 """
-                // Simplified first implementation for explaining the core aspects:
+                // Simplified first implementation
                 object AccountValidator : ComponentValidator<Account, Unit>() {
                     override fun validate(data: Account, metadata: Unit): List<ComponentValidationMessage> {
                         val messages = mutableListOf<ComponentValidationMessage>()
@@ -311,51 +289,41 @@ fun RenderContext.formControlDemo(): Div {
                         val username = inspector.sub(L.Account.username)
                         val passphrase = inspector.sub(L.Account.passphrase)
                 
-                        // some simple validation tasks
                         if (username.data.isBlank()) {
-                            // use a predefined factory function to create a fitting message (error, 
-                            // warning, success or info) and bind the *id* of the lens to the message 
-                            // -> this is the trick that enables formControl to automatically apply
-                            // a specific message to a corresponding control!
-                            messages.add(errorMessage(username.id, "Username should not be empty!"))
+                            // bind the id of the lens to the message for filtering in the form control
+                            messages.add(errorMessage(username.id, "Please choose a username."))
                         }
                         if (passphrase.data.isBlank()) {
-                            messages.add(errorMessage(passphrase.id, "Passphrase should not be empty!"))
+                            messages.add(errorMessage(passphrase.id, "Please specify a passphrase."))
                         } else if (passphrase.data.length < 16) {
-                            messages.add(warningMessage(passphrase.id, "Consider a longer passphrase!"))
+                            messages.add(warningMessage(passphrase.id, "We recommend a passphrase with at least 16 characters."))
                         }
                 
-                        // return all the generated messages - might be empty of course
+                        // return all the generated messages - can be empty of course
                         return messages
                     }
                 }                    
                 """.trimIndent()
             )
         }
+        showcaseSubSection("Using Metadata")
         paragraph {
-            +"In the simplified first approach above we focused only on the model type itself and ignore "
-            +"the meta data which will simply be "
+            +"If more context information is needed to process the validation, or if there are multiple validation modes, "
+            +" the addtional metadata type T of "
+            c("ComponentValidator<D, T>")
+            +" comes in handy. In the example above, metadata wasn't used, therefore it was "
             c("Unit")
-            +" therefore."
+            +". The following example uses metadata to add validation while the user is typing the input."
         }
         paragraph {
-            +"But often this is not sufficient, but we need some more context information in order to process the "
-            +"validation or we have different "
-            em { +"modes" }
-            +" as validation."
+            +"Here, the registration button still validates the input before further processing"
+            +" (typically sending the data to a backend service). But when trying validate the content of the fields"
+            +" immediately on change, this method would mark all blank fields as errors before the user"
+            +" even has a change to provide correct input."
         }
         paragraph {
-            +"Consider the example form: There is a registration button, that obviously should validate the input "
-            +"before further processing (typically sending the data to a backend service). But we also want to "
-            +"validate the input immediately after the content has changed. "
-            +"As the latter mode would mark every "
-            em { +"blank" }
-            +" field immediately as an error, the form would be flooded with errors before the user has the chance to "
-            +"provide correct content."
-        }
-        paragraph {
-            +"In order to solve this problem, we introduce the following enum type that we will use as metadata "
-            +"for our validator:"
+            +"In order to solve this problem, the following enum type will be used as metadata"
+            +" for our validator. It defines two phases: "
         }
         playground {
             source(
@@ -368,18 +336,15 @@ fun RenderContext.formControlDemo(): Div {
             )
         }
         paragraph {
-            +"For the immediate validation, we simply pass "
+            +"For immediate validation, "
             c("Input")
-            +" as value for the metadata parameter and for the final validation after the button click we pass "
+            +" is passed as metadata value. For the final validation on button click, "
             c("Registration")
-            +" as metadata. This allows us to reflect the current phase within our validator and to process blank "
-            +"data only after the button click."
+            +" is passed. This allows the validator to reflect the current phase and process blank "
+            +" data after the button click only. The exact example code is shown below - its length is mostly"
+            +" due to the added validation content."
         }
-        paragraph {
-            +"The following code shows exactly the validation used for the example. Don't panic because of the length, "
-            +"because there are more or less only more constraints getting tested and the metadata is used to "
-            +"differentiate between the two described modes."
-        }
+
         playground {
             source(
                 """
@@ -409,13 +374,13 @@ fun RenderContext.formControlDemo(): Div {
                         val messages = mutableListOf<ComponentValidationMessage>()
                         val username = inspector.sub(L.Account.username)
                         if (username.data.isBlank() && phase == AccountCreationPhase.Registration) {
-                            messages.add(errorMessage(username.id, "Username should not be empty!"))
+                            messages.add(errorMessage(username.id, "Please choose a username."))
                         } else if (username.data.isNotBlank()) {
                             if (username.data.contains(':')) {
-                                messages.add(errorMessage(username.id, "Username should not contain a colon!"))
+                                messages.add(errorMessage(username.id, "Colon is not allowed in username."))
                             }
                             if (username.data.length < 3) {
-                                messages.add(warningMessage(username.id, "Consider a longer name!"))
+                                messages.add(warningMessage(username.id, "We recommend a username with at least 3 characters."))
                             }
                             addSuccessMessage(messages, phase, username.id)
                         }
@@ -429,16 +394,16 @@ fun RenderContext.formControlDemo(): Div {
                         val messages = mutableListOf<ComponentValidationMessage>()
                         val passphrase = inspector.sub(L.Account.passphrase)
                         if (passphrase.data.isBlank() && phase == AccountCreationPhase.Registration) {
-                            messages.add(errorMessage(passphrase.id, "Passphrase should not be empty!"))
+                            messages.add(errorMessage(passphrase.id, "Please specify a passphrase."))
                         } else if (passphrase.data.isNotBlank()) {
                             if (passphrase.data.length < 16) {
                                 messages.add(
-                                    warningMessage(passphrase.id, "Consider a passphrase with at least 16 characters")
+                                    warningMessage(passphrase.id, "We recommend a passphrase with at least 16 characters.")
                                 )
                             }
                             if (passphrase.data.toLowerCase() == "fritz2") {
                                 messages.add(
-                                    warningMessage(passphrase.id, "'fritz2' is a great framework, but a poor passphrase!")
+                                    warningMessage(passphrase.id, "'fritz2' is a great framework, but a poor choice of passphrase.")
                                 )
                             }
                             addSuccessMessage(messages, phase, passphrase.id)
@@ -455,7 +420,7 @@ fun RenderContext.formControlDemo(): Div {
                             messages.add(
                                 errorMessage(
                                     interests.id,
-                                    "You have chosen $'{interests.data.size'} items, but only 3 items are allowed!"
+                                    "You have chosen $'{interests.data.size'} items, but only 3 items are allowed."
                                 )
                             )
                         }
@@ -463,7 +428,7 @@ fun RenderContext.formControlDemo(): Div {
                             messages.add(
                                 infoMessage(
                                     interests.id,
-                                    "Thank you for choosing fritz2! We appreciate your interest \uD83D\uDE00"
+                                    "Thank you for choosing fritz2 - we appreciate your interest \uD83D\uDE00"
                                 )
                             )
                         }
@@ -477,7 +442,7 @@ fun RenderContext.formControlDemo(): Div {
                         val messages = mutableListOf<ComponentValidationMessage>()
                         val confirmation = inspector.sub(L.Account.confirmation)
                         if (!confirmation.data && phase == AccountCreationPhase.Registration) {
-                            messages.add(errorMessage(confirmation.id, "You must accept license conditions to register!"))
+                            messages.add(errorMessage(confirmation.id, "You must accept the license terms to register."))
                         } else if (confirmation.data) {
                             addSuccessMessage(messages, phase, confirmation.id)
                         }
@@ -487,26 +452,11 @@ fun RenderContext.formControlDemo(): Div {
                 """.trimIndent()
             )
         }
-        paragraph {
-            +"Remember that this example does not intend to show sophisticated validation code, but instead focuses "
-            +"on simplicity for demonstration purposes!"
-            +" Feel free to structure your validation logic in an appropriate way like relying on the strategy pattern "
-            +"or other common methods."
-        }
 
-        coloredBox(Theme().colors.info) {
-            p {
-                strong { +"Hint:" }
-                +"You should recognize that the validation code does not rely on anything UI specific so it fits "
-                +"perfectly for unit testing!"
-            }
-        }
+
 
         showcaseSubSection("Gluing it all together")
-        paragraph {
-            +"Now that we have almost all separate pieces right in place, we can finally glue it all together to "
-            +" have a fully functional form."
-        }
+
         paragraph {
             +"We have already connected our data instance via the store and it's substores to the form itself, but "
             +" there is no connection between the validation code and our form yet."
