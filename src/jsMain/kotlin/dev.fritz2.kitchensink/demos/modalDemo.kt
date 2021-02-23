@@ -32,7 +32,6 @@ fun RenderContext.modalDemo(): Div {
                 }) {
                     size { size }
                     variant { auto }
-                    closeButton()
                     content {
                         h1 { +"Modal Dialog" }
                         paragraph { +"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet." }
@@ -244,19 +243,21 @@ fun RenderContext.modalDemo(): Div {
                     clickButton {
                         text("Styled Close Button")
                     } handledBy modal {
-                        closeButton({
-                            background { color { danger } }
-                            color { base }
-                            position {
-                                absolute {
-                                    top { normal }
+                        closeButtonRendering {
+                            clickButton({
+                                background { color { danger } }
+                                color { base }
+                                position {
+                                    absolute {
+                                        top { normal }
+                                    }
                                 }
+                                css("transform: rotate(20deg) translateX(-.5rem)")
+                            }) {
+                                size { small }
+                                text("Nope")
+                                iconPlacement { right }
                             }
-                            css("transform: rotate(20deg) translateX(-.5rem)")
-                        }) {
-                            size { small }
-                            text("Nope")
-                            iconPlacement{right}
                         }
                     }
                 }

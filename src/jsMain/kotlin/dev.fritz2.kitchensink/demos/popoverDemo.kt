@@ -237,8 +237,14 @@ fun RenderContext.popoverDemo(): Div {
                         toggle {
                             icon({ size { huge } }) { fromTheme { eye } }
                         }
-                        closeButton({ size { normal } }) {
-                            icon { fromTheme { eyeOff } }
+                        closeButtonRendering {
+                            clickButton({
+                                closeButtonStyle.value()
+                                size { normal }
+                                width { auto }
+                            }) {
+                                icon { fromTheme { eyeOff } }
+                            }
                         }
                         content {
                             div {
@@ -297,7 +303,7 @@ fun RenderContext.popoverDemo(): Div {
                         {
                             border {
                                 color { secondary }
-                                style {  dashed }
+                                style { dashed }
                                 width { fat }
                             }
                             radius { "1.5rem" }
@@ -314,12 +320,14 @@ fun RenderContext.popoverDemo(): Div {
                                 padding { huge }
                             }) { +"Popover, content, and footer have customized styling." }
                         }
-                        footer { (::h4.styled {
-                            fontStyle { italic }
-                            color { info }
-                            padding { normal } // todo this should be default
-                            fontSize { tiny }
-                        }) { +"The marker was removed." } }
+                        footer {
+                            (::h4.styled {
+                                fontStyle { italic }
+                                color { info }
+                                padding { normal } // todo this should be default
+                                fontSize { tiny }
+                            }) { +"The marker was removed." }
+                        }
                         hasArrow(false)
                     }
                 }
