@@ -15,6 +15,7 @@ import dev.fritz2.kitchensink.L
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.styling.StyleClass
 import dev.fritz2.styling.params.BasicParams
+import dev.fritz2.styling.params.BoxParams
 import dev.fritz2.styling.params.styled
 import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -960,7 +961,7 @@ fun RenderContext.formControlDemo(): Div {
             // Define your own renderer
             inner class VerticalRenderer(private val component: FormControlComponent) : ControlRenderer {
                 override fun render(
-                    styling: BasicParams.() -> Unit,
+                    styling: BoxParams.() -> Unit,
                     baseClass: StyleClass?,
                     id: String?,
                     prefix: String,
@@ -970,7 +971,7 @@ fun RenderContext.formControlDemo(): Div {
                     renderContext.stackUp({
                         alignItems { start }
                         component.ownSize()()
-                        styling()
+                        styling(this as BoxParams)
                     }, baseClass, id, prefix) {
                         spacing { tiny }
                         items {
@@ -1006,8 +1007,7 @@ fun RenderContext.formControlDemo(): Div {
             prefix: String = "extendedFormControl",
             build: ExtendedFormControlComponent.() -> Unit = {}
         ) {
-            val component = ExtendedFormControlComponent().apply(build)
-            component.render(styling, baseClass, id, prefix, this)
+            ExtendedFormControlComponent().apply(build).render(this, styling, baseClass, id, prefix)
         }
 
         val favoriteFrameworks = listOf("fritz2", "Ktor", "EXPOSED", "Spring", "patternfly-fritz2")

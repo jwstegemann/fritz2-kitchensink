@@ -90,31 +90,22 @@ fun RenderContext.toastDemo(): Div {
 
         showcaseSubSection("Use Alerts As Content")
         paragraph {
-            alert {
-                icon { circleInformation }
-                variant { leftAccent }
-                content {
-                    p {
-                        +"Since the toast component offers a minimal API only which requires you to build the toast's "
-                        +" content manually, it is recommended to use an alert as content."
-                    }
-                }
-            }
-            br {  }
-            +"This way it is much"
-            +" easier to create rich contents with less lines of code. You can either pass the alert yourself or use"
-            +" one of the provided convenience functions "
-            c("showAlertToast") // todo: there is no example on how to use this function and what it does
-            +" and "
-            c("alertToast")
-            +"."
+            +"A typical use case is to show an "
+            c("alert")
+            +" within a toast. Just place the alert into the "
+            c("content")
+            +" property of the toast:"
         }
         componentFrame {
             clickButton {
                 text("Create An Alert-Toast")
-            } handledBy alertToast {
-                title("AlertToast!")
-                content("This is an alert in a toast.")
+            } handledBy toast {
+                content {
+                    alert {
+                        title("AlertToast!")
+                        content("This is an alert in a toast.")
+                    }
+                }
             }
         }
         playground {
@@ -122,9 +113,13 @@ fun RenderContext.toastDemo(): Div {
                 """
                 clickButton {
                     text("Create An Alert-Toast")
-                } handledBy alertToast {
-                    title("AlertToast!")
-                    content("This is an alert in a toast.")
+                } handledBy toast {
+                    content {
+                        alert {
+                            title("AlertToast!")
+                            content("This is an alert in a toast.")
+                        }
+                    }
                 }
                 """.trimIndent()
             )
@@ -219,7 +214,7 @@ fun RenderContext.toastDemo(): Div {
             store.data.filter { it }.render {
                 someFlow.render { flowItem ->
                     showToast {
-                        position { bottomRight }
+                        placement { bottomRight }
                         content {
                             // Styled for better readability; any other content is okay as well!
                             (::p.styled {
@@ -247,7 +242,7 @@ fun RenderContext.toastDemo(): Div {
         
                 someFlow.render { flowItem ->
                     showToast {
-                        position { bottomRight }
+                        placement { bottomRight }
                         content {
                             // Styled for better readability; any other content is okay as well!
                             (::p.styled {
@@ -264,12 +259,12 @@ fun RenderContext.toastDemo(): Div {
         }
 
 
-        showcaseSection("Positioning Your Toast")
+        showcaseSection("Placing your Toast")
 
         paragraph {
-            +"You can configure the position in which your toast will be displayed."
+            +"You can configure the placement in which your toast will be displayed."
             br { }
-            +"Predefined positions are: "
+            +"Predefined placements are: "
             c("bottom")
             +", "
             c("bottomLeft")
@@ -289,7 +284,7 @@ fun RenderContext.toastDemo(): Div {
                     clickButton {
                         text("Top-Left")
                     } handledBy toast {
-                        position { topLeft }
+                        placement { topLeft }
                         content {
                             basicStyledToastContent("Top-Left")
                         }
@@ -297,7 +292,7 @@ fun RenderContext.toastDemo(): Div {
                     clickButton {
                         text("Top")
                     } handledBy toast {
-                        position { top }
+                        placement { top }
                         content {
                             basicStyledToastContent("Top")
                         }
@@ -305,7 +300,7 @@ fun RenderContext.toastDemo(): Div {
                     clickButton {
                         text("Top-Right")
                     } handledBy toast {
-                        position { topRight }
+                        placement { topRight }
                         content {
                             basicStyledToastContent("Top-Right")
                         }
@@ -320,7 +315,7 @@ fun RenderContext.toastDemo(): Div {
                     clickButton {
                         text("Bottom")
                     } handledBy toast {
-                        position { bottom }
+                        placement { bottom }
                         content {
                             basicStyledToastContent("Bottom")
                         }
@@ -328,7 +323,7 @@ fun RenderContext.toastDemo(): Div {
                     clickButton {
                         text("Bottom-Left")
                     } handledBy toast {
-                        position { bottomLeft }
+                        placement { bottomLeft }
                         content {
                             basicStyledToastContent("Bottom-Left")
                         }
@@ -340,7 +335,7 @@ fun RenderContext.toastDemo(): Div {
             source(
                 """
                 showToast {
-                    position { top }
+                    placement { top }
                     content {
                         // Content omitted
                     }
@@ -442,7 +437,7 @@ fun RenderContext.toastDemo(): Div {
                     clickButton {
                         text("2000ms")
                     } handledBy toast {
-                        duration { 2000 }
+                        duration(2000)
                         content {
                             basicStyledToastContent()
                         }
@@ -473,14 +468,14 @@ fun RenderContext.toastDemo(): Div {
         paragraph {
             +"Toasts can manually be dismissed by clicking on the close buttons which are part of every toast"
             +" by default. The close button can be enabled/disabled via the "
-            c("isCloseable")
+            c("hasCloseButton")
             +" property."
         }
         componentFrame {
             clickButton {
                 text("Show")
             } handledBy toast {
-                isCloseable(false)
+                hasCloseButton(false)
                 content {
                     basicStyledToastContent()
                 }
@@ -490,7 +485,7 @@ fun RenderContext.toastDemo(): Div {
             source(
                 """
                     showToast {
-                        isCloseable(false)
+                        hasCloseButton(false)
                         content {
                             basicStyledToastContent()
                         }
@@ -523,7 +518,7 @@ fun RenderContext.toastDemo(): Div {
                     clickButton {
                         text("No Close Button")
                     } handledBy toast {
-                        isCloseable { false }
+                        hasCloseButton(false)
                         content {
                             basicStyledToastContent()
                         }
@@ -551,7 +546,7 @@ fun RenderContext.toastDemo(): Div {
                     clickButton {
                         text("No Close Button")
                     } handledBy toast {
-                        isCloseable { false }
+                        hasCloseButton { false }
                         content {
                             // content.. 
                         }

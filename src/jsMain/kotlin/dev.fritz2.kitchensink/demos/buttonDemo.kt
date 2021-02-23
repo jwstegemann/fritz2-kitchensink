@@ -18,7 +18,6 @@ fun RenderContext.buttonDemo(): Div {
         minHeight { "0" }
     }) {
         size { small }
-        closeButton()
         content {
             lineUp {
                 items {
