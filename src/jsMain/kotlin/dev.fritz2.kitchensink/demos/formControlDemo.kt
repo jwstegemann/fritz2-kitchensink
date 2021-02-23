@@ -455,10 +455,10 @@ fun RenderContext.formControlDemo(): Div {
 
 
 
-        showcaseSubSection("Gluing it all together")
+        showcaseSubSection("Gluing it all together") // todo review needed starting here
 
         paragraph {
-            +"We have already connected our data instance via the store and it's substores to the form itself, but "
+            +"We have already connected our data instance via the store and its substores to the form itself, but "
             +" there is no connection between the validation code and our form yet."
         }
         paragraph {
