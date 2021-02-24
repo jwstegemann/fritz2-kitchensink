@@ -31,7 +31,7 @@ fun RenderContext.fileDemo(): Div {
         }
     }
 
-    fun filesModal(files: List<File>) = modal {
+    fun filesModal(files: List<File>, showContent: Boolean = false) = modal {
         size { small }
         content {
             stackUp {
@@ -43,6 +43,7 @@ fun RenderContext.fileDemo(): Div {
                             items {
                                 p { +it.name }
                                 p { +"Size: ${it.size.asKB(2)}" }
+                                if(showContent) p { +it.content.substring(0, 30)}
                             }
                         }
                     }
@@ -57,6 +58,9 @@ fun RenderContext.fileDemo(): Div {
         }
         val showFiles = handle<List<File>> { _, files ->
             filesModal(files)()
+        }
+        val showFilesWithContent = handle<List<File>> { _, files ->
+            filesModal(files, showContent = true)()
         }
     }
 
@@ -118,6 +122,7 @@ fun RenderContext.fileDemo(): Div {
                     val fileStore = object : RootStore<Unit>(Unit) {
                         val showFile = handle<File> { _, file -> fileModal(file)() }
                         val showFiles = handle<List<File>> { _, files -> filesModal(files)() }
+                        val showFilesWithContent = handle<List<File>> { _, files -> filesModal(files, true)() }
                     }
                     
                     file {
@@ -224,7 +229,7 @@ fun RenderContext.fileDemo(): Div {
                             icon { fromTheme { cloudUpload } }
                             text("Text files")
                         }
-                    } handledBy fileStore.showFiles
+                    } handledBy fileStore.showFilesWithContent
                 }
             }
         }
@@ -238,7 +243,7 @@ fun RenderContext.fileDemo(): Div {
                             icon { fromTheme { cloudUpload } }
                             text("Text files")
                         }
-                    } handledBy fileStore.showFiles
+                    } handledBy fileStore.showFilesWithContent
                 """
             )
         }
