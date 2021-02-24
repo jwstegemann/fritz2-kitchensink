@@ -380,20 +380,25 @@ fun RenderContext.toastDemo(): Div {
             )
         }
 
-        showcaseSubSection("Close-Button")
+        showcaseSubSection("Close Button")
         paragraph {
-            +"The close button's style can optionally be overridden via the "
+            +"The close button can optionally be customized via the"
             c("closeButtonStyle")
-            +" property."
+            +", "
+            c("closeButtonIcon")
+            +" or ultimately by the "
+            c("closeButtonRendering")
+            +" properties."
         }
         componentFrame {
             clickButton {
                 text("Show")
             } handledBy toast {
                 closeButtonStyle {
-                    background { color { lightGray } }
-                    color { darkGray }
+                    margins { right { small } }
+                    background { color { warning } }
                 }
+                closeButtonIcon { fritz2 }
                 content {
                     basicStyledToastContent()
                 }
@@ -404,9 +409,10 @@ fun RenderContext.toastDemo(): Div {
                 """
                     showToast {
                         closeButtonStyle {
-                            background { color { lightGray } }
-                            color { darkGray }
+                            margins { right { small } }
+                            background { color { warning } }
                         }
+                        closeButtonIcon { fritz2 }
                         content {
                             basicStyledToastContent()
                         }
@@ -464,7 +470,7 @@ fun RenderContext.toastDemo(): Div {
             +"Toasts can manually be dismissed by clicking on it's close button which is part of every toast"
         }
 
-        showcaseSubSection("Close-Button")
+        showcaseSubSection("Close Button")
         paragraph {
             +"Toasts can manually be dismissed by clicking on the close buttons which are part of every toast"
             +" by default. The close button can be enabled/disabled via the "
