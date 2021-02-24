@@ -233,26 +233,22 @@ fun RenderContext.modalDemo(): Div {
 
         showcaseSection("Customized Close Buttons")
         paragraph {
-            +"You can customize the close button calling the modal's function "
-            c("closeButton")
-            +" with your own styling parameters:"
+            +"You can customize the close button by overriding the default rendering via the "
+            c("closeButtonRendering")
+            +" property:"
         }
         componentFrame {
             lineUp {
                 items {
                     clickButton {
-                        text("Styled Close Button")
+                        text("Customized Close Button")
                     } handledBy modal {
                         closeButtonRendering {
                             clickButton({
                                 background { color { danger } }
                                 color { base }
-                                position {
-                                    absolute {
-                                        top { normal }
-                                    }
-                                }
-                                css("transform: rotate(20deg) translateX(-.5rem)")
+                                position { absolute { top { normal } } }
+                                css("transform: rotate(-20deg) translateX(-.5rem)")
                             }) {
                                 size { small }
                                 text("Nope")
@@ -268,21 +264,19 @@ fun RenderContext.modalDemo(): Div {
             source(
                 """
                 clickButton {
-                    text("Styled Close Button")
+                    text("Customized  Close Button")
                 } handledBy modal {
-                    closeButton({
-                        background { color { danger } }
-                        color { base }
-                        position {
-                            absolute {
-                                top { normal }
-                            }
+                    closeButtonRendering {
+                        clickButton({
+                            background { color { danger } }
+                            color { base }
+                            position { absolute { top { normal } } }
+                            css("transform: rotate(-20deg) translateX(-.5rem)")
+                        }) {
+                            size { small }
+                            text("Nope")
+                            iconPlacement { right }
                         }
-                        css("transform: rotate(20deg) translateX(-.5rem)")
-                    }) {
-                        size { small }
-                        text("Nope")
-                        iconPlacement{right}
                     }
                 }
             """.trimIndent()

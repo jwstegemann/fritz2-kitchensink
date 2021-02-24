@@ -205,18 +205,21 @@ fun RenderContext.popoverDemo(): Div {
 
 
 
-        showcaseSection("Close button")
+        showcaseSection("Close Button")
 
 
         paragraph {
 
             +"The popover has a default close button which you can hide using "
             c("hasCloseButton(false)")
-            +" - this way, the popover can only be closed by clicking the toggle again. Alternatively, you can create"
-            +" your own close button with the "
-            c("closeButton {}")
-            +" function offered by the component's context."
-
+            +" - this way, the popover can only be closed by clicking the toggle again. Alternatively, you can change"
+            +" the icon of the close button with the "
+            c("closeButtonIcon")
+            +" and the styling via the "
+            c("closeButtonStyling")
+            +" properties offered by the component's context. You can even override the whole rendering with the "
+            c("closeButtonRendering")
+            +" property."
         }
         componentFrame {
             lineUp {
@@ -237,18 +240,11 @@ fun RenderContext.popoverDemo(): Div {
                         toggle {
                             icon({ size { huge } }) { fromTheme { eye } }
                         }
-                        closeButtonRendering {
-                            clickButton({
-                                closeButtonStyle.value()
-                                size { normal }
-                                width { auto }
-                            }) {
-                                icon { fromTheme { eyeOff } }
-                            }
-                        }
+                        closeButtonIcon { eyeOff }
+                        closeButtonStyle { color { danger } }
                         content {
                             div {
-                                +"A custom button replaces the default button."
+                                +"A custom icon for the button."
                             }
                         }
                     }
@@ -275,12 +271,11 @@ fun RenderContext.popoverDemo(): Div {
                     toggle {
                         icon({ size { huge } }) { fromTheme { eye } }
                     }
-                    closeButton({ size { normal } }) {
-                        icon { fromTheme { eyeOff } }
-                    }
+                    closeButtonIcon { eyeOff }
+                    closeButtonStyle { color { danger } }                    
                     content {
                         div {
-                            +"A custom button replaces the default button."
+                            +"A custom icon for the button."
                         }
                     }
                 }
