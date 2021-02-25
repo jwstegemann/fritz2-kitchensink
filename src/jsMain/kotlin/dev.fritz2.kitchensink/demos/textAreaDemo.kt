@@ -15,6 +15,7 @@ fun RenderContext.textareaDemo(): Div {
 
     return contentFrame {
         val dataStore = storeOf("Store Content")
+        val dataStore2 = storeOf("")
 
         showcaseHeader("TextArea")
 
@@ -37,7 +38,16 @@ fun RenderContext.textareaDemo(): Div {
                 items {
                     textArea {
                         placeholder("Textarea with placeholder only")
+                        element {
+                            changes.values() handledBy dataStore2.update
+                        }
                     }
+                }
+            }
+            storeContentBox {
+                p {
+                    b { +"Input: " }
+                    dataStore2.data.asText()
                 }
             }
         }
