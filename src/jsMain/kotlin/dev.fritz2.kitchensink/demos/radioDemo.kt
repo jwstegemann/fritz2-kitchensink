@@ -10,7 +10,6 @@ import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.dom.states
 import dev.fritz2.kitchensink.base.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.flowOf
 
 
 @ExperimentalCoroutinesApi
@@ -32,7 +31,7 @@ fun RenderContext.radiosDemo(): Div {
         }
 
         val demoItems = listOf("item 1", "item 2", "item 3")
-        val usageRadioStore = storeOf(true)
+        val usageRadioStore = storeOf(false)
         val usageRadioGroupStore = storeOf("item 2")
 
         showcaseSection("Usage")
@@ -148,6 +147,14 @@ fun RenderContext.radiosDemo(): Div {
         componentFrame {
             radioGroup(store = usageRadioGroupStore, items = demoItems) {
                 direction { row }
+            }
+            storeContentBox {
+                p {
+                    b { +"Selected: " }
+                    usageRadioGroupStore.data.render {
+                        span { +it }
+                    }
+                }
             }
         }
         playground {

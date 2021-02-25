@@ -436,16 +436,20 @@ fun RenderContext.toastDemo(): Div {
                         text("Default")
                     } handledBy toast {
                         content {
-                            basicStyledToastContent()
+                            basicStyledToastContent("Default")
                         }
                     }
 
                     clickButton {
                         text("2000ms")
-                    } handledBy toast {
+                    } handledBy toast({
+                        background {
+                            color { secondary }
+                        }
+                    }) {
                         duration(2000)
                         content {
-                            basicStyledToastContent()
+                            basicStyledToastContent("2000ms")
                         }
                     }
                 }
@@ -511,6 +515,8 @@ fun RenderContext.toastDemo(): Div {
             +"You can also remove the close button so that the toast can't be closed by the user. In this case it will"
             +" still disappear when the timer runs out."
         }
+        var counter: Int = 0
+
         componentFrame {
             lineUp {
                 items {
@@ -518,15 +524,21 @@ fun RenderContext.toastDemo(): Div {
                         text("Add Toast")
                     } handledBy toast {
                         content {
-                            basicStyledToastContent()
+                            basicStyledToastContent("Toast #$counter")
+                            counter++
                         }
                     }
                     clickButton {
                         text("No Close Button")
-                    } handledBy toast {
+                    } handledBy toast({
+                        background {
+                            color { danger }
+                        }
+                    }) {
                         hasCloseButton(false)
                         content {
-                            basicStyledToastContent()
+                            basicStyledToastContent("Toast #$counter")
+                            counter++
                         }
                     }
                     clickButton {

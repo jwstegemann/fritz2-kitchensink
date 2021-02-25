@@ -10,7 +10,6 @@ import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.dom.states
 import dev.fritz2.kitchensink.base.*
-import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 
@@ -48,23 +47,25 @@ fun RenderContext.checkboxesDemo(): Div {
             +" function. If you want to connect a handler to the state changes, use the event context."
         }
         componentFrame {
-            checkbox {
+            checkbox(store = usageCheckboxStore) {
                 label("A single Checkbox")
-                checked(usageCheckboxStore.data)
-                events {
-                    changes.states() handledBy usageCheckboxStore.update
+            }
+            storeContentBox {
+                p {
+                    b { +"Checked: " }
+                    usageCheckboxStore.data.render {
+                        span { +it.toString() }
+                    }
                 }
             }
         }
         playground {
             source(
                 """
-                checkbox {
+                val checkBoxStore = storeOf(true)
+
+                checkbox(store = checkBoxStore) {
                     label("A single Checkbox")
-                    checked ( store.data )
-                    events {
-                        changes.states() handledBy store.update
-                    }
                 }
                 """
             )
@@ -83,13 +84,21 @@ fun RenderContext.checkboxesDemo(): Div {
             checkboxGroup(store = usageCheckboxGroupStore, items = demoItems) {
                 direction { row }
             }
+            storeContentBox {
+                p {
+                    b { +"Checked: " }
+                    usageCheckboxGroupStore.data.render {
+                        span { +it.toString() }
+                    }
+                }
+            }
         }
         playground {
             source(
                 """
                 val allItems = listOf("item 1", "item 2", "item 3")
                 val checkedItems = storeOf(listOf("item 2", "item 3"))
-                checkboxGroup(store = storeOf(checkedItems), items = allItems) {
+                checkboxGroup(store = checkedItems, items = allItems) {
                     direction { row }
                 }
                 """
@@ -137,6 +146,21 @@ fun RenderContext.checkboxesDemo(): Div {
                             changes.states() handledBy sizesCheckboxStore3.update
                         }
                     }
+                }
+            }
+            storeContentBox {
+                p {
+                    b { +"Checked: " }
+                    sizesCheckboxStore1.data.render {
+                        if (it) span { +"small " }
+                    }
+                    sizesCheckboxStore2.data.render {
+                        if (it) span { +"normal " }
+                    }
+                    sizesCheckboxStore3.data.render {
+                        if (it) span { +"large" }
+                    }
+
                 }
             }
         }
