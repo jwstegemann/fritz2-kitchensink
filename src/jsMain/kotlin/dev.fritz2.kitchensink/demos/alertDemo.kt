@@ -4,7 +4,6 @@ import dev.fritz2.components.alert
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
-import dev.fritz2.kitchensink.theme_
 import dev.fritz2.kitchensink.toasts_
 import dev.fritz2.styling.params.styled
 
@@ -91,7 +90,7 @@ fun RenderContext.alertDemo(): Div {
             alert({
                 margin { tiny }
             }) {
-                content("Severity: info")
+                content("Severity: info (default)")
             }
             alert({
                 margin { tiny }

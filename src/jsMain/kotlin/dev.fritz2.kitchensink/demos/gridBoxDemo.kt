@@ -72,7 +72,13 @@ fun RenderContext.gridBoxDemo(): Div {
                     columns { repeat(4) { "1fr" } }
                     gap { normal }
                     children("div") {
+                        width { "120px" }
+                        height { "50px" }
+                        background { color { secondary } }
                         display { flex }
+                        radius { small }
+                        css("justify-content: center")
+                        css("align-items: center")
                     }
                 }) { // choose any content
                     div { +"one" }
@@ -265,10 +271,20 @@ fun RenderContext.gridBoxDemo(): Div {
                                     
                     // refer to those, easy refactoring included
                     areas(
-                        with(grid) {
-                            row(HEADER, HEADER, HEADER)
-                            row(SIDEBAR, CONTENT, CONTENT) // mix types in a row
-                            row(FOOTER, FOOTER, FOOTER)
+                        sm = {
+                            with(grid) {
+                                row(HEADER, HEADER, HEADER)
+                                row(SIDEBAR, SIDEBAR, SIDEBAR)
+                                row(CONTENT, CONTENT, CONTENT)
+                                row(FOOTER, FOOTER, FOOTER)
+                            }
+                        },
+                        md = {
+                            with(grid) {
+                                row(HEADER, HEADER, HEADER)
+                                row(SIDEBAR, CONTENT, CONTENT)
+                                row(FOOTER, FOOTER, FOOTER)
+                            }
                         }
                     )
                 }) // ...
@@ -315,14 +331,28 @@ fun RenderContext.gridBoxDemo(): Div {
                 }) {
                     // define the drawer
                     box({
-                        row {
-                            start { grid.HEADER.start } // refer to the cell type and specify the starting
-                            end { span(2) } // occupy just two rows
-                        }
-                        column {
-                            start { "3" } // start at the third vertical gap
-                            end { grid.CONTENT.end } // refer to another cell type and the exact position  
-                        }
+                        grid(
+                            sm = {
+                                row {
+                                    start { grid.HEADER.start }
+                                    end { grid.CONTENT.end }
+                                }
+                                column {
+                                    start { grid.CONTENT.start }
+                                    end { grid.CONTENT.end }
+                                }
+                            },
+                            md = {
+                                row {
+                                    start { grid.HEADER.start }
+                                    end { span(2) }
+                                }
+                                column {
+                                    start { "3" }
+                                    end { grid.CONTENT.end }
+                                }
+                            }
+                        )
                     }) {
                         // put the special content for the drawer
                     }

@@ -170,7 +170,7 @@ fun main() {
                         margins {
                             left { small }
                         }
-                    }) { +"Preview" }
+                    }) { +"Alpha" }
                 }
 
                 actions {
