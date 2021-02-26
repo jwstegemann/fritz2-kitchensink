@@ -244,7 +244,7 @@ fun RenderContext.popoverDemo(): Div {
                         closeButtonStyle { color { danger } }
                         content {
                             div {
-                                +"A custom icon for the button."
+                                +"A custom icon for the button. Click the toggle or the custom close button to close this popover."
                             }
                         }
                     }
@@ -355,7 +355,7 @@ fun RenderContext.popoverDemo(): Div {
                         }
                         footer { (::h4.styled {
                             fontStyle { italic }
-                            color { info.darker }
+                            color { info }
                             padding { normal }
                             fontSize { tiny }
                         }) { +"The marker was removed." } }

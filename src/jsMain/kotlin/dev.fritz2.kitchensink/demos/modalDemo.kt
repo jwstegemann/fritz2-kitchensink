@@ -213,7 +213,7 @@ fun RenderContext.modalDemo(): Div {
                         paragraph { +"You can stack as many modals as you like." }
                         clickButton { text("Open Next Level") } handledBy modal {
                             content {
-                            
+                      
                                 h1 { +"Level 2" }
                                 paragraph { +"But just because you can does not mean you should." }
                                 clickButton { text("Open Final Level") } handledBy modal {

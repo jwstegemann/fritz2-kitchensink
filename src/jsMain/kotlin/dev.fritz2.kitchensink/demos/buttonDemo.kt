@@ -2,7 +2,6 @@ package dev.fritz2.kitchensink.demos
 
 import dev.fritz2.binding.RootStore
 import dev.fritz2.binding.invoke
-import dev.fritz2.binding.watch
 import dev.fritz2.components.*
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
@@ -93,6 +92,20 @@ fun RenderContext.buttonDemo(): Div {
         playground {
             source(
                 """
+                    val modal = modal({
+                        minHeight { "0" }
+                    }) {
+                        size { small }
+                        content {
+                            lineUp {
+                                items {
+                                    icon({ color { success } }) { fromTheme { circleCheck } }
+                                    p { +"Your data has been saved successfully." }
+                                }
+                            }
+                        }
+                    }
+    
                     clickButton { text("Show Modal") } handledBy modal
 
                     pushButton ({
@@ -277,18 +290,28 @@ fun RenderContext.buttonDemo(): Div {
                         }
                     }
 
-                    clickButton { text("Play") } handledBy buttonStore.showMsg
-
-                    clickButton {
-                        icon { fromTheme { play } }
+                    clickButton { 
                         text("Play")
+                        loading(buttonStore.loading)
+                     } handledBy buttonStore.showMsg
+                     
+                    clickButton {
+                        text("Play")
+                        loading(buttonStore.loading)
                         loadingText("Playing..")
+                        variant { outline }
                     } handledBy buttonStore.showMsg
 
                     clickButton {
                         icon { fromTheme { play } }
+                        text("Play")
                         loading(buttonStore.loading)
-                        variant { outline }
+                    } handledBy buttonStore.showMsg
+
+                    clickButton {
+                        icon { fromTheme { play } }
+                        variant { ghost }
+                        loading(buttonStore.loading)
                     } handledBy buttonStore.showMsg
                 """
             )

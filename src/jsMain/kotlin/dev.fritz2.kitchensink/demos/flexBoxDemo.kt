@@ -1,13 +1,13 @@
 package dev.fritz2.kitchensink.demos
 
-import dev.fritz2.components.box
 import dev.fritz2.components.flexBox
 import dev.fritz2.components.lineUp
-import dev.fritz2.components.stackUp
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
-import dev.fritz2.styling.params.*
+import dev.fritz2.styling.params.DirectionValues
+import dev.fritz2.styling.params.JustifyContentValues
+import dev.fritz2.styling.params.WrapValues
 import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -75,16 +75,16 @@ fun RenderContext.flexBoxDemo(): Div {
                 flexBox({
                     width { full }
                 }) {
-                    
+                   
                     box({
-                        display { flex }
+                        background { color { primary } }
+                        color { base }
+                        width (sm = { "50px" }, md = { "110px" }, lg = { "150px" })
+                        height { "50px" }
                         justifyContent { center }
                         alignItems { center }
                         margin { smaller }
-                        width { "150px" }
-                        height { "50px" }
-                        background { color { primary } }
-                        color { base }
+                        radius { small }
                     }) { 
                         // choose any content for your flexbox
                         +"Box 1" 
