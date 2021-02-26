@@ -1,6 +1,5 @@
 package dev.fritz2.kitchensink.demos
 
-import dev.fritz2.binding.RootStore
 import dev.fritz2.binding.storeOf
 import dev.fritz2.components.checkbox
 import dev.fritz2.components.checkboxGroup
@@ -8,10 +7,8 @@ import dev.fritz2.components.lineUp
 import dev.fritz2.components.stackUp
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
-import dev.fritz2.dom.states
 import dev.fritz2.kitchensink.base.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.flowOf
 
 
 @ExperimentalCoroutinesApi
@@ -31,7 +28,7 @@ fun RenderContext.checkboxesDemo(): Div {
 
         val demoItems = listOf("item 1", "item 2", "item 3")
         val usageCheckboxStore = storeOf(true)
-        val usageCheckboxGroupStore = RootStore(listOf("item 2", "item 3"))
+        val usageCheckboxGroupStore = storeOf(listOf("item 2", "item 3"))
         val customCheckboxStore1 = storeOf(false)
         val customCheckboxStore2 = storeOf(true)
         val customCheckboxStore3 = storeOf(true)
@@ -123,28 +120,16 @@ fun RenderContext.checkboxesDemo(): Div {
                 }
             ) {
                 items {
-                    checkbox {
+                    checkbox(store = sizesCheckboxStore1) {
                         label("small")
                         size { small }
-                        checked(sizesCheckboxStore1.data)
-                        events {
-                            changes.states() handledBy sizesCheckboxStore1.update
-                        }
                     }
-                    checkbox {
+                    checkbox(store = sizesCheckboxStore2) {
                         label("normal")
-                        checked(sizesCheckboxStore2.data)
-                        events {
-                            changes.states() handledBy sizesCheckboxStore2.update
-                        }
                     }
-                    checkbox {
+                    checkbox(store = sizesCheckboxStore3) {
                         label("large")
                         size { large }
-                        checked(sizesCheckboxStore3.data)
-                        events {
-                            changes.states() handledBy sizesCheckboxStore3.update
-                        }
                     }
                 }
             }
@@ -167,14 +152,14 @@ fun RenderContext.checkboxesDemo(): Div {
         playground {
             source(
                 """
-                    checkbox {
+                    checkbox(store = checkboxStore1) {
                         label("small")
                         size { small }
                     }
-                    checkbox {
+                    checkbox(store = checkboxStore2) {
                         label("normal")
                     }
-                    checkbox {
+                    checkbox(store = checkboxStore3) {
                         label("large")
                         size { large }
                     }
@@ -198,41 +183,25 @@ fun RenderContext.checkboxesDemo(): Div {
                 items {
                     checkbox({
                         background { color { secondary } }
-                    }) {
+                    }, store = customCheckboxStore1) {
                         label("Changed unchecked background color")
-                        checked(customCheckboxStore1.data)
-                        events {
-                            changes.states() handledBy customCheckboxStore1.update
-                        }
                     }
 
-                    checkbox {
+                    checkbox(store = customCheckboxStore2) {
                         label("Changed checked border color")
                         checkedStyle {
                             border { color { secondary } }
                         }
-                        checked(customCheckboxStore2.data)
-                        events {
-                            changes.states() handledBy customCheckboxStore2.update
-                        }
                     }
 
-                    checkbox {
+                    checkbox(store = customCheckboxStore3) {
                         label("Changed checkmark to fritz2 icon")
                         icon { fritz2 }
-                        checked(customCheckboxStore3.data)
-                        events {
-                            changes.states() handledBy customCheckboxStore3.update
-                        }
                     }
 
-                    checkbox {
+                    checkbox(store = customCheckboxStore4) {
                         label("Custom label style: larger margin")
                         labelStyle { margins { left { larger } } }
-                        checked(customCheckboxStore4.data)
-                        events {
-                            changes.states() handledBy customCheckboxStore4.update
-                        }
                     }
                 }
             }
@@ -242,28 +211,25 @@ fun RenderContext.checkboxesDemo(): Div {
                 """
                     checkbox({
                         background { color { secondary } }
-                    }) {
+                    }, store = checkboxStore1) {
                         label("Changed unchecked background color")
                     }
 
-                    checkbox {
+                    checkbox(store = checkboxStore2) {
                         label("Changed checked border color")
                         checkedStyle {
                             border { color { secondary } }
                         }
                     }
 
-                    checkbox {
+                    checkbox(store = checkboxStore3) {
                         label("Changed checkmark to fritz2 icon")
-                        checked(true)
                         icon { fritz2 }
                     }
 
-                    checkbox {
+                    checkbox(store = checkboxStore4) {
                         label("Custom label style: larger margin")
-                        labelStyle { 
-                            margins { left { larger } } 
-                        }
+                        labelStyle { margins { left { larger } } }
                     }
                     """
             )
@@ -275,17 +241,13 @@ fun RenderContext.checkboxesDemo(): Div {
         componentFrame {
             stackUp {
                 items {
-                    checkbox {
-                        checked(usageCheckboxStore.data)
+                    checkbox(store = usageCheckboxStore) {
                         label("A disabled checkbox or checkboxGroup can not be selected.")
-                        disabled(flowOf(true))
-                        events {
-                            changes.states() handledBy usageCheckboxStore.update
-                        }
+                        disabled(true)
                     }
                     checkboxGroup(store = usageCheckboxGroupStore, items = demoItems) {
                         direction { column }
-                        disabled(flowOf(true))
+                        disabled(true)
                     }
                 }
 
@@ -294,12 +256,11 @@ fun RenderContext.checkboxesDemo(): Div {
         playground {
             source(
                 """
-                    checkbox {
-                        label("A disabled Checkbox or CheckboxGroup can not be selected.")
+                    checkbox(store = usageCheckboxStore) {
+                        label("A disabled checkbox or checkboxGroup can not be selected.")
                         disabled(true)
                     }
-                    
-                    checkboxGroup(store = selectedItemsStore, items = allItems) {
+                    checkboxGroup(store = usageCheckboxGroupStore, items = demoItems) {
                         direction { column }
                         disabled(true)
                     }
