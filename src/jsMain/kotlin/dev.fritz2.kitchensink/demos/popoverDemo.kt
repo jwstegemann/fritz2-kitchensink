@@ -364,5 +364,64 @@ fun RenderContext.popoverDemo(): Div {
             """.trimIndent()
             )
         }
+
+        showcaseSection("Options")
+        paragraph {
+            +"By default, the popover closed automatically after click outside or tabbed out of it. Pressing the Escape Key has the same effect."
+            +"Use the options"
+             c("closeOnBlur")
+            +" and "
+            c("closeOnEscape")
+            +" to deactivate it."
+        }
+        componentFrame {
+            lineUp {
+                items {
+                    popover {
+                        closeOnBlur(false)
+                        toggle {
+                            pushButton { text("closeOnBlur deactivated") }
+                        }
+                        content {
+                            div { +"Popover still be opened on blur" }
+                        }
+                    }
+                    popover {
+                        closeOnEscape(false)
+                        toggle {
+                            pushButton { text("closeOnEscape deactivated") }
+                        }
+                        content {
+                            div { +"Popover still be opened by pressing the escape key" }
+                        }
+                    }
+                }
+            }
+        }
+        playground {
+            source(
+                """
+                popover {
+                        closeOnBlur(false)
+                        toggle {
+                           pushButton { text("closeOnBlur deactivated") }
+                        }
+                        content {
+                            div { +"Popover still be opened on blur" }
+                        }
+                    }
+                    
+                    popover {
+                        closeOnEscape(false)
+                        toggle {
+                             pushButton { text("closeOnEscape deactivated") }
+                        }
+                        content {
+                            div { +"Popover still be opened by pressing the escape key" }
+                        }
+                    }
+            """.trimIndent()
+            )
+        }
     }
 }
