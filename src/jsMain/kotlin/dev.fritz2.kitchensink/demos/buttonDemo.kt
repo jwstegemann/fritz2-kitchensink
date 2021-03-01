@@ -264,8 +264,7 @@ fun RenderContext.buttonDemo(): Div {
             }
         }
         playground {
-            source(
-                """
+            source("""
                     val buttonStore = object : RootStore<Unit>(Unit) {
                         val loading = tracker()
                 
@@ -277,18 +276,28 @@ fun RenderContext.buttonDemo(): Div {
                         }
                     }
 
-                    clickButton { text("Play") } handledBy buttonStore.showMsg
+                    clickButton {
+                        text("Play")
+                        loading(buttonStore.loading.data)
+                    } handledBy buttonStore.showMsg
 
                     clickButton {
-                        icon { fromTheme { play } }
                         text("Play")
+                        loading(buttonStore.loading.data)
                         loadingText("Playing..")
+                        variant { outline }
                     } handledBy buttonStore.showMsg
 
                     clickButton {
                         icon { fromTheme { play } }
-                        loading(buttonStore.loading)
-                        variant { outline }
+                        text("Play")
+                        loading(buttonStore.loading.data)
+                    } handledBy buttonStore.showMsg
+
+                    clickButton {
+                        icon { fromTheme { play } }
+                        variant { ghost }
+                        loading(buttonStore.loading.data)
                     } handledBy buttonStore.showMsg
                 """
             )
