@@ -245,7 +245,7 @@ fun RenderContext.buttonDemo(): Div {
                     clickButton {
                         text("Play")
                         loading(buttonStore.loading.data)
-                        loadingText("Playing..")
+                        loadingText("Playing...")
                         variant { outline }
                     } handledBy buttonStore.showMsg
 
@@ -284,7 +284,7 @@ fun RenderContext.buttonDemo(): Div {
                     clickButton {
                         text("Play")
                         loading(buttonStore.loading.data)
-                        loadingText("Playing..")
+                        loadingText("Playing...")
                         variant { outline }
                     } handledBy buttonStore.showMsg
 
