@@ -367,8 +367,8 @@ fun RenderContext.popoverDemo(): Div {
 
         showcaseSection("Options")
         paragraph {
-            +"By default, the popover closed automatically after click outside or tabbed out of it. Pressing the Escape Key has the same effect."
-            +"Use the options"
+            +"By default, the popover closed automatically after click outside or tabbed out of it. "
+            + "Pressing the Escape Key has the same effect. Use the options "
              c("closeOnBlur")
             +" and "
             c("closeOnEscape")
