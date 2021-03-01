@@ -239,12 +239,12 @@ fun RenderContext.buttonDemo(): Div {
                 items {
                     clickButton {
                         text("Play")
-                        loading(buttonStore.loading)
+                        loading(buttonStore.loading.data)
                     } handledBy buttonStore.showMsg
 
                     clickButton {
                         text("Play")
-                        loading(buttonStore.loading)
+                        loading(buttonStore.loading.data)
                         loadingText("Playing..")
                         variant { outline }
                     } handledBy buttonStore.showMsg
@@ -252,13 +252,13 @@ fun RenderContext.buttonDemo(): Div {
                     clickButton {
                         icon { fromTheme { play } }
                         text("Play")
-                        loading(buttonStore.loading)
+                        loading(buttonStore.loading.data)
                     } handledBy buttonStore.showMsg
 
                     clickButton {
                         icon { fromTheme { play } }
                         variant { ghost }
-                        loading(buttonStore.loading)
+                        loading(buttonStore.loading.data)
                     } handledBy buttonStore.showMsg
                 }
             }
