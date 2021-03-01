@@ -14,8 +14,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 fun RenderContext.textareaDemo(): Div {
 
     return contentFrame {
-        val dataStore = storeOf("Store Content")
-        val dataStore2 = storeOf("")
+        val dataStore = storeOf("")
 
         showcaseHeader("TextArea")
 
@@ -31,99 +30,28 @@ fun RenderContext.textareaDemo(): Div {
         paragraph {
             +" A basic, vertically resizable textarea with its default size of "
             c("normal")
-            +" can be created by simply calling its factory function. Set a placeholder if you wish: "
+            +" can be created by simply calling its factory function. "
+            +"By passing a store to the textarea, the events are connected automatically. "
+            +"On top you can set a placeholder if you wish."
         }
         componentFrame {
-            lineUp {
-                items {
-                    textArea {
-                        placeholder("Textarea with placeholder only")
-                        element {
-                            changes.values() handledBy dataStore2.update
-                        }
-                    }
-                }
+            textArea(store = dataStore) {
+                placeholder("Textarea with placeholder only")
             }
             storeContentBox {
                 p {
-                    b { +"Input: " }
-                    dataStore2.data.asText()
+                    b { +"Text: " }
+                    dataStore.data.asText()
                 }
             }
         }
         playground {
             source(
                 """
+                val dataStore = storeOf("")                    
                 textArea {
                     placeholder("Textarea with placeholder only")
                 }
-                """.trimIndent()
-            )
-        }
-
-        showcaseSection("Event Handling")
-
-        paragraph {
-            +"The simplest textarea does not need a store, but if you need the events, you have to connect them manually"
-            +" in this case. All functions offered by the underlying HTML component can be accessed using the "
-            c("base")
-            +" context. You can optionally set an initial value for the text content. This short example uses the"
-            +" store's data flow for content."
-        }
-
-        componentFrame {
-            lineUp {
-                items {
-                    textArea {
-                        value ( dataStore.data )
-                        element {
-                            changes.values() handledBy dataStore.update
-                        }
-                    }
-                }
-            }
-        }
-
-        playground {
-            source(
-                """
-                textArea {
-                    value { dataStore.data }
-                    element {
-                        changes.values() handledBy dataStore.update
-                    }
-                }
-                """.trimIndent()
-            )
-        }
-
-        paragraph {
-            +"When passing a store to a textarea, the events are connected automatically."
-        }
-
-        componentFrame {
-            stackUp {
-                items {
-                    lineUp( {
-                        // todo why is this necessary, it works fine without full width in other examples
-                        width { full }
-                    }) {
-                        items {
-                            textArea(store = dataStore) {}
-                        }
-                    }
-                    storeContentBox {
-                        b { +"Store value: " }
-                        dataStore.data.asText()
-                    }
-                }
-            }
-        }
-
-        playground {
-            source(
-                    """
-                 textArea(store = dataStore) {}
                 """.trimIndent()
             )
         }
@@ -159,7 +87,7 @@ fun RenderContext.textareaDemo(): Div {
 
         playground {
             source(
-                    """
+                """
                  textArea {
                     placeholder("small")
                     size { small }
@@ -211,7 +139,7 @@ fun RenderContext.textareaDemo(): Div {
 
         playground {
             source(
-                    """
+                """
                 textArea {
                     placeholder("resize: vertical")
                 }
@@ -244,7 +172,7 @@ fun RenderContext.textareaDemo(): Div {
 
         playground {
             source(
-                    """
+                """
                  textArea {
                     placeholder("disabled")
                     disabled(true)

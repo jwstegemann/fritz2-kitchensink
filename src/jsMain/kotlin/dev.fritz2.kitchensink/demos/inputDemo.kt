@@ -5,7 +5,6 @@ import dev.fritz2.components.inputField
 import dev.fritz2.components.stackUp
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
-import dev.fritz2.dom.values
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.kitchensink.buttons_
 import dev.fritz2.kitchensink.checkbox_
@@ -16,7 +15,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @ExperimentalCoroutinesApi
 fun RenderContext.inputDemo(): Div {
 
-    val userNameStore = storeOf("")
+    val textStore = storeOf("")
 
     return contentFrame {
         showcaseHeader("InputField")
@@ -41,24 +40,18 @@ fun RenderContext.inputDemo(): Div {
 
         showcaseSection("Usage")
         paragraph {
-            +"A basic input field can be created without a store, but you have to manually connect"
-            +" the handlers in this case. Every input offers the sub context"
-            c(" base")
-            +", where you can access the underlying input's properties."
+            +"A basic input field can be created by passing a store into the factory method, so the input component "
+            +"connects with the store's handler automatically."
         }
 
-
-
-
         componentFrame {
-            stackUp {
-                items {
-                    inputField {
-                        placeholder("Enter text")
-                        events {
-                            changes.values() handledBy userNameStore.update
-                        }
-                    }
+            inputField(store = textStore) {
+                placeholder("Enter text")
+            }
+            storeContentBox {
+                p {
+                    b { +"Text: " }
+                    textStore.data.render { span { +it } }
                 }
             }
         }
@@ -66,34 +59,12 @@ fun RenderContext.inputDemo(): Div {
             source(
                 """
                 val userNameStore = storeOf("")
-                inputField {
+                inputField(store = userNameStore) {
                     placeholder("Enter text")
-                    events {
-                        changes.values() handledBy userNameStore.update
-                    }
                 }
                 """
             )
         }
-        paragraph {
-            +"When providing the store parameter, the input component connects with the store's handler automatically."
-            +" The following example is a one-liner: "
-        }
-        componentFrame {
-            stackUp {
-                items {
-                    inputField(store = userNameStore)
-                }
-            }
-        }
-        playground {
-            source(
-                """
-                inputField(store = userNameStore)
-                """
-            )
-        }
-
 
         showcaseSection("Sizes")
         paragraph {

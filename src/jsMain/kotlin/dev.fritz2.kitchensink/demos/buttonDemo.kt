@@ -7,9 +7,11 @@ import dev.fritz2.components.*
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
+import dev.fritz2.styling.params.styled
 import dev.fritz2.tracking.tracker
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.map
 
 @ExperimentalCoroutinesApi
 fun RenderContext.buttonDemo(): Div {
@@ -60,9 +62,16 @@ fun RenderContext.buttonDemo(): Div {
         }
 
         componentFrame {
+            val successToast = toast {
+                content {
+                    (::p.styled {
+                        margin { small }
+                    }) { +"Your data has been saved successfully." }
+                }
+            }
             lineUp(switchLayoutSm) {
                 items {
-                    clickButton { text("Show Modal") } handledBy modal
+                    clickButton { text("Show Toast") } handledBy successToast
 
                     pushButton({
                         background { color { info } }
@@ -84,7 +93,7 @@ fun RenderContext.buttonDemo(): Div {
                     }) {
                         icon { fromTheme { check } }
                         events {
-                            clicks handledBy modal
+                            clicks handledBy successToast
                         }
                     }
                 }
@@ -93,17 +102,19 @@ fun RenderContext.buttonDemo(): Div {
         playground {
             source(
                 """
-                    clickButton { text("Show Modal") } handledBy modal
+                    clickButton { text("Show Modal") } handledBy toast {
+                        content { "Your data has been saved successfully." }
+                    }
 
-                    pushButton ({
-                        background { color { info }}
+                    pushButton({
+                        background { color { info } }
                     }) {
                         icon { fromTheme { arrowLeft } }
                         text("Previous")
                     }
 
-                    pushButton ({
-                        background { color { warning }}
+                    pushButton({
+                        background { color { warning } }
                     }) {
                         icon { fromTheme { arrowRight } }
                         iconPlacement { right }
@@ -115,7 +126,9 @@ fun RenderContext.buttonDemo(): Div {
                     }) {
                         icon { fromTheme { check } }
                         events {
-                            clicks handledBy modal
+                            clicks handledBy toast {
+                                content { "Your data has been saved successfully." }
+                            }
                         }
                     }
                 """
@@ -245,7 +258,7 @@ fun RenderContext.buttonDemo(): Div {
                     clickButton {
                         text("Play")
                         loading(buttonStore.loading.data)
-                        loadingText("Playing...")
+                        loadingText("Playing..")
                         variant { outline }
                     } handledBy buttonStore.showMsg
 
