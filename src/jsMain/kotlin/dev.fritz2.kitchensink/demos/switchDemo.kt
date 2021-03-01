@@ -1,6 +1,7 @@
 package dev.fritz2.kitchensink.demos
 
 import dev.fritz2.binding.RootStore
+import dev.fritz2.binding.storeOf
 import dev.fritz2.components.switch
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
@@ -10,12 +11,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
 fun RenderContext.switchDemo(): Div {
-    val checkedStore1 = RootStore(false)
-    val checkedStore2 = RootStore(false)
-    val checkedStore3 = RootStore(false)
-    val checkedStore4 = RootStore(false)
-    val checkedStore5 = RootStore(false)
-    val checkedStore6 = RootStore(false)
 
     return contentFrame {
         showcaseHeader("Switch")
@@ -25,17 +20,18 @@ fun RenderContext.switchDemo(): Div {
         }
         showcaseSection("Usage")
         paragraph {
-            +"Create a switch by defining a label and a Flow of Boolean for its state. You also want to use the "
-            c("events")
-            +" context to connect your handlers."
+            +"Create a switch by defining a label and passing a boolean store into the factory function."
         }
 
         componentFrame {
-            switch {
+            val checkedStore = storeOf(false)
+            switch(store = checkedStore) {
                 label("Simple Switch")
-                checked(checkedStore1.data)
-                events {
-                    changes.states() handledBy checkedStore1.update
+            }
+            storeContentBox {
+                p {
+                    b { +"Switched on: " }
+                    checkedStore.data.asText()
                 }
             }
         }
@@ -43,12 +39,9 @@ fun RenderContext.switchDemo(): Div {
         playground {
             source(
                 """
-                switch {
+                val checkedStore = storeOf(false)                    
+                switch(store = checkedStore) {
                     label("Simple Switch")
-                    checked(checkedStore.data)
-                    events {
-                        changes.states() handledBy checkedStore.update
-                    }
                 }
                 """
             )
@@ -67,38 +60,26 @@ fun RenderContext.switchDemo(): Div {
         }
 
         componentFrame {
-            switch() {
+            switch(store = storeOf(false)) {
                 label("Small")
                 size { small }
-                checked(checkedStore4.data)
-                events {
-                    changes.states() handledBy checkedStore4.update
-                }
             }
         }
         componentFrame {
-            switch() {
+            switch(store = storeOf(false)) {
                 label("Normal (default)")
-                checked(checkedStore5.data)
-                events {
-                    changes.states() handledBy checkedStore5.update
-                }
             }
         }
         componentFrame {
-            switch() {
+            switch(store = storeOf(false)) {
                 label("Large")
                 size { large }
-                checked(checkedStore6.data)
-                events {
-                    changes.states() handledBy checkedStore6.update
-                }
             }
         }
         playground {
             source(
                 """
-                    switch {
+                    switch(store = someStore) {
                         label("Small")
                         size { small }
                     }
@@ -122,28 +103,20 @@ fun RenderContext.switchDemo(): Div {
                 background {
                     color { secondaryEffect }
                 }
-            }) {
+            }, store = storeOf(false)) {
                 label("Custom background colors")
-                checked(checkedStore2.data)
                 checkedStyle {
                     background { color { secondary } }
-                }
-                events {
-                    changes.states() handledBy checkedStore2.update
                 }
             }
         }
         componentFrame {
-            switch {
+            switch(store = storeOf(false)) {
                 label("Custom dot")
-                checked(checkedStore3.data)
                 dotStyle {
                     size { "0.8rem" }
                     radius { "3px" }
                     background { color { dark } }
-                }
-                events {
-                    changes.states() handledBy checkedStore3.update
                 }
             }
         }
@@ -155,7 +128,7 @@ fun RenderContext.switchDemo(): Div {
                     background { 
                         color { tertiary }
                     }
-                }) {
+                }, store = someStore) {
                     label("Custom background colors")
                     // use component function to change checked style
                     checkedStyle {
@@ -163,7 +136,7 @@ fun RenderContext.switchDemo(): Div {
                     }
                 }    
 
-                switch {
+                switch(store = someStore) {
                     label("Custom dot")
                     // use component function to change dot style
                     dotStyle {

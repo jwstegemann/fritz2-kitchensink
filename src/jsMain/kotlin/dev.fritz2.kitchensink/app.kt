@@ -109,7 +109,6 @@ fun main() {
             navBar({
                 border { width { "0" } }
                 boxShadow { flat }
-                background { color { menuBackgroundColor}  }
             }) {
                 brand {
                     (::a.styled {

@@ -68,7 +68,7 @@ fun RenderContext.gridBoxDemo(): Div {
         playground {
             source(
                 """
-                gridBox({ // omitted some styling for readability
+                gridBox({
                     columns { repeat(4) { "1fr" } }
                     gap { normal }
                     children("div") {
@@ -114,7 +114,7 @@ fun RenderContext.gridBoxDemo(): Div {
                 )
 
                 areas(
-                    sm = {
+                    sm = { // structure for small displays
                         with(grid) {
                             row(HEADER, HEADER, HEADER)
                             row(SIDEBAR, SIDEBAR, SIDEBAR)
@@ -122,7 +122,7 @@ fun RenderContext.gridBoxDemo(): Div {
                             row(FOOTER, FOOTER, FOOTER)
                         }
                     },
-                    md = {
+                    md = { // structure for medium and larger displays
                         with(grid) {
                             row(HEADER, HEADER, HEADER)
                             row(SIDEBAR, CONTENT, CONTENT)
@@ -195,7 +195,7 @@ fun RenderContext.gridBoxDemo(): Div {
                             margin { none }
                             paddings { all { "0.2rem" } }
                             grid(
-                                sm = {
+                                sm = { // structure for small displays
                                     row {
                                         start { grid.HEADER.start }
                                         end { grid.CONTENT.end }
@@ -205,7 +205,7 @@ fun RenderContext.gridBoxDemo(): Div {
                                         end { grid.CONTENT.end }
                                     }
                                 },
-                                md = {
+                                md = { // structure for medium and larger displays
                                     row {
                                         start { grid.HEADER.start }
                                         end { span(2) }
@@ -271,19 +271,24 @@ fun RenderContext.gridBoxDemo(): Div {
                                     
                     // refer to those, easy refactoring included
                     areas(
-                        sm = {
-                            with(grid) {
-                                row(HEADER, HEADER, HEADER)
-                                row(SIDEBAR, SIDEBAR, SIDEBAR)
-                                row(CONTENT, CONTENT, CONTENT)
-                                row(FOOTER, FOOTER, FOOTER)
+                        sm = { // structure for small displays
+                            row {
+                                start { grid.HEADER.start }
+                                end { grid.CONTENT.end }
+                            }
+                            column {
+                                start { grid.CONTENT.start }
+                                end { grid.CONTENT.end }
                             }
                         },
-                        md = {
-                            with(grid) {
-                                row(HEADER, HEADER, HEADER)
-                                row(SIDEBAR, CONTENT, CONTENT)
-                                row(FOOTER, FOOTER, FOOTER)
+                        md = { // structure for medium and larger displays
+                            row {
+                                start { grid.HEADER.start }
+                                end { span(2) }
+                            }
+                            column {
+                                start { "3" }
+                                end { grid.CONTENT.end }
                             }
                         }
                     )
@@ -332,7 +337,7 @@ fun RenderContext.gridBoxDemo(): Div {
                     // define the drawer
                     box({
                         grid(
-                            sm = {
+                            sm = { // structure for small displays
                                 row {
                                     start { grid.HEADER.start }
                                     end { grid.CONTENT.end }
@@ -342,7 +347,7 @@ fun RenderContext.gridBoxDemo(): Div {
                                     end { grid.CONTENT.end }
                                 }
                             },
-                            md = {
+                            md = { // structure for medium and larger displays
                                 row {
                                     start { grid.HEADER.start }
                                     end { span(2) }
