@@ -13,7 +13,7 @@ fun RenderContext.gettingStarted(): Div {
 
         showcaseHeader("Getting Started")
         coloredBox(Theme().colors.warning) {
-            +"This is a preview version of fritz2 components."
+            +"This is a alpha version of fritz2 components."
         }
 
         paragraph {

@@ -1,18 +1,20 @@
 plugins {
-    id("dev.fritz2.fritz2-gradle") version "0.8"
+    id("dev.fritz2.fritz2-gradle") version "0.9"
     kotlin("multiplatform") version "1.4.10"
 }
 
 repositories {
     //mavenLocal()
     jcenter()
-    maven("https://oss.jfrog.org/artifactory/jfrog-dependencies")
     maven("https://dl.bintray.com/jwstegemann/fritz2")
     maven(url = "https://kotlin.bintray.com/kotlinx/") // soon will be just jcenter()
 }
 
 kotlin {
-    js(LEGACY).browser()
+    js(IR) {
+        browser()
+    }.binaries.executable()
+
     sourceSets {
         all {
             languageSettings.apply {
@@ -27,7 +29,7 @@ kotlin {
 
         val commonMain by getting {
             dependencies {
-                implementation("dev.fritz2:components:0.9-SNAPSHOT")
+                implementation("dev.fritz2:components:0.9")
             }
         }
 

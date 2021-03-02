@@ -95,7 +95,7 @@ fun RenderContext.welcome(): Div {
                 }
 
                 coloredBox(Theme().colors.warning) {
-                    +"Remember that this is a preview release."
+                    +"Remember that this is a alpha release."
                     +" Most components still need some work, others are not implemented yet, and the API still needs"
                     +" to be completed and streamlined."
                 }
