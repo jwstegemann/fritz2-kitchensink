@@ -146,7 +146,7 @@ fun RenderContext.formControlDemo(): Div {
         paragraph {
             +"The example above uses a data class in order to model an account object."
             +" We annotate it with "
-            c ("@Lenses")
+            c("@Lenses")
             +" to easily derive substores from the data later."
         }
         playground {
@@ -342,8 +342,8 @@ fun RenderContext.formControlDemo(): Div {
             +" is passed as metadata value. For the final validation on button click, "
             c("Registration")
             +" is passed. This allows the validator to reflect the current phase and process blank "
-            +" data after the button click only. The exact example code is shown below - its length is mostly"
-            +" due to the added validation content."
+            +" data after the button click only. Due to the length, we only show an sufficient excerpt of the real "
+            +"source."
         }
 
         playground {
@@ -387,73 +387,20 @@ fun RenderContext.formControlDemo(): Div {
                         }
                         return messages
                     }
-                
-                    private fun validatePassphrase(
-                        inspector: RootInspector<Account>,
-                        phase: AccountCreationPhase
-                    ): List<ComponentValidationMessage> {
-                        val messages = mutableListOf<ComponentValidationMessage>()
-                        val passphrase = inspector.sub(L.Account.passphrase)
-                        if (passphrase.data.isBlank() && phase == AccountCreationPhase.Registration) {
-                            messages.add(errorMessage(passphrase.id, "Please specify a passphrase."))
-                        } else if (passphrase.data.isNotBlank()) {
-                            if (passphrase.data.length < 16) {
-                                messages.add(
-                                    warningMessage(passphrase.id, "We recommend a passphrase with at least 16 characters.")
-                                )
-                            }
-                            if (passphrase.data.toLowerCase() == "fritz2") {
-                                messages.add(
-                                    warningMessage(passphrase.id, "'fritz2' is a great framework, but a poor choice of passphrase.")
-                                )
-                            }
-                            addSuccessMessage(messages, phase, passphrase.id)
-                        }
-                        return messages
-                    }
-                
-                    private fun validateInterests(
-                        inspector: RootInspector<Account>,
-                    ): List<ComponentValidationMessage> {
-                        val messages = mutableListOf<ComponentValidationMessage>()
-                        val interests = inspector.sub(L.Account.interests)
-                        if (interests.data.size > 3) {
-                            messages.add(
-                                errorMessage(
-                                    interests.id,
-                                    "You have chosen $'{interests.data.size'} items, but only 3 items are allowed."
-                                )
-                            )
-                        }
-                        if (interests.data.contains("fritz2")) {
-                            messages.add(
-                                infoMessage(
-                                    interests.id,
-                                    "Thank you for choosing fritz2 - we appreciate your interest \uD83D\uDE00"
-                                )
-                            )
-                        }
-                        return messages
-                    }
-                
-                    private fun validateConfirmation(
-                        inspector: RootInspector<Account>,
-                        phase: AccountCreationPhase
-                    ): List<ComponentValidationMessage> {
-                        val messages = mutableListOf<ComponentValidationMessage>()
-                        val confirmation = inspector.sub(L.Account.confirmation)
-                        if (!confirmation.data && phase == AccountCreationPhase.Registration) {
-                            messages.add(errorMessage(confirmation.id, "You must accept the license terms to register."))
-                        } else if (confirmation.data) {
-                            addSuccessMessage(messages, phase, confirmation.id)
-                        }
-                        return messages
-                    }
+                    
+                    // ``validatePassphrase``, ``validateInterests`` and ``validateConfirmation`` omitted!
                 }
                 """.trimIndent()
             )
         }
-
+        paragraph {
+            +"Feel free to study the full code within our "
+            externalLink(
+                "github repo",
+                "https://github.com/jwstegemann/fritz2-kitchensink/blob/ec44eec27cbdaf98a24dac87bcbe05af2a449a1f/src/commonMain/kotlin/dev/fritz2/kitchensink/formControlModel.kt#L21-L121"
+            )
+            +"."
+        }
 
 
         showcaseSubSection("Gluing it all together") // todo review needed starting here
