@@ -342,8 +342,8 @@ fun RenderContext.formControlDemo(): Div {
             +" is passed as metadata value. For the final validation on button click, "
             c("Registration")
             +" is passed. This allows the validator to reflect the current phase and process blank "
-            +" data after the button click only. Due to the length, we only show an sufficient excerpt of the real "
-            +"source."
+            +" data after the button click only. To keep it short, the following example shows only an excerpt of "
+            +"the real source code."
         }
 
         playground {
@@ -394,12 +394,11 @@ fun RenderContext.formControlDemo(): Div {
             )
         }
         paragraph {
-            +"Feel free to study the full code within our "
+            +"Feel free to study the full code on "
             externalLink(
-                "github repo",
+                "github",
                 "https://github.com/jwstegemann/fritz2-kitchensink/blob/ec44eec27cbdaf98a24dac87bcbe05af2a449a1f/src/commonMain/kotlin/dev/fritz2/kitchensink/formControlModel.kt#L21-L121"
             )
-            +"."
         }
 
 
