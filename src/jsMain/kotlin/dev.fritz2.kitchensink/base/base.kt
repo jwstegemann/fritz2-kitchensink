@@ -72,32 +72,32 @@ fun RenderContext.paragraph(
         fontWeight { "400" }
         fontSize { normal }
         letterSpacing { small }
-    } (init)
+    }(init)
 
 fun RenderContext.contentFrame(
-        styling: BasicParams.() -> Unit = {},
-        baseClass: StyleClass? = null,
-        id: String? = null,
-        prefix: String = "contentframe",
-        init: Div.() -> Unit = {}
+    styling: BasicParams.() -> Unit = {},
+    baseClass: StyleClass? = null,
+    id: String? = null,
+    prefix: String = "contentframe",
+    init: Div.() -> Unit = {}
 ): Div =
-        ::div.styled(styling, baseClass, id, prefix) {
-            margins {
+    ::div.styled(styling, baseClass, id, prefix) {
+        margins {
+            top { huge }
+            bottom { huge }
+        }
+        maxWidth(sm = { unset }, md = { "75%" }, lg = { "48rem" })
+        paddings(
+            sm = {
+                top { normal }
+            },
+            md = {
                 top { huge }
-                bottom { huge }
+                left { normal }
+                right { normal }
             }
-            maxWidth(sm = { unset }, md = { "75%" }, lg = { "48rem" })
-            paddings(
-                    sm = {
-                        top { normal }
-                    },
-                    md = {
-                        top { huge }
-                        left { normal }
-                        right { normal }
-                    }
-            )
-        } (init)
+        )
+    }(init)
 
 fun RenderContext.coloredBox(baseColorAsHex: ColorProperty, init: P.() -> Unit): Div {
     return (::div.styled {
@@ -147,21 +147,21 @@ fun RenderContext.componentFrame(padding: Boolean = true, init: Div.() -> Unit):
 }
 
 fun RenderContext.storeContentBox(
-        init: Div.() -> Unit = {}
+    init: Div.() -> Unit = {}
 ): Div =
-        (::div.styled {
-            background {
-                color { lighterGray }
-            }
-            margins {
-                top { "1.25rem" }
-            }
-            paddings {
-                left { "0.5rem" }
-                right { "0.5rem" }
-            }
-            radius { larger }
-        })(init)
+    (::div.styled {
+        background {
+            color { lighterGray }
+        }
+        margins {
+            top { "1.25rem" }
+        }
+        paddings {
+            left { "0.5rem" }
+            right { "0.5rem" }
+        }
+        radius { larger }
+    })(init)
 
 val RenderContext.link
     get() = (::a.styled {
@@ -175,7 +175,7 @@ val RenderContext.link
         color { secondary }
         hover {
             color { primary }
-            background { color {  primaryEffect } }
+            background { color { primaryEffect } }
             radius { small }
         }
         css("cursor: pointer")
@@ -217,6 +217,7 @@ fun RenderContext.navAnchor(linkText: String, href: String): Div {
         (::a.styled {
             fontSize { normal }
             fontWeight { semiBold }
+            textDecoration { initial }
             color { dark }
         }) {
             +linkText
@@ -253,7 +254,6 @@ fun RenderContext.menuAnchor(linkText: String): P {
         .distinctUntilChanged().onEach { if (it) PlaygroundComponent.update() }
 
     return (::p.styled {
-        //color { dark }
         margins {
             top { tiny }
             bottom { tiny }
@@ -286,7 +286,9 @@ val codeInText = staticStyle(
     "showcasecode", """
         white-space: nowrap;
         font-family: Courier;
-    """)
+    """
+)
+
 fun RenderContext.c(text: String) {
     (::span.styled(baseClass = codeInText) {
         padding { "0px 0.15rem" }
@@ -309,4 +311,4 @@ fun RenderContext.teaserText(
         fontWeight { semiBold }
         margins { bottom { "0.7rem" } }
         fontSize { small }
-    } (init)
+    }(init)
