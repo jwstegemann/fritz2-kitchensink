@@ -4,9 +4,9 @@ plugins {
 }
 
 repositories {
-    mavenLocal()
-    jcenter()
-    maven("https://dl.bintray.com/jwstegemann/fritz2")
+    //mavenLocal()
+    mavenCentral()
+    maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
     maven(url = "https://kotlin.bintray.com/kotlinx/") // soon will be just jcenter()
 }
 
