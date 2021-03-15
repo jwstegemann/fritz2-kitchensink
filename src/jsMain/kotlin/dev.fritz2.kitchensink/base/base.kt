@@ -88,7 +88,7 @@ fun RenderContext.contentFrame(
             top { "5rem" }
             bottom { huge }
         })
-        maxWidth(sm = { unset }, md = { "75%" }, lg = { "48rem" })
+        maxWidth(sm = { unset }, md = { "34rem" }, lg = { "48rem" })
         padding { normal }
         radius { small }
         boxShadow { flat }
@@ -166,7 +166,6 @@ val RenderContext.link
             top { "2px" }
             bottom { "3px" }
         }
-        fontSize { inherit }
         color { tertiary.base }
         hover {
             color { tertiary.complementary }

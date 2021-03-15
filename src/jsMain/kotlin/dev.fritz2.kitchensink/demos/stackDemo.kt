@@ -15,6 +15,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
 fun RenderContext.stackDemo(): Div {
+
     val item: RenderContext.(String, String) -> Unit = { color, text ->
         box({
             display { flex }
@@ -66,8 +67,8 @@ fun RenderContext.stackDemo(): Div {
             lineUp {
                 items {
                     item(Theme().colors.primary.base, "1")
-                    item(Theme().colors.primary.highlight, "2")
-                    item(Theme().colors.secondary.base, "3")
+                    item(Theme().colors.secondary.base, "2")
+                    item(Theme().colors.tertiary.base, "3")
                 }
             }
         }
@@ -81,7 +82,7 @@ fun RenderContext.stackDemo(): Div {
                             display { flex }
                             justifyContent { center }
                             alignItems { center }
-                            background { color { primary.base } }
+                            background { color { primary.highlight } }
                             color { neutral }
                             size { "40px" }       
                             radius { small }
@@ -108,8 +109,8 @@ fun RenderContext.stackDemo(): Div {
             stackUp {
                 items {
                     item(Theme().colors.primary.base, "1")
-                    item(Theme().colors.primary.highlight, "2")
-                    item(Theme().colors.secondary.base, "3")
+                    item(Theme().colors.secondary.base, "2")
+                    item(Theme().colors.tertiary.base, "3")
                 }
             }
         }
@@ -146,12 +147,12 @@ fun RenderContext.stackDemo(): Div {
                         reversed ( true )
                         items {
                             item(Theme().colors.primary.base, "1")
-                            item(Theme().colors.primary.highlight, "2")
-                            item(Theme().colors.secondary.base, "3")
+                            item(Theme().colors.secondary.base, "2")
+                            item(Theme().colors.tertiary.base, "3")
                         }
                     }
-                    item(Theme().colors.secondary.highlight, "4")
-                    item(Theme().colors.warning, "5")
+                    item(Theme().colors.primary.base, "4")
+                    item(Theme().colors.secondary.base, "5")
                 }
             }
         }
@@ -216,13 +217,13 @@ fun RenderContext.stackDemo(): Div {
                         alignItems { flexEnd }
                     }) {
                         items {
-                            sizedBox(60, 60, Theme().colors.secondary.base)
-                            sizedBox(100, 100, Theme().colors.secondary.base)
-                            sizedBox(80, 30, Theme().colors.secondary.base)
+                            sizedBox(60, 60, Theme().colors.tertiary.base)
+                            sizedBox(100, 100, Theme().colors.tertiary.base)
+                            sizedBox(80, 30, Theme().colors.tertiary.base)
                         }
                     }
-                    sizedBox(100, 40, Theme().colors.secondary.base)
-                    sizedBox(80, 80, Theme().colors.secondary.base)
+                    sizedBox(100, 40, Theme().colors.tertiary.base)
+                    sizedBox(80, 80, Theme().colors.tertiary.base)
                 }
             }
         }

@@ -49,7 +49,7 @@ fun RenderContext.gridBoxDemo(): Div {
                 children("div") {
                     width { "120px" }
                     height { "50px" }
-                    background { color { secondary.base } }
+                    background { color { primary.highlight } }
                     display { flex }
                     radius { small }
                     css("justify-content: center")
@@ -74,7 +74,7 @@ fun RenderContext.gridBoxDemo(): Div {
                     children("div") {
                         width { "120px" }
                         height { "50px" }
-                        background { color { secondary.base } }
+                        background { color { primary.highlight } }
                         display { flex }
                         radius { small }
                         css("justify-content: center")

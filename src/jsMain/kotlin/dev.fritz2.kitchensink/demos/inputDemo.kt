@@ -161,7 +161,6 @@ fun RenderContext.inputDemo(): Div {
                     inputField {
                         value("readonly")
                         readonly(true)
-
                     }
                     inputField {
                         value("disabled (skips tab)")

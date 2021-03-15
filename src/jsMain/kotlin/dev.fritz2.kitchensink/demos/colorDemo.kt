@@ -30,39 +30,16 @@ fun RenderContext.colorDemo(): Div {
         }
 
         paragraph {
-            +"The default theme provides the following colors: "
-            c("primary")
-            +", "
-            c("secondary")
-            +", "
-            c("tertiary")
-            +", "
-            c("info")
-            +", "
-            c("success")
-            +", "
-            c("warning")
-            +" and "
-            c("danger")
-            +"."
-            c("neutral")
-            +", "
-            c("grays [100 - 700]")
-            +", "
+            +"The default theme provides the following colors:"
         }
 
-        (::div.styled {
-            margins { top { huge } }
-        }) {
+        div {
             createColorBar(Theme().colors.primary.base, "primary.base", { "95%" }, { "100%" })
             createColorBar(Theme().colors.primary.highlight, "primary.highlight", { "95%" }, { "100%" })
-//            createColorBar(Theme().colors.primary.complementary, "primary.complementary", { "95%" }, { "100%" })
             createColorBar(Theme().colors.secondary.base, "secondary.base", { "90%" }, { "95%" })
             createColorBar(Theme().colors.secondary.highlight, "secondary.highlight", { "90%" }, { "95%" })
-//            createColorBar(Theme().colors.secondary.complementary, "secondary.complementary", { "90%" }, { "95%" })
             createColorBar(Theme().colors.tertiary.base, "tertiary.base", { "85%" }, { "90%" })
             createColorBar(Theme().colors.tertiary.highlight, "tertiary.highlight", { "85%" }, { "90%" })
-//            createColorBar(Theme().colors.tertiary.complementary, "tertiary.complementary", { "85%" }, { "90%" })
             createColorBar(Theme().colors.info, "info", { "80%" }, { "85%" })
             createColorBar(Theme().colors.success, "success", { "75%" }, { "80%" })
             createColorBar(Theme().colors.warning, "warning", { "70%" }, { "75%" })
