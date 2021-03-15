@@ -869,7 +869,7 @@ fun RenderContext.formControlDemo(): Div {
                 styling: BasicParams.() -> Unit = {},
                 items: List<String>,
                 store: Store<String>,
-                baseClass: StyleClass? = null,
+                baseClass: StyleClass = StyleClass.None,
                 id: String? = null,
                 prefix: String = "radioGroupWithInput",
                 build: RadioGroupComponent<String>.() -> Unit
@@ -908,7 +908,7 @@ fun RenderContext.formControlDemo(): Div {
             inner class VerticalRenderer(private val component: FormControlComponent) : ControlRenderer {
                 override fun render(
                     styling: BoxParams.() -> Unit,
-                    baseClass: StyleClass?,
+                    baseClass: StyleClass,
                     id: String?,
                     prefix: String,
                     renderContext: RenderContext,
@@ -948,7 +948,7 @@ fun RenderContext.formControlDemo(): Div {
 
         fun RenderContext.extendedFormControl(
             styling: BasicParams.() -> Unit = {},
-            baseClass: StyleClass? = null,
+            baseClass: StyleClass = StyleClass.None,
             id: String? = null,
             prefix: String = "extendedFormControl",
             build: ExtendedFormControlComponent.() -> Unit = {}
@@ -1079,7 +1079,7 @@ fun RenderContext.formControlDemo(): Div {
                 // new factory function for using the new component
                 fun RenderContext.extendedFormControl(
                     styling: BasicParams.() -> Unit = {},
-                    baseClass: StyleClass? = null,
+                    baseClass: StyleClass = StyleClass.None,
                     id: String? = null,
                     prefix: String = "extendedFormControl",
                     build: ExtendedFormControlComponent.() -> Unit = {}
@@ -1226,7 +1226,7 @@ fun RenderContext.formControlDemo(): Div {
                     styling: BasicParams.() -> Unit = {},
                     items: List<String>,
                     store: Store<String>,
-                    baseClass: StyleClass? = null,
+                    baseClass: StyleClass = StyleClass.None,
                     id: String? = null,
                     prefix: String = "radioGroupWithInput",
                     build: RadioGroupComponent<String>.() -> Unit

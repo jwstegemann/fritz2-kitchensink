@@ -58,7 +58,7 @@ fun RenderContext.showcaseSection(text: String) {
 
 fun RenderContext.paragraph(
     styling: BasicParams.() -> Unit = {},
-    baseClass: StyleClass? = null,
+    baseClass: StyleClass = StyleClass.None,
     id: String? = null,
     prefix: String = "paragraph",
     init: P.() -> Unit = {}
@@ -76,7 +76,7 @@ fun RenderContext.paragraph(
 
 fun RenderContext.contentFrame(
     styling: BasicParams.() -> Unit = {},
-    baseClass: StyleClass? = null,
+    baseClass: StyleClass = StyleClass.None,
     id: String? = null,
     prefix: String = "contentframe",
     init: Div.() -> Unit = {}
