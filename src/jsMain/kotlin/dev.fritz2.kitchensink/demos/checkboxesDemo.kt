@@ -182,7 +182,7 @@ fun RenderContext.checkboxesDemo(): Div {
             stackUp {
                 items {
                     checkbox({
-                        background { color { secondary } }
+                        background { color { secondary.base } }
                     }, store = customCheckboxStore1) {
                         label("Changed unchecked background color")
                     }
@@ -190,7 +190,7 @@ fun RenderContext.checkboxesDemo(): Div {
                     checkbox(store = customCheckboxStore2) {
                         label("Changed checked border color")
                         checkedStyle {
-                            border { color { secondary } }
+                            border { color { secondary.base } }
                         }
                     }
 
@@ -210,7 +210,7 @@ fun RenderContext.checkboxesDemo(): Div {
             source(
                 """
                     checkbox({
-                        background { color { secondary } }
+                        background { color { secondary.base } }
                     }, store = checkboxStore1) {
                         label("Changed unchecked background color")
                     }
@@ -218,7 +218,7 @@ fun RenderContext.checkboxesDemo(): Div {
                     checkbox(store = checkboxStore2) {
                         label("Changed checked border color")
                         checkedStyle {
-                            border { color { secondary } }
+                            border { color { secondary.base } }
                         }
                     }
 

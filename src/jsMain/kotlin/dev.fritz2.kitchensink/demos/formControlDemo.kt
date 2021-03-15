@@ -19,7 +19,6 @@ import dev.fritz2.styling.params.BoxParams
 import dev.fritz2.styling.params.styled
 import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 
 @ExperimentalCoroutinesApi
@@ -583,7 +582,7 @@ fun RenderContext.formControlDemo(): Div {
                                 // Just as above, rely on the default styling first
                                 Theme().formControl.helperText()
                                 fontStyle { italic }
-                                color { secondary }
+                                color { secondary.base }
                             }
                             inputField(store = passphraseStore) {
                                 placeholder("enter a secure passphrase")
@@ -610,7 +609,7 @@ fun RenderContext.formControlDemo(): Div {
                         // Just as above, rely on the default styling first
                         Theme().formControl.helperText()
                         fontStyle { italic }
-                        color { secondary }
+                        color { secondary.base }
                     }
                     inputField(store = passphraseStore) {
                         placeholder("enter a secure passphrase")
@@ -925,7 +924,7 @@ fun RenderContext.formControlDemo(): Div {
                                 textAlign { right }
                                 borders {
                                     bottom {
-                                        color { lighterGray }
+                                        color { gray200 }
                                         width { fat }
                                     }
                                 }
@@ -1342,7 +1341,7 @@ fun RenderContext.formControlDemo(): Div {
                                     textAlign { right }
                                     borders {
                                         bottom {
-                                            color { lighterGray }
+                                            color { gray200 }
                                             width { fat }
                                         }
                                     }

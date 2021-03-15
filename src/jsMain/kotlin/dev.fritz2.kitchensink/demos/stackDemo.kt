@@ -21,7 +21,7 @@ fun RenderContext.stackDemo(): Div {
             justifyContent { center }
             alignItems { center }
             background { color { color } }
-            color { base }
+            color { neutral }
             size { "40px" }
             radius { small }
         }) { p { +text } }
@@ -65,9 +65,9 @@ fun RenderContext.stackDemo(): Div {
         componentFrame {
             lineUp {
                 items {
-                    item(Theme().colors.primary, "1")
-                    item(Theme().colors.primaryEffect, "2")
-                    item(Theme().colors.secondary, "3")
+                    item(Theme().colors.primary.base, "1")
+                    item(Theme().colors.primary.highlight, "2")
+                    item(Theme().colors.secondary.base, "3")
                 }
             }
         }
@@ -81,8 +81,8 @@ fun RenderContext.stackDemo(): Div {
                             display { flex }
                             justifyContent { center }
                             alignItems { center }
-                            background { color { primary } }
-                            color { base }
+                            background { color { primary.base } }
+                            color { neutral }
                             size { "40px" }       
                             radius { small }
                         }) { p { +"1" } }
@@ -107,9 +107,9 @@ fun RenderContext.stackDemo(): Div {
         componentFrame {
             stackUp {
                 items {
-                    item(Theme().colors.primary, "1")
-                    item(Theme().colors.primaryEffect, "2")
-                    item(Theme().colors.secondary, "3")
+                    item(Theme().colors.primary.base, "1")
+                    item(Theme().colors.primary.highlight, "2")
+                    item(Theme().colors.secondary.base, "3")
                 }
             }
         }
@@ -145,12 +145,12 @@ fun RenderContext.stackDemo(): Div {
                         spacing { tiny }
                         reversed ( true )
                         items {
-                            item(Theme().colors.primary, "1")
-                            item(Theme().colors.primaryEffect, "2")
-                            item(Theme().colors.secondary, "3")
+                            item(Theme().colors.primary.base, "1")
+                            item(Theme().colors.primary.highlight, "2")
+                            item(Theme().colors.secondary.base, "3")
                         }
                     }
-                    item(Theme().colors.secondaryEffect, "4")
+                    item(Theme().colors.secondary.highlight, "4")
                     item(Theme().colors.warning, "5")
                 }
             }
@@ -216,13 +216,13 @@ fun RenderContext.stackDemo(): Div {
                         alignItems { flexEnd }
                     }) {
                         items {
-                            sizedBox(60, 60, Theme().colors.secondary)
-                            sizedBox(100, 100, Theme().colors.secondary)
-                            sizedBox(80, 30, Theme().colors.secondary)
+                            sizedBox(60, 60, Theme().colors.secondary.base)
+                            sizedBox(100, 100, Theme().colors.secondary.base)
+                            sizedBox(80, 30, Theme().colors.secondary.base)
                         }
                     }
-                    sizedBox(100, 40, Theme().colors.secondary)
-                    sizedBox(80, 80, Theme().colors.secondary)
+                    sizedBox(100, 40, Theme().colors.secondary.base)
+                    sizedBox(80, 80, Theme().colors.secondary.base)
                 }
             }
         }

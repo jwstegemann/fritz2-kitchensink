@@ -40,7 +40,7 @@ fun RenderContext.gettingStarted(): Div {
                 """
                  |val jsMain by getting {
                  |  dependencies {
-                 |      implementation("dev.fritz2:components:0.8")
+                 |      implementation("dev.fritz2:components:0.9.1")
                  |  }
                  |}
                 """.trimMargin()

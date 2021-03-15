@@ -297,7 +297,7 @@ fun RenderContext.popoverDemo(): Div {
                     popover(
                         {
                             border {
-                                color { secondary }
+                                color { secondary.base }
                                 style { dashed }
                                 width { fat }
                             }
@@ -335,7 +335,7 @@ fun RenderContext.popoverDemo(): Div {
                 popover(
                         {
                             border {
-                                color { secondary }
+                                color { secondary.base }
                                 style {  dashed }
                                 width { fat }
                             }

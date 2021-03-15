@@ -5,41 +5,40 @@ import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.P
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.router
-import dev.fritz2.styling.*
+import dev.fritz2.styling.StyleClass
+import dev.fritz2.styling.name
 import dev.fritz2.styling.params.BasicParams
 import dev.fritz2.styling.params.ColorProperty
 import dev.fritz2.styling.params.alterHexColorBrightness
 import dev.fritz2.styling.params.styled
+import dev.fritz2.styling.style
+import dev.fritz2.styling.whenever
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 
 fun RenderContext.showcaseHeader(text: String) {
     (::h1.styled {
-        fontFamily { "Inter, sans-serif" }
         margins {
-            top { "2rem" }
-            bottom { "2rem" }
+            top { normal }
+            bottom { normal }
         }
-        color { primary }
+        color { primary.base }
         lineHeight { tiny }
-        fontWeight { "700" }
+        fontWeight { bolder }
         fontSize { huge }
-        paddings { bottom { normal } }
     }) { +text }
 }
 
 fun RenderContext.showcaseSubSection(text: String) {
     (::h2.styled {
-        fontFamily { "Inter, sans-serif" }
         margins {
             top { "4rem" }
             bottom { ".5rem" }
         }
         lineHeight { small }
-        fontWeight { "600" }
+        fontWeight { bold }
         fontSize { normal }
-        letterSpacing { small }
     }) { +text }
 }
 
@@ -49,7 +48,7 @@ fun RenderContext.showcaseSection(text: String) {
         lineHeight { smaller }
         fontWeight { "600" }
         fontSize { large }
-        color { primary }
+        color { primary.base }
         letterSpacing { small }
         radii { left { small } }
         margins { top { "3rem !important" } }
@@ -82,21 +81,17 @@ fun RenderContext.contentFrame(
     init: Div.() -> Unit = {}
 ): Div =
     ::div.styled(styling, baseClass, id, prefix) {
-        margins {
-            top { huge }
+        background { color { neutral } }
+        margins(sm = {
+            top { "4rem" }
+        }, md = {
+            top { "5rem" }
             bottom { huge }
-        }
+        })
         maxWidth(sm = { unset }, md = { "75%" }, lg = { "48rem" })
-        paddings(
-            sm = {
-                top { normal }
-            },
-            md = {
-                top { huge }
-                left { normal }
-                right { normal }
-            }
-        )
+        padding { normal }
+        radius { small }
+        boxShadow { flat }
     }(init)
 
 fun RenderContext.coloredBox(baseColorAsHex: ColorProperty, init: P.() -> Unit): Div {
@@ -137,7 +132,7 @@ fun RenderContext.componentFrame(padding: Boolean = true, init: Div.() -> Unit):
         }
         border {
             width { thin }
-            color { lightGray }
+            color { gray300 }
         }
         radius { small }
         if (padding) padding { normal }
@@ -151,7 +146,7 @@ fun RenderContext.storeContentBox(
 ): Div =
     (::div.styled {
         background {
-            color { lighterGray }
+            color { gray200 }
         }
         margins {
             top { "1.25rem" }
@@ -172,10 +167,10 @@ val RenderContext.link
             bottom { "3px" }
         }
         fontSize { inherit }
-        color { secondary }
+        color { tertiary.base }
         hover {
-            color { primary }
-            background { color { primaryEffect } }
+            color { tertiary.complementary }
+            background { color { tertiary.highlight } }
             radius { small }
         }
         css("cursor: pointer")
@@ -202,9 +197,11 @@ fun RenderContext.navAnchor(linkText: String, href: String): Div {
         border {
             width { none }
         }
+        color { primary.base }
         hover {
+            color { primary.complementary }
             background {
-                color { lighterGray }
+                color { primary.highlight }
             }
         }
         paddings {
@@ -218,7 +215,6 @@ fun RenderContext.navAnchor(linkText: String, href: String): Div {
             fontSize { normal }
             fontWeight { semiBold }
             textDecoration { initial }
-            color { dark }
         }) {
             +linkText
             href(href)
@@ -236,10 +232,10 @@ fun RenderContext.menuHeader(text: String): Div {
                 left { tiny }
                 right { small }
             }
-            fontSize { small }
+            fontSize { normal }
             fontWeight { bold }
-            letterSpacing { giant }
-            color { secondary }
+            letterSpacing { large }
+            color { tertiary.base }
         })  { +text }
     }
 }
@@ -247,7 +243,10 @@ fun RenderContext.menuHeader(text: String): Div {
 fun RenderContext.menuAnchor(linkText: String): P {
 
     val selected = style {
-        color { primaryEffect }
+        color { gray100 }
+        background {
+            color { primary.base }
+        }
     }
 
     val isActive = router.data.map { hash -> hash == linkText }
@@ -262,14 +261,14 @@ fun RenderContext.menuAnchor(linkText: String): P {
         width { "90%" }
         radius { small }
         hover {
-            color { primary }
-            background { color { base } }
+            color { primary.complementary }
+            background { color { primary.highlight } }
         }
         paddings {
-            top { "0.05rem" }
-            bottom { "0.05rem" }
-            left { tiny }
-            right { tiny }
+            top { tiny }
+            bottom { tiny }
+            left { small }
+            right { small }
         }
         css("""text-overflow: ellipsis; overflow: hidden;""")
         fontWeight { medium }
@@ -282,22 +281,21 @@ fun RenderContext.menuAnchor(linkText: String): P {
     }
 }
 
-val codeInText = staticStyle(
-    "showcasecode", """
-        white-space: nowrap;
-        font-family: Courier;
-    """
-)
-
 fun RenderContext.c(text: String) {
-    (::span.styled(baseClass = codeInText) {
-        padding { "0px 0.15rem" }
-        fontSize { normal }
-        fontWeight { "650" }
-        fontFamily { "Courier" } // todo: added static code because this does not work
+    (::span.styled {
+//        padding { "0px 0.15rem" }
+        paddings {
+            left { "2px" }
+            right { "2px" }
+            top { "2px" }
+            bottom { "3px" }
+        }
+        fontSize { inherit }
+        fontWeight { semiBold }
+        fontFamily { mono }
         lineHeight { larger }
-        color { primary }
-        letterSpacing { small }
+        color { gray600 }
+        css("white-space: nowrap")
     }) { +text }
 }
 
@@ -307,7 +305,7 @@ fun RenderContext.teaserText(
     ::div.styled {
         fontSize { small }
         textTransform { capitalize }
-        color { info }
+        color { primary.base }
         fontWeight { semiBold }
         margins { bottom { "0.7rem" } }
         fontSize { small }

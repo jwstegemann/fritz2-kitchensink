@@ -6,12 +6,10 @@ import dev.fritz2.components.*
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.kitchensink.demos.*
 import dev.fritz2.routing.router
-import dev.fritz2.styling.name
 import dev.fritz2.styling.params.styled
 import dev.fritz2.styling.staticStyle
 import dev.fritz2.styling.theme.Theme
 import dev.fritz2.styling.theme.render
-import dev.fritz2.styling.whenever
 import kotlinx.browser.window
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -53,12 +51,16 @@ object ThemeStore : RootStore<Int>(0) {
     }
 }
 
-const val welcomeContentStaticCss = """
-    background-image: url("https://unsplash.com/photos/LmyPLbbUWhA/download?force=true&w=1280");
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: cover;
+const val backgroundContent = """
+    background: rgba(0, 0, 0, 0) url("background.png") repeat scroll 0% 0%;
 """
+
+//const val welcomeContentStaticCss = """
+//    background-image: url("https://unsplash.com/photos/LmyPLbbUWhA/download?force=true&w=1280");
+//    background-repeat: no-repeat;
+//    background-attachment: fixed;
+//    background-size: cover;
+//"""
 
 const val settingsTableStaticCss = """
         font-family: Inter, sans-serif;
@@ -87,14 +89,14 @@ const val settingsTableStaticCss = """
 @ExperimentalCoroutinesApi
 fun main() {
     staticStyle("settings-table", settingsTableStaticCss)
-    val welcomeContent = staticStyle("welcome-content", welcomeContentStaticCss)
+    val backgroundContent = staticStyle("background-content", backgroundContent)
+//    val welcomeContent = staticStyle("welcome-content", welcomeContentStaticCss)
 
     val router = router("")
 
     val menuStore = storeOf(false)
 
-    // todo: change to lightEffect? Would be very dark. White also not good.
-    val menuBackgroundColor = Theme().colors.lightestGray
+    val menuBackgroundColor = Theme().colors.gray100
 
     render(themes.first()) {
         (::div.styled {
@@ -113,14 +115,14 @@ fun main() {
                 brand {
                     (::a.styled {
                         textDecoration { initial }
-                        color { dark }
+                        color { primary.base }
                     }) {
                         href("https://www.fritz2.dev/")
                         target("_new")
 
                         icon({
                             size { "3rem" }
-                            color { dark }
+                            color { primary.base }
                         }) { fromTheme { fritz2 } }
 
                         (::span.styled {
@@ -132,8 +134,7 @@ fun main() {
                     }
                     //FIXME: convert to styles
                     (::span.styled {
-                        css(
-                            """
+                        css("""
                             display: inline-flex;
                             vertical-align: top;
                             -moz-box-align: center;
@@ -159,9 +160,9 @@ fun main() {
                             md = { small }
                         )
                         background {
-                            color { secondary }
+                            color { tertiary.base }
                         }
-                        color { base }
+                        color { neutral }
                         margins {
                             left { small }
                         }
@@ -272,21 +273,18 @@ fun main() {
 
                         }
                     }
-                    (::div.styled(id = "content-right") {
-                        paddings {
+                    (::div.styled(backgroundContent, "content-right") {
+                        paddings(md = {
                             left { huge }
                             top { small }
-                        }
+                        })
                         margins {
-                            left { "0 !important" }
+                            left { "0".important }
                         }
                         width { "100%" }
                         radius { small }
-                        background { color { base } }
-
+                        background { color { neutral } }
                     }) {
-                        className(welcomeContent.whenever(router.data) { it == welcome_ }.name)
-
                         router.data.render { site ->
                             menuStore.update(false)
                             when (site) {
