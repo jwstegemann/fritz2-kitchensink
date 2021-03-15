@@ -112,19 +112,15 @@ fun main() {
             }) {
                 brand {
                     (::a.styled {
-                        after {
-                            textAlign { center }
-                            background { color { primary } }
-                            color { lightGray }
-                        }
-                        alignItems { end }
+                        textDecoration { initial }
+                        color { dark }
                     }) {
                         href("https://www.fritz2.dev/")
                         target("_new")
 
                         icon({
                             size { "3rem" }
-                            color { primary }
+                            color { dark }
                         }) { fromTheme { fritz2 } }
 
                         (::span.styled {
@@ -163,7 +159,7 @@ fun main() {
                             md = { small }
                         )
                         background {
-                            color { warning }
+                            color { secondary }
                         }
                         color { base }
                         margins {
@@ -196,7 +192,6 @@ fun main() {
 
             lineUp({
                 alignItems { stretch }
-                color { dark }
                 minHeight { "100%" }
                 direction(sm = { column }, md = { row })
             }) {
@@ -215,8 +210,6 @@ fun main() {
                         wrap { nowrap }
                         direction { column }
                         alignItems { flexStart }
-
-                        color { dark }
                         paddings {
                             top { "50px" }
                             left { "1.6rem" }

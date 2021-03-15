@@ -1,7 +1,6 @@
 package dev.fritz2.kitchensink.demos
 
 import dev.fritz2.binding.RootStore
-import dev.fritz2.binding.invoke
 import dev.fritz2.components.*
 import dev.fritz2.components.data.File
 import dev.fritz2.dom.html.Div
