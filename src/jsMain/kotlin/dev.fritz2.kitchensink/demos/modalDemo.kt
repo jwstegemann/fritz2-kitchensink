@@ -28,7 +28,7 @@ fun RenderContext.modalDemo(): Div {
                 }
             } else {
                 return modal({
-//                    background { color { base } }
+//                    background { color { neutral } }
                 }) {
                     size { size }
                     variant { auto }
@@ -246,7 +246,7 @@ fun RenderContext.modalDemo(): Div {
                         closeButtonRendering {
                             clickButton({
                                 background { color { danger } }
-                                color { base }
+                                color { neutral }
                                 position { absolute { top { normal } } }
                                 css("transform: rotate(-20deg) translateX(-.5rem)")
                             }) {
@@ -269,7 +269,7 @@ fun RenderContext.modalDemo(): Div {
                     closeButtonRendering {
                         clickButton({
                             background { color { danger } }
-                            color { base }
+                            color { neutral }
                             position { absolute { top { normal } } }
                             css("transform: rotate(-20deg) translateX(-.5rem)")
                         }) {
@@ -300,7 +300,7 @@ fun RenderContext.modalDemo(): Div {
                         hasCloseButton(false)
                         content {
                             clickButton({
-                                color { base }
+                                color { neutral }
                                 background { color { warning } }
                             }) {
                                 icon { fromTheme { logOut } }
@@ -319,7 +319,7 @@ fun RenderContext.modalDemo(): Div {
                     hasCloseButton(false)
                     content {
                         clickButton({
-                            color { base }
+                            color { neutral }
                             background { color { warning } }
                         }) {
                             icon { fromTheme { logOut } }

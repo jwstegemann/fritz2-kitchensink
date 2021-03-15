@@ -215,7 +215,7 @@ fun RenderContext.alertDemo(): Div {
                 title("Title")
                 content {
                     (::span.styled {
-                        color { lighterGray }
+                        color { gray200 }
                     }) {
                         +"Custom content"
                     }
@@ -241,7 +241,7 @@ fun RenderContext.alertDemo(): Div {
                         content {
                             // Content with custom text color
                             (::span.styled {
-                                color { lighterGray }
+                                color { gray200 }
                             }) {
                                 +"Custom content"
                             }

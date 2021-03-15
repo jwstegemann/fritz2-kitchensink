@@ -1,11 +1,9 @@
 package dev.fritz2.kitchensink.demos
 
-import dev.fritz2.binding.RootStore
 import dev.fritz2.binding.storeOf
 import dev.fritz2.components.switch
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
-import dev.fritz2.dom.states
 import dev.fritz2.kitchensink.base.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -101,12 +99,12 @@ fun RenderContext.switchDemo(): Div {
         componentFrame {
             switch(styling = {
                 background {
-                    color { secondaryEffect }
+                    color { secondary.highlight }
                 }
             }, store = storeOf(false)) {
                 label("Custom background colors")
                 checkedStyle {
-                    background { color { secondary } }
+                    background { color { secondary.base } }
                 }
             }
         }
@@ -116,7 +114,7 @@ fun RenderContext.switchDemo(): Div {
                 dotStyle {
                     size { "0.8rem" }
                     radius { "3px" }
-                    background { color { dark } }
+                    background { color { gray700 } }
                 }
             }
         }
@@ -132,7 +130,7 @@ fun RenderContext.switchDemo(): Div {
                     label("Custom background colors")
                     // use component function to change checked style
                     checkedStyle {
-                        background { color { primary } }
+                        background { color { primary.base } }
                     }
                 }    
 
@@ -142,7 +140,7 @@ fun RenderContext.switchDemo(): Div {
                     dotStyle {
                         size { "0.8rem" }
                         radius { "3px" }
-                        background { color { dark } }
+                        background { color { gray700 } }
                     }
                 }
                 """

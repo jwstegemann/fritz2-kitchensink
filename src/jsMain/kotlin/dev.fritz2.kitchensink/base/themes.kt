@@ -2,7 +2,10 @@ package dev.fritz2.kitchensink.base
 
 import dev.fritz2.styling.params.BasicParams
 import dev.fritz2.styling.params.Style
-import dev.fritz2.styling.theme.*
+import dev.fritz2.styling.theme.DefaultTheme
+import dev.fritz2.styling.theme.Property
+import dev.fritz2.styling.theme.ScaledValue
+import dev.fritz2.styling.theme.Theme
 
 
 interface ExtendedTheme : Theme {
@@ -29,7 +32,7 @@ open class SmallFonts : ExtendedTheme, DefaultTheme() {
         textTransform { uppercase }
         fontSize { smaller }
         letterSpacing { large }
-        color { secondary }
+        color { secondary.base }
     }
 }
 

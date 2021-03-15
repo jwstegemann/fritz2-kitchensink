@@ -31,7 +31,7 @@ fun RenderContext.welcome(): Div {
                         sm = { "5rem" },
                         md = { "10rem" }
                     )
-                    color { base }
+                    color { primary.base }
                     css("drop-shadow(0 0 0.5rem gray);")
                 }) { fromTheme { fritz2 } }
                 box {
@@ -44,6 +44,7 @@ fun RenderContext.welcome(): Div {
                             sm = { "1.5rem" },
                             md = { "4.0rem" }
                         )
+                        color { primary.base }
                         textShadow { flat }
                     }) { +"tailor-made" }
                     (::h1.styled {
@@ -55,7 +56,7 @@ fun RenderContext.welcome(): Div {
                             sm = { "1.0rem" },
                             md = { "4.0rem" }
                         )
-                        color { base }
+                        color { neutral }
                         textShadow { flat }
                     }) { +"components" }
                 }
@@ -63,14 +64,7 @@ fun RenderContext.welcome(): Div {
         }
 
         stackUp({
-            padding { large }
-            background { color { base } }
-            margins(
-                sm = { top { "1.5rem" } },
-                md = { top { "2rem" } }
-            )
-            radius { small }
-            boxShadow { flat }
+            margins(sm = { top { "1.5rem" } }, md = { top { "2rem" } })
         }) {
             spacing { normal }
             items {
@@ -116,21 +110,21 @@ fun RenderContext.welcome(): Div {
                     +"."
                 }
 
-                (::p.styled {
-                    fontSize { smaller }
-                    paddings { top { "1.5rem" }}
-                }) {
-                    +"Photo by "
-                    externalLink(
-                        "Ochir-Erdene Oyunmedeg",
-                        "https://unsplash.com/@chiklad?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText"
-                    )
-                    +" on "
-                    externalLink(
-                        "Unsplash",
-                        "https://unsplash.com/s/photos/grass?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText"
-                    )
-                }
+//                (::p.styled {
+//                    fontSize { smaller }
+//                    paddings { top { "1.5rem" }}
+//                }) {
+//                    +"Photo by "
+//                    externalLink(
+//                        "Ochir-Erdene Oyunmedeg",
+//                        "https://unsplash.com/@chiklad?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText"
+//                    )
+//                    +" on "
+//                    externalLink(
+//                        "Unsplash",
+//                        "https://unsplash.com/s/photos/grass?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText"
+//                    )
+//                }
             }
         }
     }

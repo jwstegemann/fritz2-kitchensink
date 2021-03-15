@@ -21,7 +21,7 @@ private fun RenderContext.basicStyledToastContent(title: String = "Toast"): P {
             bottom { small }
             right { "80px" }
         }
-        color { base }
+        color { neutral }
     }) {
         +title
     }
@@ -59,7 +59,7 @@ fun RenderContext.toastDemo(): Div {
                         content {
                             (::p.styled {
                                 margin { normal }
-                                color { base }
+                                color { neutral }
                             }) {
                                 +"This is a basic toast."
                             }
@@ -78,7 +78,7 @@ fun RenderContext.toastDemo(): Div {
                         content {
                             (::p.styled {
                                 margin { normal }
-                                color { base }
+                                color { neutral }
                             }) {
                                 +"This is a basic toast."
                             }
@@ -219,7 +219,7 @@ fun RenderContext.toastDemo(): Div {
                             // Styled for better readability; any other content is okay as well!
                             (::p.styled {
                                 margin { normal }
-                                color { base }
+                                color { neutral }
                             }) {
                                 +flowItem
                             }
@@ -247,7 +247,7 @@ fun RenderContext.toastDemo(): Div {
                             // Styled for better readability; any other content is okay as well!
                             (::p.styled {
                                 margin { normal }
-                                color { base }
+                                color { neutral }
                             }) {
                                 +flowItem
                             }
@@ -361,7 +361,7 @@ fun RenderContext.toastDemo(): Div {
             clickButton {
                 text("Show")
             } handledBy toast {
-                background { darkerGray }
+                background { gray600 }
                 content {
                     basicStyledToastContent("Toast with custom background color")
                 }
@@ -371,7 +371,7 @@ fun RenderContext.toastDemo(): Div {
             source(
                 """
                 showToast {
-                    background { darkerGray }
+                    background { gray600 }
                     content {
                         // Content omitted
                     }
@@ -444,7 +444,7 @@ fun RenderContext.toastDemo(): Div {
                         text("2000ms")
                     } handledBy toast({
                         background {
-                            color { secondary }
+                            color { secondary.base }
                         }
                     }) {
                         duration(2000)

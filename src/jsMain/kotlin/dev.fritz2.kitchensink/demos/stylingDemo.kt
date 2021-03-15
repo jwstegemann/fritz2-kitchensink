@@ -7,7 +7,9 @@ import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.kitchensink.theme_
-import dev.fritz2.styling.params.*
+import dev.fritz2.styling.params.BasicParams
+import dev.fritz2.styling.params.Style
+import dev.fritz2.styling.params.styled
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
@@ -44,8 +46,8 @@ fun RenderContext.stylingDemo(): Div {
             lineUp {
                 items {
                     (::span.styled {
-                        background { color { secondary } }
-                        color { base }
+                        background { color { tertiary.base } }
+                        color { tertiary.complementary }
                         fontWeight { "700" }
                         boxShadow { raised }
                         padding { normal }
@@ -58,8 +60,8 @@ fun RenderContext.stylingDemo(): Div {
             source(
                 """
                 (::span.styled {
-                    background { color { secondary } }
-                    color { base }
+                    background { color { tertiary.base } }
+                    color { tertiary.complementary }
                     fontWeight { "700" }
                     boxShadow { raised }
                     padding { normal }
@@ -89,15 +91,15 @@ fun RenderContext.stylingDemo(): Div {
             lineUp {
                 items {
                     icon({
-                        size { small }
-                        color { "tomato" }
+                        size { normal }
+                        color { danger }
                     }) { fromTheme { heart } }
 
                     icon({
                         size { huge }
                         border {
                             width { normal }
-                            color { primary }
+                            color { primary.base }
                         }
                         radius { full }
                     }) { fromTheme { chevronUp } }
@@ -107,18 +109,16 @@ fun RenderContext.stylingDemo(): Div {
         playground {
             source(
                 """
-                icon(
-                    {  // styling is the first parameter 
-                        size { small }
-                        color { "tomato"" }
-                    }
-                ) { fromTheme { heart } }
+                icon({
+                    size { normal }
+                    color { danger }
+                }) { fromTheme { heart } }
 
                 icon({
                     size { huge }
                     border {
                         width { normal }
-                        color { primary }
+                        color { primary.base }
                     }
                     radius { full }
                 }) { fromTheme { chevronUp } }
@@ -136,7 +136,7 @@ fun RenderContext.stylingDemo(): Div {
                     val veryImportant: Style<BasicParams> = {
                         boxShadow { raised }
                         background { color { danger } }
-                        color { base }
+                        color { neutral }
                         radius { larger }
                         hover {
                             background { color { warning } }
@@ -160,10 +160,10 @@ fun RenderContext.stylingDemo(): Div {
                 val veryImportant: Style<BasicParams> = {
                     boxShadow { raised }
                     background { color { danger } }
-                    color { base }
+                    color { neutral }
                     radius { larger }
                     hover {
-                        background { color { danger.darker } }
+                        background { color { danger.gray700 } }
                     }
                     active {
                         border { color { warning } }

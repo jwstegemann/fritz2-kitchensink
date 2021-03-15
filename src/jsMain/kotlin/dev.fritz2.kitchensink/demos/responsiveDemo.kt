@@ -37,7 +37,7 @@ fun RenderContext.responsiveDemo(): Div {
                     (::div.styled {
                         font-size(sm = { tiny }, lg = { normal })
                         width(sm = { full }, lg = { "768px" })
-                        color { primary }
+                        color { primary.base }
                     }) { + "my styled div" }
                 """
             )
@@ -89,7 +89,7 @@ fun RenderContext.responsiveDemo(): Div {
                         boxShadow { flat }
                         radius { large }
                     }) {
-                        src("https://bit.ly/3qthIO3")
+                        src("https://images.unsplash.com/photo-1552584783-ac27eae7783a?ixlib=rb-")
                         alt("Photo by Lauren York on Unsplash")
                     }
                 }

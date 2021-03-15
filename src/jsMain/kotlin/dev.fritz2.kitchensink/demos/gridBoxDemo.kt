@@ -49,7 +49,7 @@ fun RenderContext.gridBoxDemo(): Div {
                 children("div") {
                     width { "120px" }
                     height { "50px" }
-                    background { color { secondary } }
+                    background { color { secondary.base } }
                     display { flex }
                     radius { small }
                     css("justify-content: center")
@@ -74,7 +74,7 @@ fun RenderContext.gridBoxDemo(): Div {
                     children("div") {
                         width { "120px" }
                         height { "50px" }
-                        background { color { secondary } }
+                        background { color { secondary.base } }
                         display { flex }
                         radius { small }
                         css("justify-content: center")
@@ -135,7 +135,7 @@ fun RenderContext.gridBoxDemo(): Div {
                 box({
                     grid { area { grid.HEADER } }
                     background {
-                        color { lightGray }
+                        color { gray300 }
                     }
                     paddings { all { "0.2rem" } }
                 }) {
@@ -145,8 +145,8 @@ fun RenderContext.gridBoxDemo(): Div {
                 }
                 box({
                     grid { area { grid.SIDEBAR } }
-                    background { color { primary } }
-                    color { lightGray }
+                    background { color { primary.base } }
+                    color { gray300 }
                     paddings { all { "0.2rem" } }
                 }) {
                     (::p.styled {
@@ -182,7 +182,7 @@ fun RenderContext.gridBoxDemo(): Div {
                 }
                 box({
                     grid { area { grid.FOOTER } }
-                    background { color { lightGray } }
+                    background { color { gray300 } }
                     paddings { all { "0.2rem" } }
                 }) {
                     (::p.styled {
@@ -217,7 +217,7 @@ fun RenderContext.gridBoxDemo(): Div {
                                 }
                             )
                             background {
-                                color { secondary }
+                                color { secondary.base }
                             }
                             padding { normal }
                             textAlign { center }

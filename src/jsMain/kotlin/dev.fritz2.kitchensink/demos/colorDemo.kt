@@ -33,17 +33,9 @@ fun RenderContext.colorDemo(): Div {
             +"The default theme provides the following colors: "
             c("primary")
             +", "
-            c("primaryEffect")
-            +", "
             c("secondary")
             +", "
-            c("secondaryEffect")
-            +", "
-            c("dark")
-            +", "
-            c("light")
-            +", "
-            c("lightEffect")
+            c("tertiary")
             +", "
             c("info")
             +", "
@@ -53,26 +45,47 @@ fun RenderContext.colorDemo(): Div {
             +" and "
             c("danger")
             +"."
-
+            c("neutral")
+            +", "
+            c("grays [100 - 700]")
+            +", "
         }
-
-        colorBars()
 
         (::div.styled {
             margins { top { huge } }
         }) {
-            createColorBar(Theme().colors.lightestGray, "lightestGray", { "55%" }, { "60%" })
-            createColorBar(Theme().colors.lighterGray, "lighterGray", { "60%" }, { "65%" })
-            createColorBar(Theme().colors.lightGray, "lightGray", { "65%" }, { "70%" })
-            createColorBar(Theme().colors.gray, "gray", { "70%" }, { "75%" })
-            createColorBar(Theme().colors.darkGray, "darkGray", { "75%" }, { "80%" })
-            createColorBar(Theme().colors.darkerGray, "darkerGray", { "80%" }, { "85%" })
+            createColorBar(Theme().colors.primary.base, "primary.base", { "95%" }, { "100%" })
+            createColorBar(Theme().colors.primary.highlight, "primary.highlight", { "95%" }, { "100%" })
+//            createColorBar(Theme().colors.primary.complementary, "primary.complementary", { "95%" }, { "100%" })
+            createColorBar(Theme().colors.secondary.base, "secondary.base", { "90%" }, { "95%" })
+            createColorBar(Theme().colors.secondary.highlight, "secondary.highlight", { "90%" }, { "95%" })
+//            createColorBar(Theme().colors.secondary.complementary, "secondary.complementary", { "90%" }, { "95%" })
+            createColorBar(Theme().colors.tertiary.base, "tertiary.base", { "85%" }, { "90%" })
+            createColorBar(Theme().colors.tertiary.highlight, "tertiary.highlight", { "85%" }, { "90%" })
+//            createColorBar(Theme().colors.tertiary.complementary, "tertiary.complementary", { "85%" }, { "90%" })
+            createColorBar(Theme().colors.info, "info", { "80%" }, { "85%" })
+            createColorBar(Theme().colors.success, "success", { "75%" }, { "80%" })
+            createColorBar(Theme().colors.warning, "warning", { "70%" }, { "75%" })
+            createColorBar(Theme().colors.danger, "danger", { "65%" }, { "70%" })
+        }
+
+        (::div.styled {
+            margins { top { huge } }
+        }) {
+            createColorBar(Theme().colors.gray100, "gray100", { "55%" }, { "60%" }, "6rem")
+            createColorBar(Theme().colors.gray200, "gray200", { "60%" }, { "65%" }, "6rem")
+            createColorBar(Theme().colors.gray300, "gray300", { "65%" }, { "70%" }, "6rem")
+            createColorBar(Theme().colors.gray400, "gray400", { "70%" }, { "75%" }, "6rem")
+            createColorBar(Theme().colors.gray500, "gray500", { "75%" }, { "80%" }, "6rem")
+            createColorBar(Theme().colors.gray600, "gray600", { "80%" }, { "85%" }, "6rem")
+            createColorBar(Theme().colors.gray700, "gray700", { "85%" }, { "90%" }, "6rem")
         }
 
         showcaseSection("Color Brightness")
         val demoBrightness = 1.5
 
-        paragraph {   + "Additionally, you can use the function "
+        paragraph {
+            +"Additionally, you can use the function "
             c("alterHexColorBrightness(ColorProperty, double)")
             +" to freely change the brightness setting of any "
             b { +"hex (#rrggbb)" }
@@ -94,7 +107,13 @@ fun RenderContext.colorDemo(): Div {
     }
 }
 
-fun RenderContext.createColorBar(color: ColorProperty, colorName: String, boxSizeMd: SizesProperty, hoverSizeMd: SizesProperty) : Div {
+fun RenderContext.createColorBar(
+    color: ColorProperty,
+    colorName: String,
+    boxSizeMd: SizesProperty,
+    hoverSizeMd: SizesProperty,
+    textWidth: String = "10rem"
+): Div {
     return lineUp({
         margins {
             top { tiny }
@@ -112,20 +131,16 @@ fun RenderContext.createColorBar(color: ColorProperty, colorName: String, boxSiz
                 }
                 hover {
                     width(sm = { "100%" }, hoverSizeMd)
-                    tooltip(color) { right } ()
+                    tooltip(color) { right }()
                 }
                 radius { "1.3rem" }
-                textAlign { right }
             }) {
                 (::p.styled {
-                    width { "8rem" }
+                    width { textWidth }
                     background {
-                        color { base }
+                        color { neutral }
                     }
-                    radii {
-                        left { "1rem" }
-                    }
-                    color { color }
+                    radius { "1rem" }
                     paddings {
                         left { small }
                         right { small }
@@ -133,23 +148,6 @@ fun RenderContext.createColorBar(color: ColorProperty, colorName: String, boxSiz
                 }) { +colorName }
             }
         }
-    }
-}
-
-// TODO: Remove lighter version
-fun RenderContext.colorBars(): Div {
-    return (::div.styled {
-        margins { top { huge } }
-    }) {
-        createColorBar(Theme().colors.primary, "primary", { "95%" }, { "100%" })
-        createColorBar(Theme().colors.primaryEffect, "primaryEffect", { "90%" }, { "95%" })
-        createColorBar(Theme().colors.secondary, "secondary", { "85%" }, { "90%" })
-        createColorBar(Theme().colors.secondaryEffect, "secondaryEffect", { "80%" }, { "85%" })
-        createColorBar(Theme().colors.dark, "dark", { "75%" }, { "80%" })
-        createColorBar(Theme().colors.info, "info", { "70%" }, { "75%" })
-        createColorBar(Theme().colors.success, "success", { "65%" }, { "70%" })
-        createColorBar(Theme().colors.warning, "warning", { "60%" }, { "65%" })
-        createColorBar(Theme().colors.danger, "danger", { "55%" }, { "60%" })
     }
 }
 
@@ -161,13 +159,13 @@ fun RenderContext.createBrightnessDemoBar(color: ColorProperty, colorName: Strin
     }) {
         items {
             box({
-                width(sm = { "45%" }, md = { "40%" })
+                width(sm = { "50%" }, md = { "45%" })
                 background {
                     color { color }
                 }
                 border {
                     width { fat }
-                    color { color }
+                    color { "transparent" }
                 }
                 hover {
                     tooltip(color) { right }()
@@ -177,10 +175,9 @@ fun RenderContext.createBrightnessDemoBar(color: ColorProperty, colorName: Strin
                 lineUp {
                     items {
                         (::p.styled {
-                            textAlign { center }
-                            width { "6rem" }
+                            width { "10rem" }
                             background {
-                                color { base }
+                                color { neutral }
                             }
                             radius { "1rem" }
                             color { color }
@@ -193,7 +190,7 @@ fun RenderContext.createBrightnessDemoBar(color: ColorProperty, colorName: Strin
                 }
             }
             box({
-                width(sm = { "45%" }, md = { "40%" })
+                width(sm = { "50%" }, md = { "45%" })
                 height { "2.2rem" }
                 background {
                     color { alterHexColorBrightness(color, brightness) }
@@ -213,9 +210,9 @@ fun RenderContext.createBrightnessDemoBar(color: ColorProperty, colorName: Strin
 
 fun RenderContext.colorBrightnessDemo(brightness: Double): P {
     return paragraph {
-        createBrightnessDemoBar(Theme().colors.primary, "primary", brightness)
-        createBrightnessDemoBar(Theme().colors.secondary, "secondary", brightness)
-        createBrightnessDemoBar(Theme().colors.dark, "dark", brightness)
+        createBrightnessDemoBar(Theme().colors.primary.base, "primary.base", brightness)
+        createBrightnessDemoBar(Theme().colors.secondary.base, "secondary.base", brightness)
+        createBrightnessDemoBar(Theme().colors.tertiary.base, "tertiary.base", brightness)
         createBrightnessDemoBar(Theme().colors.info, "info", brightness)
         createBrightnessDemoBar(Theme().colors.success, "success", brightness)
         createBrightnessDemoBar(Theme().colors.warning, "warning", brightness)
