@@ -2,8 +2,6 @@ package dev.fritz2.kitchensink.base
 
 import dev.fritz2.components.box
 import dev.fritz2.dom.html.RenderContext
-import dev.fritz2.styling.StyleClass
-import dev.fritz2.styling.params.BasicParams
 import dev.fritz2.styling.staticStyle
 import kotlinx.browser.window
 
@@ -83,10 +81,10 @@ fun RenderContext.playground(
         margins { top { large } }
         display { flex }
         background { color { backgroundColor } }
-        radius { "12px" }
+        radius { small }
         width { full }
         maxWidth { full }
-        padding { small }
+        padding { smaller }
         height { maxContent }
     }) {
         code(playgroundMarker) {

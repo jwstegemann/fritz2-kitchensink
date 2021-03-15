@@ -47,8 +47,8 @@ fun RenderContext.stylingDemo(): Div {
                 items {
                     (::span.styled {
                         background { color { tertiary.base } }
-                        color { tertiary.complementary }
-                        fontWeight { "700" }
+                        color { gray100 }
+                        fontWeight { bold }
                         boxShadow { raised }
                         padding { normal }
                         radius { small }

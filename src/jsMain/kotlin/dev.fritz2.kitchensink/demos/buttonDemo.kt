@@ -62,13 +62,18 @@ fun RenderContext.buttonDemo(): Div {
             val successToast = toast {
                 content {
                     (::p.styled {
+                        color { gray100 }
                         margin { small }
                     }) { +"Your data has been saved successfully." }
                 }
             }
             lineUp(switchLayoutSm) {
                 items {
-                    clickButton { text("Show Toast") } handledBy successToast
+                    clickButton({
+                        background { color { success } }
+                    }) {
+                        text("Show Toast")
+                    } handledBy successToast
 
                     pushButton({
                         background { color { info } }
@@ -88,7 +93,7 @@ fun RenderContext.buttonDemo(): Div {
                     pushButton({
                         background { color { danger } }
                     }) {
-                        icon { fromTheme { check } }
+                        icon { fromTheme { close } }
                         events {
                             clicks handledBy successToast
                         }
@@ -99,9 +104,11 @@ fun RenderContext.buttonDemo(): Div {
         playground {
             source(
                 """
-                    clickButton { text("Show Modal") } handledBy toast {
-                        content { "Your data has been saved successfully." }
-                    }
+                    clickButton({
+                        background { color { success } }
+                    }) { 
+                        text("Show Toast")
+                    } handledBy successToast
 
                     pushButton({
                         background { color { info } }
