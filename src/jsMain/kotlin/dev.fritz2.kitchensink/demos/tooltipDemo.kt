@@ -20,9 +20,9 @@ fun RenderContext.tooltipDemo(): Div {
             showcaseHeader("Tooltip")
 
             paragraph {
-                +"The"
+                +"The "
                 c("tooltip")
-                +"is a more sophisticated title that appears when the user places the mouse over an element. It can be "
+                +" is a more sophisticated title that appears when the user places the mouse over an element. It can be "
                 +" styled like any other component and additionally offers some specific options."
             }
 
