@@ -144,16 +144,16 @@ fun RenderContext.storeContentBox(
 val RenderContext.link
     get() = (::a.styled {
         paddings {
-            left { "2px" }
-            right { "2px" }
-            top { "2px" }
-            bottom { "3px" }
+            left { ".4em" }
+            right { ".4em" }
+            top { ".2em" }
+            bottom { ".2em" }
         }
+        radius { small }
         color { secondary.base }
         hover {
             color { secondary.highlightContrast }
             background { color { secondary.highlight } }
-            radius { small }
         }
         css("cursor: pointer")
     })
@@ -265,19 +265,18 @@ fun RenderContext.menuAnchor(linkText: String): P {
 
 fun RenderContext.c(text: String) {
     (::span.styled {
-//        padding { "0px 0.15rem" }
         paddings {
-            left { "2px" }
-            right { "2px" }
-            top { "2px" }
-            bottom { "3px" }
+            left { ".4em" }
+            right { ".4em" }
+            top { ".2em" }
+            bottom { ".2em" }
         }
-        fontSize { inherit }
-        fontWeight { semiBold }
+        radius { small }
+        margin { "0" }
+        fontSize { "85%" }
         fontFamily { mono }
-        lineHeight { larger }
         color { gray600 }
-        css("white-space: nowrap")
+        background { color { gray100 } }
     }) { +text }
 }
 
