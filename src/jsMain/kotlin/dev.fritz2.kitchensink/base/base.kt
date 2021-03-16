@@ -21,37 +21,26 @@ fun RenderContext.showcaseHeader(text: String) {
     (::h1.styled {
         margins {
             top { normal }
-            bottom { normal }
         }
         color { primary.base }
-        lineHeight { tiny }
-        fontWeight { bolder }
-        fontSize { huge }
-    }) { +text }
-}
-
-fun RenderContext.showcaseSubSection(text: String) {
-    (::h2.styled {
-        margins {
-            top { "4rem" }
-            bottom { ".5rem" }
-        }
-        lineHeight { small }
-        fontWeight { bold }
-        fontSize { normal }
     }) { +text }
 }
 
 fun RenderContext.showcaseSection(text: String) {
-    (::h3.styled {
-        fontFamily { "Inter, sans-serif" }
-        lineHeight { smaller }
-        fontWeight { "600" }
-        fontSize { large }
+    (::h2.styled {
+        margins {
+            top { larger }
+        }
         color { primary.base }
-        letterSpacing { small }
-        radii { left { small } }
-        margins { top { "3rem !important" } }
+    }) { +text }
+}
+
+fun RenderContext.showcaseSubSection(text: String) {
+    (::h3.styled {
+        margins {
+            top { larger }
+        }
+        color { primary.base }
     }) { +text }
 }
 
@@ -61,16 +50,10 @@ fun RenderContext.paragraph(
     id: String? = null,
     prefix: String = "paragraph",
     init: P.() -> Unit = {}
-): P =
-    ::p.styled(styling, baseClass, id, prefix) {
-        fontFamily { "Inter, sans-serif" }
+): P = ::p.styled(styling, baseClass, id, prefix) {
         margins {
-            top { "1.25rem" }
+            top { small }
         }
-        lineHeight { larger }
-        fontWeight { "400" }
-        fontSize { normal }
-        letterSpacing { small }
     }(init)
 
 fun RenderContext.contentFrame(
@@ -166,10 +149,10 @@ val RenderContext.link
             top { "2px" }
             bottom { "3px" }
         }
-        color { tertiary.base }
+        color { secondary.base }
         hover {
-            color { tertiary.complementary }
-            background { color { tertiary.highlight } }
+            color { secondary.highlightContrast }
+            background { color { secondary.highlight } }
             radius { small }
         }
         css("cursor: pointer")
@@ -198,7 +181,7 @@ fun RenderContext.navAnchor(linkText: String, href: String): Div {
         }
         color { primary.base }
         hover {
-            color { primary.complementary }
+            color { primary.highlightContrast }
             background {
                 color { primary.highlight }
             }
@@ -234,7 +217,7 @@ fun RenderContext.menuHeader(text: String): Div {
             fontSize { normal }
             fontWeight { bold }
             letterSpacing { large }
-            color { tertiary.base }
+            color { secondary.base }
         })  { +text }
     }
 }
@@ -260,7 +243,7 @@ fun RenderContext.menuAnchor(linkText: String): P {
         width { "90%" }
         radius { small }
         hover {
-            color { primary.complementary }
+            color { primary.highlightContrast }
             background { color { primary.highlight } }
         }
         paddings {

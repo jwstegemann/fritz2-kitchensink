@@ -96,7 +96,7 @@ fun main() {
 
     val menuStore = storeOf(false)
 
-    val menuBackgroundColor = Theme().colors.gray100
+    val menuBackgroundColor = Theme().colors.gray50
 
     render(themes.first()) {
         (::div.styled {
@@ -160,7 +160,7 @@ fun main() {
                             md = { small }
                         )
                         background {
-                            color { tertiary.base }
+                            color { secondary.base }
                         }
                         color { neutral }
                         margins {
@@ -275,7 +275,7 @@ fun main() {
                     }
                     (::div.styled(backgroundContent, "content-right") {
                         paddings(md = {
-                            left { huge }
+                            left { large }
                             top { small }
                         })
                         margins {
