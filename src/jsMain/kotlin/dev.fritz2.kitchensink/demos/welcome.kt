@@ -56,7 +56,7 @@ fun RenderContext.welcome(): Div {
                             sm = { "1.0rem" },
                             md = { "4.0rem" }
                         )
-                        color { neutral }
+                        color { tertiary.base }
                         textShadow { flat }
                     }) { +"components" }
                 }

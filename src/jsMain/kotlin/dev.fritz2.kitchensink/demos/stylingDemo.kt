@@ -46,7 +46,7 @@ fun RenderContext.stylingDemo(): Div {
             lineUp {
                 items {
                     (::span.styled {
-                        background { color { tertiary.base } }
+                        background { color { secondary.base } }
                         color { gray100 }
                         fontWeight { bold }
                         boxShadow { raised }
