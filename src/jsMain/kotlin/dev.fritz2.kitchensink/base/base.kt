@@ -29,7 +29,7 @@ fun RenderContext.showcaseHeader(text: String) {
 fun RenderContext.showcaseSection(text: String) {
     (::h2.styled {
         margins {
-            top { larger }
+            top { huge }
         }
         color { primary.base }
     }) { +text }
@@ -38,7 +38,7 @@ fun RenderContext.showcaseSection(text: String) {
 fun RenderContext.showcaseSubSection(text: String) {
     (::h3.styled {
         margins {
-            top { larger }
+            top { huge }
         }
         color { primary.base }
     }) { +text }
@@ -74,7 +74,7 @@ fun RenderContext.contentFrame(
         maxWidth(sm = { unset }, md = { "34rem" }, lg = { "48rem" })
         padding { normal }
         radius { small }
-        boxShadow { flat }
+        border { width { hair } }
     }(init)
 
 fun RenderContext.coloredBox(baseColorAsHex: ColorProperty, init: P.() -> Unit): Div {
@@ -143,12 +143,7 @@ fun RenderContext.storeContentBox(
 
 val RenderContext.link
     get() = (::a.styled {
-        paddings {
-            left { ".4em" }
-            right { ".4em" }
-            top { ".2em" }
-            bottom { ".2em" }
-        }
+        padding { "0.2rem" }
         radius { small }
         color { secondary.base }
         hover {
