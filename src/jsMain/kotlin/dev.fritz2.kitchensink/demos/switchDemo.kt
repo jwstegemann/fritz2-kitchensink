@@ -34,7 +34,7 @@ fun RenderContext.switchDemo(): Div {
             }
         }
 
-        playground {
+        highlight {
             source(
                 """
                 val checkedStore = storeOf(false)                    
@@ -74,7 +74,7 @@ fun RenderContext.switchDemo(): Div {
                 size { large }
             }
         }
-        playground {
+        highlight {
             source(
                 """
                     switch(store = someStore) {
@@ -118,7 +118,7 @@ fun RenderContext.switchDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
                 """
                 switch(styling = {

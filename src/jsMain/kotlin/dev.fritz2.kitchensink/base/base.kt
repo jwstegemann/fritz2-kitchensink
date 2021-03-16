@@ -15,7 +15,6 @@ import dev.fritz2.styling.style
 import dev.fritz2.styling.whenever
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
 
 fun RenderContext.showcaseHeader(text: String) {
     (::h1.styled {
@@ -29,7 +28,7 @@ fun RenderContext.showcaseHeader(text: String) {
 fun RenderContext.showcaseSection(text: String) {
     (::h2.styled {
         margins {
-            top { huge }
+            top { giant }
         }
         color { primary.base }
     }) { +text }
@@ -38,7 +37,7 @@ fun RenderContext.showcaseSection(text: String) {
 fun RenderContext.showcaseSubSection(text: String) {
     (::h3.styled {
         margins {
-            top { huge }
+            top { giant }
         }
         color { primary.base }
     }) { +text }
@@ -71,9 +70,9 @@ fun RenderContext.contentFrame(
             top { "5rem" }
             bottom { huge }
         })
-        maxWidth(sm = { unset }, md = { "34rem" }, lg = { "48rem" })
-        padding { normal }
-        radius { small }
+        maxWidth(sm = { unset }, md = { "34rem" }, lg = { "52rem" })
+        padding { large }
+        radius { normal }
         border { width { hair } }
     }(init)
 
@@ -227,7 +226,7 @@ fun RenderContext.menuAnchor(linkText: String): P {
     }
 
     val isActive = router.data.map { hash -> hash == linkText }
-        .distinctUntilChanged().onEach { if (it) PlaygroundComponent.update() }
+        .distinctUntilChanged()//.onEach { if (it) PlaygroundComponent.update() }
 
     return (::p.styled {
         margins {

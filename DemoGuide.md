@@ -63,7 +63,7 @@ you could try and omit it in the example, but notify the user that you did:
         
         // ...
         
-        playground {
+        highlight {
             source(
                 """
                 checkbox {

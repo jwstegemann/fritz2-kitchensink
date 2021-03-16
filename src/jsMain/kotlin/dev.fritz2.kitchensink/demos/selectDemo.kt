@@ -51,7 +51,7 @@ fun RenderContext.selectDemo(): Div {
         }
 
 
-        playground {
+        highlight {
             source(
                 """
                     selectField(store = selectedItem, items = myOptions) {
@@ -97,7 +97,7 @@ fun RenderContext.selectDemo(): Div {
             }
         }
 
-        playground {
+        highlight {
             source(
                 """
                      selectField(items = myList) {
@@ -138,7 +138,7 @@ fun RenderContext.selectDemo(): Div {
             }
         }
 
-        playground {
+        highlight {
             source(
                 """
                  selectField(items = myList) {
@@ -175,7 +175,7 @@ fun RenderContext.selectDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
                 """
             selectField(items = myList) {
@@ -227,7 +227,7 @@ fun RenderContext.selectDemo(): Div {
             }
         }
 
-        playground {
+        highlight {
             source(
                 """
                  val persons = listOf(Person("John Doe", 16), Person("Jane Doe", 42))
@@ -257,7 +257,7 @@ fun RenderContext.selectDemo(): Div {
             }
         }
 
-        playground {
+        highlight {
             source(
                 """
                  selectField(items = myList) {

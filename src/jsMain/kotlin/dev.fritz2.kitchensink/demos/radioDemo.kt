@@ -54,7 +54,7 @@ fun RenderContext.radiosDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
                 """
                 radio {
@@ -116,7 +116,7 @@ fun RenderContext.radiosDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
                 """
                     radio {
@@ -157,7 +157,7 @@ fun RenderContext.radiosDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
                 """
                  val allItems = listOf("item 1", "item 2", "item 3")
@@ -213,7 +213,7 @@ fun RenderContext.radiosDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
                 """
                     radio({
@@ -258,7 +258,7 @@ fun RenderContext.radiosDemo(): Div {
 
             }
         }
-        playground {
+        highlight {
             source(
                 """
                     radio {

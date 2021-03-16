@@ -69,7 +69,7 @@ fun RenderContext.flexBoxDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
                 """
                 flexBox({
@@ -94,7 +94,7 @@ fun RenderContext.flexBoxDemo(): Div {
                     box { +"Box 2" }
                     box { +"Box 3" }
                 }
-                """.trimIndent()
+                """
             )
         }
 
@@ -126,7 +126,7 @@ fun RenderContext.flexBoxDemo(): Div {
             }
         }
 
-        playground {
+        highlight {
             source(
                 """
                 flexBox({
@@ -136,7 +136,7 @@ fun RenderContext.flexBoxDemo(): Div {
                     box { +"Box 2"}
                     box { +"Box 3"}
                 }
-            """.trimIndent()
+            """
             )
         }
 
@@ -174,7 +174,7 @@ fun RenderContext.flexBoxDemo(): Div {
             }
         }
 
-        playground {
+        highlight {
             source(
                 """
                 flexBox({
@@ -184,7 +184,7 @@ fun RenderContext.flexBoxDemo(): Div {
                     box { +"Box 2"}
                     box { +"Box 3"}
                 }
-        """.trimIndent()
+                """
             )
         }
 
@@ -218,7 +218,7 @@ fun RenderContext.flexBoxDemo(): Div {
             }
         }
 
-        playground {
+        highlight {
             source(
                 """
                 flexBox({
@@ -230,7 +230,7 @@ fun RenderContext.flexBoxDemo(): Div {
                     box { +"Box 4"}
                     box { +"Box 5"}
                 }                    
-            """.trimIndent()
+                """
             )
         }
     }

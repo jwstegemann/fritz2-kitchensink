@@ -56,7 +56,7 @@ fun RenderContext.checkboxesDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
                 """
                 val checkBoxStore = storeOf(true)
@@ -90,7 +90,7 @@ fun RenderContext.checkboxesDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
                 """
                 val allItems = listOf("item 1", "item 2", "item 3")
@@ -149,21 +149,21 @@ fun RenderContext.checkboxesDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
+            """
+                checkbox(store = checkboxStore1) {
+                    label("small")
+                    size { small }
+                }
+                checkbox(store = checkboxStore2) {
+                    label("normal")
+                }
+                checkbox(store = checkboxStore3) {
+                    label("large")
+                    size { large }
+                }
                 """
-                    checkbox(store = checkboxStore1) {
-                        label("small")
-                        size { small }
-                    }
-                    checkbox(store = checkboxStore2) {
-                        label("normal")
-                    }
-                    checkbox(store = checkboxStore3) {
-                        label("large")
-                        size { large }
-                    }
-                    """
             )
         }
 
@@ -206,32 +206,32 @@ fun RenderContext.checkboxesDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
+            """
+                checkbox({
+                    background { color { secondary.base } }
+                }, store = checkboxStore1) {
+                    label("Changed unchecked background color")
+                }
+
+                checkbox(store = checkboxStore2) {
+                    label("Changed checked border color")
+                    checkedStyle {
+                        border { color { secondary.base } }
+                    }
+                }
+
+                checkbox(store = checkboxStore3) {
+                    label("Changed checkmark to fritz2 icon")
+                    icon { fritz2 }
+                }
+
+                checkbox(store = checkboxStore4) {
+                    label("Custom label style: larger margin")
+                    labelStyle { margins { left { larger } } }
+                }
                 """
-                    checkbox({
-                        background { color { secondary.base } }
-                    }, store = checkboxStore1) {
-                        label("Changed unchecked background color")
-                    }
-
-                    checkbox(store = checkboxStore2) {
-                        label("Changed checked border color")
-                        checkedStyle {
-                            border { color { secondary.base } }
-                        }
-                    }
-
-                    checkbox(store = checkboxStore3) {
-                        label("Changed checkmark to fritz2 icon")
-                        icon { fritz2 }
-                    }
-
-                    checkbox(store = checkboxStore4) {
-                        label("Custom label style: larger margin")
-                        labelStyle { margins { left { larger } } }
-                    }
-                    """
             )
         }
 
@@ -253,18 +253,18 @@ fun RenderContext.checkboxesDemo(): Div {
 
             }
         }
-        playground {
+        highlight {
             source(
+            """
+                checkbox(store = usageCheckboxStore) {
+                    label("A disabled checkbox or checkboxGroup can not be selected.")
+                    disabled(true)
+                }
+                checkboxGroup(store = usageCheckboxGroupStore, items = demoItems) {
+                    direction { column }
+                    disabled(true)
+                }
                 """
-                    checkbox(store = usageCheckboxStore) {
-                        label("A disabled checkbox or checkboxGroup can not be selected.")
-                        disabled(true)
-                    }
-                    checkboxGroup(store = usageCheckboxGroupStore, items = demoItems) {
-                        direction { column }
-                        disabled(true)
-                    }
-                    """
             )
         }
     }

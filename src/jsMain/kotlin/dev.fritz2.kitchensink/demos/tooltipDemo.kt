@@ -61,7 +61,7 @@ fun RenderContext.tooltipDemo(): Div {
                     }
                 }
             }
-            playground {
+            highlight {
                 source(
                 """
                     (::span.styled { // add tooltip to styling parameter
@@ -111,7 +111,7 @@ fun RenderContext.tooltipDemo(): Div {
                     }
                 }
             }
-            playground {
+            highlight {
                 source(
                     """
                       (::span.styled(){

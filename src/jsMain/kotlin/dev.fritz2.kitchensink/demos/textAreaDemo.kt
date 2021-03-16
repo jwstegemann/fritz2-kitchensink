@@ -6,7 +6,6 @@ import dev.fritz2.components.stackUp
 import dev.fritz2.components.textArea
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
-import dev.fritz2.dom.values
 import dev.fritz2.kitchensink.base.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -45,7 +44,7 @@ fun RenderContext.textareaDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
                 """
                 val dataStore = storeOf("")                    
@@ -85,7 +84,7 @@ fun RenderContext.textareaDemo(): Div {
             }
         }
 
-        playground {
+        highlight {
             source(
                 """
                  textArea {
@@ -137,7 +136,7 @@ fun RenderContext.textareaDemo(): Div {
             }
         }
 
-        playground {
+        highlight {
             source(
                 """
                 textArea {
@@ -170,7 +169,7 @@ fun RenderContext.textareaDemo(): Div {
             }
         }
 
-        playground {
+        highlight {
             source(
                 """
                  textArea {

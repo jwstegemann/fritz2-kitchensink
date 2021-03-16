@@ -71,10 +71,12 @@ fun RenderContext.fileDemo(): Div {
             +"""
             Use this component to open a file selection dialog. The dialog returns a single or multiple files 
             which can be received by the handler of a store. 
-            """.trimIndent()
+            """
         }
         paragraph {
-            +"Please note that the creation of modal dialogs was omitted in some of the examples to keep the source fragments short."
+            +"""Please note that the creation of modal dialogs was omitted in some of 
+                the examples to keep the source fragments short.
+            """
         }
 
         showcaseSection("Usage")
@@ -115,22 +117,22 @@ fun RenderContext.fileDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
                 """
-                    val fileStore = object : RootStore<Unit>(Unit) {
-                        val showFile = handle<File> { _, file -> fileModal(file)() }
-                        val showFiles = handle<List<File>> { _, files -> filesModal(files)() }
-                        val showFilesWithContent = handle<List<File>> { _, files -> filesModal(files, true)() }
-                    }
-                    
-                    file {
-                        button { text("Single select") }
-                    } handledBy fileStore.showFile
+                val fileStore = object : RootStore<Unit>(Unit) {
+                    val showFile = handle<File> { _, file -> fileModal(file)() }
+                    val showFiles = handle<List<File>> { _, files -> filesModal(files)() }
+                    val showFilesWithContent = handle<List<File>> { _, files -> filesModal(files, true)() }
+                }
+                
+                file {
+                    button { text("Single select") }
+                } handledBy fileStore.showFile
 
-                    files {
-                        button { text("Multi select") }
-                    } handledBy fileStore.showFiles
+                files {
+                    button { text("Multi select") }
+                } handledBy fileStore.showFiles
                 """
             )
         }
@@ -175,37 +177,37 @@ fun RenderContext.fileDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
                 """
-                    file {
-                        button({
-                            background { color { info } }
-                        }) {
-                            icon { fromTheme { cloudUpload } }
-                            text("Accept every file")
-                        }
-                    } handledBy fileStore.showFile
+                file {
+                    button({
+                        background { color { info } }
+                    }) {
+                        icon { fromTheme { cloudUpload } }
+                        text("Accept every file")
+                    }
+                } handledBy fileStore.showFile
 
-                    file {
-                        accept("image/*")
-                        button({
-                            background { color { warning } }
-                        }) {
-                            icon { fromTheme { image } }
-                            text("Accept only image files")
-                        }
-                    } handledBy fileStore.showFile
+                file {
+                    accept("image/*")
+                    button({
+                        background { color { warning } }
+                    }) {
+                        icon { fromTheme { image } }
+                        text("Accept only image files")
+                    }
+                } handledBy fileStore.showFile
 
-                    file {
-                        accept("application/pdf")
-                        button({
-                            background { color { danger } }
-                        }) {
-                            icon { fromTheme { document } }
-                            text("Accept only pdf files")
-                        }
-                    } handledBy fileStore.showFile
+                file {
+                    accept("application/pdf")
+                    button({
+                        background { color { danger } }
+                    }) {
+                        icon { fromTheme { document } }
+                        text("Accept only pdf files")
+                    }
+                } handledBy fileStore.showFile
                 """
             )
         }
@@ -232,17 +234,17 @@ fun RenderContext.fileDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
                 """
-                    files {
-                        encoding("utf-8")
-                        accept("text/plain")
-                        button {
-                            icon { fromTheme { cloudUpload } }
-                            text("Text files")
-                        }
-                    } handledBy fileStore.showFilesWithContent
+                files {
+                    encoding("utf-8")
+                    accept("text/plain")
+                    button {
+                        icon { fromTheme { cloudUpload } }
+                        text("Text files")
+                    }
+                } handledBy fileStore.showFilesWithContent
                 """
             )
         }

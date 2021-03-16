@@ -55,7 +55,7 @@ fun RenderContext.inputDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
                 """
                 val userNameStore = storeOf("")
@@ -93,7 +93,7 @@ fun RenderContext.inputDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
                 """
                 inputField {
@@ -132,7 +132,7 @@ fun RenderContext.inputDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
                 """
                     inputField {
@@ -169,7 +169,7 @@ fun RenderContext.inputDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
                 """
                     inputField {
@@ -224,7 +224,7 @@ fun RenderContext.inputDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
                 """
                 inputField {

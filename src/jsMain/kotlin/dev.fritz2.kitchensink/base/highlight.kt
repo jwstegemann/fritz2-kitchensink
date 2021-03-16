@@ -3,6 +3,7 @@ package dev.fritz2.kitchensink.base
 import dev.fritz2.components.box
 import dev.fritz2.components.stackUp
 import dev.fritz2.dom.html.RenderContext
+import dev.fritz2.kitchensink.highlightBackgroundColor
 import kotlinx.browser.window
 
 /**
@@ -19,17 +20,12 @@ class HighlightComponent {
             } catch (t: Throwable) {
                 console.error(t)
             }
-        }, 500)
+        }, 300)
     }
 
     var source: String = "// your code goes here"
     fun source(value: String) {
-        source = value
-    }
-
-    var size: Int = 200
-    fun size(value: Int) {
-        size = value
+        source = value.trimIndent()
     }
 }
 
@@ -41,17 +37,20 @@ fun RenderContext.highlight(
     val component = HighlightComponent().apply(build)
 
     stackUp ({
-        margins { top { large } }
+        margins {
+            top { large }
+            bottom { large }
+        }
     }){
         items {
             box({
-                background { color { "#2B2B2B" } }
+                background { color { highlightBackgroundColor } }
                 radius { small }
                 width { full }
-                padding { small }
-                paddings { left{ "22px" } }
+                padding { smaller }
+                fontFamily { mono }
             }) {
-                pre("highlight $language") {
+                pre("highlight lang-$language") {
                     code {
                         +component.source
                     }

@@ -55,6 +55,8 @@ const val backgroundContent = """
     background: rgba(0, 0, 0, 0) url("background.png") repeat scroll 0% 0%;
 """
 
+const val highlightBackgroundColor = "#2b303b"
+
 //const val welcomeContentStaticCss = """
 //    background-image: url("https://unsplash.com/photos/LmyPLbbUWhA/download?force=true&w=1280");
 //    background-repeat: no-repeat;
@@ -63,7 +65,6 @@ const val backgroundContent = """
 //"""
 
 const val settingsTableStaticCss = """
-        font-family: Inter, sans-serif;
         color: rgb(45, 55, 72);
         text-align: left;
         margin-top: 32px;
@@ -80,7 +81,7 @@ const val settingsTableStaticCss = """
         & > tr > td {
             padding: 0.5rem;
             border-top-width: 1px;
-            border-color: lightgray;
+            border-color: gray200;
             font-size: 0.875rem;
             white-space: normal;
         }
