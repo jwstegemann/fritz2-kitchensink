@@ -12,6 +12,7 @@ import dev.fritz2.styling.params.ColorProperty
 import dev.fritz2.styling.params.SizesProperty
 import dev.fritz2.styling.params.alterHexColorBrightness
 import dev.fritz2.styling.params.styled
+import dev.fritz2.styling.theme.ColorScheme
 import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -34,12 +35,9 @@ fun RenderContext.colorDemo(): Div {
         }
 
         div {
-            createColorBar(Theme().colors.primary.base, "primary.base", { "95%" }, { "100%" })
-            createColorBar(Theme().colors.primary.highlight, "primary.highlight", { "95%" }, { "100%" })
-            createColorBar(Theme().colors.secondary.base, "secondary.base", { "90%" }, { "95%" })
-            createColorBar(Theme().colors.secondary.highlight, "secondary.highlight", { "90%" }, { "95%" })
-            createColorBar(Theme().colors.tertiary.base, "tertiary.base", { "85%" }, { "90%" })
-            createColorBar(Theme().colors.tertiary.highlight, "tertiary.highlight", { "85%" }, { "90%" })
+            createColorBars(Theme().colors.primary, "primary", { "95%" }, { "100%" })
+            createColorBars(Theme().colors.secondary, "secondary", { "90%" }, { "95%" })
+            createColorBars(Theme().colors.tertiary, "tertiary", { "85%" }, { "90%" })
             createColorBar(Theme().colors.info, "info", { "80%" }, { "85%" })
             createColorBar(Theme().colors.success, "success", { "75%" }, { "80%" })
             createColorBar(Theme().colors.warning, "warning", { "70%" }, { "75%" })
@@ -49,6 +47,7 @@ fun RenderContext.colorDemo(): Div {
         (::div.styled {
             margins { top { huge } }
         }) {
+            createColorBar(Theme().colors.gray50, "gray50", { "50%" }, { "55%" }, "6rem")
             createColorBar(Theme().colors.gray100, "gray100", { "55%" }, { "60%" }, "6rem")
             createColorBar(Theme().colors.gray200, "gray200", { "60%" }, { "65%" }, "6rem")
             createColorBar(Theme().colors.gray300, "gray300", { "65%" }, { "70%" }, "6rem")
@@ -56,6 +55,8 @@ fun RenderContext.colorDemo(): Div {
             createColorBar(Theme().colors.gray500, "gray500", { "75%" }, { "80%" }, "6rem")
             createColorBar(Theme().colors.gray600, "gray600", { "80%" }, { "85%" }, "6rem")
             createColorBar(Theme().colors.gray700, "gray700", { "85%" }, { "90%" }, "6rem")
+            createColorBar(Theme().colors.gray800, "gray800", { "90%" }, { "95%" }, "6rem")
+            createColorBar(Theme().colors.gray900, "gray900", { "95%" }, { "100%" }, "6rem")
         }
 
         showcaseSection("Color Brightness")
@@ -84,14 +85,39 @@ fun RenderContext.colorDemo(): Div {
     }
 }
 
+fun RenderContext.createColorBars(
+    colorScheme: ColorScheme,
+    colorName: String,
+    boxSizeMd: SizesProperty,
+    hoverSizeMd: SizesProperty,
+    textWidth: String = "10rem"
+) {
+    createColorBar(
+        colorScheme.base,
+        "$colorName.base",
+        boxSizeMd, hoverSizeMd,
+        colorScheme.baseContrast, textWidth,
+        withBackground = false
+    )
+    createColorBar(
+        colorScheme.highlight,
+        "$colorName.highlight",
+        boxSizeMd, hoverSizeMd,
+        colorScheme.highlightContrast, textWidth,
+        withBackground = false
+    )
+}
+
 fun RenderContext.createColorBar(
     color: ColorProperty,
     colorName: String,
     boxSizeMd: SizesProperty,
     hoverSizeMd: SizesProperty,
-    textWidth: String = "10rem"
-): Div {
-    return lineUp({
+    textColor: ColorProperty = Theme().fontColor,
+    textWidth: String = "10rem",
+    withBackground: Boolean = true,
+) {
+    lineUp({
         margins {
             top { tiny }
         }
@@ -113,15 +139,14 @@ fun RenderContext.createColorBar(
                 radius { "1.3rem" }
             }) {
                 (::p.styled {
+                    color { textColor }
                     width { textWidth }
-                    background {
-                        color { neutral }
-                    }
                     radius { "1rem" }
                     paddings {
                         left { small }
                         right { small }
                     }
+                    if (withBackground) background { color { neutral } }
                 }) { +colorName }
             }
         }

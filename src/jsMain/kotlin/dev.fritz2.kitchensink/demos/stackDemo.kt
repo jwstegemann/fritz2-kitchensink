@@ -217,13 +217,13 @@ fun RenderContext.stackDemo(): Div {
                         alignItems { flexEnd }
                     }) {
                         items {
-                            sizedBox(60, 60, Theme().colors.tertiary.base)
-                            sizedBox(100, 100, Theme().colors.tertiary.base)
-                            sizedBox(80, 30, Theme().colors.tertiary.base)
+                            sizedBox(60, 60, Theme().colors.secondary.base)
+                            sizedBox(100, 100, Theme().colors.secondary.base)
+                            sizedBox(80, 30, Theme().colors.secondary.base)
                         }
                     }
-                    sizedBox(100, 40, Theme().colors.tertiary.base)
-                    sizedBox(80, 80, Theme().colors.tertiary.base)
+                    sizedBox(100, 40, Theme().colors.secondary.base)
+                    sizedBox(80, 80, Theme().colors.secondary.base)
                 }
             }
         }
