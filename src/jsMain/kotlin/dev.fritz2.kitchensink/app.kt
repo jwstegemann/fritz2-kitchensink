@@ -63,7 +63,6 @@ const val backgroundContent = """
 //"""
 
 const val settingsTableStaticCss = """
-        font-family: Inter, sans-serif;
         color: rgb(45, 55, 72);
         text-align: left;
         margin-top: 32px;
@@ -80,7 +79,7 @@ const val settingsTableStaticCss = """
         & > tr > td {
             padding: 0.5rem;
             border-top-width: 1px;
-            border-color: lightgray;
+            border-color: gray200;
             font-size: 0.875rem;
             white-space: normal;
         }
