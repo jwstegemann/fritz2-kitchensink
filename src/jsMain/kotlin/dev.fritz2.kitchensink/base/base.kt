@@ -29,7 +29,7 @@ fun RenderContext.showcaseHeader(text: String) {
 fun RenderContext.showcaseSection(text: String) {
     (::h2.styled {
         margins {
-            top { huge }
+            top { giant }
         }
         color { primary.base }
     }) { +text }
@@ -38,7 +38,7 @@ fun RenderContext.showcaseSection(text: String) {
 fun RenderContext.showcaseSubSection(text: String) {
     (::h3.styled {
         margins {
-            top { huge }
+            top { giant }
         }
         color { primary.base }
     }) { +text }
@@ -71,9 +71,9 @@ fun RenderContext.contentFrame(
             top { "5rem" }
             bottom { huge }
         })
-        maxWidth(sm = { unset }, md = { "34rem" }, lg = { "48rem" })
-        padding { normal }
-        radius { small }
+        maxWidth(sm = { unset }, md = { "34rem" }, lg = { "52rem" })
+        padding { large }
+        radius { normal }
         border { width { hair } }
     }(init)
 
