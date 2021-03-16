@@ -1,10 +1,9 @@
 plugins {
-    id("dev.fritz2.fritz2-gradle") version "0.9"
+    id("dev.fritz2.fritz2-gradle") version "0.9.1"
     kotlin("multiplatform") version "1.4.30"
 }
 
 repositories {
-    mavenLocal()
     mavenCentral()
     maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
     maven(url = "https://kotlin.bintray.com/kotlinx/") // soon will be just jcenter()
