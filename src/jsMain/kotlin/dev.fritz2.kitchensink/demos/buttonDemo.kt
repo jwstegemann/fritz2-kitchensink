@@ -69,9 +69,7 @@ fun RenderContext.buttonDemo(): Div {
             }
             lineUp(switchLayoutSm) {
                 items {
-                    clickButton({
-                        background { color { success } }
-                    }) {
+                    clickButton {
                         text("Show Toast")
                     } handledBy successToast
 
@@ -104,11 +102,10 @@ fun RenderContext.buttonDemo(): Div {
         playground {
             source(
                 """
-                    clickButton({
-                        background { color { success } }
-                    }) { 
+                    clickButton {
                         text("Show Toast")
                     } handledBy successToast
+
 
                     pushButton({
                         background { color { info } }
