@@ -11,13 +11,16 @@ import dev.fritz2.kitchensink.base.contentFrame
 import dev.fritz2.kitchensink.base.externalLink
 import dev.fritz2.kitchensink.base.paragraph
 import dev.fritz2.styling.params.AlignContentValues.start
+import dev.fritz2.styling.params.alterHexColorBrightness
 import dev.fritz2.styling.params.styled
 import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
 fun RenderContext.welcome(): Div {
-    return contentFrame {
+    return contentFrame({
+        background { color { "rgba(255,255,255,0.95)" } }
+    }) {
 
         lineUp({
             alignItems { center }
