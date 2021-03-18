@@ -6,10 +6,12 @@ import dev.fritz2.components.*
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.kitchensink.demos.*
 import dev.fritz2.routing.router
+import dev.fritz2.styling.name
 import dev.fritz2.styling.params.styled
 import dev.fritz2.styling.staticStyle
 import dev.fritz2.styling.theme.Theme
 import dev.fritz2.styling.theme.render
+import dev.fritz2.styling.whenever
 import kotlinx.browser.window
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -51,18 +53,12 @@ object ThemeStore : RootStore<Int>(0) {
     }
 }
 
-const val backgroundContent = """
-    background: rgba(0, 0, 0, 0) url("background.png") repeat scroll 0% 0%;
+const val welcomeContentStaticCss = """
+    background-image: url("https://unsplash.com/photos/79mNMAvSORg/download?force=true&w=1920");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
 """
-
-const val highlightBackgroundColor = "#2b303b"
-
-//const val welcomeContentStaticCss = """
-//    background-image: url("https://unsplash.com/photos/LmyPLbbUWhA/download?force=true&w=1280");
-//    background-repeat: no-repeat;
-//    background-attachment: fixed;
-//    background-size: cover;
-//"""
 
 const val settingsTableStaticCss = """
         color: rgb(45, 55, 72);
@@ -90,14 +86,13 @@ const val settingsTableStaticCss = """
 @ExperimentalCoroutinesApi
 fun main() {
     staticStyle("settings-table", settingsTableStaticCss)
-    val backgroundContent = staticStyle("background-content", backgroundContent)
-//    val welcomeContent = staticStyle("welcome-content", welcomeContentStaticCss)
+    val welcomeContent = staticStyle("welcome-content", welcomeContentStaticCss)
 
     val router = router("")
 
     val menuStore = storeOf(false)
 
-    val menuBackgroundColor = Theme().colors.gray50
+    val menuBackgroundColor = Theme().colors.neutral
 
     render(themes.first()) {
         (::div.styled {
@@ -274,7 +269,7 @@ fun main() {
 
                         }
                     }
-                    (::div.styled(backgroundContent, "content-right") {
+                    (::div.styled(id = "content-right") {
                         paddings(md = {
                             left { large }
                             top { small }
@@ -286,6 +281,8 @@ fun main() {
                         radius { small }
                         background { color { neutral } }
                     }) {
+                        className(welcomeContent.whenever(router.data) { it == welcome_ }.name)
+
                         router.data.render { site ->
                             menuStore.update(false)
                             when (site) {

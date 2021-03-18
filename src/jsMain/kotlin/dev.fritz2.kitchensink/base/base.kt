@@ -73,7 +73,6 @@ fun RenderContext.contentFrame(
         maxWidth(sm = { unset }, md = { "34rem" }, lg = { "52rem" })
         padding { large }
         radius { normal }
-        border { width { hair } }
     }(init)
 
 fun RenderContext.coloredBox(baseColorAsHex: ColorProperty, init: P.() -> Unit): Div {

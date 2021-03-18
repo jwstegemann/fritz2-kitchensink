@@ -110,21 +110,21 @@ fun RenderContext.welcome(): Div {
                     +"."
                 }
 
-//                (::p.styled {
-//                    fontSize { smaller }
-//                    paddings { top { "1.5rem" }}
-//                }) {
-//                    +"Photo by "
-//                    externalLink(
-//                        "Ochir-Erdene Oyunmedeg",
-//                        "https://unsplash.com/@chiklad?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText"
-//                    )
-//                    +" on "
-//                    externalLink(
-//                        "Unsplash",
-//                        "https://unsplash.com/s/photos/grass?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText"
-//                    )
-//                }
+                (::p.styled {
+                    fontSize { smaller }
+                    paddings { top { "1.5rem" }}
+                }) {
+                    +"Photo by "
+                    externalLink(
+                        "Jong Marshes",
+                        "https://unsplash.com/@turnlip19?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
+                    )
+                    +" on "
+                    externalLink(
+                        "Unsplash",
+                        "https://unsplash.com/s/photos/water?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
+                    )
+                }
             }
         }
     }
