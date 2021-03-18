@@ -37,11 +37,11 @@ fun RenderContext.stackDemo(): Div {
         ul {
             li {
                 c("stackUp")
-                +"for vertical alignment"
+                +" for vertical alignment"
             }
             li {
                 c("lineUp")
-                +"for horizontal alignment"
+                +" for horizontal alignment"
             }
         }
         paragraph {
