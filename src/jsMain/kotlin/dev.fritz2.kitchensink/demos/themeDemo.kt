@@ -154,18 +154,22 @@ fun RenderContext.themeDemo(): Div {
         highlight {
             source(
                 """
-                    class dev.fritz2.kitchensink.base.LargeFonts : DefaultTheme() {
-                        override val name = "large Fonts"
-                    
-                        override val fontSizes = ScaledValue(
-                            smaller = "1.125rem",
-                            small = "1.25rem",
-                            normal = "1.5rem",
-                            large = "1.875rem",
-                            larger = "2.25rem",
-                            huge = "3rem"
-                        )                    
+                object MyTheme : DefaultTheme() {
+                    override val name = "My custom theme"
+                
+                    override val colors: Colors = object : Colors by super.colors {
+                        override val neutral: ColorProperty = "black"
                     }
+                    
+                    override val fontSizes = ScaledValue(
+                        smaller = "1.125rem",
+                        small = "1.25rem",
+                        normal = "1.5rem",
+                        large = "1.875rem",
+                        larger = "2.25rem",
+                        huge = "3rem"
+                    )
+                }
                 """
             )
         }

@@ -1,8 +1,11 @@
 package dev.fritz2.kitchensink.demos
 
+import dev.fritz2.components.clickButton
+import dev.fritz2.components.modal
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
+import dev.fritz2.kitchensink.versionNumber
 import dev.fritz2.kitchensink.versionStatus
 import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -29,88 +32,60 @@ fun RenderContext.gettingStarted(): Div {
         paragraph {
             +"To learn how to create a new fritz2 Multiplatform project, take a look at the "
             externalLink("fritz2 project setup docs", "https://docs.fritz2.dev/ProjectSetup.html")
-            +". For the following instructions, we assume you already have an existing project."
         }
         paragraph {
-            +"Add the following lines to your "
+            +"In order to use this component library add the following lines to your "
             c("build.gradle.kts")
-            +" file in the dependencies section:"
+            +" file in the "
+            c("sourceSets")
+            +" section:"
         }
         highlight {
             source(
                 """
-                val jsMain by getting {
-                    dependencies {
-                       implementation("dev.fritz2:components:0.9.1")
+                kotlin {
+                    // ...           
+                    sourceSets {
+                        val jsMain by getting {
+                            dependencies {
+                               implementation("dev.fritz2:components:$versionNumber")
+                            }
+                        }
                     }
                 }
                 """
             )
         }
 
-        showcaseSection("Run in browser")
         paragraph {
-            +"To get your JS loaded, you need a static html file."
-            +" Here is a short example for an html-file in your JS resources folder (e.g. "
-            c("src/resources/index.html")
-            +"):"
-        }
-        highlight(language = "html") {
-            source(
-                """
-                <html lang="en">
-                <head>
-                   <title>My app title</title>
-                   <!-- add styles, fonts etc. here -->
-                </head>
-                <!-- the id attribute is mandatory for mounting -->
-                <body id="target"> 
-                   Loading...
-                   <!-- add the compile js file here -->
-                   <script src="<project-name>.js"></script>
-                </body>
-                </html>"""
-            )
-        }
-
-        paragraph {
-            +"The next step is adding your code to a Kotlin file (e.g. "
+            +"Now you are ready to use the components like the following code "
             c("app.kt")
-            +") which contains a "
-            c("fun main() {...}")
-            +" function. In this function, call the "
-            c("mount(\"target\")")
-            +" function to append your dynamic html to the "
-            c("<body>")
-            +" element of your page."
+            +" shows:"
+        }
+        componentFrame {
+            clickButton {
+                text("Tell me about fritz2")
+            } handledBy modal {
+                content {
+                    h1 { +"fritz2 components are awesome!" }
+                }
+            }
         }
         highlight {
             source(
                 """
-                fun main() {
-                    val router = router(welcome)
-                
+                fun main() {                
                     render {
-                        div("header") {
-                            ...
-                        }
-                        div("content") {
-                            ...
-                            router.data.render { site ->
-                                when (site) {
-                                    welcome -> welcome()
-                                    pageA -> pageA()
-                                    pageB -> pageB()
-                                    else -> welcome()
-                                }
+                        clickButton {
+                            text("Tell me about fritz2")
+                        } handledBy modal {
+                            content {
+                                h1 { +"fritz2 components are awesome!" }
                             }
-                            ...
                         }
-                        div("footer") {
-                            ...
-                        }
-                    }.mount("target") // id for mounting
-                }"""
+                    }
+                }
+                """
             )
         }
 
