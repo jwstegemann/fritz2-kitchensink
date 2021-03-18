@@ -208,30 +208,30 @@ fun RenderContext.checkboxesDemo(): Div {
         }
         highlight {
             source(
-            """
-                checkbox({
-                    background { color { secondary.base } }
-                }, store = checkboxStore1) {
-                    label("Changed unchecked background color")
-                }
-
-                checkbox(store = checkboxStore2) {
-                    label("Changed checked border color")
-                    checkedStyle {
-                        border { color { secondary.base } }
-                    }
-                }
-
-                checkbox(store = checkboxStore3) {
-                    label("Changed checkmark to fritz2 icon")
-                    icon { fritz2 }
-                }
-
-                checkbox(store = checkboxStore4) {
-                    label("Custom label style: larger margin")
-                    labelStyle { margins { left { larger } } }
-                }
                 """
+                    checkbox({
+                        background { color { secondary.base } }
+                    }, store = checkboxStore1) {
+                        label("Changed unchecked background color")
+                    }
+
+                    checkbox(store = checkboxStore2) {
+                        label("Changed checked border color")
+                        checkedStyle {
+                            border { color { secondary.base } }
+                        }
+                    }
+
+                    checkbox(store = checkboxStore3) {
+                        label("Changed checkmark to fritz2 icon")
+                        icon { fritz2 }
+                    }
+
+                    checkbox(store = checkboxStore4) {
+                        label("Custom label style: larger margin")
+                        labelStyle { margins { left { larger } } }
+                    }
+                    """
             )
         }
 
@@ -255,16 +255,16 @@ fun RenderContext.checkboxesDemo(): Div {
         }
         highlight {
             source(
-            """
-                checkbox(store = usageCheckboxStore) {
-                    label("A disabled checkbox or checkboxGroup can not be selected.")
-                    disabled(true)
-                }
-                checkboxGroup(store = usageCheckboxGroupStore, items = demoItems) {
-                    direction { column }
-                    disabled(true)
-                }
                 """
+                    checkbox(store = usageCheckboxStore) {
+                        label("A disabled checkbox or checkboxGroup can not be selected.")
+                        disabled(true)
+                    }
+                    checkboxGroup(store = usageCheckboxGroupStore, items = demoItems) {
+                        direction { column }
+                        disabled(true)
+                    }
+                    """
             )
         }
     }
