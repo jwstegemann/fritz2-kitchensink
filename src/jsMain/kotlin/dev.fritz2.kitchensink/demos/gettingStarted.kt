@@ -3,6 +3,7 @@ package dev.fritz2.kitchensink.demos
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
+import dev.fritz2.kitchensink.versionStatus
 import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -13,7 +14,7 @@ fun RenderContext.gettingStarted(): Div {
 
         showcaseHeader("Getting Started")
         coloredBox(Theme().colors.warning) {
-            +"This is a alpha version of fritz2 components."
+            +"This is a $versionStatus version of fritz2 components."
         }
 
         paragraph {
