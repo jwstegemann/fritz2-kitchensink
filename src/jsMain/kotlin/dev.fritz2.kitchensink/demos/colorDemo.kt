@@ -3,7 +3,6 @@ package dev.fritz2.kitchensink.demos
 import dev.fritz2.binding.storeOf
 import dev.fritz2.components.*
 import dev.fritz2.dom.html.Div
-import dev.fritz2.dom.html.P
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.kitchensink.theme_
@@ -11,6 +10,7 @@ import dev.fritz2.styling.params.*
 import dev.fritz2.styling.theme.ColorScheme
 import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.map
 
 
 fun renderColorScheme(context: RenderContext, name: String, colorScheme: ColorScheme) {
@@ -92,8 +92,8 @@ fun renderColorScheme(context: RenderContext, name: String, colorScheme: ColorSc
                     md = { bottomLeft { radiiSize() } }
                 )
             }) {
-                hovered.data.render { if (!it) icon { fromTheme { expand } } }
-                +".base"
+//                hovered.data.render { if (!it) icon { fromTheme { expand } } }
+                hovered.data.map { if(!it) "base" else "" }.asText()
             }
             flexBox({
                 grid { area { gridAreas.BASE_CONTRAST } }
@@ -101,8 +101,8 @@ fun renderColorScheme(context: RenderContext, name: String, colorScheme: ColorSc
                 background { color { colorScheme.baseContrast } }
                 color { colorScheme.base }
             }) {
-                hovered.data.render { if (!it) icon { fromTheme { edit } } }
-                +".baseContrast"
+//                hovered.data.render { if (!it) icon { fromTheme { edit } } }
+                hovered.data.map { if(!it) "baseContrast" else "" }.asText()
             }
             flexBox({
                 grid { area { gridAreas.HIGHLIGHT } }
@@ -114,8 +114,8 @@ fun renderColorScheme(context: RenderContext, name: String, colorScheme: ColorSc
                     md = { bottomLeft { none } }
                 )
             }) {
-                hovered.data.render { if (it) icon { fromTheme { expand } } }
-                +".highlight"
+//                hovered.data.render { if (it) icon { fromTheme { expand } } }
+                hovered.data.map { if(it) "highlight" else "" }.asText()
             }
             flexBox({
                 grid { area { gridAreas.HIGHLIGHT_CONTRAST } }
@@ -124,8 +124,8 @@ fun renderColorScheme(context: RenderContext, name: String, colorScheme: ColorSc
                 color { colorScheme.highlight }
                 radii { bottomRight { radiiSize() } }
             }) {
-                hovered.data.render { if (it) icon { fromTheme { edit } } }
-                +".highlightContrast"
+//                hovered.data.render { if (it) icon { fromTheme { edit } } }
+                hovered.data.map { if(it) "highlightContrast" else "" }.asText()
             }
         }
     }
@@ -134,11 +134,7 @@ fun renderColorScheme(context: RenderContext, name: String, colorScheme: ColorSc
 fun RenderContext.createColorBar(
     color: ColorProperty,
     colorName: String,
-    boxSizeMd: SizesProperty,
-    hoverSizeMd: SizesProperty,
-    textColor: ColorProperty = Theme().fontColor,
-    textWidth: String = "10rem",
-    withBackground: Boolean = true,
+    withBorder: Boolean = false,
 ) {
     lineUp({
         margins {
@@ -147,28 +143,25 @@ fun RenderContext.createColorBar(
     }) {
         items {
             box({
-                width(sm = { "100%" }, boxSizeMd)
+                width { "100%" }
                 background {
                     color { color }
                 }
-                border {
-                    width { fat }
-                    color { "transparent" }
-                }
                 hover {
-                    width(sm = { "100%" }, hoverSizeMd)
+                    width { "100%" }
                 }
                 radius { "1.3rem" }
+                if(withBorder) border { width { hair } }
             }) {
                 (::p.styled {
-                    color { textColor }
-                    width { textWidth }
+                    width { "6rem" }
                     radius { "1rem" }
                     paddings {
                         left { small }
                         right { small }
                     }
-                    if (withBackground) background { color { neutral } }
+                    margin { "0.3rem" }
+                    background { color { neutral } }
                     tooltip(color) { right }()
                 }) { +colorName }
             }
@@ -186,7 +179,7 @@ fun RenderContext.colorDemo(): Div {
         paragraph {
             +"The fritz2 components default theme has its own set of colors which you can view here."
             +" Please see "
-            internalLink("the themes page", theme_)
+            internalLink("themes page", theme_)
             +" for more information on using themes. "
         }
         showcaseSubSection("Color Schemes")
@@ -194,25 +187,26 @@ fun RenderContext.colorDemo(): Div {
         paragraph {
             +"The main foundation for colors is a class named "
             c("ColorScheme")
-            +" that groups semantically related ones together. It offers the following four properties:"
+            +" that groups semantically related together. It offers the following four properties:"
             ul {
                 li {
                     c("base")
-                    +": use for areas, surfaces, borders"
+                    +" use for areas, surfaces, borders"
                 }
                 li {
                     c("baseContrast")
-                    +": use for text, icons or alike rendered upon a surface colored with base"
+                    +" use for text, icons or alike placed upon a surface colored with "
+                    c("base")
                 }
                 li {
                     c("highlight")
-                    +": use instead of "
+                    +" use instead of "
                     c("base")
                     +" for effects like hovering and similar"
                 }
                 li {
                     c("highlightContrast")
-                    +": use for text, icons or alike rendered upon a surface colored with "
+                    +" use for text, icons or alike placed upon a surface colored with "
                     c("highlight")
                 }
             }
@@ -226,46 +220,42 @@ fun RenderContext.colorDemo(): Div {
         renderColorScheme(this, "secondary", Theme().colors.secondary)
         renderColorScheme(this, "tertiary", Theme().colors.tertiary)
 
-        showcaseSubSection("Alerts")
+        showcaseSubSection("Signal Colors")
 
         paragraph {
             +"For typical alert messages we offer the following colors:"
         }
 
         div {
-            createColorBar(Theme().colors.info, "info", { "100%" }, { "100%" })
-            createColorBar(Theme().colors.success, "success", { "100%" }, { "100%" })
-            createColorBar(Theme().colors.warning, "warning", { "100%" }, { "100%" })
-            createColorBar(Theme().colors.danger, "danger", { "100%" }, { "100%" })
+            createColorBar(Theme().colors.info, "info")
+            createColorBar(Theme().colors.success, "success")
+            createColorBar(Theme().colors.warning, "warning")
+            createColorBar(Theme().colors.danger, "danger")
         }
 
-        showcaseSubSection("Grays")
+        showcaseSubSection("Shades of Gray")
 
         paragraph {
             +"We provide 10 shades of grays with ascending brightness reflected by numbering their names accordingly:"
         }
 
-        (::div.styled {
-            margins { top { huge } }
-        }) {
-            createColorBar(Theme().colors.gray50, "gray50", { "100%" }, { "100%" }, "6rem")
-            createColorBar(Theme().colors.gray100, "gray100", { "100%" }, { "100%" }, "6rem")
-            createColorBar(Theme().colors.gray200, "gray200", { "100%" }, { "100%" }, "6rem")
-            createColorBar(Theme().colors.gray300, "gray300", { "100%" }, { "100%" }, "6rem")
-            createColorBar(Theme().colors.gray400, "gray400", { "100%" }, { "100%" }, "6rem")
-            createColorBar(Theme().colors.gray500, "gray500", { "100%" }, { "100%" }, "6rem")
-            createColorBar(Theme().colors.gray600, "gray600", { "100%" }, { "100%" }, "6rem")
-            createColorBar(Theme().colors.gray700, "gray700", { "100%" }, { "100%" }, "6rem")
-            createColorBar(Theme().colors.gray800, "gray800", { "100%" }, { "100%" }, "6rem")
-            createColorBar(Theme().colors.gray900, "gray900", { "100%" }, { "100%" }, "6rem")
-        }
+        createColorBar(Theme().colors.gray50, "gray50")
+        createColorBar(Theme().colors.gray100, "gray100")
+        createColorBar(Theme().colors.gray200, "gray200")
+        createColorBar(Theme().colors.gray300, "gray300")
+        createColorBar(Theme().colors.gray400, "gray400")
+        createColorBar(Theme().colors.gray500, "gray500")
+        createColorBar(Theme().colors.gray600, "gray600")
+        createColorBar(Theme().colors.gray700, "gray700")
+        createColorBar(Theme().colors.gray800, "gray800")
+        createColorBar(Theme().colors.gray900, "gray900")
 
         showcaseSubSection("Others")
         p {
             +"Last but not least there exist colors for typical global settings:"
         }
 
-        createColorBar(Theme().backgroundColor, "backgroundColor", { "100%" }, { "100%" }, "6rem")
-        createColorBar(Theme().fontColor, "fontColor", { "100%" }, { "100%" }, "6rem")
+        createColorBar(Theme().backgroundColor, "backgroundColor", true)
+        createColorBar(Theme().fontColor, "fontColor")
     }
 }
