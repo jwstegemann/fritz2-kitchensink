@@ -11,7 +11,6 @@ import dev.fritz2.kitchensink.base.contentFrame
 import dev.fritz2.kitchensink.base.externalLink
 import dev.fritz2.kitchensink.base.paragraph
 import dev.fritz2.styling.params.AlignContentValues.start
-import dev.fritz2.styling.params.alterHexColorBrightness
 import dev.fritz2.styling.params.styled
 import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -32,7 +31,7 @@ fun RenderContext.welcome(): Div {
                 icon({
                     size(
                         sm = { "5rem" },
-                        md = { "10rem" }
+                        md = { "9rem" }
                     )
                     color { primary.base }
                     css("drop-shadow(0 0 0.5rem gray);")
