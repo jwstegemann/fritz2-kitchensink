@@ -8,6 +8,7 @@ import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.kitchensink.buttons_
 import dev.fritz2.styling.params.styled
+import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
@@ -82,28 +83,32 @@ fun RenderContext.fileDemo(): Div {
         showcaseSection("Usage")
         paragraph {
             +"Use the "
-            c("file {}")
+            c("file")
             +" function for a single file selection, or "
-            c("files {}")
+            c("files")
             +" for selecting multiple files. "
             +"You can use any button described on our "
             internalLink("button page", buttons_)
             +" - just call the "
-            c("button()")
+            c("button")
             +" function inside the file function context."
             +"The functions return a "
             c("File")
             +" or a "
             c("List<File>")
             +"  which can directed to a matching handler using "
-            c("handledBy()")
+            c("handledBy")
             +"."
         }
-        paragraph {
-            +"Note: To select multiple files at once, you need to press and hold the "
-            c("Shift")
-            +" key while selecting the files."
+
+        coloredBox(Theme().colors.info){
+            p {
+                +"To select multiple files at once, you need to press and hold the "
+                c("Shift")
+                +" key while selecting the files."
+            }
         }
+
         componentFrame {
             lineUp(switchLayoutSm) {
                 items {
@@ -121,9 +126,15 @@ fun RenderContext.fileDemo(): Div {
             source(
                 """
                 val fileStore = object : RootStore<Unit>(Unit) {
-                    val showFile = handle<File> { _, file -> fileModal(file)() }
-                    val showFiles = handle<List<File>> { _, files -> filesModal(files)() }
-                    val showFilesWithContent = handle<List<File>> { _, files -> filesModal(files, true)() }
+                    val showFile = handle<File> { _, file ->
+                        fileModal(file)()
+                    }
+                    val showFiles = handle<List<File>> { _, files ->
+                        filesModal(files)()
+                    }
+                    val showFilesWithContent = handle<List<File>> { _, files ->
+                        filesModal(files, showContent = true)()
+                    }
                 }
                 
                 file {
@@ -215,7 +226,7 @@ fun RenderContext.fileDemo(): Div {
         showcaseSection("Text Files")
         paragraph {
             +"In case of selecting text-files only, you can parse their contents by passing a value to the "
-            c("encoding()")
+            c("encoding")
             +" function. The content of the resulting "
             c("File")
             +" object is then encoded in this format (e.g. utf-8)."

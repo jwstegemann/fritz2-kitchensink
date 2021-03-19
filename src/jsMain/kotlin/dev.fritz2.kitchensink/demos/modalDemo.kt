@@ -81,10 +81,13 @@ fun RenderContext.modalDemo(): Div {
                     text("Default Modal Dialog")
                 } handledBy modal {
                     content {
-                        p { +"You can put any HTML element, component or structure into a modal." }
+                        p { 
+                            +"You can put any HTML element, " 
+                            +"component or structure into a modal."
+                        }
                     }
                 }
-                """.trimIndent()
+                """
             )
         }
 

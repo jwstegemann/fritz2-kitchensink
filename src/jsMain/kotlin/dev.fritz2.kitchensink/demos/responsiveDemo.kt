@@ -34,8 +34,8 @@ fun RenderContext.responsiveDemo(): Div {
         highlight {
             source(
                 """
-                (::div.styled {
-                    font-size(sm = { tiny }, lg = { normal })
+                box({
+                    fontSize(sm = { tiny }, lg = { normal })
                     width(sm = { full }, lg = { "768px" })
                     color { primary.base }
                 }) { + "my styled div" }"""
@@ -44,7 +44,7 @@ fun RenderContext.responsiveDemo(): Div {
 
         paragraph {
             +"""In accordance with mobile-first, when no value is given for a particular size, the next smaller one will be applied. In the example above, the"""
-            c("font-size")
+            c("fontSize")
             +" will be "
             c("tiny")
             +" for "
@@ -141,7 +141,7 @@ fun RenderContext.responsiveDemo(): Div {
                         (::img.styled {
                             width(sm = { full }, md = { wide.small })
                         }) {
-                            src("https://bit.ly/3qthIO3")
+                            src("...")
                         }
                     }
     

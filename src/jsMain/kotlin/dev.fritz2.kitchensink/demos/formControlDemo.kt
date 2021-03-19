@@ -80,13 +80,13 @@ fun RenderContext.formControlDemo(): Div {
                     height { "100" }
                 }) {
                     p { +"Registration successful!" }
-                    clickButton { text("fritz:it up") } handledBy close
+                    clickButton { text("Continue") } handledBy close
                 }
             }
         }
 
         componentFrame {
-            h3 { +"Create your fritz:it user account" }
+            h3 { +"Create your user account" }
             br {}
             stackUp {
                 spacing { large }
@@ -179,7 +179,7 @@ fun RenderContext.formControlDemo(): Div {
                 val nameStore = accountStore.sub(L.Account.username)
                 val passphraseStore = accountStore.sub(L.Account.passphrase)
                 val interestStore = accountStore.sub(L.Account.interests)
-                val confirmationStore = accountStore.sub(L.Account.confirmation)                                        
+                val confirmationStore = accountStore.sub(L.Account.confirmation)
                 """
             )
         }
@@ -222,7 +222,10 @@ fun RenderContext.formControlDemo(): Div {
                     label("Choose up to three interests:")
 
                     checkboxGroup(
-                        items = listOf("Kotlin", "fritz2", "Html", "CSS", "Design", "Open Source"),
+                        items = listOf(
+                            "Kotlin", "fritz2", "Html", 
+                            "CSS", "Design", "Open Source"
+                        ),
                         store = interestStore
                     ) {
                         direction { column }
@@ -240,7 +243,6 @@ fun RenderContext.formControlDemo(): Div {
         showcaseSubSection("Validation")
 
         coloredBox(Theme().colors.info) {
-            strong { +"Hint: " }
             +"The validation code does not rely on anything UI specific so it's"
             +" perfect for unit testing."
         }
@@ -971,7 +973,7 @@ fun RenderContext.formControlDemo(): Div {
             +"But remember: "
         }
         coloredBox(Theme().colors.warning) {
-            strong { +"With great power comes great responsibility!" }
+            +"With great power comes great responsibility!"
         }
         paragraph {
             +" In order to keep all the functionality, you must process the properties appropriate. So we recommend "
@@ -1016,13 +1018,10 @@ fun RenderContext.formControlDemo(): Div {
                 }
             }
         }
-        storeContentBox {
-            p {
-                b { +"Selected: " }
-                selectedFramework.data.render {
-                    span {
-                        +it
-                    }
+        storeContentBox("Selected") {
+            selectedFramework.data.render {
+                span {
+                    +it
                 }
             }
         }

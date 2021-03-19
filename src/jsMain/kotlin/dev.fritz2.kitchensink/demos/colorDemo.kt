@@ -1,20 +1,169 @@
 package dev.fritz2.kitchensink.demos
 
-import dev.fritz2.components.box
-import dev.fritz2.components.lineUp
-import dev.fritz2.components.tooltip
+import dev.fritz2.binding.storeOf
+import dev.fritz2.components.*
 import dev.fritz2.dom.html.Div
-import dev.fritz2.dom.html.P
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.kitchensink.theme_
-import dev.fritz2.styling.params.ColorProperty
-import dev.fritz2.styling.params.SizesProperty
-import dev.fritz2.styling.params.alterHexColorBrightness
-import dev.fritz2.styling.params.styled
+import dev.fritz2.styling.params.*
 import dev.fritz2.styling.theme.ColorScheme
 import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.map
+
+
+fun renderColorScheme(context: RenderContext, name: String, colorScheme: ColorScheme) {
+    val hovered = storeOf(false)
+
+    val gridAreas = object {
+        val MAIN: AreaName = "main"
+        val BASE: AreaName = "base"
+        val BASE_CONTRAST: AreaName = "baseContrast"
+        val HIGHLIGHT: AreaName = "highlight"
+        val HIGHLIGHT_CONTRAST: AreaName = "highlightContrast"
+    }
+
+    val baseStyle: Style<BoxParams> = {
+        justifyContent { center }
+        alignItems { center }
+        fontSize { normal }
+    }
+
+    val radiiSize: ScaledValueProperty = { "0.5rem" }
+
+    context.apply {
+        gridBox({
+            margins { bottom { normal } }
+            areas(
+                sm = {
+                    with(gridAreas) {
+                        row(MAIN, MAIN)
+                        row(BASE, BASE_CONTRAST)
+                        row(HIGHLIGHT, HIGHLIGHT_CONTRAST)
+                    }
+                },
+                md = {
+                    with(gridAreas) {
+                        row(MAIN, MAIN, MAIN, MAIN)
+                        row(BASE, BASE_CONTRAST, HIGHLIGHT, HIGHLIGHT_CONTRAST)
+                    }
+                }
+            )
+            rows(
+                sm = { "4fr 1fr 1fr" },
+                md = { "2fr 1fr" }
+            )
+            columns(
+                sm = { "1fr 1fr" },
+                md = { repeat(4) { "1fr" } }
+            )
+            gap { tiny }
+            background { color { neutral } }
+            height(
+                sm = { "9rem" },
+                md = { "6rem" }
+            )
+        }) {
+            flexBox({
+                baseStyle(this as BoxParams)
+                grid { area { gridAreas.MAIN } }
+                background { color { colorScheme.base } }
+                color { colorScheme.baseContrast }
+                hover {
+                    background { color { colorScheme.highlight } }
+                    color { colorScheme.highlightContrast }
+                }
+                radii { top { radiiSize() } }
+            }) {
+                box({
+                    fontSize { large }
+                }) { +name }
+                mouseenters.map { true } handledBy hovered.update
+                mouseleaves.map { false } handledBy hovered.update
+            }
+            flexBox({
+                grid { area { gridAreas.BASE } }
+                baseStyle(this as BoxParams)
+                background { color { colorScheme.base } }
+                color { colorScheme.baseContrast }
+                radii(
+                    sm = { bottomLeft { none } },
+                    md = { bottomLeft { radiiSize() } }
+                )
+            }) {
+                hovered.data.map { if(!it) "base" else "" }.asText()
+            }
+            flexBox({
+                grid { area { gridAreas.BASE_CONTRAST } }
+                baseStyle(this as BoxParams)
+                background { color { colorScheme.baseContrast } }
+                color { colorScheme.base }
+            }) {
+                hovered.data.map { if(!it) "baseContrast" else "" }.asText()
+            }
+            flexBox({
+                grid { area { gridAreas.HIGHLIGHT } }
+                baseStyle(this as BoxParams)
+                background { color { colorScheme.highlight } }
+                color { colorScheme.highlightContrast }
+                radii(
+                    sm = { bottomLeft { radiiSize() } },
+                    md = { bottomLeft { none } }
+                )
+            }) {
+                hovered.data.map { if(it) "highlight" else "" }.asText()
+            }
+            flexBox({
+                grid { area { gridAreas.HIGHLIGHT_CONTRAST } }
+                baseStyle(this as BoxParams)
+                background { color { colorScheme.highlightContrast } }
+                color { colorScheme.highlight }
+                radii { bottomRight { radiiSize() } }
+            }) {
+                hovered.data.map { if(it) "highlightContrast" else "" }.asText()
+            }
+        }
+    }
+}
+
+fun RenderContext.createColorBar(
+    color: ColorProperty,
+    colorName: String,
+    withBorder: Boolean = false,
+) {
+    lineUp({
+        margins {
+            top { tiny }
+        }
+    }) {
+        items {
+            box({
+                width { "100%" }
+                background {
+                    color { color }
+                }
+                hover {
+                    width { "100%" }
+                }
+                radius { "1.3rem" }
+                if(withBorder) border { width { hair } }
+            }) {
+                (::p.styled {
+                    width { "6rem" }
+                    radius { "1rem" }
+                    paddings {
+                        left { small }
+                        right { small }
+                    }
+                    margin { "0.3rem" }
+                    background { color { neutral } }
+                    tooltip(color) { right }()
+                }) { +colorName }
+            }
+        }
+    }
+}
 
 @ExperimentalCoroutinesApi
 fun RenderContext.colorDemo(): Div {
@@ -26,198 +175,83 @@ fun RenderContext.colorDemo(): Div {
         paragraph {
             +"The fritz2 components default theme has its own set of colors which you can view here."
             +" Please see "
-            internalLink("the themes page", theme_)
+            internalLink("themes page", theme_)
             +" for more information on using themes. "
+        }
+        showcaseSubSection("Color Schemes")
+
+        paragraph {
+            +"The main foundation for colors is a class named "
+            c("ColorScheme")
+            +" that groups semantically related together. It offers the following four properties:"
+            ul {
+                li {
+                    c("base")
+                    +" use for areas, surfaces, borders"
+                }
+                li {
+                    c("baseContrast")
+                    +" use for text, icons or alike placed upon a surface colored with "
+                    c("base")
+                }
+                li {
+                    c("highlight")
+                    +" use instead of "
+                    c("base")
+                    +" for effects like hovering and similar"
+                }
+                li {
+                    c("highlightContrast")
+                    +" use for text, icons or alike placed upon a surface colored with "
+                    c("highlight")
+                }
+            }
         }
 
         paragraph {
-            +"The default theme provides the following colors:"
+            +"The default theme provides the following three color schemes:"
+        }
+
+        renderColorScheme(this, "primary", Theme().colors.primary)
+        renderColorScheme(this, "secondary", Theme().colors.secondary)
+        renderColorScheme(this, "tertiary", Theme().colors.tertiary)
+
+        showcaseSubSection("Signal Colors")
+
+        paragraph {
+            +"For typical alert messages we offer the following colors:"
         }
 
         div {
-            createColorBars(Theme().colors.primary, "primary", { "95%" }, { "100%" })
-            createColorBars(Theme().colors.secondary, "secondary", { "90%" }, { "95%" })
-            createColorBars(Theme().colors.tertiary, "tertiary", { "85%" }, { "90%" })
-            createColorBar(Theme().colors.info, "info", { "80%" }, { "85%" })
-            createColorBar(Theme().colors.success, "success", { "75%" }, { "80%" })
-            createColorBar(Theme().colors.warning, "warning", { "70%" }, { "75%" })
-            createColorBar(Theme().colors.danger, "danger", { "65%" }, { "70%" })
+            createColorBar(Theme().colors.info, "info")
+            createColorBar(Theme().colors.success, "success")
+            createColorBar(Theme().colors.warning, "warning")
+            createColorBar(Theme().colors.danger, "danger")
         }
 
-        (::div.styled {
-            margins { top { huge } }
-        }) {
-            createColorBar(Theme().colors.gray50, "gray50", { "50%" }, { "55%" }, "6rem")
-            createColorBar(Theme().colors.gray100, "gray100", { "55%" }, { "60%" }, "6rem")
-            createColorBar(Theme().colors.gray200, "gray200", { "60%" }, { "65%" }, "6rem")
-            createColorBar(Theme().colors.gray300, "gray300", { "65%" }, { "70%" }, "6rem")
-            createColorBar(Theme().colors.gray400, "gray400", { "70%" }, { "75%" }, "6rem")
-            createColorBar(Theme().colors.gray500, "gray500", { "75%" }, { "80%" }, "6rem")
-            createColorBar(Theme().colors.gray600, "gray600", { "80%" }, { "85%" }, "6rem")
-            createColorBar(Theme().colors.gray700, "gray700", { "85%" }, { "90%" }, "6rem")
-            createColorBar(Theme().colors.gray800, "gray800", { "90%" }, { "95%" }, "6rem")
-            createColorBar(Theme().colors.gray900, "gray900", { "95%" }, { "100%" }, "6rem")
-        }
-
-        showcaseSection("Color Brightness")
-        val demoBrightness = 1.5
+        showcaseSubSection("Shades of Gray")
 
         paragraph {
-            +"Additionally, you can use the function "
-            c("alterHexColorBrightness(ColorProperty, double)")
-            +" to freely change the brightness setting of any "
-            b { +"hex (#rrggbb)" }
-            +" color."
-            +" Use a value between 1 and 2 to lighten up the color, and a value between 0 and 1 to darken it."
-            +" The colors on the right side use a brightness setting of "
-            c("$demoBrightness")
-            +"."
+            +"We provide 10 shades of grays with ascending brightness reflected by numbering their names accordingly:"
         }
 
-        colorBrightnessDemo(demoBrightness)
-        val demoDarkness = 0.7
-        paragraph {
-            +"These colors use a brightness of "
-            c("$demoDarkness")
-            +"."
-        }
-        colorBrightnessDemo(demoDarkness)
-    }
-}
+        createColorBar(Theme().colors.gray50, "gray50")
+        createColorBar(Theme().colors.gray100, "gray100")
+        createColorBar(Theme().colors.gray200, "gray200")
+        createColorBar(Theme().colors.gray300, "gray300")
+        createColorBar(Theme().colors.gray400, "gray400")
+        createColorBar(Theme().colors.gray500, "gray500")
+        createColorBar(Theme().colors.gray600, "gray600")
+        createColorBar(Theme().colors.gray700, "gray700")
+        createColorBar(Theme().colors.gray800, "gray800")
+        createColorBar(Theme().colors.gray900, "gray900")
 
-fun RenderContext.createColorBars(
-    colorScheme: ColorScheme,
-    colorName: String,
-    boxSizeMd: SizesProperty,
-    hoverSizeMd: SizesProperty,
-    textWidth: String = "10rem"
-) {
-    createColorBar(
-        colorScheme.base,
-        "$colorName.base",
-        boxSizeMd, hoverSizeMd,
-        colorScheme.baseContrast, textWidth,
-        withBackground = false
-    )
-    createColorBar(
-        colorScheme.highlight,
-        "$colorName.highlight",
-        boxSizeMd, hoverSizeMd,
-        colorScheme.highlightContrast, textWidth,
-        withBackground = false
-    )
-}
+        showcaseSubSection("Others")
+        p {
+            +"Last but not least there exist colors for typical global settings:"
+        }
 
-fun RenderContext.createColorBar(
-    color: ColorProperty,
-    colorName: String,
-    boxSizeMd: SizesProperty,
-    hoverSizeMd: SizesProperty,
-    textColor: ColorProperty = Theme().fontColor,
-    textWidth: String = "10rem",
-    withBackground: Boolean = true,
-) {
-    lineUp({
-        margins {
-            top { tiny }
-        }
-    }) {
-        items {
-            box({
-                width(sm = { "100%" }, boxSizeMd)
-                background {
-                    color { color }
-                }
-                border {
-                    width { fat }
-                    color { "transparent" }
-                }
-                hover {
-                    width(sm = { "100%" }, hoverSizeMd)
-                    tooltip(color) { right }()
-                }
-                radius { "1.3rem" }
-            }) {
-                (::p.styled {
-                    color { textColor }
-                    width { textWidth }
-                    radius { "1rem" }
-                    paddings {
-                        left { small }
-                        right { small }
-                    }
-                    if (withBackground) background { color { neutral } }
-                }) { +colorName }
-            }
-        }
-    }
-}
-
-fun RenderContext.createBrightnessDemoBar(color: ColorProperty, colorName: String, brightness: Double): Div {
-    return lineUp({
-        margins {
-            top { tiny }
-        }
-    }) {
-        items {
-            box({
-                width(sm = { "50%" }, md = { "45%" })
-                background {
-                    color { color }
-                }
-                border {
-                    width { fat }
-                    color { "transparent" }
-                }
-                hover {
-                    tooltip(color) { right }()
-                }
-                radius { "1.3rem" }
-            }) {
-                lineUp {
-                    items {
-                        (::p.styled {
-                            width { "10rem" }
-                            background {
-                                color { neutral }
-                            }
-                            radius { "1rem" }
-                            color { color }
-                            paddings {
-                                left { small }
-                                right { small }
-                            }
-                        }) { +colorName }
-                    }
-                }
-            }
-            box({
-                width(sm = { "50%" }, md = { "45%" })
-                height { "2.2rem" }
-                background {
-                    color { alterHexColorBrightness(color, brightness) }
-                }
-                border {
-                    width { fat }
-                    color { alterHexColorBrightness(color, brightness) }
-                }
-                hover {
-                    tooltip(alterHexColorBrightness(color, brightness)) { right }()
-                }
-                radius { "1.3rem" }
-            }) {}
-        }
-    }
-}
-
-fun RenderContext.colorBrightnessDemo(brightness: Double): P {
-    return paragraph {
-        createBrightnessDemoBar(Theme().colors.primary.base, "primary.base", brightness)
-        createBrightnessDemoBar(Theme().colors.secondary.base, "secondary.base", brightness)
-        createBrightnessDemoBar(Theme().colors.tertiary.base, "tertiary.base", brightness)
-        createBrightnessDemoBar(Theme().colors.info, "info", brightness)
-        createBrightnessDemoBar(Theme().colors.success, "success", brightness)
-        createBrightnessDemoBar(Theme().colors.warning, "warning", brightness)
-        createBrightnessDemoBar(Theme().colors.danger, "danger", brightness)
+        createColorBar(Theme().backgroundColor, "backgroundColor", true)
+        createColorBar(Theme().fontColor, "fontColor")
     }
 }

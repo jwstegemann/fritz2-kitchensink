@@ -39,7 +39,7 @@ fun RenderContext.gridBoxDemo(): Div {
         showcaseSection("Usage")
         paragraph {
             +"In order to create a gridbox, you need to provide some specialized grid styling information."
-            +" In this simple example, a five column grid layout is defined, but seven items are inserted."
+            +" In this simple example, a four column grid layout is defined, but seven items are inserted."
             +" The gridbox then renders the surplus items into a second row:"
         }
         componentFrame {
@@ -49,7 +49,8 @@ fun RenderContext.gridBoxDemo(): Div {
                 children("div") {
                     width { "120px" }
                     height { "50px" }
-                    background { color { primary.highlight } }
+                    color { primary.baseContrast }
+                    background { color { primary.base } }
                     display { flex }
                     radius { small }
                     css("justify-content: center")
@@ -74,7 +75,8 @@ fun RenderContext.gridBoxDemo(): Div {
                     children("div") {
                         width { "120px" }
                         height { "50px" }
-                        background { color { primary.highlight } }
+                        color { primary.baseContrast }
+                        background { color { primary.base } }
                         display { flex }
                         radius { small }
                         css("justify-content: center")
@@ -238,12 +240,9 @@ fun RenderContext.gridBoxDemo(): Div {
         }
 
         coloredBox(Theme().colors.info){
-            p {
-                strong { +"Please note:" }
-                +" This layout also transforms with screen size. Try resizing your browser window to see"
-                +" how the sidebar is placed into its own row when the space narrows."
-                +" The content then appears on a separate row below."
-            }
+            +"This layout also transforms with screen size. Try resizing your browser window to see "
+            +"how the sidebar is placed into its own row when the space narrows. "
+            +"The content then appears on a separate row below."
         }
 
         showcaseSubSection("Column Layout")
@@ -271,24 +270,19 @@ fun RenderContext.gridBoxDemo(): Div {
                                     
                     // refer to those, easy refactoring included
                     areas(
-                        sm = { // structure for small displays
-                            row {
-                                start { grid.HEADER.start }
-                                end { grid.CONTENT.end }
-                            }
-                            column {
-                                start { grid.CONTENT.start }
-                                end { grid.CONTENT.end }
+                        sm = {
+                            with(grid) {
+                                row(HEADER, HEADER, HEADER)
+                                row(SIDEBAR, SIDEBAR, SIDEBAR)
+                                row(CONTENT, CONTENT, CONTENT)
+                                row(FOOTER, FOOTER, FOOTER)
                             }
                         },
-                        md = { // structure for medium and larger displays
-                            row {
-                                start { grid.HEADER.start }
-                                end { span(2) }
-                            }
-                            column {
-                                start { "3" }
-                                end { grid.CONTENT.end }
+                        md = {
+                            with(grid) {
+                                row(HEADER, HEADER, HEADER)
+                                row(SIDEBAR, CONTENT, CONTENT)
+                                row(FOOTER, FOOTER, FOOTER)
                             }
                         }
                     )

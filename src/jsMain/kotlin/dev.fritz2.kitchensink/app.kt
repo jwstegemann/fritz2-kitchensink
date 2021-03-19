@@ -29,7 +29,7 @@ const val formcontrol_ = "FormControl"
 const val flexbox_ = "FlexBox"
 const val gridbox_ = "GridBox"
 const val checkbox_ = "Checkbox"
-const val radio_ = "Radio"
+const val radio_ = "RadioGroup"
 const val switch_ = "Switch"
 const val stack_ = "Stack"
 const val modal_ = "Modal"
@@ -52,6 +52,9 @@ object ThemeStore : RootStore<Int>(0) {
         index
     }
 }
+
+const val versionStatus = "alpha"
+const val versionNumber = "0.9.1"
 
 const val highlightBackgroundColor = "#2b303b"
 
@@ -164,7 +167,7 @@ fun main() {
                         margins {
                             left { small }
                         }
-                    }) { +"Alpha" }
+                    }) { +versionStatus.capitalize() }
                 }
 
                 actions {

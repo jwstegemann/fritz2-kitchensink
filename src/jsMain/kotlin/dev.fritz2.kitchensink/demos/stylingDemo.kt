@@ -42,16 +42,21 @@ fun RenderContext.stylingDemo(): Div {
             c("styled()")
             +" function."
         }
+
         componentFrame {
             lineUp {
                 items {
                     (::span.styled {
+                        color { secondary.baseContrast }
                         background { color { secondary.base } }
-                        color { gray100 }
                         fontWeight { bold }
                         boxShadow { raised }
                         padding { normal }
                         radius { small }
+                        hover {
+                            color { secondary.highlightContrast }
+                            background { color { secondary.highlight } }
+                        }
                     }) { +"Raised Text" }
                 }
             }
@@ -60,12 +65,16 @@ fun RenderContext.stylingDemo(): Div {
             source(
                 """
                 (::span.styled {
-                    background { color { tertiary.base } }
-                    color { tertiary.complementary }
-                    fontWeight { "700" }
+                    color { secondary.baseContrast }
+                    background { color { secondary.base } }
+                    fontWeight { bold }
                     boxShadow { raised }
                     padding { normal }
                     radius { small }
+                    hover {
+                        color { secondary.highlightContrast }
+                        background { color { secondary.highlight } } 
+                    }
                 }) { +"Raised Text" }
                 """
             )
@@ -74,9 +83,10 @@ fun RenderContext.stylingDemo(): Div {
         paragraph {
             +"To remain as flexible as possible, values of properties can alternatively be passed as "
             c("String")
-            +"s, like "
+            +", like "
             c("""width { "75%" }""")
-            +". Additionally, you can set any other property that is not part of the DSL by using "
+            +". Also all css pseudo-elements and classes are available in styling DSL."
+            +" Additionally, you can set any other property that is not part of the DSL by using "
             c("""css()""")
             +"."
         }
@@ -84,7 +94,7 @@ fun RenderContext.stylingDemo(): Div {
         showcaseSection("Styling Components")
         paragraph {
             +"Every component, like "
-            c("icon")
+            c("icon()")
             +" for example, can easily be styled by using the first parameter of its factory-function:"
         }
         componentFrame {
