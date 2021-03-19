@@ -38,12 +38,12 @@ fun RenderContext.gettingStarted(): Div {
         highlight {
             source(
                 """
-                 |val jsMain by getting {
-                 |  dependencies {
-                 |      implementation("dev.fritz2:components:0.9.1")
-                 |  }
-                 |}
-                """.trimMargin()
+                val jsMain by getting {
+                    dependencies {
+                       implementation("dev.fritz2:components:0.9.1")
+                    }
+                }
+                """
             )
         }
 
@@ -54,20 +54,21 @@ fun RenderContext.gettingStarted(): Div {
             c("src/resources/index.html")
             +"):"
         }
-        highlight {
-            source("""
-                |<html lang="en">
-                |<head>
-                |   <title>My app title</title>
-                |   <!-- add styles, fonts etc. here -->
-                |</head>
-                |<!-- the id attribute is mandatory for mounting -->
-                |<body id="target"> 
-                |   Loading...
-                |   <!-- add the compile js file here -->
-                |   <script src="<project-name>.js"></script>
-                |</body>
-                |</html>""".trimMargin()
+        highlight(language = "html") {
+            source(
+                """
+                <html lang="en">
+                <head>
+                   <title>My app title</title>
+                   <!-- add styles, fonts etc. here -->
+                </head>
+                <!-- the id attribute is mandatory for mounting -->
+                <body id="target"> 
+                   Loading...
+                   <!-- add the compile js file here -->
+                   <script src="<project-name>.js"></script>
+                </body>
+                </html>"""
             )
         }
 
@@ -82,8 +83,10 @@ fun RenderContext.gettingStarted(): Div {
             c("<body>")
             +" element of your page."
         }
-        playground { source(
-            """fun main() {
+        highlight {
+            source(
+                """
+                fun main() {
                     val router = router(welcome)
                 
                     render {
@@ -106,9 +109,9 @@ fun RenderContext.gettingStarted(): Div {
                             ...
                         }
                     }.mount("target") // id for mounting
-                }
-            """.trimIndent()
-        ) }
+                }"""
+            )
+        }
 
         showcaseSection("Pre-release versions")
         paragraph {

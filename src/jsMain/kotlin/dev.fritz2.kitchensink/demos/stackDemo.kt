@@ -72,7 +72,7 @@ fun RenderContext.stackDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
                 """
                 lineUp {
@@ -114,7 +114,7 @@ fun RenderContext.stackDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
                 """
                 stackUp {
@@ -156,7 +156,7 @@ fun RenderContext.stackDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
                 """
                 lineUp {
@@ -227,7 +227,7 @@ fun RenderContext.stackDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
                 """
                 val sizedBox: RenderContext.(Int, Int) -> Unit = { w, h ->

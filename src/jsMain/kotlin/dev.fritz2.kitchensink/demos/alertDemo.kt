@@ -30,14 +30,14 @@ fun RenderContext.alertDemo(): Div {
                 content("This is a basic alert.")
             }
         }
-        playground {
+        highlight {
             source(
                 """
                 alert {
                     title("Alert: ")
                     content("This is a basic alert.")
                 }
-                """.trimIndent()
+                """
             )
         }
 
@@ -54,14 +54,14 @@ fun RenderContext.alertDemo(): Div {
                 content("Alert using the fritz2 logo")
             }
         }
-        playground {
+        highlight {
             source(
                 """
                 alert {
                     icon { fritz2 }
                     content("Alert using the fritz2 logo")
                 }
-                """.trimIndent()
+                """
             )
         }
 
@@ -111,7 +111,7 @@ fun RenderContext.alertDemo(): Div {
                 severity { error }
             }
         }
-        playground {
+        highlight {
             source(
                 """
                     alert {
@@ -129,7 +129,7 @@ fun RenderContext.alertDemo(): Div {
                         content("Severity: error")
                         severity { error }
                     }
-                """.trimIndent()
+                """
             )
         }
 
@@ -165,7 +165,7 @@ fun RenderContext.alertDemo(): Div {
                 variant { topAccent }
             }
         }
-        playground {
+        highlight {
             source(
                 """
                     alert {
@@ -183,7 +183,7 @@ fun RenderContext.alertDemo(): Div {
                         content("This is a top-accented alert.")
                         variant { topAccent }
                     }
-                """.trimIndent()
+                """
             )
         }
 
@@ -222,7 +222,7 @@ fun RenderContext.alertDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
                 """
                     alert {
@@ -247,7 +247,7 @@ fun RenderContext.alertDemo(): Div {
                             }
                         }
                     }
-                """.trimIndent()
+                """
             )
         }
     }

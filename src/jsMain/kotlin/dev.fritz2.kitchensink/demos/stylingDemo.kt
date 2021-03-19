@@ -56,7 +56,7 @@ fun RenderContext.stylingDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
                 """
                 (::span.styled {
@@ -106,7 +106,7 @@ fun RenderContext.stylingDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
                 """
                 icon({
@@ -154,7 +154,7 @@ fun RenderContext.stylingDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
                 """
                 val veryImportant: Style<BasicParams> = {

@@ -209,7 +209,7 @@ fun RenderContext.iconsDemo(): Div {
             }
         }
 
-        playground {
+        highlight {
             source(
                 """
                 icon { fromTheme { favorite } }
@@ -275,7 +275,7 @@ fun RenderContext.iconsDemo(): Div {
             }
         }
 
-        playground {
+        highlight {
             source(
                 """
                 // define the icon itself:

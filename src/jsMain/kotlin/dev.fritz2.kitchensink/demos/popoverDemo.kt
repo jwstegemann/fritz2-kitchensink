@@ -43,7 +43,7 @@ fun RenderContext.popoverDemo(): Div {
             }
         }
 
-        playground {
+        highlight {
             source(
                 """
                 popover {
@@ -94,7 +94,7 @@ fun RenderContext.popoverDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
                 """
                  popover {
@@ -181,7 +181,7 @@ fun RenderContext.popoverDemo(): Div {
             }
         }
 
-        playground {
+        highlight {
             source(
                 """
                 popover {
@@ -252,7 +252,7 @@ fun RenderContext.popoverDemo(): Div {
             }
         }
 
-        playground {
+        highlight {
             source(
                 """
                 popover {
@@ -329,7 +329,7 @@ fun RenderContext.popoverDemo(): Div {
             }
         }
 
-        playground {
+        highlight {
             source(
                 """
                 popover(
@@ -398,7 +398,7 @@ fun RenderContext.popoverDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
                 """
                 popover {

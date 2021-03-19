@@ -74,7 +74,7 @@ fun RenderContext.modalDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
                 """
                 clickButton {
@@ -123,7 +123,7 @@ fun RenderContext.modalDemo(): Div {
             }
         }
 
-        playground {
+        highlight {
             source(
                 """
                 clickButton {
@@ -157,7 +157,7 @@ fun RenderContext.modalDemo(): Div {
 
         }
 
-        playground {
+        highlight {
             source(
                 """
                 clickButton {
@@ -203,7 +203,7 @@ fun RenderContext.modalDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
                 """
                 clickButton { text("Stack'em") } handledBy modal {
@@ -260,7 +260,7 @@ fun RenderContext.modalDemo(): Div {
             }
         }
 
-        playground {
+        highlight {
             source(
                 """
                 clickButton {
@@ -310,7 +310,7 @@ fun RenderContext.modalDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
                 """
                 clickButton {

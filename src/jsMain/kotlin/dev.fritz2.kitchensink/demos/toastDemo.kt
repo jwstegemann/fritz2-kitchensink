@@ -69,7 +69,7 @@ fun RenderContext.toastDemo(): Div {
             }
 
         }
-        playground {
+        highlight {
             source(
                 """
                     clickButton {
@@ -108,7 +108,7 @@ fun RenderContext.toastDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
                 """
                 clickButton {
@@ -162,7 +162,7 @@ fun RenderContext.toastDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
                 """
                 lineUp {
@@ -229,7 +229,7 @@ fun RenderContext.toastDemo(): Div {
             }
 
         }
-        playground {
+        highlight {
             source(
                 """
                 val list = listOf("Toast created", "for every", "element of a flow ")
@@ -331,7 +331,7 @@ fun RenderContext.toastDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
                 """
                 showToast {
@@ -367,7 +367,7 @@ fun RenderContext.toastDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
                 """
                 showToast {
@@ -404,7 +404,7 @@ fun RenderContext.toastDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
                 """
                     showToast {
@@ -455,7 +455,7 @@ fun RenderContext.toastDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
                 """
                 toast {
@@ -491,7 +491,7 @@ fun RenderContext.toastDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
                 """
                     showToast {
@@ -551,7 +551,7 @@ fun RenderContext.toastDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
                 """
                     clickButton {

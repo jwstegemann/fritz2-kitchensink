@@ -65,7 +65,7 @@ fun RenderContext.gridBoxDemo(): Div {
                 div { +"seven" }
             }
         }
-        playground {
+        highlight {
             source(
                 """
                 gridBox({
@@ -253,7 +253,7 @@ fun RenderContext.gridBoxDemo(): Div {
             +" of columns."
             +" This gives you access to its properties for the column definitions:"
         }
-        playground {
+        highlight {
             source(
                 """
                 // define the cells
@@ -299,7 +299,7 @@ fun RenderContext.gridBoxDemo(): Div {
         paragraph {
             +"The object also comes in handy for defining content:"
         }
-        playground {
+        highlight {
             source(
                 """
                 gridBox({
@@ -328,7 +328,7 @@ fun RenderContext.gridBoxDemo(): Div {
             +" This technique is used for the simple togglable drawer above, that appears on the right side by"
             +" the click of the button below the gridbox."
         }
-        playground {
+        highlight {
             source(
                 """
                 gridBox({

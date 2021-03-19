@@ -148,7 +148,7 @@ fun RenderContext.formControlDemo(): Div {
             c("@Lenses")
             +" to easily derive substores from the data later."
         }
-        playground {
+        highlight {
             source(
                 """
                 @Lenses
@@ -158,7 +158,7 @@ fun RenderContext.formControlDemo(): Div {
                     val interests: List<String>,
                     val confirmation: Boolean
                 )
-                """.trimIndent()
+                """
             )
         }
 
@@ -169,7 +169,7 @@ fun RenderContext.formControlDemo(): Div {
             +" is created to hold the account we want to create from the user's input."
             +" We then derive substores for each account property which will be used for the input fields."
         }
-        playground {
+        highlight {
             source(
                 """
                 val accountStore = object : RootStore<Account>(
@@ -180,7 +180,7 @@ fun RenderContext.formControlDemo(): Div {
                 val passphraseStore = accountStore.sub(L.Account.passphrase)
                 val interestStore = accountStore.sub(L.Account.interests)
                 val confirmationStore = accountStore.sub(L.Account.confirmation)                                        
-                """.trimIndent()
+                """
             )
         }
 
@@ -200,40 +200,40 @@ fun RenderContext.formControlDemo(): Div {
             +" supports, like changing styling, orientation, input type, and "
             +" other aspects."
         }
-        playground {
+        highlight {
             source(
                 """
-                    // surrounding layout (``stackUp``) omitted for better readability 
-                    formControl {
-                        label("Username")
-                        inputField(store = nameStore) {
-                            placeholder("Choose a username")
-                        }
+                // surrounding layout (``stackUp``) omitted for better readability 
+                formControl {
+                    label("Username")
+                    inputField(store = nameStore) {
+                        placeholder("Choose a username")
                     }
-                    formControl {
-                        label("Passphrase")
-                        helperText("Remember: the longer, the better!")
-                        inputField(store = passphraseStore) {
-                            placeholder("Enter a secure passphrase")
-                            type("password")
-                        }
+                }
+                formControl {
+                    label("Passphrase")
+                    helperText("Remember: the longer, the better!")
+                    inputField(store = passphraseStore) {
+                        placeholder("Enter a secure passphrase")
+                        type("password")
                     }
-                    formControl {
-                        label("Choose up to three interests:")
+                }
+                formControl {
+                    label("Choose up to three interests:")
 
-                        checkboxGroup(
-                            items = listOf("Kotlin", "fritz2", "Html", "CSS", "Design", "Open Source"),
-                            store = interestStore
-                        ) {
-                            direction { column }
-                        }
+                    checkboxGroup(
+                        items = listOf("Kotlin", "fritz2", "Html", "CSS", "Design", "Open Source"),
+                        store = interestStore
+                    ) {
+                        direction { column }
                     }
-                    formControl {
-                        switch(store = confirmationStore) {
-                            label("I accept the terms of the MIT license.")
-                        }
+                }
+                formControl {
+                    switch(store = confirmationStore) {
+                        label("I accept the terms of the MIT license.")
                     }
-            """.trimIndent()
+                }
+                """
             )
         }
 
@@ -276,7 +276,7 @@ fun RenderContext.formControlDemo(): Div {
             +" The formControl component filters the list for messages with its own control's id and displays them."
         }
 
-        playground {
+        highlight {
             source(
                 """
                 // Simplified first implementation
@@ -303,7 +303,7 @@ fun RenderContext.formControlDemo(): Div {
                         return messages
                     }
                 }                    
-                """.trimIndent()
+                """
             )
         }
         showcaseSubSection("Using Metadata")
@@ -325,14 +325,14 @@ fun RenderContext.formControlDemo(): Div {
             +"In order to solve this problem, the following enum type will be used as metadata"
             +" for our validator. It defines two phases: "
         }
-        playground {
+        highlight {
             source(
                 """
                 enum class AccountCreationPhase {
                     Input,
                     Registration
                 }                    
-                """.trimIndent()
+                """
             )
         }
         paragraph {
@@ -345,7 +345,7 @@ fun RenderContext.formControlDemo(): Div {
             +"the real source code."
         }
 
-        playground {
+        highlight {
             source(
                 """
                 object AccountValidator : ComponentValidator<Account, AccountCreationPhase>() {
@@ -389,7 +389,7 @@ fun RenderContext.formControlDemo(): Div {
                     
                     // ``validatePassphrase``, ``validateInterests`` and ``validateConfirmation`` omitted!
                 }
-                """.trimIndent()
+                """
             )
         }
         paragraph {
@@ -413,7 +413,7 @@ fun RenderContext.formControlDemo(): Div {
             c("WithValidator<D, T>")
             +" that adds validation to the store."
         }
-        playground {
+        highlight {
             source(
                 """
                 val accountStore = object : RootStore<Account>(
@@ -447,7 +447,7 @@ fun RenderContext.formControlDemo(): Div {
         paragraph {
             +"As last missing piece we must connect the registration button with our special handler:"
         }
-        playground {
+        highlight {
             source(
                 """
                 // styling omitted for better readability
@@ -465,7 +465,7 @@ fun RenderContext.formControlDemo(): Div {
                     text("Register")
                     // pass the further handler to the validating handler
                 }.map { registerSuccessDialog } handledBy accountStore.register
-            """.trimIndent()
+                """
             )
         }
 
@@ -514,7 +514,7 @@ fun RenderContext.formControlDemo(): Div {
             }
         }
 
-        playground {
+        highlight {
             source(
                 """
                 formControl {
@@ -531,7 +531,7 @@ fun RenderContext.formControlDemo(): Div {
                                 "because a form control may only contain one control.")
                     }
                 }                    
-                """.trimIndent()
+                """
             )
         }
 
@@ -593,7 +593,7 @@ fun RenderContext.formControlDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
                 """
                 formControl {
@@ -630,7 +630,7 @@ fun RenderContext.formControlDemo(): Div {
                     label("Large sized Passphrase")
                     // ... and so on
                 }                                                                  
-                """.trimIndent()
+                """
             )
         }
 
@@ -712,7 +712,7 @@ fun RenderContext.formControlDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
                 """
                 formControl {
@@ -760,13 +760,13 @@ fun RenderContext.formControlDemo(): Div {
                         }
                     }
                 }                    
-                """.trimIndent()
+                """
             )
         }
         paragraph {
             +"You can also customize the way they get rendered too."
         }
-        playground {
+        highlight {
             source(
                 """
                 formControl {
@@ -804,7 +804,7 @@ fun RenderContext.formControlDemo(): Div {
                         }
                     }                    
                 }                    
-                """.trimIndent()
+                """
             )
         }
 
@@ -1027,7 +1027,7 @@ fun RenderContext.formControlDemo(): Div {
             }
         }
 
-        playground {
+        highlight {
             source(
                 """
                 val favoriteFrameworks = listOf("fritz2", "Ktor", "EXPOSED", "Spring", "patternfly-fritz2")
@@ -1048,7 +1048,7 @@ fun RenderContext.formControlDemo(): Div {
                         }
                     }
                 }                    
-                """.trimIndent()
+                """
             )
         }
 
@@ -1063,7 +1063,7 @@ fun RenderContext.formControlDemo(): Div {
             +" class in order to extend its functionality and to mimic the original factory function in order to "
             +"bring the new component in place."
         }
-        playground {
+        highlight {
             source(
                 """
                 class ExtendedFormControlComponent : FormControlComponent() {
@@ -1086,7 +1086,7 @@ fun RenderContext.formControlDemo(): Div {
                     val component = ExtendedFormControlComponent().apply(build)
                     component.render(styling, baseClass, id, prefix, this)
                 }                
-                """.trimIndent()
+                """
             )
         }
 
@@ -1146,7 +1146,7 @@ fun RenderContext.formControlDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
                 """
                 // simple value class to combine the current value and the internal state                     
@@ -1200,7 +1200,7 @@ fun RenderContext.formControlDemo(): Div {
                             select handledBy clientStore.update
                         }
                     }
-                """.trimIndent()
+                """
             )
         }
 
@@ -1218,7 +1218,7 @@ fun RenderContext.formControlDemo(): Div {
             +"integrated into your custom code in order to achieve a complete integration with "
             +"formControl's functionalities like automatic validation messages, some styling aspects and so on!"
         }
-        playground {
+        highlight {
             source(
                 """                                    
                 fun radioGroupWithInput(
@@ -1264,7 +1264,7 @@ fun RenderContext.formControlDemo(): Div {
                         this@ExtendedFormControlComponent.validationMessagesBuilder = validationMessagesBuilder
                     })
                 }
-                """.trimIndent()
+                """
             )
         }
         paragraph {
@@ -1282,7 +1282,7 @@ fun RenderContext.formControlDemo(): Div {
             }
             +"You can also write your own custom renderer, as we will explore in the next section."
         }
-        playground {
+        highlight {
             source(
                 """
                 class ExtendedFormControlComponent : FormControlComponent() {
@@ -1294,7 +1294,7 @@ fun RenderContext.formControlDemo(): Div {
                         registerRenderStrategy("radioGroupWithInput", ControlGroupRenderer(this))
                     }
                 }
-                """.trimIndent()
+                """
             )
         }
 
@@ -1316,7 +1316,7 @@ fun RenderContext.formControlDemo(): Div {
             c("ControlRenderer")
             +" interface and register our control with the new renderer."
         }
-        playground {
+        highlight {
             source(
                 """
                 // to simplify our code, we chose to embed the renderer into our new
@@ -1355,14 +1355,14 @@ fun RenderContext.formControlDemo(): Div {
                         }
                     }
                 }                    
-                """.trimIndent()
+                """
             )
         }
 
         paragraph {
             +"Don't forget to register the new renderer with the control:"
         }
-        playground {
+        highlight {
             source(
                 """
                 class ExtendedFormControlComponent : FormControlComponent() {
@@ -1374,7 +1374,7 @@ fun RenderContext.formControlDemo(): Div {
                         registerRenderStrategy("radioGroupWithInput", VerticalRenderer(this))
                     }
                 }
-                """.trimIndent()
+                """
             )
         }
 

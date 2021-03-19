@@ -56,7 +56,7 @@ fun RenderContext.checkboxesDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
                 """
                 val checkBoxStore = storeOf(true)
@@ -90,7 +90,7 @@ fun RenderContext.checkboxesDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
                 """
                 val allItems = listOf("item 1", "item 2", "item 3")
@@ -149,21 +149,21 @@ fun RenderContext.checkboxesDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
+            """
+                checkbox(store = checkboxStore1) {
+                    label("small")
+                    size { small }
+                }
+                checkbox(store = checkboxStore2) {
+                    label("normal")
+                }
+                checkbox(store = checkboxStore3) {
+                    label("large")
+                    size { large }
+                }
                 """
-                    checkbox(store = checkboxStore1) {
-                        label("small")
-                        size { small }
-                    }
-                    checkbox(store = checkboxStore2) {
-                        label("normal")
-                    }
-                    checkbox(store = checkboxStore3) {
-                        label("large")
-                        size { large }
-                    }
-                    """
             )
         }
 
@@ -206,7 +206,7 @@ fun RenderContext.checkboxesDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
                 """
                     checkbox({
@@ -253,7 +253,7 @@ fun RenderContext.checkboxesDemo(): Div {
 
             }
         }
-        playground {
+        highlight {
             source(
                 """
                     checkbox(store = usageCheckboxStore) {

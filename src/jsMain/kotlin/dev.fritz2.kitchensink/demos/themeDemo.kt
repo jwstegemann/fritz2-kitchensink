@@ -151,7 +151,7 @@ fun RenderContext.themeDemo(): Div {
             +" and change only the definitions you want."
 
         }
-        playground {
+        highlight {
             source(
                 """
                     class dev.fritz2.kitchensink.base.LargeFonts : DefaultTheme() {
@@ -191,7 +191,7 @@ fun RenderContext.themeDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
                 """
                     val themes = listOf<ExtendedTheme>(SmallFonts(), LargeFonts())

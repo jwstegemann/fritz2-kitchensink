@@ -99,7 +99,7 @@ fun RenderContext.buttonDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
                 """
                     clickButton {
@@ -165,7 +165,7 @@ fun RenderContext.buttonDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
                 """
                clickButton {
@@ -216,7 +216,7 @@ fun RenderContext.buttonDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
                 """
                 clickButton { 
@@ -277,42 +277,43 @@ fun RenderContext.buttonDemo(): Div {
                 }
             }
         }
-        playground {
-            source("""
-                    val buttonStore = object : RootStore<Unit>(Unit) {
-                        val loading = tracker()
-                
-                        val showMsg = handle {
-                            loading.track("running...") {
-                                delay(3000)
-                                modal()
-                            }
+        highlight {
+            source(
+                """
+                val buttonStore = object : RootStore<Unit>(Unit) {
+                    val loading = tracker()
+            
+                    val showMsg = handle {
+                        loading.track("running...") {
+                            delay(3000)
+                            modal()
                         }
                     }
+                }
 
-                    clickButton {
-                        text("Play")
-                        loading(buttonStore.loading.data)
-                    } handledBy buttonStore.showMsg
+                clickButton {
+                    text("Play")
+                    loading(buttonStore.loading.data)
+                } handledBy buttonStore.showMsg
 
-                    clickButton {
-                        text("Play")
-                        loading(buttonStore.loading.data)
-                        loadingText("Playing...")
-                        variant { outline }
-                    } handledBy buttonStore.showMsg
+                clickButton {
+                    text("Play")
+                    loading(buttonStore.loading.data)
+                    loadingText("Playing...")
+                    variant { outline }
+                } handledBy buttonStore.showMsg
 
-                    clickButton {
-                        icon { fromTheme { play } }
-                        text("Play")
-                        loading(buttonStore.loading.data)
-                    } handledBy buttonStore.showMsg
+                clickButton {
+                    icon { fromTheme { play } }
+                    text("Play")
+                    loading(buttonStore.loading.data)
+                } handledBy buttonStore.showMsg
 
-                    clickButton {
-                        icon { fromTheme { play } }
-                        variant { ghost }
-                        loading(buttonStore.loading.data)
-                    } handledBy buttonStore.showMsg
+                clickButton {
+                    icon { fromTheme { play } }
+                    variant { ghost }
+                    loading(buttonStore.loading.data)
+                } handledBy buttonStore.showMsg
                 """
             )
         }

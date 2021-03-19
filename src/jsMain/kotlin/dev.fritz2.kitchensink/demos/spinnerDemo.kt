@@ -24,7 +24,7 @@ fun RenderContext.spinnerDemo(): Div {
         componentFrame {
             spinner {}
         }
-        playground {
+        highlight {
             source("""
                 spinner {}
             """.trimIndent())
@@ -73,7 +73,7 @@ fun RenderContext.spinnerDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source("""
                 spinner({
                     size { large }
@@ -124,7 +124,7 @@ fun RenderContext.spinnerDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source("""
                 spinner {
                     size { thin }
@@ -166,7 +166,7 @@ fun RenderContext.spinnerDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source("""
                 spinner {
                     speed ( "3s" )
@@ -208,7 +208,7 @@ fun RenderContext.spinnerDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source("""
                     spinner({
                         size { "5rem" }

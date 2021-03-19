@@ -15,7 +15,6 @@ import dev.fritz2.styling.style
 import dev.fritz2.styling.whenever
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
 
 fun RenderContext.showcaseHeader(text: String) {
     (::h1.styled {
@@ -226,7 +225,7 @@ fun RenderContext.menuAnchor(linkText: String): P {
     }
 
     val isActive = router.data.map { hash -> hash == linkText }
-        .distinctUntilChanged().onEach { if (it) PlaygroundComponent.update() }
+        .distinctUntilChanged()//.onEach { if (it) PlaygroundComponent.update() }
 
     return (::p.styled {
         margins {

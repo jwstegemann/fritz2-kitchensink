@@ -31,15 +31,14 @@ fun RenderContext.responsiveDemo(): Div {
             +"""). You can set each property independently for these viewport-sizes:""".trimIndent()
         }
 
-        playground {
+        highlight {
             source(
                 """
-                    (::div.styled {
-                        font-size(sm = { tiny }, lg = { normal })
-                        width(sm = { full }, lg = { "768px" })
-                        color { primary.base }
-                    }) { + "my styled div" }
-                """
+                (::div.styled {
+                    font-size(sm = { tiny }, lg = { normal })
+                    width(sm = { full }, lg = { "768px" })
+                    color { primary.base }
+                }) { + "my styled div" }"""
             )
         }
 
@@ -123,46 +122,51 @@ fun RenderContext.responsiveDemo(): Div {
                 }
             }
         }
-        playground {
+        highlight {
             source(
                 """
-                    flexBox({
-                        direction(sm = { column }, md = { row })
+                flexBox({
+                    direction(sm = { column }, md = { row })
+                }) {
+                    box({
+                        margins(
+                            {
+                                top { small }
+                                bottom { small }
+                            },
+                            md = { left { normal } }
+                        )
+                        flex { shrink { "0" } }
                     }) {
-                        box({
-                            margins(
-                                {
-                                    top { small }
-                                    bottom { small }
-                                },
-                                md = { left { normal } }
-                            )
-                            flex { shrink { "0" } }
+                        (::img.styled {
+                            width(sm = { full }, md = { wide.small })
                         }) {
-                            (::img.styled {
-                                width(sm = { full }, md = { wide.small })
-                            }) {
-                                src("https://bit.ly/3qthIO3")
-                            }
-                        }
-        
-                        box({
-                            zIndex { base }
-                            margins(
-                                sm = {
-                                    top { small }
-                                    bottom { large }
-                                },
-                                md = { left { normal } }
-                            )
-                        }) {
-                            p { +"Photo by Lauren York on Unsplash" }
-                            
-                            h1 { +"Resize your viewport!" }
-                            
-                            p { +"Please note: Some non-essential styling was omitted in this source example." }
+                            src("https://bit.ly/3qthIO3")
                         }
                     }
+    
+                    box({
+                        zIndex { base }
+                        margins(
+                            sm = {
+                                top { small }
+                                bottom { large }
+                            },
+                            md = { left { normal } }
+                        )
+                    }) {
+                        p { +"Photo by Lauren York on Unsplash" }
+                        
+                        h1 { +"Resize your viewport!" }
+                        
+                        p { 
+                            +""${'"'}Please note that some styling which does not
+                                contribute to responsiveness was omitted in 
+                                the source code example below. 
+                            ""${'"'}
+                        }
+                    }
+                }
                 """
             )
         }
