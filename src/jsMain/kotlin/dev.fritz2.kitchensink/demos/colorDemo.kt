@@ -92,7 +92,6 @@ fun renderColorScheme(context: RenderContext, name: String, colorScheme: ColorSc
                     md = { bottomLeft { radiiSize() } }
                 )
             }) {
-//                hovered.data.render { if (!it) icon { fromTheme { expand } } }
                 hovered.data.map { if(!it) "base" else "" }.asText()
             }
             flexBox({
@@ -101,7 +100,6 @@ fun renderColorScheme(context: RenderContext, name: String, colorScheme: ColorSc
                 background { color { colorScheme.baseContrast } }
                 color { colorScheme.base }
             }) {
-//                hovered.data.render { if (!it) icon { fromTheme { edit } } }
                 hovered.data.map { if(!it) "baseContrast" else "" }.asText()
             }
             flexBox({
@@ -114,7 +112,6 @@ fun renderColorScheme(context: RenderContext, name: String, colorScheme: ColorSc
                     md = { bottomLeft { none } }
                 )
             }) {
-//                hovered.data.render { if (it) icon { fromTheme { expand } } }
                 hovered.data.map { if(it) "highlight" else "" }.asText()
             }
             flexBox({
@@ -124,7 +121,6 @@ fun renderColorScheme(context: RenderContext, name: String, colorScheme: ColorSc
                 color { colorScheme.highlight }
                 radii { bottomRight { radiiSize() } }
             }) {
-//                hovered.data.render { if (it) icon { fromTheme { edit } } }
                 hovered.data.map { if(it) "highlightContrast" else "" }.asText()
             }
         }
