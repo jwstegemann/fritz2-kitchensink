@@ -1,26 +1,23 @@
 package dev.fritz2.kitchensink.demos
 
 import dev.fritz2.binding.storeOf
-import dev.fritz2.components.lineUp
 import dev.fritz2.components.stackUp
 import dev.fritz2.components.textArea
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
+import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
 fun RenderContext.textareaDemo(): Div {
 
     return contentFrame {
-        val dataStore = storeOf("")
 
         showcaseHeader("TextArea")
 
         paragraph {
-            +"""
-            A textarea is a multiline input field. It is resizable and comes in different basic sizes.
-            """.trimIndent()
+            +"TextArea is a multiline input field."
         }
 
 
@@ -34,12 +31,13 @@ fun RenderContext.textareaDemo(): Div {
             +"On top you can set a placeholder if you wish."
         }
         componentFrame {
-            textArea(store = dataStore) {
+            val textStore = storeOf("")
+            textArea(store = textStore) {
                 placeholder("Textarea with placeholder only")
             }
             storeContentBox("Text") {
                 span {
-                    dataStore.data.asText()
+                    textStore.data.asText()
                 }
             }
         }
@@ -47,21 +45,22 @@ fun RenderContext.textareaDemo(): Div {
         highlight {
             source(
                 """
-                val dataStore = storeOf("")                    
-                textArea {
+                val textStore = storeOf("")
+                textArea(store = textStore) {
                     placeholder("Textarea with placeholder only")
                 }
-                """.trimIndent()
+                """
             )
         }
 
         showcaseSection("Sizes")
         paragraph {
-            +"fritz2 offers three different sizes of textareas:"
+            c("textArea")
+            +" offers three different sizes: "
             c("small")
             +", "
             c("normal")
-            +" (default), and "
+            +" (default) and "
             c("large")
             +"."
         }
@@ -100,23 +99,25 @@ fun RenderContext.textareaDemo(): Div {
                     placeholder("large")
                     size { large }
                  }
-            """.trimIndent()
+            """
             )
         }
 
         showcaseSection("Resize Behavior")
         paragraph {
-            +"fritz2 offers the following resizing options for textareas: "
+            c("textArea")
+            +" offers the following resizing options: "
             c("vertical")
             +" (default), "
             c("horizontal")
-            +", and "
+            +" and "
             c("none")
             +"."
         }
-        paragraph({
-            display(sm = { block }, md = { none })
-        }) { +"Devices with touchscreen might not be able to demonstrate this feature." }
+
+        coloredBox(Theme().colors.danger) {
+            +"Devices with touchscreen might not be able to demonstrate this feature."
+        }
 
         componentFrame {
             stackUp {
@@ -152,20 +153,20 @@ fun RenderContext.textareaDemo(): Div {
                     placeholder("resize: none")
                     resizeBehavior { none }
                 }
-                """.trimIndent()
+                """
             )
         }
 
-        showcaseSection("Disabled TextArea")
-        paragraph { +"Of course it is possible to disable a textarea. This will also skip the tab index for this component." }
+        showcaseSection("Disabled")
+        paragraph {
+            +"Of course it is possible to disable a "
+            c("textArea")
+            +". This will also skip the tab index for this component."
+        }
         componentFrame {
-            lineUp {
-                items {
-                    textArea {
-                        placeholder("disabled")
-                        disabled(true)
-                    }
-                }
+            textArea {
+                placeholder("disabled")
+                disabled(true)
             }
         }
 
@@ -176,7 +177,7 @@ fun RenderContext.textareaDemo(): Div {
                     placeholder("disabled")
                     disabled(true)
                  }
-                """.trimIndent()
+                """
             )
         }
     }

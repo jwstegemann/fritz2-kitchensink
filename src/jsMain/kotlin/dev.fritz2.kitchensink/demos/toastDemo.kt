@@ -44,7 +44,7 @@ fun RenderContext.toastDemo(): Div {
         paragraph {
             +"A basic toast can created by defining just the "
             c("content")
-            +"property."
+            +" property."
             +" This will create a toast with the given content, a default timer with 5000 ms, as well as a background"
             +" color matching the "
             c("info")

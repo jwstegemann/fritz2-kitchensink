@@ -1,13 +1,10 @@
 package dev.fritz2.kitchensink.demos
 
 import dev.fritz2.binding.storeOf
-import dev.fritz2.components.lineUp
-import dev.fritz2.components.radio
+import dev.fritz2.components.flexBox
 import dev.fritz2.components.radioGroup
-import dev.fritz2.components.stackUp
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
-import dev.fritz2.dom.states
 import dev.fritz2.kitchensink.base.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -69,60 +66,41 @@ fun RenderContext.radiosDemo(): Div {
             c("small")
             +", "
             c("normal")
-            +", or  "
+            +", "
             c("large")
-            +", or scale your radios to your needs using the styling DSL."
+            +" or scale your radios to your needs using the styling DSL."
         }
 
-        val smallStore = storeOf(false)
-        val normalStore = storeOf(true)
-        val largeStore = storeOf(true)
+        val choices = listOf("good", "bad")
 
         componentFrame {
-            lineUp(
-                {
-                    alignItems { center }
+            flexBox({
+                width { full }
+                justifyContent { spaceAround }
+            }) {
+                radioGroup(store = storeOf(""), items = choices) {
+                    size { small }
                 }
-            ) {
-                items {
-                    radio(store = smallStore) {
-                        label("small")
-                        size { small }
-                        selected(smallStore.data)
-                        events {
-                            changes.states() handledBy smallStore.update
-                        }
-                    }
-                    radio {
-                        label("normal")
-                        selected(normalStore.data)
-                        events {
-                            changes.states() handledBy normalStore.update
-                        }
-                    }
-                    radio {
-                        label("large")
-                        size { large }
-                        selected(largeStore.data)
-                        events {
-                            changes.states() handledBy largeStore.update
-                        }
-                    }
+                radioGroup(store = storeOf(""), items = choices) {
+                    size { normal }
+                }
+                radioGroup(store = storeOf(""), items = choices) {
+                    size { large }
                 }
             }
         }
         highlight {
             source(
                 """
-                    radio {
-                        label("small")
+                    val choices = listOf("good", "bad")
+                    
+                    radioGroup(store = storeOf(""), items = choices) {
                         size { small }
                     }
-                    radio {
-                        label("normal")
+                    radioGroup(store = storeOf(""), items = choices) {
+                        size { normal }
                     }
-                    radio {
-                        label("large")
+                    radioGroup(store = storeOf(""), items = choices) {
                         size { large }
                     }
                     """
@@ -140,94 +118,47 @@ fun RenderContext.radiosDemo(): Div {
         }
 
         componentFrame {
-            lineUp(switchLayoutSm) {
-                items {
-                    radio({
-                        border { color { secondary.base } }
-                    }) {
-                        label("Custom unselected style")
-                        selected(false)
-                    }
-
-                    radio {
-                        label("Custom selected style")
-                        selected(true)
-                        selectedStyle {
-                            background { color { secondary.base } }
-                        }
-                    }
-
-                    radio {
-                        label("Custom label style: margin")
-                        selected(usageRadioStore.data)
-                        labelStyle {
-                            margins { left { larger } }
-                        }
-                        events {
-                            changes.states() handledBy usageRadioStore.update
-                        }
-                    }
+            radioGroup({
+                border { color { secondary.base } }
+            }, store = pickedLanguage, items = languages) {
+                selectedStyle {
+                    background { color { secondary.highlight } }
+                }
+                labelStyle {
+                    margins { left { larger } }
                 }
             }
         }
         highlight {
             source(
                 """
-                    radio({
-                        border { color { secondary.base } }
-                    }) {
-                        label("Custom unselected style")
+                radioGroup({
+                    border { color { secondary.base } }
+                }, store = pickedLanguage, items = languages) {
+                    selectedStyle {
+                        background { color { secondary.highlight } }
                     }
-
-                    radio {
-                        label("Custom selected style")
-                        selected(true)
-                        selectedStyle { 
-                            background { color { secondary.base } }  
-                        }
+                    labelStyle {
+                        margins { left { larger } }
                     }
-
-                    radio {
-                        label("Custom label style: margin")
-                        labelStyle { 
-                            margins { left { larger } } 
-                        }     
-                    }
-                    """
+                }
+                """
             )
         }
 
         showcaseSection("Disabled Radios")
         componentFrame {
-            stackUp {
-                items {
-                    radio {
-                        label("A disabled Radio or RadioGroup can not be selected.")
-                        disabled(true)
-                        selected(usageRadioStore.data)
-                    }
-
-                    radioGroup(store = pickedLanguage, items = languages) {
-                        direction { column }
-                        disabled(true)
-                    }
-                }
-
+            radioGroup(store = pickedLanguage, items = languages) {
+                disabled(true)
             }
         }
         highlight {
             source(
+                """                    
+                radioGroup(store = pickedLanguage, items = languages) {
+                    disabled(true)
+                }
                 """
-                    radio {
-                        label("A disabled Radio or RadioGroup can not be selected.")
-                        disabled(true)
-                    }
-                    
-                    radioGroup(store = usageRadioGroupStore, items = demoItems) {
-                        direction { column }
-                        disabled(true)
-                    }
-                    """
             )
         }
     }
