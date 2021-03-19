@@ -39,7 +39,7 @@ fun RenderContext.gridBoxDemo(): Div {
         showcaseSection("Usage")
         paragraph {
             +"In order to create a gridbox, you need to provide some specialized grid styling information."
-            +" In this simple example, a five column grid layout is defined, but seven items are inserted."
+            +" In this simple example, a four column grid layout is defined, but seven items are inserted."
             +" The gridbox then renders the surplus items into a second row:"
         }
         componentFrame {
@@ -271,24 +271,19 @@ fun RenderContext.gridBoxDemo(): Div {
                                     
                     // refer to those, easy refactoring included
                     areas(
-                        sm = { // structure for small displays
-                            row {
-                                start { grid.HEADER.start }
-                                end { grid.CONTENT.end }
-                            }
-                            column {
-                                start { grid.CONTENT.start }
-                                end { grid.CONTENT.end }
+                        sm = {
+                            with(grid) {
+                                row(HEADER, HEADER, HEADER)
+                                row(SIDEBAR, SIDEBAR, SIDEBAR)
+                                row(CONTENT, CONTENT, CONTENT)
+                                row(FOOTER, FOOTER, FOOTER)
                             }
                         },
-                        md = { // structure for medium and larger displays
-                            row {
-                                start { grid.HEADER.start }
-                                end { span(2) }
-                            }
-                            column {
-                                start { "3" }
-                                end { grid.CONTENT.end }
+                        md = {
+                            with(grid) {
+                                row(HEADER, HEADER, HEADER)
+                                row(SIDEBAR, CONTENT, CONTENT)
+                                row(FOOTER, FOOTER, FOOTER)
                             }
                         }
                     )
