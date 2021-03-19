@@ -25,7 +25,7 @@ fun RenderContext.stackDemo(): Div {
             color { neutral }
             size { "40px" }
             radius { small }
-        }) { p { +text } }
+        }) { +text }
     }
 
     return contentFrame {
@@ -86,11 +86,11 @@ fun RenderContext.stackDemo(): Div {
                             color { neutral }
                             size { "40px" }       
                             radius { small }
-                        }) { p { +"1" } }
+                        }) { +"1" }
                         
                         // styling omitted for readability
-                        box { p { +"2" } }
-                        box { p { +"3" } }
+                        box { +"2" }
+                        box { +"3" }
                     }
                 }                    
                 """.trimIndent()
@@ -120,9 +120,9 @@ fun RenderContext.stackDemo(): Div {
                 stackUp {
                     items {
                         // styling omitted for readability
-                        box { p { +"1" } }
-                        box { p { +"2" } }
-                        box { p { +"3" } }
+                        box { +"1" }
+                        box { +"2" }
+                        box { +"3" }
                     }
                 }                    
                 """.trimIndent()
@@ -132,7 +132,7 @@ fun RenderContext.stackDemo(): Div {
         showcaseSection("Arranging Items")
         paragraph {
             +"Stacks can be customized by changing their order of appearance using the boolean "
-            c("reverse")
+            c("reversed")
             +" property, and by defining the "
             c("spacing")
             +" between items. Of course you could change the spacing via the regular styling DSL as well, but the stack"
@@ -144,7 +144,7 @@ fun RenderContext.stackDemo(): Div {
                 items {
                     stackUp {
                         spacing { tiny }
-                        reversed ( true )
+                        reversed(true)
                         items {
                             item(Theme().colors.primary.base, "1")
                             item(Theme().colors.secondary.base, "2")
@@ -164,15 +164,15 @@ fun RenderContext.stackDemo(): Div {
                     items {
                         stackUp {
                             spacing { tiny }
-                            reverse ( true )
+                            reversed(true)
                             items {
-                                box { p { +"1" } }
-                                box { p { +"2" } }
-                                box { p { +"3" } }
+                                box { +"1" }
+                                box { +"2" }
+                                box { +"3" }
                             }
                         }
-                        box { p { +"4" } }
-                        box { p { +"5" } }
+                        box { +"4" }
+                        box { +"5" }
                     }
                 }
                 """.trimIndent()
@@ -205,7 +205,7 @@ fun RenderContext.stackDemo(): Div {
                     height { "${h}px" }
                     textAlign { center }
                     radius { small }
-                }) { p { +"${w}x${h}" } }
+                }) { +"${w}x${h}" }
             }
 
             lineUp({
@@ -270,13 +270,11 @@ fun RenderContext.stackDemo(): Div {
                 internalLink("Gridbox", gridbox_)
                 +" over complex styling for stack components. The "
                 externalLink(
-                        "CSS grid model ",
-                        "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout"
+                    "CSS grid model ",
+                    "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout"
                 )
                 +" offers much more control over the layout than a flexbox approach."
             }
         }
-
     }
-
 }
