@@ -23,8 +23,7 @@ fun RenderContext.inputDemo(): Div {
         paragraph {
             +"""
             Input fields come in different sizes and variants, all of which can be customized with your own styling. 
-            The simplest form does not even need a store. All input fields give you access to the underlying input's 
-            events and other properties, like placeholder.
+            All input fields give you access to the underlying input's events and other properties, like placeholder.
             """.trimIndent()
         }
 
