@@ -73,24 +73,23 @@ fun RenderContext.buttonDemo(): Div {
                         text("Show Toast")
                     } handledBy successToast
 
-                    pushButton({
-                        background { color { info } }
-                    }) {
+                    pushButton {
+                        color { info }
                         icon { fromTheme { arrowLeft } }
                         text("Previous")
                     }
 
-                    pushButton({
-                        background { color { warning } }
-                    }) {
+                    pushButton {
+                        color { warning }
                         icon { fromTheme { arrowRight } }
                         iconPlacement { right }
                         text("Next")
                     }
 
                     pushButton({
-                        background { color { danger } }
+                        radius { none }
                     }) {
+                        color { danger }
                         icon { fromTheme { close } }
                         events {
                             clicks handledBy successToast
@@ -104,27 +103,27 @@ fun RenderContext.buttonDemo(): Div {
                 """
                     clickButton {
                         text("Show Toast")
-                    } handledBy successToast
+                    } handledBy toast {
+                        content { "Your data has been saved successfully." }
+                    }
 
-
-                    pushButton({
-                        background { color { info } }
-                    }) {
+                    pushButton {
+                        color { info }
                         icon { fromTheme { arrowLeft } }
                         text("Previous")
                     }
 
-                    pushButton({
-                        background { color { warning } }
-                    }) {
+                    pushButton {
+                        color { warning }
                         icon { fromTheme { arrowRight } }
                         iconPlacement { right }
                         text("Next")
                     }
 
                     pushButton({
-                        background { color { danger } }
+                        radius { none }
                     }) {
+                        color { danger }
                         icon { fromTheme { check } }
                         events {
                             clicks handledBy toast {
