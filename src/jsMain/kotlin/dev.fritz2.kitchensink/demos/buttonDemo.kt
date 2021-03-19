@@ -124,7 +124,7 @@ fun RenderContext.buttonDemo(): Div {
                         radius { none }
                     }) {
                         color { danger }
-                        icon { fromTheme { check } }
+                        icon { fromTheme { close } }
                         events {
                             clicks handledBy toast {
                                 content { "Your data has been saved successfully." }

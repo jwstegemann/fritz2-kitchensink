@@ -47,12 +47,9 @@ fun RenderContext.checkboxesDemo(): Div {
             checkbox(store = usageCheckboxStore) {
                 label("A single Checkbox")
             }
-            storeContentBox {
-                p {
-                    b { +"Checked: " }
-                    usageCheckboxStore.data.render {
-                        span { +it.toString() }
-                    }
+            storeContentBox("Checked") {
+                usageCheckboxStore.data.render {
+                    span { +it.toString() }
                 }
             }
         }
@@ -81,12 +78,9 @@ fun RenderContext.checkboxesDemo(): Div {
             checkboxGroup(store = usageCheckboxGroupStore, items = demoItems) {
                 direction { row }
             }
-            storeContentBox {
-                p {
-                    b { +"Checked: " }
-                    usageCheckboxGroupStore.data.render {
-                        span { +it.toString() }
-                    }
+            storeContentBox("Checked") {
+                usageCheckboxGroupStore.data.render {
+                    span { +it.joinToString() }
                 }
             }
         }
@@ -133,19 +127,15 @@ fun RenderContext.checkboxesDemo(): Div {
                     }
                 }
             }
-            storeContentBox {
-                p {
-                    b { +"Checked: " }
-                    sizesCheckboxStore1.data.render {
-                        if (it) span { +"small " }
-                    }
-                    sizesCheckboxStore2.data.render {
-                        if (it) span { +"normal " }
-                    }
-                    sizesCheckboxStore3.data.render {
-                        if (it) span { +"large" }
-                    }
-
+            storeContentBox("Checked") {
+                sizesCheckboxStore1.data.render {
+                    if (it) span { +"small " }
+                }
+                sizesCheckboxStore2.data.render {
+                    if (it) span { +"normal " }
+                }
+                sizesCheckboxStore3.data.render {
+                    if (it) span { +"large" }
                 }
             }
         }

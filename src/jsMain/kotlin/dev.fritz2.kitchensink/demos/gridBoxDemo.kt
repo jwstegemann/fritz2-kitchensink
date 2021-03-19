@@ -49,7 +49,8 @@ fun RenderContext.gridBoxDemo(): Div {
                 children("div") {
                     width { "120px" }
                     height { "50px" }
-                    background { color { primary.highlight } }
+                    color { primary.baseContrast }
+                    background { color { primary.base } }
                     display { flex }
                     radius { small }
                     css("justify-content: center")
@@ -74,7 +75,8 @@ fun RenderContext.gridBoxDemo(): Div {
                     children("div") {
                         width { "120px" }
                         height { "50px" }
-                        background { color { primary.highlight } }
+                        color { primary.baseContrast }
+                        background { color { primary.base } }
                         display { flex }
                         radius { small }
                         css("justify-content: center")
@@ -238,12 +240,9 @@ fun RenderContext.gridBoxDemo(): Div {
         }
 
         coloredBox(Theme().colors.info){
-            p {
-                strong { +"Please note:" }
-                +" This layout also transforms with screen size. Try resizing your browser window to see"
-                +" how the sidebar is placed into its own row when the space narrows."
-                +" The content then appears on a separate row below."
-            }
+            +"This layout also transforms with screen size. Try resizing your browser window to see "
+            +"how the sidebar is placed into its own row when the space narrows. "
+            +"The content then appears on a separate row below."
         }
 
         showcaseSubSection("Column Layout")

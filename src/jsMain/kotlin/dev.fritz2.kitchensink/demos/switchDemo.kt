@@ -26,9 +26,8 @@ fun RenderContext.switchDemo(): Div {
             switch(store = checkedStore) {
                 label("Simple Switch")
             }
-            storeContentBox {
-                p {
-                    b { +"Switched on: " }
+            storeContentBox("Switched on") {
+                span {
                     checkedStore.data.asText()
                 }
             }

@@ -16,55 +16,50 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 fun RenderContext.radiosDemo(): Div {
 
     return contentFrame {
-        showcaseHeader("Radio")
+        showcaseHeader("RadioGroup")
 
         paragraph {
-            c("Radios")
-            +" and "
-            c("RadioGroups")
-            +" are single selection components. They come with their own options, and"
-            +" of course you can customize their appearance with the use of the styling parameter."
+            +"The RadioGroup component allows users to pick a single item from a list of items."
         }
-
-        paragraph {
-            +"Please note that the creation of stores was omitted in some of the examples to keep the source fragments short."
-        }
-
-        val demoItems = listOf("item 1", "item 2", "item 3")
-        val usageRadioStore = storeOf(false)
-        val usageRadioGroupStore = storeOf("item 2")
 
         showcaseSection("Usage")
         paragraph {
-            +"Single "
-            c("Radios")
-            +" do not have a wide range of use cases, but we provide them anyway. You"
-            +" need to supply a Flow of "
+            +"To use this component, define a "
             c("List<T>")
-            +" representing the selected state via the "
-            c("selected")
-            +" function. If you want to connect a handler to the state changes, use the events context."
+            +" of your options and pass it to the "
+            c("items")
+            +" parameter. The currently picked item is managed by an optional "
+            c("Store<T>")
+            +" that can be passed to the "
+            c("store")
+            +" parameter. This selection store offers therefore the possibility to preselect an item."
+            +"Using the "
+            c("direction")
+            +" property, you can display the radios in a row or as a column."
         }
+        val languages = listOf("javascript", "java", "kotlin", "scala")
+        val pickedLanguage = storeOf(languages[2])
+        val usageRadioStore = storeOf(false)
+
         componentFrame {
-            radio {
-                label("A single Radio")
-                selected(usageRadioStore.data)
-                events {
-                    changes.states() handledBy usageRadioStore.update
+            radioGroup(store = pickedLanguage, items = languages) {
+                direction { row }
+            }
+            storeContentBox("Selected") {
+                pickedLanguage.data.render {
+                    span { +it }
                 }
             }
         }
         highlight {
             source(
-                """
-                radio {
-                    label("A single Radio")
-                    selected (usageRadioStore.data)
-                    events {
-                        changes.states() handledBy usageRadioStore.update
-                    }
-                }
-                """
+            """
+            val languages = listOf("javascript", "java", "kotlin", "scala")
+            val pickedLanguage = storeOf(languages[2])
+            radioGroup(items = languages, store = pickedLanguage) {
+               direction { row }
+            }
+            """
             )
         }
 
@@ -76,7 +71,7 @@ fun RenderContext.radiosDemo(): Div {
             c("normal")
             +", or  "
             c("large")
-            +", or scale your radios to your needs using the styling parameter."
+            +", or scale your radios to your needs using the styling DSL."
         }
 
         val smallStore = storeOf(false)
@@ -90,7 +85,7 @@ fun RenderContext.radiosDemo(): Div {
                 }
             ) {
                 items {
-                    radio {
+                    radio(store = smallStore) {
                         label("small")
                         size { small }
                         selected(smallStore.data)
@@ -133,44 +128,6 @@ fun RenderContext.radiosDemo(): Div {
                     """
             )
         }
-
-        showcaseSection("RadioGroups And Layouts")
-        paragraph {
-            +" For most use cases, you will want a radio group. It accepts a Flow of "
-            c("List<T>")
-            +" as group items, and its selection event returns the currently selected entry instead of Boolean."
-            +" The example below uses Strings, but any type can be displayed. Since the store is a non-optional"
-            +" argument anyway, the component always connects the selected-handler automatically. Using the "
-            c("direction")
-            +" parameter, you can display the radios in a row or as a column."
-        }
-        componentFrame {
-            radioGroup(store = usageRadioGroupStore, items = demoItems) {
-                direction { row }
-            }
-            storeContentBox {
-                p {
-                    b { +"Selected: " }
-                    usageRadioGroupStore.data.render {
-                        span { +it }
-                    }
-                }
-            }
-        }
-        highlight {
-            source(
-                """
-                 val allItems = listOf("item 1", "item 2", "item 3")
-                 val selectedItem = storeOf("item 2")
-                 radioGroup(store = selectedItem, items = allItems) {
-                    direction { row }
-                 }
-                """
-            )
-        }
-
-
-
 
         showcaseSection("Customizing")
         paragraph {
@@ -250,7 +207,7 @@ fun RenderContext.radiosDemo(): Div {
                         selected(usageRadioStore.data)
                     }
 
-                    radioGroup(store = usageRadioGroupStore, items = demoItems) {
+                    radioGroup(store = pickedLanguage, items = languages) {
                         direction { column }
                         disabled(true)
                     }

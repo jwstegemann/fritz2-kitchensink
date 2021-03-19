@@ -13,13 +13,14 @@ data class Person(val name: String = "", val id: Int = 0)
 
 @ExperimentalCoroutinesApi
 fun RenderContext.selectDemo(): Div {
-    val myOptions = listOf("fr", "it", "z2")
-    val selectedItem = storeOf("")
 
     return contentFrame {
 
         showcaseHeader("SelectField")
-        paragraph { +"The SelectField component allows users to pick a single value from a list of predefined items." }
+
+        paragraph {
+            +"The SelectField component allows users to pick a single item from a list of items."
+        }
 
         showcaseSection("Usage")
         paragraph {
@@ -45,15 +46,14 @@ fun RenderContext.selectDemo(): Div {
         componentFrame {
             stackUp {
                 items {
-                    selectField(items = myOptions, store = selectedItem) {
-                        placeholder("placeholder")
+                    val languages = listOf("javascript", "java", "kotlin", "scala")
+                    val selectedLanguage = storeOf("")
+                    selectField(items = languages, store = selectedLanguage) {
+                        placeholder("Select your favorite programming language")
                     }
-                    storeContentBox {
-                        p {
-                            b { +"Selected: " }
-                            selectedItem.data.render {
-                                span { +it }
-                            }
+                    storeContentBox("Selected") {
+                        selectedLanguage.data.render {
+                            span { +it }
                         }
                     }
                 }
@@ -64,17 +64,12 @@ fun RenderContext.selectDemo(): Div {
         highlight {
             source(
                 """
-                    val selectedItem = storeOf("")
-                    selectField(items = listOf("fr", "it", "z2"), store = selectedItem) {
-                        placeholder("placeholder")
-                    }
-
-                    div { // styling omitted
-                        selectedItem.data.render { 
-                            span { +"Selected: '${'$'}it'" }
-                        }
-                    }
-            """.trimIndent()
+                val languages = listOf("javascript", "java", "kotlin", "scala")
+                val selectedLanguage = storeOf("")
+                selectField(items = languages, store = selectedLanguage) {
+                    placeholder("Select your favorite programming language")
+                }
+                """
             )
         }
 
@@ -111,18 +106,18 @@ fun RenderContext.selectDemo(): Div {
         highlight {
             source(
                 """
-                     selectField(items = myList) {
-                        placeholder("small")
-                        size { small }
-                    }
-                     selectField(items = myList) {
-                        placeholder("normal (default)")
-                    }
-                     selectField(items = myList) {
-                        placeholder("large")
-                        size { large }
-                    }
-            """.trimIndent()
+                selectField(items = myList) {
+                    placeholder("small")
+                    size { small }
+                }
+                selectField(items = myList) {
+                    placeholder("normal (default)")
+                }
+                selectField(items = myList) {
+                    placeholder("large")
+                    size { large }
+                }
+                """
             )
         }
 
@@ -152,14 +147,14 @@ fun RenderContext.selectDemo(): Div {
         highlight {
             source(
                 """
-                 selectField(items = myList) {
+                selectField(items = myList) {
                     placeholder("outline (default)")
                 }
-                 selectField(items = myList) {
+                selectField(items = myList) {
                     placeholder("filled")
                     variant { filled }
                 }
-            """.trimIndent()
+                """
             )
         }
 
@@ -189,17 +184,17 @@ fun RenderContext.selectDemo(): Div {
         highlight {
             source(
                 """
-            selectField(items = myList) {
-                placeholder("Large with circleAdd-Icon")
-                icon { circleAdd }
-                size { large }
-            }
-            select(items = myList) {
-                placeholder("Small with arrowDown-Icon")
-                icon { arrowDown }
-                size { small }
-            }
-                """.trimIndent()
+                selectField(items = myList) {
+                    placeholder("Large with circleAdd-Icon")
+                    icon { circleAdd }
+                    size { large }
+                }
+                select(items = myList) {
+                    placeholder("Small with arrowDown-Icon")
+                    icon { arrowDown }
+                    size { small }
+                }
+                """
             )
         }
 
@@ -212,8 +207,6 @@ fun RenderContext.selectDemo(): Div {
             +" you don't specify anything, the "
             c("toString()")
             +" method of your class will be used). The following example renders a list of persons with name and id."
-
-
         }
 
         componentFrame {
@@ -226,12 +219,9 @@ fun RenderContext.selectDemo(): Div {
                     selectField(store = store, items = persons) {
                         label { it.name }
                     }
-                    storeContentBox {
-                        p {
-                            b { +"Selected: " }
-                            store.data.render {
-                                span { +it.toString() }
-                            }
+                    storeContentBox("Selected") {
+                        store.data.render {
+                            span { +it.toString() }
                         }
                     }
                 }
@@ -246,13 +236,13 @@ fun RenderContext.selectDemo(): Div {
                  selectField(store = store, items = persons) {
                      label { it.name } // instead of person.toString(), use name member as label
                  }
-                """.trimIndent()
+                """
             )
         }
 
         showcaseSection("Disabled SelectField")
         paragraph {
-            +"You can easily disable the component by using the"
+            +"You can easily disable the component by using the "
             c("disabled")
             +" function."
         }
@@ -271,11 +261,11 @@ fun RenderContext.selectDemo(): Div {
         highlight {
             source(
                 """
-                 selectField(items = myList) {
-                        placeholder("disabled selectField")
-                        disabled(true)
-                    }
-            """.trimIndent()
+                selectField(items = myList) {
+                    placeholder("disabled selectField")
+                    disabled(true)
+                }
+                """
             )
         }
     }

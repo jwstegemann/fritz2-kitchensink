@@ -264,17 +264,15 @@ fun RenderContext.stackDemo(): Div {
         }
 
         coloredBox(Theme().colors.info) {
-            p {
-                strong { +"Tip for complex layouts:" }
-                +" Favor the application of a "
-                internalLink("Gridbox", gridbox_)
-                +" over complex styling for stack components. The "
-                externalLink(
-                    "CSS grid model ",
-                    "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout"
-                )
-                +" offers much more control over the layout than a flexbox approach."
-            }
+            +"Tip for complex layouts:"
+            +" Favor the application of a "
+            internalLink("Gridbox", gridbox_)
+            +" over complex styling for stack components. The "
+            externalLink(
+                "CSS grid model ",
+                "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout"
+            )
+            +" offers much more control over the layout than a flexbox approach."
         }
     }
 }

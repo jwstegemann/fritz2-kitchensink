@@ -123,7 +123,8 @@ fun RenderContext.componentFrame(padding: Boolean = true, init: Div.() -> Unit):
 }
 
 fun RenderContext.storeContentBox(
-    init: Div.() -> Unit = {}
+    label: String,
+    init: RenderContext.() -> Unit = {}
 ): Div =
     (::div.styled {
         background {
@@ -132,12 +133,17 @@ fun RenderContext.storeContentBox(
         margins {
             top { "1.25rem" }
         }
+        padding { smaller }
         paddings {
-            left { "0.5rem" }
-            right { "0.5rem" }
+            left { normal }
         }
         radius { larger }
-    })(init)
+        width { full }
+    }) {
+        +label
+        +": "
+        init()
+    }
 
 val RenderContext.link
     get() = (::a.styled {

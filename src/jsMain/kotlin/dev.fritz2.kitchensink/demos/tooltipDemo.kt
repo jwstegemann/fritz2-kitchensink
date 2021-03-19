@@ -1,6 +1,5 @@
 package dev.fritz2.kitchensink.demos
 
-import dev.fritz2.components.icon
 import dev.fritz2.components.lineUp
 import dev.fritz2.components.tooltip
 import dev.fritz2.dom.html.Div
@@ -26,18 +25,8 @@ fun RenderContext.tooltipDemo(): Div {
                 +" styled like any other component and additionally offers some specific options."
             }
 
-            coloredBox(Theme().colors.warning) {
-                lineUp({
-                    alignItems { flexStart }
-                }) {
-                    items {
-                        icon({
-                            size { "3rem" }
-                            color { danger }
-                        }) { fromTheme { warning } }
-                        p { +"Devices with touchscreen might not be able to demonstrate the features on this page." }
-                    }
-                }
+            coloredBox(Theme().colors.danger) {
+                +"Devices with touchscreen might not be able to demonstrate the features on this page."
             }
 
             showcaseSection("Usage")

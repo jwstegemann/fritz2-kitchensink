@@ -47,11 +47,8 @@ fun RenderContext.inputDemo(): Div {
             inputField(store = textStore) {
                 placeholder("Enter text")
             }
-            storeContentBox {
-                p {
-                    b { +"Text: " }
-                    textStore.data.render { span { +it } }
-                }
+            storeContentBox("Text") {
+                textStore.data.render { span { +it } }
             }
         }
         highlight {

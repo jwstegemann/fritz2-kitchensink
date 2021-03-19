@@ -175,9 +175,6 @@ fun RenderContext.iconsDemo(): Div {
                 externalLink("MIT", "https://github.com/mono-company/mono-icons/blob/master/LICENSE.md")
                 +"."
             }
-            p {
-
-            }
         }
 
         showcaseSection("Usage")

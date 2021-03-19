@@ -37,13 +37,13 @@ fun RenderContext.textareaDemo(): Div {
             textArea(store = dataStore) {
                 placeholder("Textarea with placeholder only")
             }
-            storeContentBox {
-                p {
-                    b { +"Text: " }
+            storeContentBox("Text") {
+                span {
                     dataStore.data.asText()
                 }
             }
         }
+
         highlight {
             source(
                 """
