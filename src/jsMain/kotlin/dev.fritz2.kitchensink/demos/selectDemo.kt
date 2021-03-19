@@ -27,15 +27,25 @@ fun RenderContext.selectDemo(): Div {
             c("List<T>")
             +" of your options and pass it to the "
             c("items")
-            +" function. The currently selected item needs to be passed to the "
-            c("store: Store<T>")
-            +" parameter. You can also define a placeholder of type <T>. The following example uses simple Strings:"
+            +" parameter. The currently selected item is managed by an optional "
+            c("Store<T>")
+            +" that can be passed to the "
+            c("store")
+            +" parameter. This selection store offers therefore the possibility to preselect an item. "
+            +"If no item is preselected, a "
+            c("placeholder")
+            +" text is shown instead."
+        }
+        paragraph {
+            +"The following example uses simple Strings as type "
+            c("<T>")
+            +":"
         }
 
         componentFrame {
             stackUp {
                 items {
-                    selectField(store = selectedItem, items = myOptions) {
+                    selectField(items = myOptions, store = selectedItem) {
                         placeholder("placeholder")
                     }
                     storeContentBox {
@@ -54,7 +64,8 @@ fun RenderContext.selectDemo(): Div {
         highlight {
             source(
                 """
-                    selectField(store = selectedItem, items = myOptions) {
+                    val selectedItem = storeOf("")
+                    selectField(items = listOf("fr", "it", "z2"), store = selectedItem) {
                         placeholder("placeholder")
                     }
 
@@ -219,7 +230,7 @@ fun RenderContext.selectDemo(): Div {
                         p {
                             b { +"Selected: " }
                             store.data.render {
-                                span { +it.name }
+                                span { +it.toString() }
                             }
                         }
                     }
