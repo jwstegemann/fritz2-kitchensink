@@ -36,7 +36,6 @@ fun RenderContext.radiosDemo(): Div {
         }
         val languages = listOf("javascript", "java", "kotlin", "scala")
         val pickedLanguage = storeOf(languages[2])
-        val usageRadioStore = storeOf(false)
 
         componentFrame {
             radioGroup(store = pickedLanguage, items = languages) {
