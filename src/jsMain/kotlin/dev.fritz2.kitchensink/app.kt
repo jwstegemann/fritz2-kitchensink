@@ -32,6 +32,7 @@ const val checkbox_ = "Checkbox"
 const val radio_ = "RadioGroup"
 const val switch_ = "Switch"
 const val stack_ = "Stack"
+const val menu_ = "Menu"
 const val modal_ = "Modal"
 const val popover_ = "Popover"
 const val styling_ = "Styling"
@@ -262,6 +263,7 @@ fun main() {
                             menuAnchor(formcontrol_)
 
                             menuHeader("OVERLAY")
+                            menuAnchor(menu_)
                             menuAnchor(modal_)
                             menuAnchor(popover_)
                             menuAnchor(tooltip_)
@@ -305,6 +307,7 @@ fun main() {
                                 radio_ -> radiosDemo()
                                 switch_ -> switchDemo()
                                 stack_ -> stackDemo()
+                                menu_ -> menuDemo()
                                 modal_ -> modalDemo()
                                 popover_ -> popoverDemo()
                                 tooltip_ -> tooltipDemo()
