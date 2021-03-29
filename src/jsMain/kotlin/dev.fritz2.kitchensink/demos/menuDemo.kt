@@ -124,6 +124,14 @@ fun RenderContext.menuDemo(): Div {
             +" method. The specified toggle does not need to be clickable by itself as the clicks are handled by the "
             +"MenuComponent."
         }
+        alert({
+            margins { top { normal } }
+        }) {
+            icon { circleInformation }
+            variant { leftAccent }
+            content("Buttons are a good component to use for the toggle as they require very little adjustments " +
+                    "to work well with the Menu.")
+        }
         componentFrame {
             menuBox {
                 menu {
@@ -186,6 +194,93 @@ fun RenderContext.menuDemo(): Div {
                             }
                         }
                     }
+                 """
+            )
+        }
+
+        showcaseSection("Placement")
+        paragraph {
+            +"The dropdown's relative position to the toggle can either be to the left of, to the right of, or below "
+            +"it. By default, the dropdown is rendered "
+            i { +"below" }
+            +" the toggle. The position can be changed via the "
+            c("placement")
+            +" property."
+        }
+        componentFrame {
+            menuBox {
+                menu {
+                    toggle {
+                        pushButton {
+                            icon {
+                                fromTheme { chevronLeft }
+                            }
+                            text("Left")
+                        }
+                    }
+                    placement { left }
+                    entries {
+                        item {
+                            text("Dropdown to the left")
+                        }
+                    }
+                }
+            }
+
+            menuBox {
+                menu {
+                    toggle {
+                        pushButton {
+                            icon {
+                                fromTheme { chevronDown }
+                            }
+                            text("Bottom")
+                        }
+                    }
+                    placement { bottom }
+                    entries {
+                        item {
+                            text("Dropdown below")
+                        }
+                    }
+                }
+            }
+
+            menuBox {
+                menu {
+                    toggle {
+                        pushButton {
+                            icon {
+                                fromTheme { chevronRight }
+                            }
+                            text("Right")
+                        }
+                    }
+                    placement { right }
+                    entries {
+                        item {
+                            text("Dropdown to the right")
+                        }
+                    }
+                }
+            }
+        }
+        highlight {
+            source(
+                """
+                menu {
+                    toggle {
+                        pushButton {
+                            icon {
+                                fromTheme { chevronLeft }
+                            }
+                            text("Left")
+                        }
+                    }
+                    placement { left }
+                    
+                    // entries go here
+                }
                  """
             )
         }
