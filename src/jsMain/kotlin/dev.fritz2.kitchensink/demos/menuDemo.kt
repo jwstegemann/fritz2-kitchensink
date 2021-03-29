@@ -1,9 +1,6 @@
 package dev.fritz2.kitchensink.demos
 
-import dev.fritz2.components.flexBox
-import dev.fritz2.components.lineUp
-import dev.fritz2.components.menu
-import dev.fritz2.components.pushButton
+import dev.fritz2.components.*
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
@@ -15,6 +12,15 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
 fun RenderContext.menuDemo(): Div {
+
+    fun RenderContext.menuBox(expression: RenderContext.() -> Unit) {
+        box({
+            margin { smaller }
+            display { inlineBlock }
+        }) {
+            expression()
+        }
+    }
 
     return contentFrame {
 
@@ -104,6 +110,79 @@ fun RenderContext.menuDemo(): Div {
                                 pushButton {
                                     text("I'm a custom entry")
                                 }
+                            }
+                        }
+                    }
+                 """
+            )
+        }
+
+        showcaseSection("Toggle")
+        paragraph {
+            +"Any component can be used as a Menu's toggle and can be specified via the "
+            c("toggle")
+            +" method. The specified toggle does not need to be clickable by itself as the clicks are handled by the "
+            +"MenuComponent."
+        }
+        componentFrame {
+            menuBox {
+                menu {
+                    toggle {
+                        pushButton {
+                            text("Toggle")
+                        }
+                    }
+                    entries {
+                        item {
+                            text("Hello world!")
+                        }
+                    }
+                }
+            }
+
+            menuBox {
+                menu {
+                    toggle {
+                        pushButton {
+                            text("Toggle")
+                            variant { outline }
+                        }
+                    }
+                    entries {
+                        item {
+                            text("Hello world!")
+                        }
+                    }
+                }
+            }
+
+            menuBox {
+                menu {
+                    toggle {
+                        icon {
+                            fromTheme { chevronDoubleDown }
+                        }
+                    }
+                    entries {
+                        item {
+                            text("Hello world!")
+                        }
+                    }
+                }
+            }
+        }
+        highlight {
+            source(
+                """
+                    menu {
+                        toggle {
+                            pushButton {
+                                text("Toggle")
+                            }
+                        }
+                        entries {
+                            item {
+                                text("Hello world!")
                             }
                         }
                     }
