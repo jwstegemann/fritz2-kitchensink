@@ -40,9 +40,9 @@ fun RenderContext.menuDemo(): Div {
             +"Follow the example below to create a simple menu with a default toggle and one single entry. "
             +"You will notice the "
             c("entries")
-            +" context hosting all the entries of the Menu. In this example it only hosts a single item created via the "
+            +" context hosting all the entries of the Menu. In this example it only has a single item created via the "
             c("item")
-            +" method."
+            +" method. The latter also exposes a Flow of MouseEvents for clicks to be handled by a store."
         }
         componentFrame {
             menu {
@@ -62,7 +62,7 @@ fun RenderContext.menuDemo(): Div {
                             item {
                                 icon { sun }
                                 text("Hello world!")
-                            }
+                            } handledBy someStore
                         }
                     }
                  """
@@ -72,13 +72,13 @@ fun RenderContext.menuDemo(): Div {
         paragraph {
             +"Other possible children are Subheaders, Dividers and custom components, whith the latter being any fritz2-"
             +"component. "
-            +"These are created via the "
+            +"They are created via the "
             c("subheader")
             +", "
             c("divider")
             +" and "
             c("custom")
-            +" contexts respectively:"
+            +" contexts."
         }
         componentFrame {
             menu {
@@ -129,7 +129,7 @@ fun RenderContext.menuDemo(): Div {
         }) {
             icon { circleInformation }
             variant { leftAccent }
-            content("Buttons are a good component to use for the toggle as they require very little adjustments " +
+            content("Buttons are good components to use for the toggle as they require very little adjustments " +
                     "to work well with the Menu.")
         }
         componentFrame {
