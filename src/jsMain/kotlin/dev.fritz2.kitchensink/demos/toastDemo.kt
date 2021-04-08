@@ -207,8 +207,7 @@ fun RenderContext.toastDemo(): Div {
                 items {
                     clickButton {
                         text("Trigger Flow")
-                        clicks handledBy store.render
-                    }
+                    } handledBy store.render
                 }
             }
             store.data.filter { it }.render {
