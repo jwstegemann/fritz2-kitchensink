@@ -108,9 +108,11 @@ fun RenderContext.textareaDemo(): Div {
             c("textArea")
             +" offers the following resizing options: "
             c("vertical")
-            +" (default), "
+            +", "
             c("horizontal")
-            +" and "
+            +", "
+            c("both")
+            +" (default) and "
             c("none")
             +"."
         }
@@ -124,10 +126,14 @@ fun RenderContext.textareaDemo(): Div {
                 items {
                     textArea {
                         placeholder("resize: vertical")
+                        resizeBehavior { vertical }
                     }
                     textArea {
                         placeholder("resize: horizontal")
                         resizeBehavior { horizontal }
+                    }
+                    textArea {
+                        placeholder("resize: both")
                     }
                     textArea {
                         placeholder("resize: none")
@@ -142,6 +148,7 @@ fun RenderContext.textareaDemo(): Div {
                 """
                 textArea {
                     placeholder("resize: vertical")
+                    resizeBehavior { vertical }
                 }
                 
                 textArea {
@@ -149,6 +156,10 @@ fun RenderContext.textareaDemo(): Div {
                     resizeBehavior { horizontal }
                 }
                 
+                textArea {
+                    placeholder("resize: both")
+                }
+                    
                 textArea {
                     placeholder("resize: none")
                     resizeBehavior { none }
