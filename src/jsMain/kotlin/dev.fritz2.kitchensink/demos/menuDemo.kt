@@ -4,6 +4,8 @@ import dev.fritz2.components.*
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
+import dev.fritz2.styling.StyleClass
+import dev.fritz2.styling.params.BoxParams
 import dev.fritz2.styling.params.DirectionValues
 import dev.fritz2.styling.params.JustifyContentValues
 import dev.fritz2.styling.params.WrapValues
@@ -280,6 +282,108 @@ fun RenderContext.menuDemo(): Div {
                     placement { left }
                     
                     // entries go here
+                }
+                 """
+            )
+        }
+
+        showcaseSection("Extending the DSL")
+        paragraph {
+            +"The Menu's DSL can be extended in such a way that the "
+            c("entries")
+            +" context supports arbitrary fritz2 components natively. "
+            +"This can be handy when a specific, non-standard component is repeatedly used as a menu entry throughout "
+            +"a project and the "
+            c("custom")
+            +" context would produce a lot of boilerplate code."
+            br { }
+            br { }
+            +"Contexts can be injected by simply writing extension methods for the "
+            c("MenuEntriesContext")
+            +" class as shown below. "
+            +"You are not required to implement the custom DSL in any specific way. "
+            +"It is necessary, however, to call the "
+            c("addItem")
+            +" method exposed by the receiving class in order for your component to be added to the Menu's list of "
+            +"entries."
+        }
+        componentFrame {
+            class RadioGroupContext {
+                val items = ComponentProperty(listOf<String>())
+
+                fun build() = object : MenuEntry {
+                    override fun render(
+                        context: RenderContext,
+                        styling: BoxParams.() -> Unit,
+                        baseClass: StyleClass,
+                        id: String?,
+                        prefix: String
+                    ) {
+                        context.apply {
+                            radioGroup(items = items.value, styling = {
+                                margins {
+                                    horizontal { small }
+                                    vertical { smaller }
+                                }
+                            })
+                        }
+                    }
+                }
+            }
+
+            fun MenuEntriesContext.radios(expression: RadioGroupContext.() -> Unit) = RadioGroupContext()
+                .apply(expression)
+                .build()
+                .run(::addEntry)
+
+            menu {
+                entries {
+                    radios {
+                        items(listOf("Item 1", "Item 2", "Item 3"))
+                    }
+                }
+            }
+        }
+        highlight {
+            source(
+                """
+                // Custom context to set up a radio-group from within the DSL:
+                class RadioGroupContext {
+                    val items = ComponentProperty(listOf<String>())
+    
+                    fun build() = object : MenuEntry {
+                        override fun render(
+                            context: RenderContext,
+                            styling: BoxParams.() -> Unit,
+                            baseClass: StyleClass,
+                            id: String?,
+                            prefix: String
+                        ) {
+                            context.apply {
+                                radioGroup(items = items.value, styling = {
+                                    margins {
+                                        horizontal { small }
+                                        vertical { smaller }
+                                    }
+                                })
+                            }
+                        }
+                    }
+                }
+    
+                // Function to actually configure and add a radio group to the Menu:
+                fun MenuEntriesContext.radios(expression: RadioGroupContext.() -> Unit) = RadioGroupContext()
+                    .apply(expression)
+                    .build()
+                    .run(::addEntry)
+    
+                menu {
+                    entries {
+                        // The extended DSL is now available:
+                        radios {
+                            items(listOf("Item 1", "Item 2", "Item 3"))
+                        }
+                    }
                 }
                  """
             )
