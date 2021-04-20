@@ -48,7 +48,7 @@ fun RenderContext.stackDemo(): Div {
             +"These stacks are basically specialized "
             internalLink("Flexboxes", flexbox_)
             +" which expose a built-in way to set the content direction and define the spacing"
-            +" between items. Both are not responsive by default. If you need it responsive you have to use "
+            +" between items. Both are not responsive by default. If you need responsiveness, you have to use "
             internalLink("Flexboxes", flexbox_)
             +" instead."
         }
