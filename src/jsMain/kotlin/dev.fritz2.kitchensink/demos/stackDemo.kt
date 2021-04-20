@@ -48,8 +48,13 @@ fun RenderContext.stackDemo(): Div {
             +"These stacks are basically specialized "
             internalLink("Flexboxes", flexbox_)
             +" which expose a built-in way to set the content direction and define the spacing"
-            +" between items."
+            +" between items. Both are not responsive by default. If you need responsiveness, you have to use "
+            internalLink("Flexboxes", flexbox_)
+            +" instead."
         }
+
+
+
         paragraph {
             +"You can put arbitrary content into the stack components, which can be anything from just one HTML element to a complex"
             +" structure of elements, or other components of course."
