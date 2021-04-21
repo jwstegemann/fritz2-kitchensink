@@ -10,7 +10,10 @@ repositories {
     maven(url = "https://kotlin.bintray.com/kotlinx/") // soon will be just jcenter()
 }
 
-val generatedVersionDir = "${buildDir}/generated-version"
+val fritz2Version = "0.10-SNAPSHOT"
+
+
+val propertiesDir = "${buildDir}/properties"
 
 kotlin {
     js(IR) {
@@ -31,7 +34,7 @@ kotlin {
 
         val commonMain by getting {
             dependencies {
-                implementation("dev.fritz2:components:0.10-SNAPSHOT")
+                implementation("dev.fritz2:components:$fritz2Version")
             }
         }
 
@@ -43,14 +46,17 @@ kotlin {
                 implementation(kotlin("test-annotations-common"))
             }
         }
-        val versionProperty by creating {
-            resources.srcDir(generatedVersionDir)
+
+        val properties by creating {
+            resources.srcDir(propertiesDir)
         }
+
         val jsMain by getting {
             dependencies {
-                dependsOn(versionProperty)
+                dependsOn(properties)
             }
         }
+
         val jsTest by getting {
             dependencies {
                 implementation(kotlin("test-js"))
@@ -60,15 +66,14 @@ kotlin {
 }
 
 tasks {
-    val generateVersionProperties= create("generateVersionProperties") {
+    val propertiesTask= create("generateVersionProperties") {
         doLast {
-            val propertiesFile = file("$generatedVersionDir/version.properties")
+            val propertiesFile = file("$propertiesDir/properties.js")
             propertiesFile.parentFile.mkdirs()
-            properties {
-                setProperty("version", rootProject.version.toString())
-                renderer.setOutputFile(propertiesFile)
-            }
+            propertiesFile.writeText("""
+                window.document.fritz2Version = '$fritz2Version';
+            """.trimIndent())
         }
     }
-    findByName("jsProcessResources")?.dependsOn(generateVersionProperties)
+    findByName("jsProcessResources")?.dependsOn(propertiesTask)
 }
