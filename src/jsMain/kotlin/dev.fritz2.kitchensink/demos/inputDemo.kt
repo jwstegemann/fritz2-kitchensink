@@ -44,7 +44,7 @@ fun RenderContext.inputDemo(): Div {
         }
 
         componentFrame {
-            inputField(store = textStore) {
+            inputField(value = textStore) {
                 placeholder("Enter text")
             }
             storeContentBox("Text") {
@@ -55,7 +55,7 @@ fun RenderContext.inputDemo(): Div {
             source(
                 """
                 val userNameStore = storeOf("")
-                inputField(store = userNameStore) {
+                inputField(value = userNameStore) {
                     placeholder("Enter text")
                 }
                 """
