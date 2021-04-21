@@ -241,7 +241,7 @@ fun RenderContext.popoverDemo(): Div {
                             icon({ size { huge } }) { fromTheme { eye } }
                         }
                         closeButtonIcon { eyeOff }
-                        closeButtonStyle { color { danger } }
+                        closeButtonStyle { colors { danger } }
                         content {
                             div {
                                 +"A custom icon for the button. Click the toggle or the custom close button to close this popover."
@@ -310,7 +310,7 @@ fun RenderContext.popoverDemo(): Div {
                         header("A Plain Text Header.")
                         content {
                             (::h4.styled {
-                                color { info }
+                                colors { info }
                                 textShadow { glowing }
                                 padding { huge }
                             }) { +"Popover, content, and footer have customized styling." }
@@ -318,7 +318,7 @@ fun RenderContext.popoverDemo(): Div {
                         footer {
                             (::h4.styled {
                                 fontStyle { italic }
-                                color { info }
+                                colors { info }
                                 padding { normal } // todo this should be default
                                 fontSize { tiny }
                             }) { +"The marker was removed." }

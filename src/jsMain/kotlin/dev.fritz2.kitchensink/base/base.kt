@@ -63,7 +63,7 @@ fun RenderContext.contentFrame(
     init: Div.() -> Unit = {}
 ): Div =
     ::div.styled(styling, baseClass, id, prefix) {
-        background { color { neutral } }
+        background { colors { neutral } }
         margins(sm = {
             top { "4rem" }
         }, md = {

@@ -242,7 +242,7 @@ fun RenderContext.formControlDemo(): Div {
 
         showcaseSubSection("Validation")
 
-        coloredBox(Theme().colors.info) {
+        coloredBox(Theme().colors.info.base) {
             +"The validation code does not rely on anything UI specific so it's"
             +" perfect for unit testing."
         }
@@ -577,7 +577,7 @@ fun RenderContext.formControlDemo(): Div {
                             labelStyle {
                                 // It is a good advice to apply the *default* first and only modify remains
                                 Theme().formControl.label()
-                                color { info }
+                                colors { info }
                             }
                             helperText("Remember: the longer, the better!")
                             helperTextStyle {
@@ -972,7 +972,7 @@ fun RenderContext.formControlDemo(): Div {
         paragraph {
             +"But remember: "
         }
-        coloredBox(Theme().colors.warning) {
+        coloredBox(Theme().colors.warning.base) {
             +"With great power comes great responsibility!"
         }
         paragraph {
@@ -1297,7 +1297,7 @@ fun RenderContext.formControlDemo(): Div {
             )
         }
 
-        coloredBox(Theme().colors.warning) {
+        coloredBox(Theme().colors.warning.base) {
             +"If you don't provide a renderer for a control, "
             strong { +"nothing" }
             +" of the form is rendered."

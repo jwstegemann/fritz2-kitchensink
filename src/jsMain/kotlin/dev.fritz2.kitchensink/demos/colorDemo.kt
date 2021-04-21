@@ -59,7 +59,7 @@ fun renderColorScheme(context: RenderContext, name: String, colorScheme: ColorSc
                 md = { repeat(4) { "1fr" } }
             )
             gap { tiny }
-            background { color { neutral } }
+            background { colors { neutral } }
             height(
                 sm = { "9rem" },
                 md = { "6rem" }
@@ -157,7 +157,7 @@ fun RenderContext.createColorBar(
                         right { small }
                     }
                     margin { "0.3rem" }
-                    background { color { neutral } }
+                    background { colors { neutral } }
                     tooltip(color) { right }()
                 }) { +colorName }
             }
@@ -216,18 +216,24 @@ fun RenderContext.colorDemo(): Div {
         renderColorScheme(this, "secondary", Theme().colors.secondary)
         renderColorScheme(this, "tertiary", Theme().colors.tertiary)
 
+        renderColorScheme(this, "info", Theme().colors.info)
+        renderColorScheme(this, "success", Theme().colors.success)
+        renderColorScheme(this, "warning", Theme().colors.warning)
+        renderColorScheme(this, "danger", Theme().colors.danger)
+        renderColorScheme(this, "neutral", Theme().colors.neutral)
+
         showcaseSubSection("Signal Colors")
 
         paragraph {
             +"For typical alert messages we offer the following colors:"
         }
 
-        div {
+       /* div {
             createColorBar(Theme().colors.info, "info")
             createColorBar(Theme().colors.success, "success")
             createColorBar(Theme().colors.warning, "warning")
             createColorBar(Theme().colors.danger, "danger")
-        }
+        }*/
 
         showcaseSubSection("Shades of Gray")
 

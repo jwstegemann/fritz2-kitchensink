@@ -101,7 +101,7 @@ fun RenderContext.fileDemo(): Div {
             +"."
         }
 
-        coloredBox(Theme().colors.info){
+        coloredBox(Theme().colors.info.base){
             p {
                 +"To select multiple files at once, you need to press and hold the "
                 c("Shift")
@@ -159,7 +159,7 @@ fun RenderContext.fileDemo(): Div {
                 items {
                     file {
                         button({
-                            background { color { info } }
+                            background { colors { info } }
                         }) {
                             icon { fromTheme { cloudUpload } }
                             text("Accept every file")
@@ -169,7 +169,7 @@ fun RenderContext.fileDemo(): Div {
                     file {
                         accept("image/*")
                         button({
-                            background { color { warning } }
+                            background { colors { warning } }
                         }) {
                             icon { fromTheme { image } }
                             text("Accept only image files")
@@ -179,7 +179,7 @@ fun RenderContext.fileDemo(): Div {
                     file {
                         accept("application/pdf")
                         button({
-                            background { color { danger } }
+                            background { colors { danger } }
                         }) {
                             icon { fromTheme { document } }
                             text("Accept only pdf files")

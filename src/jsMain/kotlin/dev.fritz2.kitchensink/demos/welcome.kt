@@ -91,7 +91,7 @@ fun RenderContext.welcome(): Div {
                     """.trimIndent()
                 }
 
-                coloredBox(Theme().colors.warning) {
+                coloredBox(Theme().colors.warning.base) {
                     +"Remember that this is a $versionStatus release."
                     +" Most components still need some work, others are not implemented yet, and the API still needs"
                     +" to be completed and streamlined."

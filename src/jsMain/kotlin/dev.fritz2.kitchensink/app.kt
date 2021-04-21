@@ -163,7 +163,7 @@ fun main() {
                         background {
                             color { secondary.base }
                         }
-                        color { neutral }
+                        colors { neutral }
                         margins {
                             left { small }
                         }
@@ -226,7 +226,7 @@ fun main() {
                             }
                         )
                         border { color { "light" } }
-                        background { color { menuBackgroundColor } }
+                        background { colors { menuBackgroundColor } }
                     }, id = "menu-left")
                     {
                         spacing { tiny }
@@ -284,7 +284,7 @@ fun main() {
                         }
                         width { "100%" }
                         radius { small }
-                        background { color { neutral } }
+                        background { colors { neutral } }
                     }) {
                         className(welcomeContent.whenever(router.data) { it == welcome_ }.name)
 

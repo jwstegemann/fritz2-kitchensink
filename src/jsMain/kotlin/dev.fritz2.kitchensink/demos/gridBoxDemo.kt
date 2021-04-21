@@ -239,7 +239,7 @@ fun RenderContext.gridBoxDemo(): Div {
             }
         }
 
-        coloredBox(Theme().colors.info){
+        coloredBox(Theme().colors.info.base){
             +"This layout also transforms with screen size. Try resizing your browser window to see "
             +"how the sidebar is placed into its own row when the space narrows. "
             +"The content then appears on a separate row below."

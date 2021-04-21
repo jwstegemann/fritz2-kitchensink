@@ -22,7 +22,7 @@ fun RenderContext.stackDemo(): Div {
             justifyContent { center }
             alignItems { center }
             background { color { color } }
-            color { neutral }
+            colors { neutral }
             size { "40px" }
             radius { small }
         }) { +text }
@@ -263,7 +263,7 @@ fun RenderContext.stackDemo(): Div {
             )
         }
 
-        coloredBox(Theme().colors.info) {
+        coloredBox(Theme().colors.info.base) {
             +"Tip for complex layouts:"
             +" Favor the application of a "
             internalLink("Gridbox", gridbox_)

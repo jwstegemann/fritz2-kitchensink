@@ -248,8 +248,8 @@ fun RenderContext.modalDemo(): Div {
                     } handledBy modal {
                         closeButtonRendering {
                             clickButton({
-                                background { color { danger } }
-                                color { neutral }
+                                background { colors { danger } }
+                                colors { neutral }
                                 position { absolute { top { normal } } }
                                 css("transform: rotate(-20deg) translateX(-.5rem)")
                             }) {
@@ -303,8 +303,8 @@ fun RenderContext.modalDemo(): Div {
                         hasCloseButton(false)
                         content {
                             clickButton({
-                                color { neutral }
-                                background { color { warning } }
+                                colors { neutral }
+                                background { colors { warning } }
                             }) {
                                 icon { fromTheme { logOut } }
                             } handledBy close

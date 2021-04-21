@@ -102,7 +102,7 @@ fun RenderContext.stylingDemo(): Div {
                 items {
                     icon({
                         size { normal }
-                        color { danger }
+                        colors { danger }
                     }) { fromTheme { heart } }
 
                     icon({
@@ -145,14 +145,14 @@ fun RenderContext.stylingDemo(): Div {
                 items {
                     val veryImportant: Style<BasicParams> = {
                         boxShadow { raised }
-                        background { color { danger } }
-                        color { neutral }
+                        background { colors { danger } }
+                        colors { neutral }
                         radius { larger }
                         hover {
-                            background { color { warning } }
+                            background { colors { warning } }
                         }
                         active {
-                            border { color { warning } }
+                            border { color { warning.base } }
                         }
                         focus {
                             boxShadow { danger }
