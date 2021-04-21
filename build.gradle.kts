@@ -10,6 +10,8 @@ repositories {
     maven(url = "https://kotlin.bintray.com/kotlinx/") // soon will be just jcenter()
 }
 
+val generatedVersionDir = "${buildDir}/generated-version"
+
 kotlin {
     js(IR) {
         browser()
@@ -41,8 +43,12 @@ kotlin {
                 implementation(kotlin("test-annotations-common"))
             }
         }
+        val versionProperty by creating {
+            resources.srcDir(generatedVersionDir)
+        }
         val jsMain by getting {
             dependencies {
+                dependsOn(versionProperty)
             }
         }
         val jsTest by getting {
@@ -51,4 +57,18 @@ kotlin {
             }
         }
     }
+}
+
+tasks {
+    val generateVersionProperties= create("generateVersionProperties") {
+        doLast {
+            val propertiesFile = file("$generatedVersionDir/version.properties")
+            propertiesFile.parentFile.mkdirs()
+            properties {
+                setProperty("version", rootProject.version.toString())
+                renderer.setOutputFile(propertiesFile)
+            }
+        }
+    }
+    findByName("jsProcessResources")?.dependsOn(generateVersionProperties)
 }
