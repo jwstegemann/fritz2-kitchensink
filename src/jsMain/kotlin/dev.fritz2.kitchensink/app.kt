@@ -114,24 +114,41 @@ fun main() {
                 boxShadow { flat }
             }) {
                 brand {
-                    (::a.styled {
-                        textDecoration { initial }
-                        color { primary.base }
-                    }) {
-                        href("https://www.fritz2.dev/")
-                        target("_new")
+                    stackUp {
+                        spacing { none }
+                        items {
+                            (::a.styled {
+                                textDecoration { initial }
+                                color { primary.base }
+                            }) {
+                                href("https://www.fritz2.dev/")
+                                target("_new")
 
-                        icon({
-                            size { "3rem" }
-                            color { primary.base }
-                        }) { fromTheme { fritz2 } }
+                                icon({
+                                    size { "3rem" }
+                                    color { primary.base }
+                                }) { fromTheme { fritz2 } }
 
-                        (::span.styled {
-                            margins { left { smaller } }
-                            verticalAlign { sub }
-                            fontSize(sm = { large }, md = { larger })
-                            fontWeight { lighter }
-                        }) { +"Components" }
+                                (::span.styled {
+                                    margins { left { smaller } }
+                                    verticalAlign { sub }
+                                    fontSize(sm = { large }, md = { larger })
+                                    fontWeight { lighter }
+                                }) { +"Components" }
+                            }
+
+                            (::a.styled {
+                                display { flex }
+                                justifyContent { flexEnd }
+                                width { full }
+                                margins { top { "-10px".important } }
+                                fontSize { tiny }
+                            }) {
+                                +fritz2Version()
+                                href("https://github.com/jwstegemann/fritz2/releases")
+                                target("_blank")
+                            }
+                        }
                     }
                     //FIXME: convert to styles
                     (::span.styled {
@@ -167,10 +184,24 @@ fun main() {
                         margins {
                             left { small }
                         }
-                    }) { +versionStatus.capitalize() }
+                    }) {
+                        +versionStatus.capitalize()
+                    }
                 }
 
                 actions {
+                    (::a.styled {
+                        fontSize { tiny }
+                        color { gray600 }
+                        textAlign { center }
+                        margins { right { larger } }
+                        display(sm = { none }, md = { none }, lg = { block })
+                    }) {
+                        +"Made with ❤️ using fritz2"
+                        href("https://github.com/jwstegemann/fritz2-kitchensink")
+                        target("_blank")
+                    }
+
                     lineUp({
                         display(sm = { none }, md = { flex })
                     }) {
@@ -231,6 +262,7 @@ fun main() {
                     {
                         spacing { tiny }
                         items {
+
                             (::p.styled {
                                 width { "100%" }
                                 margins { top { huge } }
