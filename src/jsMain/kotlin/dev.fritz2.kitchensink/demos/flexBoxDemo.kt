@@ -17,7 +17,7 @@ fun RenderContext.flexBoxDemo(): Div {
     val item: RenderContext.(String, Int) -> Unit = { color, number ->
         flexBox({
             background { color { color } }
-            colors { neutral }
+            color { neutral.main }
             width (sm = { "50px" }, md = { "110px" }, lg = { "150px" })
             height { "50px" }
             justifyContent { center }
@@ -28,16 +28,16 @@ fun RenderContext.flexBoxDemo(): Div {
     }
 
     val threeItems: RenderContext.() -> Unit = {
-        listOf(Theme().colors.primary.base, Theme().colors.secondary.base, Theme().colors.tertiary.base)
+        listOf(Theme().colors.primary.main, Theme().colors.secondary.main, Theme().colors.tertiary.main)
             .forEachIndexed { index, value -> item(value, index + 1) }
     }
     val fiveItems: RenderContext.() -> Unit = {
         listOf(
-            Theme().colors.primary.base,
-            Theme().colors.secondary.base,
-            Theme().colors.tertiary.base,
-            Theme().colors.success.base,
-            Theme().colors.info.base,
+            Theme().colors.primary.main,
+            Theme().colors.secondary.main,
+            Theme().colors.tertiary.main,
+            Theme().colors.success.main,
+            Theme().colors.info.main,
         ).forEachIndexed { index, value -> item(value, index + 1) }
     }
 
@@ -77,7 +77,7 @@ fun RenderContext.flexBoxDemo(): Div {
                 }) {
                    
                     box({
-                        background { color { primary.base } }
+                        background { color { primary.main } }
                         color { neutral }
                         width (sm = { "50px" }, md = { "110px" }, lg = { "150px" })
                         height { "50px" }

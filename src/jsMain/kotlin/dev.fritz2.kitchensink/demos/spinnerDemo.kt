@@ -188,7 +188,7 @@ fun RenderContext.spinnerDemo(): Div {
                     }) {
                         items {
                             spinner({
-                                colors { danger }
+                                color { danger.main }
                                 size { "2rem" }
                             }) {
                                 icon { heart }

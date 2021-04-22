@@ -25,7 +25,7 @@ fun RenderContext.tooltipDemo(): Div {
                 +" styled like any other component and additionally offers some specific options."
             }
 
-            coloredBox(Theme().colors.danger.base) {
+            coloredBox(Theme().colors.danger) {
                 +"Devices with touchscreen might not be able to demonstrate the features on this page."
             }
 

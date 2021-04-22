@@ -166,7 +166,7 @@ fun RenderContext.iconsDemo(): Div {
             +" icon."
         }
 
-        coloredBox(Theme().colors.info.base) {
+        coloredBox(Theme().colors.info) {
             p { +"Most of our included icons are taken from the excellent mono icons project." }
             p {
                 +"Please have look at their "
@@ -200,7 +200,7 @@ fun RenderContext.iconsDemo(): Div {
 
                     icon({
                         size { giant }
-                        colors { warning }
+                        color { warning.main }
                     }) { fromTheme { warning } }
                 }
             }
@@ -217,8 +217,8 @@ fun RenderContext.iconsDemo(): Div {
 
                 icon({
                     size { giant }
-                    color { warning }
-                }) { fromTheme { warning } }                
+                    color { warning.main }
+                }) { fromTheme { warning.main } }                
             """.trimIndent()
             )
         }

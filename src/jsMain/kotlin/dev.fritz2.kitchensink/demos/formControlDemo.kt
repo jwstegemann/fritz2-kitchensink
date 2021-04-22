@@ -242,7 +242,7 @@ fun RenderContext.formControlDemo(): Div {
 
         showcaseSubSection("Validation")
 
-        coloredBox(Theme().colors.info.base) {
+        coloredBox(Theme().colors.info) {
             +"The validation code does not rely on anything UI specific so it's"
             +" perfect for unit testing."
         }
@@ -577,14 +577,14 @@ fun RenderContext.formControlDemo(): Div {
                             labelStyle {
                                 // It is a good advice to apply the *default* first and only modify remains
                                 Theme().formControl.label()
-                                colors { info }
+                                color { info.main }
                             }
                             helperText("Remember: the longer, the better!")
                             helperTextStyle {
                                 // Just as above, rely on the default styling first
                                 Theme().formControl.helperText()
                                 fontStyle { italic }
-                                color { secondary.base }
+                                color { secondary.main }
                             }
                             inputField(store = passphraseStore) {
                                 placeholder("enter a secure passphrase")
@@ -604,14 +604,14 @@ fun RenderContext.formControlDemo(): Div {
                     labelStyle {
                         // It is a good advice to apply the *default* first and only modify remains
                         Theme().formControl.label()
-                        color { info }
+                        color { info.main }
                     }
                     helperText("Remember: the longer, the better!")
                     helperTextStyle {
                         // Just as above, rely on the default styling first
                         Theme().formControl.helperText()
                         fontStyle { italic }
-                        color { secondary.base }
+                        color { secondary.main }
                     }
                     inputField(store = passphraseStore) {
                         placeholder("enter a secure passphrase")
@@ -972,7 +972,7 @@ fun RenderContext.formControlDemo(): Div {
         paragraph {
             +"But remember: "
         }
-        coloredBox(Theme().colors.warning.base) {
+        coloredBox(Theme().colors.warning) {
             +"With great power comes great responsibility!"
         }
         paragraph {
@@ -1297,7 +1297,7 @@ fun RenderContext.formControlDemo(): Div {
             )
         }
 
-        coloredBox(Theme().colors.warning.base) {
+        coloredBox(Theme().colors.warning) {
             +"If you don't provide a renderer for a control, "
             strong { +"nothing" }
             +" of the form is rendered."

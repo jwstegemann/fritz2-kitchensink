@@ -16,7 +16,7 @@ fun RenderContext.gettingStarted(): Div {
     return contentFrame {
 
         showcaseHeader("Getting Started")
-        coloredBox(Theme().colors.warning.base) {
+        coloredBox(Theme().colors.warning) {
             +"This is a $versionStatus version of fritz2 components."
         }
 

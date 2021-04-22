@@ -116,14 +116,14 @@ fun main() {
                 brand {
                     (::a.styled {
                         textDecoration { initial }
-                        color { primary.base }
+                        color { primary.main }
                     }) {
                         href("https://www.fritz2.dev/")
                         target("_new")
 
                         icon({
                             size { "3rem" }
-                            color { primary.base }
+                            color { primary.main }
                         }) { fromTheme { fritz2 } }
 
                         (::span.styled {
@@ -161,9 +161,9 @@ fun main() {
                             md = { small }
                         )
                         background {
-                            color { secondary.base }
+                            color { secondary.main }
                         }
-                        colors { neutral }
+                        color { neutral.main }
                         margins {
                             left { small }
                         }
@@ -226,7 +226,7 @@ fun main() {
                             }
                         )
                         border { color { "light" } }
-                        background { colors { menuBackgroundColor } }
+                        background { color { menuBackgroundColor.main } }
                     }, id = "menu-left")
                     {
                         spacing { tiny }
@@ -284,7 +284,7 @@ fun main() {
                         }
                         width { "100%" }
                         radius { small }
-                        background { colors { neutral } }
+                        background { color { neutral.main } }
                     }) {
                         className(welcomeContent.whenever(router.data) { it == welcome_ }.name)
 

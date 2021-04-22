@@ -49,8 +49,8 @@ fun RenderContext.gridBoxDemo(): Div {
                 children("div") {
                     width { "120px" }
                     height { "50px" }
-                    color { primary.baseContrast }
-                    background { color { primary.base } }
+                    color { primary.mainContrast }
+                    background { color { primary.main } }
                     display { flex }
                     radius { small }
                     css("justify-content: center")
@@ -75,8 +75,8 @@ fun RenderContext.gridBoxDemo(): Div {
                     children("div") {
                         width { "120px" }
                         height { "50px" }
-                        color { primary.baseContrast }
-                        background { color { primary.base } }
+                        color { primary.mainContrast }
+                        background { color { primary.main } }
                         display { flex }
                         radius { small }
                         css("justify-content: center")
@@ -147,7 +147,7 @@ fun RenderContext.gridBoxDemo(): Div {
                 }
                 box({
                     grid { area { grid.SIDEBAR } }
-                    background { color { primary.base } }
+                    background { color { primary.main } }
                     color { gray300 }
                     paddings { all { "0.2rem" } }
                 }) {
@@ -219,7 +219,7 @@ fun RenderContext.gridBoxDemo(): Div {
                                 }
                             )
                             background {
-                                color { secondary.base }
+                                color { secondary.main }
                             }
                             padding { normal }
                             textAlign { center }
@@ -239,7 +239,7 @@ fun RenderContext.gridBoxDemo(): Div {
             }
         }
 
-        coloredBox(Theme().colors.info.base){
+        coloredBox(Theme().colors.info){
             +"This layout also transforms with screen size. Try resizing your browser window to see "
             +"how the sidebar is placed into its own row when the space narrows. "
             +"The content then appears on a separate row below."

@@ -117,7 +117,7 @@ fun RenderContext.textareaDemo(): Div {
             +"."
         }
 
-        coloredBox(Theme().colors.danger.base) {
+        coloredBox(Theme().colors.danger) {
             +"Devices with touchscreen might not be able to demonstrate this feature."
         }
 

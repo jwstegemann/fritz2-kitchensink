@@ -59,7 +59,7 @@ fun renderColorScheme(context: RenderContext, name: String, colorScheme: ColorSc
                 md = { repeat(4) { "1fr" } }
             )
             gap { tiny }
-            background { colors { neutral } }
+            background { color { neutral.main } }
             height(
                 sm = { "9rem" },
                 md = { "6rem" }
@@ -68,8 +68,8 @@ fun renderColorScheme(context: RenderContext, name: String, colorScheme: ColorSc
             flexBox({
                 baseStyle(this as BoxParams)
                 grid { area { gridAreas.MAIN } }
-                background { color { colorScheme.base } }
-                color { colorScheme.baseContrast }
+                background { color { colorScheme.main } }
+                color { colorScheme.mainContrast }
                 hover {
                     background { color { colorScheme.highlight } }
                     color { colorScheme.highlightContrast }
@@ -85,28 +85,32 @@ fun renderColorScheme(context: RenderContext, name: String, colorScheme: ColorSc
             flexBox({
                 grid { area { gridAreas.BASE } }
                 baseStyle(this as BoxParams)
-                background { color { colorScheme.base } }
-                color { colorScheme.baseContrast }
+                background { color { colorScheme.main } }
+                color { colorScheme.mainContrast }
                 radii(
                     sm = { bottomLeft { none } },
                     md = { bottomLeft { radiiSize() } }
                 )
+                tooltip(colorScheme.main)()
             }) {
-                hovered.data.map { if(!it) "base" else "" }.asText()
+                hovered.data.map { if(!it) "main" else "" }.asText()
+               //+alterHexColorBrightness(colorScheme.main, 1.8)
             }
             flexBox({
                 grid { area { gridAreas.BASE_CONTRAST } }
                 baseStyle(this as BoxParams)
-                background { color { colorScheme.baseContrast } }
-                color { colorScheme.base }
+                background { color { colorScheme.mainContrast } }
+                color { colorScheme.main }
+                tooltip(colorScheme.mainContrast)()
             }) {
-                hovered.data.map { if(!it) "baseContrast" else "" }.asText()
+                hovered.data.map { if(!it) "mainContrast" else "" }.asText()
             }
             flexBox({
                 grid { area { gridAreas.HIGHLIGHT } }
                 baseStyle(this as BoxParams)
                 background { color { colorScheme.highlight } }
                 color { colorScheme.highlightContrast }
+                tooltip(colorScheme.highlight)()
                 radii(
                     sm = { bottomLeft { radiiSize() } },
                     md = { bottomLeft { none } }
@@ -119,6 +123,7 @@ fun renderColorScheme(context: RenderContext, name: String, colorScheme: ColorSc
                 baseStyle(this as BoxParams)
                 background { color { colorScheme.highlightContrast } }
                 color { colorScheme.highlight }
+                tooltip(colorScheme.highlightContrast)()
                 radii { bottomRight { radiiSize() } }
             }) {
                 hovered.data.map { if(it) "highlightContrast" else "" }.asText()
@@ -157,7 +162,7 @@ fun RenderContext.createColorBar(
                         right { small }
                     }
                     margin { "0.3rem" }
-                    background { colors { neutral } }
+                    background { color { neutral.main } }
                     tooltip(color) { right }()
                 }) { +colorName }
             }
@@ -186,18 +191,18 @@ fun RenderContext.colorDemo(): Div {
             +" that groups semantically related together. It offers the following four properties:"
             ul {
                 li {
-                    c("base")
+                    c("main")
                     +" use for areas, surfaces, borders"
                 }
                 li {
-                    c("baseContrast")
+                    c("mainContrast")
                     +" use for text, icons or alike placed upon a surface colored with "
-                    c("base")
+                    c("main")
                 }
                 li {
                     c("highlight")
                     +" use instead of "
-                    c("base")
+                    c("main")
                     +" for effects like hovering and similar"
                 }
                 li {
@@ -216,24 +221,16 @@ fun RenderContext.colorDemo(): Div {
         renderColorScheme(this, "secondary", Theme().colors.secondary)
         renderColorScheme(this, "tertiary", Theme().colors.tertiary)
 
+        renderColorScheme(this, "neutral", Theme().colors.neutral)
+
+        showcaseSubSection("Signal Colors")
+        paragraph {
+            +"For typical alert messages we offer the following colors:"
+        }
         renderColorScheme(this, "info", Theme().colors.info)
         renderColorScheme(this, "success", Theme().colors.success)
         renderColorScheme(this, "warning", Theme().colors.warning)
         renderColorScheme(this, "danger", Theme().colors.danger)
-        renderColorScheme(this, "neutral", Theme().colors.neutral)
-
-        showcaseSubSection("Signal Colors")
-
-        paragraph {
-            +"For typical alert messages we offer the following colors:"
-        }
-
-       /* div {
-            createColorBar(Theme().colors.info, "info")
-            createColorBar(Theme().colors.success, "success")
-            createColorBar(Theme().colors.warning, "warning")
-            createColorBar(Theme().colors.danger, "danger")
-        }*/
 
         showcaseSubSection("Shades of Gray")
 

@@ -12,6 +12,7 @@ import dev.fritz2.styling.params.ColorProperty
 import dev.fritz2.styling.params.alterHexColorBrightness
 import dev.fritz2.styling.params.styled
 import dev.fritz2.styling.style
+import dev.fritz2.styling.theme.ColorScheme
 import dev.fritz2.styling.whenever
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
@@ -21,7 +22,7 @@ fun RenderContext.showcaseHeader(text: String) {
         margins {
             top { normal }
         }
-        color { primary.base }
+        color { primary.main }
     }) { +text }
 }
 
@@ -30,7 +31,7 @@ fun RenderContext.showcaseSection(text: String) {
         margins {
             top { giant }
         }
-        color { primary.base }
+        color { primary.main }
     }) { +text }
 }
 
@@ -39,7 +40,7 @@ fun RenderContext.showcaseSubSection(text: String) {
         margins {
             top { giant }
         }
-        color { primary.base }
+        color { primary.main }
     }) { +text }
 }
 
@@ -63,7 +64,8 @@ fun RenderContext.contentFrame(
     init: Div.() -> Unit = {}
 ): Div =
     ::div.styled(styling, baseClass, id, prefix) {
-        background { colors { neutral } }
+        background { color { neutral.main } }
+        color { neutral.mainContrast }
         margins(sm = {
             top { "4rem" }
         }, md = {
@@ -75,7 +77,7 @@ fun RenderContext.contentFrame(
         radius { normal }
     }(init)
 
-fun RenderContext.coloredBox(baseColorAsHex: ColorProperty, init: P.() -> Unit): Div {
+fun RenderContext.coloredBox(colorScheme: ColorScheme, init: P.() -> Unit): Div {
     return (::div.styled {
         margins {
             top { larger }
@@ -91,13 +93,14 @@ fun RenderContext.coloredBox(baseColorAsHex: ColorProperty, init: P.() -> Unit):
             left {
                 width { "6px" }
                 style { solid }
-                color { baseColorAsHex }
+                color { colorScheme.main }
             }
         }
         radius { small }
         background {
-            color { alterHexColorBrightness(baseColorAsHex, 1.8) }
+            color { colorScheme.highlight }
         }
+        color { colorScheme.highlightContrast }
     }){
         p {
             init()
@@ -149,7 +152,7 @@ val RenderContext.link
     get() = (::a.styled {
         padding { "0.2rem" }
         radius { small }
-        color { secondary.base }
+        color { secondary.main }
         hover {
             color { secondary.highlightContrast }
             background { color { secondary.highlight } }
@@ -178,7 +181,7 @@ fun RenderContext.navAnchor(linkText: String, href: String): Div {
         border {
             width { none }
         }
-        color { primary.base }
+        color { primary.main }
         hover {
             color { primary.highlightContrast }
             background {
@@ -216,7 +219,7 @@ fun RenderContext.menuHeader(text: String): Div {
             fontSize { normal }
             fontWeight { bold }
             letterSpacing { large }
-            color { secondary.base }
+            color { secondary.main }
         })  { +text }
     }
 }
@@ -226,7 +229,7 @@ fun RenderContext.menuAnchor(linkText: String): P {
     val selected = style {
         color { gray100 }
         background {
-            color { primary.base }
+            color { primary.main }
         }
     }
 
@@ -285,7 +288,7 @@ fun RenderContext.teaserText(
     ::div.styled {
         fontSize { small }
         textTransform { capitalize }
-        color { primary.base }
+        color { primary.main }
         fontWeight { semiBold }
         margins { bottom { "0.7rem" } }
         fontSize { small }

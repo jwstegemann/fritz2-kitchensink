@@ -101,7 +101,7 @@ fun RenderContext.fileDemo(): Div {
             +"."
         }
 
-        coloredBox(Theme().colors.info.base){
+        coloredBox(Theme().colors.info){
             p {
                 +"To select multiple files at once, you need to press and hold the "
                 c("Shift")
@@ -159,7 +159,7 @@ fun RenderContext.fileDemo(): Div {
                 items {
                     file {
                         button({
-                            background { colors { info } }
+                            background { color { info.main } }
                         }) {
                             icon { fromTheme { cloudUpload } }
                             text("Accept every file")
@@ -169,7 +169,7 @@ fun RenderContext.fileDemo(): Div {
                     file {
                         accept("image/*")
                         button({
-                            background { colors { warning } }
+                            background { color { warning.main } }
                         }) {
                             icon { fromTheme { image } }
                             text("Accept only image files")
@@ -179,7 +179,7 @@ fun RenderContext.fileDemo(): Div {
                     file {
                         accept("application/pdf")
                         button({
-                            background { colors { danger } }
+                            background { color { danger.main } }
                         }) {
                             icon { fromTheme { document } }
                             text("Accept only pdf files")
@@ -193,7 +193,7 @@ fun RenderContext.fileDemo(): Div {
                 """
                 file {
                     button({
-                        background { color { info } }
+                        background { color { info.main } }
                     }) {
                         icon { fromTheme { cloudUpload } }
                         text("Accept every file")
@@ -203,7 +203,7 @@ fun RenderContext.fileDemo(): Div {
                 file {
                     accept("image/*")
                     button({
-                        background { color { warning } }
+                        background { color { warning.main } }
                     }) {
                         icon { fromTheme { image } }
                         text("Accept only image files")
@@ -213,7 +213,7 @@ fun RenderContext.fileDemo(): Div {
                 file {
                     accept("application/pdf")
                     button({
-                        background { color { danger } }
+                        background { color { danger.main } }
                     }) {
                         icon { fromTheme { document } }
                         text("Accept only pdf files")

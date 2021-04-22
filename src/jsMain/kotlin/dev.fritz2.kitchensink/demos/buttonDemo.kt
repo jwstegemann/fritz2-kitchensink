@@ -6,6 +6,7 @@ import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.styling.params.styled
+import dev.fritz2.styling.theme.ColorScheme
 import dev.fritz2.tracking.tracker
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
@@ -20,7 +21,7 @@ fun RenderContext.buttonDemo(): Div {
         content {
             lineUp {
                 items {
-                    icon({ color { success.base } }) { fromTheme { circleCheck } }
+                    icon({ color { success.main } }) { fromTheme { circleCheck } }
                     p { +"Your data has been saved successfully." }
                 }
             }
@@ -74,13 +75,12 @@ fun RenderContext.buttonDemo(): Div {
                     } handledBy successToast
 
                     pushButton {
-                        color { info }
                         icon { fromTheme { arrowLeft } }
                         text("Previous")
                     }
 
                     pushButton {
-                        color { warning }
+                        type { warning }
                         icon { fromTheme { arrowRight } }
                         iconPlacement { right }
                         text("Next")
@@ -89,7 +89,7 @@ fun RenderContext.buttonDemo(): Div {
                     pushButton({
                         radius { none }
                     }) {
-                        color { danger }
+                        type { danger }
                         icon { fromTheme { close } }
                         events {
                             clicks handledBy successToast

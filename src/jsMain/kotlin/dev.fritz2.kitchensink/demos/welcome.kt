@@ -34,7 +34,7 @@ fun RenderContext.welcome(): Div {
                         sm = { "5rem" },
                         md = { "9rem" }
                     )
-                    color { primary.base }
+                    color { primary.main }
                     css("drop-shadow(0 0 0.5rem gray);")
                 }) { fromTheme { fritz2 } }
                 box {
@@ -47,7 +47,7 @@ fun RenderContext.welcome(): Div {
                             sm = { "1.5rem" },
                             md = { "4.0rem" }
                         )
-                        color { primary.base }
+                        color { primary.main }
                         textShadow { flat }
                     }) { +"tailor-made" }
                     (::h1.styled {
@@ -59,7 +59,7 @@ fun RenderContext.welcome(): Div {
                             sm = { "1.0rem" },
                             md = { "4.0rem" }
                         )
-                        color { tertiary.base }
+                        color { tertiary.main }
                         textShadow { flat }
                     }) { +"components" }
                 }
@@ -91,7 +91,7 @@ fun RenderContext.welcome(): Div {
                     """.trimIndent()
                 }
 
-                coloredBox(Theme().colors.warning.base) {
+                coloredBox(Theme().colors.warning) {
                     +"Remember that this is a $versionStatus release."
                     +" Most components still need some work, others are not implemented yet, and the API still needs"
                     +" to be completed and streamlined."
