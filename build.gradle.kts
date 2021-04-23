@@ -66,7 +66,7 @@ kotlin {
 }
 
 tasks {
-    val propertiesTask= create("generateVersionProperties") {
+    val propertiesTask= create("generateProperties") {
         doLast {
             val propertiesFile = file("$propertiesDir/properties.js")
             propertiesFile.parentFile.mkdirs()
