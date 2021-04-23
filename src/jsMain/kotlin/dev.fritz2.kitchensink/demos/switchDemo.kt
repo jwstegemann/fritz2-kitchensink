@@ -27,7 +27,7 @@ fun RenderContext.switchDemo(): Div {
 
         componentFrame {
             val checkedStore = storeOf(false)
-            switch(store = checkedStore) {
+            switch(value = checkedStore) {
                 label("Simple Switch")
             }
             storeContentBox("Switched on") {
@@ -41,7 +41,7 @@ fun RenderContext.switchDemo(): Div {
             source(
                 """
                 val checkedStore = storeOf(false)                    
-                switch(store = checkedStore) {
+                switch(value = checkedStore) {
                     label("Simple Switch")
                 }
                 """
@@ -62,14 +62,14 @@ fun RenderContext.switchDemo(): Div {
         componentFrame {
             stackUp {
                 items {
-                    switch(store = storeOf(false)) {
+                    switch(value = storeOf(false)) {
                         label("small")
                         size { small }
                     }
-                    switch(store = storeOf(false)) {
+                    switch(value = storeOf(false)) {
                         label("normal")
                     }
-                    switch(store = storeOf(false)) {
+                    switch(value = storeOf(false)) {
                         label("large")
                         size { large }
                     }
@@ -79,14 +79,14 @@ fun RenderContext.switchDemo(): Div {
         highlight {
             source(
                 """
-                    switch(store = storeOf(false)) {
+                    switch(value = storeOf(false)) {
                         label("small")
                         size { small }
                     }
-                    switch(store = storeOf(false)) {
+                    switch(value = storeOf(false)) {
                         label("normal")
                     }
-                    switch(store = storeOf(false)) {
+                    switch(value = storeOf(false)) {
                         label("large")
                         size { large }
                     }
@@ -112,13 +112,13 @@ fun RenderContext.switchDemo(): Div {
                         background {
                             color { secondary.highlight }
                         }
-                    }, store = storeOf(false)) {
+                    }, value = storeOf(false)) {
                         label("Custom background colors")
                         checkedStyle {
                             background { color { secondary.main } }
                         }
                     }
-                    switch(store = storeOf(false)) {
+                    switch(value = storeOf(false)) {
                         label("Custom dot")
                         dotStyle {
                             size { "0.8rem" }
@@ -137,13 +137,13 @@ fun RenderContext.switchDemo(): Div {
                     background {
                         color { secondary.highlight }
                     }
-                }, store = storeOf(false)) {
+                }, value = storeOf(false)) {
                     label("Custom background colors")
                     checkedStyle {
                         background { color { secondary.main } }
                     }
                 }
-                switch(store = storeOf(false)) {
+                switch(value = storeOf(false)) {
                     label("Custom dot")
                     dotStyle {
                         size { "0.8rem" }

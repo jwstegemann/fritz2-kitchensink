@@ -48,7 +48,7 @@ fun RenderContext.selectDemo(): Div {
                 items {
                     val languages = listOf("javascript", "java", "kotlin", "scala")
                     val selectedLanguage = storeOf("")
-                    selectField(items = languages, store = selectedLanguage) {
+                    selectField(items = languages, value = selectedLanguage) {
                         placeholder("Select your favorite programming language")
                     }
                     storeContentBox("Selected") {
@@ -66,7 +66,7 @@ fun RenderContext.selectDemo(): Div {
                 """
                 val languages = listOf("javascript", "java", "kotlin", "scala")
                 val selectedLanguage = storeOf("")
-                selectField(items = languages, store = selectedLanguage) {
+                selectField(items = languages, value = selectedLanguage) {
                     placeholder("Select your favorite programming language")
                 }
                 """
@@ -216,7 +216,7 @@ fun RenderContext.selectDemo(): Div {
 
             stackUp {
                 items {
-                    selectField(store = store, items = persons) {
+                    selectField(value = store, items = persons) {
                         label { it.name }
                     }
                     storeContentBox("Selected") {
@@ -233,7 +233,7 @@ fun RenderContext.selectDemo(): Div {
                 """
                  val persons = listOf(Person("John Doe", 16), Person("Jane Doe", 42))
                  val store = storeOf(persons[0])
-                 selectField(store = store, items = persons) {
+                 selectField(value = store, items = persons) {
                      label { it.name } // instead of person.toString(), use name member as label
                  }
                 """

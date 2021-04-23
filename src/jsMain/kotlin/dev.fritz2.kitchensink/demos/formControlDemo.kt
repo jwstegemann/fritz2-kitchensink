@@ -93,14 +93,14 @@ fun RenderContext.formControlDemo(): Div {
                 items {
                     formControl {
                         label("Username")
-                        inputField(store = nameStore) {
+                        inputField(value = nameStore) {
                             placeholder("Choose a username")
                         }
                     }
                     formControl {
                         label("Passphrase")
                         helperText("Remember: the longer, the better!")
-                        inputField(store = passphraseStore) {
+                        inputField(value = passphraseStore) {
                             placeholder("Enter a secure passphrase")
                             type("password")
                         }
@@ -110,13 +110,13 @@ fun RenderContext.formControlDemo(): Div {
 
                         checkboxGroup(
                             items = listOf("Kotlin", "fritz2", "Html", "CSS", "Design", "Open Source"),
-                            store = interestStore
+                            values = interestStore
                         ) {
                             direction { column }
                         }
                     }
                     formControl {
-                        switch(store = confirmationStore) {
+                        switch(value = confirmationStore) {
                             label("I accept the terms of the MIT license.")
                         }
                     }
@@ -206,14 +206,14 @@ fun RenderContext.formControlDemo(): Div {
                 // surrounding layout (``stackUp``) omitted for better readability 
                 formControl {
                     label("Username")
-                    inputField(store = nameStore) {
+                    inputField(value = nameStore) {
                         placeholder("Choose a username")
                     }
                 }
                 formControl {
                     label("Passphrase")
                     helperText("Remember: the longer, the better!")
-                    inputField(store = passphraseStore) {
+                    inputField(value = passphraseStore) {
                         placeholder("Enter a secure passphrase")
                         type("password")
                     }
@@ -226,13 +226,13 @@ fun RenderContext.formControlDemo(): Div {
                             "Kotlin", "fritz2", "Html", 
                             "CSS", "Design", "Open Source"
                         ),
-                        store = interestStore
+                        values = interestStore
                     ) {
                         direction { column }
                     }
                 }
                 formControl {
-                    switch(store = confirmationStore) {
+                    switch(value = confirmationStore) {
                         label("I accept the terms of the MIT license.")
                     }
                 }
@@ -503,7 +503,7 @@ fun RenderContext.formControlDemo(): Div {
                 label("Username")
                 helperText("Just choose a good user name")
                 // use the appropriate single element control with its specific API
-                inputField(store = nameStore) {
+                inputField(value = nameStore) {
                     placeholder("Some placeholder text")
                 }
                 // throws an exception: only one (and the first) control is accepted
@@ -523,7 +523,7 @@ fun RenderContext.formControlDemo(): Div {
                     label("Username")
                     helperText("Just choose a good user name")
                     // use the appropriate single element control with its specific API
-                    inputField(store = nameStore) {
+                    inputField(value = nameStore) {
                         placeholder("Some placeholder text")
                     }
                     // throws an exception: only one (and the first) control is accepted
@@ -586,7 +586,7 @@ fun RenderContext.formControlDemo(): Div {
                                 fontStyle { italic }
                                 color { secondary.main }
                             }
-                            inputField(store = passphraseStore) {
+                            inputField(value = passphraseStore) {
                                 placeholder("enter a secure passphrase")
                                 type("password")
                             }
@@ -613,7 +613,7 @@ fun RenderContext.formControlDemo(): Div {
                         fontStyle { italic }
                         color { secondary.main }
                     }
-                    inputField(store = passphraseStore) {
+                    inputField(value = passphraseStore) {
                         placeholder("enter a secure passphrase")
                         type("password")
                     }
@@ -644,7 +644,7 @@ fun RenderContext.formControlDemo(): Div {
         componentFrame {
             formControl {
                 label("Username")
-                inputField(store = nameStore) {
+                inputField(value = nameStore) {
                 }
                 // just create one message at once
                 validationMessage {
@@ -657,7 +657,7 @@ fun RenderContext.formControlDemo(): Div {
             }
             formControl {
                 label("Username")
-                inputField(store = nameStore) {
+                inputField(value = nameStore) {
                 }
                 // create an arbitrary amount of messages
                 validationMessages {
@@ -719,7 +719,7 @@ fun RenderContext.formControlDemo(): Div {
                 """
                 formControl {
                     label("Username")
-                    inputField(store = nameStore) {
+                    inputField(value = nameStore) {
                     }
                     // just create one message at once
                     validationMessage {
@@ -732,7 +732,7 @@ fun RenderContext.formControlDemo(): Div {
                 }
                 formControl {
                     label("Username")
-                    inputField(store = nameStore) {
+                    inputField(value = nameStore) {
                     }
                     // create an arbitrary amount of messages
                     validationMessages {
@@ -773,7 +773,7 @@ fun RenderContext.formControlDemo(): Div {
                 """
                 formControl {
                     label("Username")
-                    inputField(store = nameStore) {
+                    inputField(value = nameStore) {
                     }
                     validationMessages {
                         // omitted for better readability
@@ -869,14 +869,14 @@ fun RenderContext.formControlDemo(): Div {
             fun radioGroupWithInput(
                 styling: BasicParams.() -> Unit = {},
                 items: List<String>,
-                store: Store<String>,
+                value: Store<String>,
                 baseClass: StyleClass = StyleClass.None,
                 id: String? = null,
                 prefix: String = "radioGroupWithInput",
                 build: RadioGroupComponent<String>.() -> Unit
             ) {
-                val innerStore = createStores(store)
-                val validationMessagesBuilder = ValidationResult.builderOf(this, store)
+                val innerStore = createStores(value)
+                val validationMessagesBuilder = ValidationResult.builderOf(this, value)
                 registerControl("radioGroupWithInput", {
                     radioGroup(
                         styling,
@@ -893,7 +893,7 @@ fun RenderContext.formControlDemo(): Div {
                     }
                     inputField({
                         margins { top { tiny } }
-                    }, store = innerStore.inputStore) {
+                    }, value = innerStore.inputStore) {
                         size { this@ExtendedFormControlComponent.sizeBuilder(this) }
                         severity(validationMessagesBuilder().hasSeverity)
                         disabled(innerStore.data.map { it.mode == innerStore.inputDisabled })
@@ -1007,7 +1007,7 @@ fun RenderContext.formControlDemo(): Div {
             extendedFormControl {
                 label("Select one framework")
                 helperText("Note that you can't provide an empty name!")
-                radioGroupWithInput(items = favoriteFrameworks, store = selectedFramework) {
+                radioGroupWithInput(items = favoriteFrameworks, value = selectedFramework) {
                 }
                 validationMessage {
                     selectedFramework.data.map {
@@ -1037,7 +1037,7 @@ fun RenderContext.formControlDemo(): Div {
                     label("Select one framework")
                     helperText("Note that you can't provide an empty name!")
                     // call the new wrapped control
-                    radioGroupWithInput(items = favoriteFrameworks, store = selectedFramework) {
+                    radioGroupWithInput(items = favoriteFrameworks, value = selectedFramework) {
                     }
                     validationMessage {
                         selectedFramework.data.map {
@@ -1251,7 +1251,7 @@ fun RenderContext.formControlDemo(): Div {
                         }
                         inputField({
                             margins { top { tiny } }
-                        }, store = innerStore.inputStore) {
+                        }, value = innerStore.inputStore) {
                             size { this@ExtendedFormControlComponent.sizeBuilder(this) }
                             severity(validationMessagesBuilder().hasSeverity)
                             // rely on the internal state to manage the activation 
