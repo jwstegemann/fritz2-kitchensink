@@ -77,6 +77,7 @@ fun RenderContext.buttonDemo(): Div {
                     pushButton {
                         icon { fromTheme { arrowLeft } }
                         text("Previous")
+                        type { info }
                     }
 
                     pushButton {
@@ -108,13 +109,13 @@ fun RenderContext.buttonDemo(): Div {
                     }
 
                     pushButton {
-                        color { info }
+                        type { info }
                         icon { fromTheme { arrowLeft } }
                         text("Previous")
                     }
 
                     pushButton {
-                        color { warning }
+                        type { warning }
                         icon { fromTheme { arrowRight } }
                         iconPlacement { right }
                         text("Next")
@@ -123,7 +124,7 @@ fun RenderContext.buttonDemo(): Div {
                     pushButton({
                         radius { none }
                     }) {
-                        color { danger }
+                        type { danger }
                         icon { fromTheme { close } }
                         events {
                             clicks handledBy toast {
@@ -135,31 +136,35 @@ fun RenderContext.buttonDemo(): Div {
             )
         }
 
-        showcaseSection("Sizes")
+        showcaseSection("Variants")
         paragraph {
-            +"Choose from the three predefined sizes "
-            c("small")
+            +"fritz2 offers three different flavors of buttons for various use cases: "
+            c("solid")
+            +" (default), "
+            c("outline")
             +", "
-            c("normal")
-            +" (default), or  "
-            c("large")
-            +", or scale your button to your needs using the styling parameter."
+            c("ghost")
+            +", and "
+            c("link")
+            +"."
         }
         componentFrame {
-            lineUp({
-                alignItems { center }
-            }) {
+            lineUp {
                 items {
                     clickButton {
-                        text("small")
-                        size { small }
+                        text("solid")
                     }
                     clickButton {
-                        text("normal")
+                        text("outline")
+                        variant { outline }
                     }
                     clickButton {
-                        text("large")
-                        size { large }
+                        text("ghost")
+                        variant { ghost }
+                    }
+                    clickButton {
+                        text("link")
+                        variant { link }
                     }
                 }
             }
@@ -167,17 +172,116 @@ fun RenderContext.buttonDemo(): Div {
         highlight {
             source(
                 """
-               clickButton {
-                    text("small")
-                    size { small }
+                clickButton { 
+                    text("solid")
                 }
+                
                 clickButton {
-                    text("normal")
+                    text("outline")
+                    variant { outline }
                 }
+                
                 clickButton {
-                    text("large")
-                    size { large }
+                    text("ghost")
+                    variant { ghost } 
                 }
+                
+                clickButton {
+                    text("link")
+                    variant { link } 
+                }
+                """
+            )
+        }
+
+        showcaseSection("Types")
+        paragraph {
+            +"fritz2 predefined following "
+            c("colorScheme")
+            +" to give your Button a special look."
+            br {  }
+            c("primary")
+            +", "
+            c("secondary")
+            +", "
+            c("info")
+            +", "
+            c("success")
+            +", "
+            c("warning")
+            +", "
+            c("danger")
+            br {  }
+            +" If you need something else use a different "
+            c("colorScheme")
+        }
+        componentFrame {
+            lineUp({
+                alignItems { center }
+            }) {
+                items {
+                    clickButton {
+                        text("primary")
+                        type { primary }
+                    }
+                    clickButton {
+                        text("secondary")
+                        type { secondary }
+                    }
+                    clickButton {
+                        text("info")
+                        type { info }
+                    }
+                    clickButton {
+                        text("success")
+                        type { success }
+                    }
+                    clickButton {
+                        text("warning")
+                        type { warning }
+                    }
+                    clickButton {
+                        text("danger")
+                        type { danger }
+                    }
+                    clickButton {
+                        text("custom")
+                        type { ColorScheme("#00A848","#2D3748","#E14F2A", "#2D3748") }
+                    }
+                }
+            }
+        }
+        highlight {
+            source(
+                """
+                    clickButton {
+                        text("primary")
+                        type { primary }
+                    }
+                    clickButton {
+                        text("secondary")
+                        type { secondary }
+                    }
+                    clickButton {
+                        text("info")
+                        type { info }
+                    }
+                    clickButton {
+                        text("success")
+                        type { success }
+                    }
+                    clickButton {
+                        text("warning")
+                        type { warning }
+                    }
+                    clickButton {
+                        text("danger")
+                        type { danger }
+                    }
+                    clickButton {
+                        text("custom")
+                        type { ColorScheme("#00A848","#2D3748","#E14F2A", "#2D3748") }
+                    }
                 """
             )
         }

@@ -225,7 +225,8 @@ fun RenderContext.colorDemo(): Div {
 
         showcaseSubSection("Signal Colors")
         paragraph {
-            +"For typical alert messages we offer the following colors:"
+            +"For typical alert messages we offer the following sets of"
+            c("ColorScheme")
         }
         renderColorScheme(this, "info", Theme().colors.info)
         renderColorScheme(this, "success", Theme().colors.success)
