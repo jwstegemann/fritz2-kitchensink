@@ -2,6 +2,7 @@ package dev.fritz2.kitchensink
 
 import dev.fritz2.binding.RootStore
 import dev.fritz2.binding.storeOf
+import dev.fritz2.binding.watch
 import dev.fritz2.components.*
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.kitchensink.demos.*
@@ -190,26 +191,35 @@ fun main() {
                 }
 
                 actions {
-                    (::a.styled {
-                        fontSize { tiny }
-                        color { gray600 }
-                        textAlign { center }
-                        margins { right { larger } }
-                        display(sm = { none }, md = { none }, lg = { block })
-                    }) {
-                        +"Made with ❤️ using fritz2"
-                        href("https://github.com/jwstegemann/fritz2-kitchensink")
-                        target("_blank")
-                    }
 
                     lineUp({
                         display(sm = { none }, md = { flex })
+                        alignItems { center }
                     }) {
                         items {
-                            navAnchor("Documentation", "https://docs.fritz2.dev/")
-                            navAnchor("API", "https://api.fritz2.dev")
-                            navAnchor("Examples", "https://www.fritz2.dev/examples.html")
-                            navAnchor("Github", "https://github.com/jwstegemann/fritz2")
+                            (::a.styled {
+                                fontSize { tiny }
+                                color { gray600 }
+                                textAlign { center }
+                            }) {
+                                +"Made with ❤️ using fritz2"
+                                href("https://github.com/jwstegemann/fritz2")
+                                target("_blank")
+                            }
+
+                            clickButton {
+                                variant { ghost }
+                                size { large }
+                                icon({
+                                    color { primary.base }
+                                }) { def(githubIcon) }
+                            }.map {
+                                window.open("https://github.com/jwstegemann/fritz2-kitchensink", "_blank")
+                            }.watch()
+//                            navAnchor("Documentation", "https://docs.fritz2.dev/")
+//                            navAnchor("API", "https://api.fritz2.dev")
+//                            navAnchor("Examples", "https://www.fritz2.dev/examples.html")
+//                            navAnchor("Github", "https://github.com/jwstegemann/fritz2")
                         }
                     }
                     clickButton({
