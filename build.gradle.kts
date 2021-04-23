@@ -1,5 +1,5 @@
 plugins {
-    id("dev.fritz2.fritz2-gradle") version "0.9.1"
+    id("dev.fritz2.fritz2-gradle") version "0.9"
     kotlin("multiplatform") version "1.4.30"
 }
 
