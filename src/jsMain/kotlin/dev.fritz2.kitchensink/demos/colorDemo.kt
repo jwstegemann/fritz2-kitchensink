@@ -94,7 +94,6 @@ fun renderColorScheme(context: RenderContext, name: String, colorScheme: ColorSc
                 tooltip(colorScheme.main)()
             }) {
                 hovered.data.map { if(!it) "main" else "" }.asText()
-               //+alterHexColorBrightness(colorScheme.main, 1.8)
             }
             flexBox({
                 grid { area { gridAreas.BASE_CONTRAST } }
@@ -176,15 +175,14 @@ fun RenderContext.colorDemo(): Div {
     return contentFrame {
 
         showcaseHeader("Colors")
-
         paragraph {
             +"The fritz2 components default theme has its own set of colors which you can view here."
             +" Please see "
             internalLink("themes page", theme_)
             +" for more information on using themes. "
         }
-        showcaseSubSection("Color Schemes")
 
+        showcaseSubSection("Color Schemes")
         paragraph {
             +"The main foundation for colors is a class named "
             c("ColorScheme")
@@ -211,16 +209,32 @@ fun RenderContext.colorDemo(): Div {
                     c("highlight")
                 }
             }
+            +"The "
+            c("ColorScheme")
+            +"brings a function named "
+            c("inverted()")
+            +" it returns a "
+            c("ColorScheme")
+            +"which switches "
+            c("base")
+            +"  with "
+            c("highlight")
+            +" and "
+            c("baseContrast")
+            +"with "
+            c("highlightContrast")
+            +". A default use case can be if you want to create easily an inverted theme."
         }
 
+
+
         paragraph {
-            +"The default theme provides the following three color schemes:"
+            +"The default theme provides the following color schemes:"
         }
 
         renderColorScheme(this, "primary", Theme().colors.primary)
         renderColorScheme(this, "secondary", Theme().colors.secondary)
         renderColorScheme(this, "tertiary", Theme().colors.tertiary)
-
         renderColorScheme(this, "neutral", Theme().colors.neutral)
 
         showcaseSubSection("Signal Colors")
