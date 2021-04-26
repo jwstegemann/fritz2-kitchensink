@@ -6,6 +6,10 @@ import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.kitchensink.toasts_
 import dev.fritz2.styling.params.styled
+import dev.fritz2.styling.theme.AlertSeverity
+import dev.fritz2.styling.theme.ColorScheme
+import dev.fritz2.styling.theme.IconDefinition
+import dev.fritz2.styling.theme.Theme
 
 fun RenderContext.alertDemo(): Div {
     return contentFrame {
@@ -65,18 +69,21 @@ fun RenderContext.alertDemo(): Div {
             )
         }
 
-        showcaseSection("Customizing")
+        showcaseSection("Customization")
 
         paragraph {
             +"You can customize the alert's color scheme, choose from a variety of layouts and even use "
             +" custom layouts for title and content."
         }
 
-        showcaseSubSection("Severity Color Scheme")
+        showcaseSubSection("Severity")
         paragraph {
             +"The color scheme can be changed by specifying the alert's severity using the "
             c("severity")
-            +" property. Possible values are "
+            +" property. In case no other icon was set via the "
+            c("color")
+            +" property a matching icon is derived from the theme. "
+            +"Possible values are "
             c("info")
             +" (default), "
             c("success")
@@ -129,6 +136,40 @@ fun RenderContext.alertDemo(): Div {
                         content("Severity: error")
                         severity { error }
                     }
+                """
+            )
+        }
+
+        paragraph {
+            +"For further customization it is also possible to add custom implementations of the "
+            c("AlertSeverity")
+            +" interface to your theme or pass them to the "
+            c("AlertComponent")
+            +" directly."
+        }
+        componentFrame {
+            alert {
+                content("Alert with custom severity")
+                severity {
+                    object : AlertSeverity {
+                        override val colorScheme: ColorScheme = Theme().colors.primary
+                        override val icon: IconDefinition = Theme().icons.pin
+                    }
+                }
+            }
+        }
+        highlight {
+            source(
+                """
+                alert {
+                    content("Alert with custom severity")
+                    severity {
+                        object : AlertSeverity {
+                            override val colorScheme: ColorScheme = Theme().colors.primary
+                            override val icon: IconDefinition = Theme().icons.pin
+                        }
+                    }
+                }
                 """
             )
         }
