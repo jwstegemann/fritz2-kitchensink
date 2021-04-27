@@ -120,14 +120,14 @@ fun main() {
                         items {
                             (::a.styled {
                                 textDecoration { initial }
-                                color { primary.base }
+                                color { primary.main }
                             }) {
                                 href("https://www.fritz2.dev/")
                                 target("_new")
 
                                 icon({
                                     size { "3rem" }
-                                    color { primary.base }
+                                    color { primary.main }
                                 }) { fromTheme { fritz2 } }
 
                                 (::span.styled {
@@ -179,9 +179,9 @@ fun main() {
                             md = { small }
                         )
                         background {
-                            color { secondary.base }
+                            color { secondary.main }
                         }
-                        color { neutral }
+                        color { neutral.main }
                         margins {
                             left { small }
                         }
@@ -211,7 +211,7 @@ fun main() {
                                 variant { ghost }
                                 size { large }
                                 icon({
-                                    color { primary.base }
+                                    color { primary.main }
                                 }) { def(githubIcon) }
                             }.map {
                                 window.open("https://github.com/jwstegemann/fritz2-kitchensink", "_blank")
@@ -267,7 +267,7 @@ fun main() {
                             }
                         )
                         border { color { "light" } }
-                        background { color { menuBackgroundColor } }
+                        background { color { menuBackgroundColor.main } }
                     }, id = "menu-left")
                     {
                         spacing { tiny }
@@ -326,7 +326,7 @@ fun main() {
                         }
                         width { "100%" }
                         radius { small }
-                        background { color { neutral } }
+                        background { color { neutral.main } }
                     }) {
                         className(welcomeContent.whenever(router.data) { it == welcome_ }.name)
 

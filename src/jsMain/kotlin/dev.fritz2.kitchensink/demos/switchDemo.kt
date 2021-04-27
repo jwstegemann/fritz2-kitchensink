@@ -115,7 +115,7 @@ fun RenderContext.switchDemo(): Div {
                     }, value = storeOf(false)) {
                         label("Custom background colors")
                         checkedStyle {
-                            background { color { secondary.base } }
+                            background { color { secondary.main } }
                         }
                     }
                     switch(value = storeOf(false)) {
@@ -123,7 +123,7 @@ fun RenderContext.switchDemo(): Div {
                         dotStyle {
                             size { "0.8rem" }
                             radius { "3px" }
-                            background { color { secondary.base } }
+                            background { color { secondary.main } }
                         }
                     }
                 }
@@ -140,7 +140,7 @@ fun RenderContext.switchDemo(): Div {
                 }, value = storeOf(false)) {
                     label("Custom background colors")
                     checkedStyle {
-                        background { color { secondary.base } }
+                        background { color { secondary.main } }
                     }
                 }
                 switch(value = storeOf(false)) {

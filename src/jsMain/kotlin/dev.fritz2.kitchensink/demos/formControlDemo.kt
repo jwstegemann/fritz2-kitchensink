@@ -577,14 +577,14 @@ fun RenderContext.formControlDemo(): Div {
                             labelStyle {
                                 // It is a good advice to apply the *default* first and only modify remains
                                 Theme().formControl.label()
-                                color { info }
+                                color { info.main }
                             }
                             helperText("Remember: the longer, the better!")
                             helperTextStyle {
                                 // Just as above, rely on the default styling first
                                 Theme().formControl.helperText()
                                 fontStyle { italic }
-                                color { secondary.base }
+                                color { secondary.main }
                             }
                             inputField(value = passphraseStore) {
                                 placeholder("enter a secure passphrase")
@@ -604,14 +604,14 @@ fun RenderContext.formControlDemo(): Div {
                     labelStyle {
                         // It is a good advice to apply the *default* first and only modify remains
                         Theme().formControl.label()
-                        color { info }
+                        color { info.main }
                     }
                     helperText("Remember: the longer, the better!")
                     helperTextStyle {
                         // Just as above, rely on the default styling first
                         Theme().formControl.helperText()
                         fontStyle { italic }
-                        color { secondary.base }
+                        color { secondary.main }
                     }
                     inputField(value = passphraseStore) {
                         placeholder("enter a secure passphrase")

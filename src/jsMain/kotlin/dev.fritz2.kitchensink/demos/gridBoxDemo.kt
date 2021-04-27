@@ -49,8 +49,8 @@ fun RenderContext.gridBoxDemo(): Div {
                 children("div") {
                     width { "120px" }
                     height { "50px" }
-                    color { primary.baseContrast }
-                    background { color { primary.base } }
+                    color { primary.mainContrast }
+                    background { color { primary.main } }
                     display { flex }
                     radius { small }
                     css("justify-content: center")
@@ -75,8 +75,8 @@ fun RenderContext.gridBoxDemo(): Div {
                     children("div") {
                         width { "120px" }
                         height { "50px" }
-                        color { primary.baseContrast }
-                        background { color { primary.base } }
+                        color { primary.mainContrast }
+                        background { color { primary.main } }
                         display { flex }
                         radius { small }
                         css("justify-content: center")
@@ -147,7 +147,7 @@ fun RenderContext.gridBoxDemo(): Div {
                 }
                 box({
                     grid { area { grid.SIDEBAR } }
-                    background { color { primary.base } }
+                    background { color { primary.main } }
                     color { gray300 }
                     paddings { all { "0.2rem" } }
                 }) {
@@ -219,7 +219,7 @@ fun RenderContext.gridBoxDemo(): Div {
                                 }
                             )
                             background {
-                                color { secondary.base }
+                                color { secondary.main }
                             }
                             padding { normal }
                             textAlign { center }

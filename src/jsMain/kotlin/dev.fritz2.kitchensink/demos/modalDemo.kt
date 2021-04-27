@@ -248,8 +248,8 @@ fun RenderContext.modalDemo(): Div {
                     } handledBy modal {
                         closeButtonRendering {
                             clickButton({
-                                background { color { danger } }
-                                color { neutral }
+                                background { color { danger.main } }
+                                color { neutral.main }
                                 position { absolute { top { normal } } }
                                 css("transform: rotate(-20deg) translateX(-.5rem)")
                             }) {
@@ -271,7 +271,7 @@ fun RenderContext.modalDemo(): Div {
                 } handledBy modal {
                     closeButtonRendering {
                         clickButton({
-                            background { color { danger } }
+                            background { color { danger.main } }
                             color { neutral }
                             position { absolute { top { normal } } }
                             css("transform: rotate(-20deg) translateX(-.5rem)")
@@ -303,8 +303,8 @@ fun RenderContext.modalDemo(): Div {
                         hasCloseButton(false)
                         content {
                             clickButton({
-                                color { neutral }
-                                background { color { warning } }
+                                color { neutral.main }
+                                background { color { warning.main } }
                             }) {
                                 icon { fromTheme { logOut } }
                             } handledBy close
@@ -323,7 +323,7 @@ fun RenderContext.modalDemo(): Div {
                     content {
                         clickButton({
                             color { neutral }
-                            background { color { warning } }
+                            background { color { warning.main } }
                         }) {
                             icon { fromTheme { logOut } }
                         } handledBy close
