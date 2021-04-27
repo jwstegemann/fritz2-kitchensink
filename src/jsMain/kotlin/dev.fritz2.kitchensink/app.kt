@@ -42,6 +42,7 @@ const val responsive_ = "Responsiveness"
 const val textarea_ = "TextArea"
 const val alert_ = "Alert"
 const val toasts_ = "Toast"
+const val datatable_ = "DataTable"
 
 val router = router(welcome_)
 
@@ -297,6 +298,7 @@ fun main() {
                             menuAnchor(textarea_)
                             menuAnchor(switch_)
                             menuAnchor(formcontrol_)
+                            menuAnchor(datatable_)
 
                             menuHeader("OVERLAY")
                             menuAnchor(modal_)
@@ -353,6 +355,7 @@ fun main() {
                                 textarea_ -> textareaDemo()
                                 alert_ -> alertDemo()
                                 toasts_ -> toastDemo()
+                                datatable_ -> dataTableDemo()
                                 else -> welcome()
                             }
                         }
