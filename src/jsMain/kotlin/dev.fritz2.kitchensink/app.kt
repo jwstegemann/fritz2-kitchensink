@@ -54,9 +54,6 @@ object ThemeStore : RootStore<Int>(0) {
     }
 }
 
-const val versionStatus = "alpha"
-const val versionNumber = "0.9.1"
-
 const val highlightBackgroundColor = "#2b303b"
 
 const val welcomeContentStaticCss = """
@@ -186,7 +183,7 @@ fun main() {
                             left { small }
                         }
                     }) {
-                        +versionStatus.capitalize()
+                        +appStatus().capitalize()
                     }
                 }
 

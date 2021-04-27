@@ -6,11 +6,7 @@ import dev.fritz2.components.lineUp
 import dev.fritz2.components.stackUp
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
-import dev.fritz2.kitchensink.base.coloredBox
-import dev.fritz2.kitchensink.base.contentFrame
-import dev.fritz2.kitchensink.base.externalLink
-import dev.fritz2.kitchensink.base.paragraph
-import dev.fritz2.kitchensink.versionStatus
+import dev.fritz2.kitchensink.base.*
 import dev.fritz2.styling.params.AlignContentValues.start
 import dev.fritz2.styling.params.styled
 import dev.fritz2.styling.theme.Theme
@@ -92,7 +88,7 @@ fun RenderContext.welcome(): Div {
                 }
 
                 coloredBox(Theme().colors.warning) {
-                    +"Remember that this is a $versionStatus release."
+                    +"Remember that this is a ${appStatus()} version."
                     +" Most components still need some work, others are not implemented yet, and the API still needs"
                     +" to be completed and streamlined."
                 }

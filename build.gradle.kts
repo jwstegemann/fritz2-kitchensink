@@ -10,6 +10,7 @@ repositories {
     maven(url = "https://kotlin.bintray.com/kotlinx/") // soon will be just jcenter()
 }
 
+val appStatus = "alpha"
 val fritz2Version = "0.10-SNAPSHOT"
 
 
@@ -72,6 +73,7 @@ tasks {
             propertiesFile.parentFile.mkdirs()
             propertiesFile.writeText("""
                 window.document.fritz2Version = '$fritz2Version';
+                window.document.appStatus = '$appStatus';
             """.trimIndent())
         }
     }
