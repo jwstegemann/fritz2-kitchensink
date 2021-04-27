@@ -269,7 +269,7 @@ fun RenderContext.colorDemo(): Div {
             +"Last but not least there exist colors for typical global settings:"
         }
 
-        createColorBar(Theme().backgroundColor, "backgroundColor", true)
-        createColorBar(Theme().fontColor, "fontColor")
+        createColorBar(Theme().colors.background, "backgroundColor", true)
+        createColorBar(Theme().colors.font, "fontColor")
     }
 }
