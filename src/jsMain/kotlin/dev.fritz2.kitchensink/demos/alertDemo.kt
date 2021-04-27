@@ -164,6 +164,12 @@ fun RenderContext.alertDemo(): Div {
                 content("This is a top-accented alert.")
                 variant { topAccent }
             }
+            alert({
+                margin { tiny }
+            }) {
+                content("This is a discreet alert.")
+                variant { discreet }
+            }
         }
         highlight {
             source(
@@ -182,6 +188,10 @@ fun RenderContext.alertDemo(): Div {
                     alert {
                         content("This is a top-accented alert.")
                         variant { topAccent }
+                    }
+                    alert {
+                        content("This is a discreet alert.")
+                        variant { discreet }
                     }
                 """
             )

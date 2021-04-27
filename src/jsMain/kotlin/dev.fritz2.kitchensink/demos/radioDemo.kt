@@ -118,7 +118,7 @@ fun RenderContext.radiosDemo(): Div {
 
         componentFrame {
             radioGroup({
-                border { color { secondary.base } }
+                border { color { secondary.main } }
             }, value = pickedLanguage, items = languages) {
                 selectedStyle {
                     background { color { secondary.highlight } }
@@ -132,7 +132,7 @@ fun RenderContext.radiosDemo(): Div {
             source(
                 """
                 radioGroup({
-                    border { color { secondary.base } }
+                    border { color { secondary.main } }
                 }, value = pickedLanguage, items = languages) {
                     selectedStyle {
                         background { color { secondary.highlight } }

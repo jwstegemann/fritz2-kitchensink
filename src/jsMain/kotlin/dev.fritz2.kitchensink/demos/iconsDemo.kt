@@ -200,7 +200,7 @@ fun RenderContext.iconsDemo(): Div {
 
                     icon({
                         size { giant }
-                        color { warning }
+                        color { warning.main }
                     }) { fromTheme { warning } }
                 }
             }
@@ -217,8 +217,8 @@ fun RenderContext.iconsDemo(): Div {
 
                 icon({
                     size { giant }
-                    color { warning }
-                }) { fromTheme { warning } }                
+                    color { warning.main }
+                }) { fromTheme { warning.main } }                
             """.trimIndent()
             )
         }

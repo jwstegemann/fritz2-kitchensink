@@ -37,7 +37,7 @@ fun RenderContext.responsiveDemo(): Div {
                 box({
                     fontSize(sm = { tiny }, lg = { normal })
                     width(sm = { full }, lg = { "768px" })
-                    color { primary.base }
+                    color { primary.main }
                 }) { + "my styled div" }"""
             )
         }

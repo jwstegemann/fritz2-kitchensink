@@ -32,7 +32,7 @@ open class SmallFonts : ExtendedTheme, DefaultTheme() {
         textTransform { uppercase }
         fontSize { smaller }
         letterSpacing { large }
-        color { secondary.base }
+        color { secondary.main }
     }
 }
 
