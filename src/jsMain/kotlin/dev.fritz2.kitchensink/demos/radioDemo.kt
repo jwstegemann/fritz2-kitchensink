@@ -38,7 +38,7 @@ fun RenderContext.radiosDemo(): Div {
         val pickedLanguage = storeOf(languages[2])
 
         componentFrame {
-            radioGroup(store = pickedLanguage, items = languages) {
+            radioGroup(value = pickedLanguage, items = languages) {
                 direction { row }
             }
             storeContentBox("Selected") {
@@ -77,13 +77,13 @@ fun RenderContext.radiosDemo(): Div {
                 width { full }
                 justifyContent { spaceAround }
             }) {
-                radioGroup(store = storeOf(""), items = choices) {
+                radioGroup(value = storeOf(""), items = choices) {
                     size { small }
                 }
-                radioGroup(store = storeOf(""), items = choices) {
+                radioGroup(value = storeOf(""), items = choices) {
                     size { normal }
                 }
-                radioGroup(store = storeOf(""), items = choices) {
+                radioGroup(value = storeOf(""), items = choices) {
                     size { large }
                 }
             }
@@ -93,13 +93,13 @@ fun RenderContext.radiosDemo(): Div {
                 """
                     val choices = listOf("good", "bad")
                     
-                    radioGroup(store = storeOf(""), items = choices) {
+                    radioGroup(value = storeOf(""), items = choices) {
                         size { small }
                     }
-                    radioGroup(store = storeOf(""), items = choices) {
+                    radioGroup(value = storeOf(""), items = choices) {
                         size { normal }
                     }
-                    radioGroup(store = storeOf(""), items = choices) {
+                    radioGroup(value = storeOf(""), items = choices) {
                         size { large }
                     }
                     """
@@ -118,8 +118,8 @@ fun RenderContext.radiosDemo(): Div {
 
         componentFrame {
             radioGroup({
-                border { color { secondary.base } }
-            }, store = pickedLanguage, items = languages) {
+                border { color { secondary.main } }
+            }, value = pickedLanguage, items = languages) {
                 selectedStyle {
                     background { color { secondary.highlight } }
                 }
@@ -132,8 +132,8 @@ fun RenderContext.radiosDemo(): Div {
             source(
                 """
                 radioGroup({
-                    border { color { secondary.base } }
-                }, store = pickedLanguage, items = languages) {
+                    border { color { secondary.main } }
+                }, value = pickedLanguage, items = languages) {
                     selectedStyle {
                         background { color { secondary.highlight } }
                     }
@@ -147,7 +147,7 @@ fun RenderContext.radiosDemo(): Div {
 
         showcaseSection("Disabled Radios")
         componentFrame {
-            radioGroup(store = pickedLanguage, items = languages) {
+            radioGroup(value = pickedLanguage, items = languages) {
                 disabled(true)
             }
         }

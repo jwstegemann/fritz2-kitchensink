@@ -47,8 +47,8 @@ fun RenderContext.stylingDemo(): Div {
             lineUp {
                 items {
                     (::span.styled {
-                        color { secondary.baseContrast }
-                        background { color { secondary.base } }
+                        color { secondary.mainContrast }
+                        background { color { secondary.main } }
                         fontWeight { bold }
                         boxShadow { raised }
                         padding { normal }
@@ -65,8 +65,8 @@ fun RenderContext.stylingDemo(): Div {
             source(
                 """
                 (::span.styled {
-                    color { secondary.baseContrast }
-                    background { color { secondary.base } }
+                    color { secondary.mainContrast }
+                    background { color { secondary.main } }
                     fontWeight { bold }
                     boxShadow { raised }
                     padding { normal }
@@ -102,14 +102,14 @@ fun RenderContext.stylingDemo(): Div {
                 items {
                     icon({
                         size { normal }
-                        color { danger }
+                        color { danger.main }
                     }) { fromTheme { heart } }
 
                     icon({
                         size { huge }
                         border {
                             width { normal }
-                            color { primary.base }
+                            color { primary.main }
                         }
                         radius { full }
                     }) { fromTheme { chevronUp } }
@@ -121,14 +121,14 @@ fun RenderContext.stylingDemo(): Div {
                 """
                 icon({
                     size { normal }
-                    color { danger }
+                    color { danger.main }
                 }) { fromTheme { heart } }
 
                 icon({
                     size { huge }
                     border {
                         width { normal }
-                        color { primary.base }
+                        color { primary.main }
                     }
                     radius { full }
                 }) { fromTheme { chevronUp } }
@@ -145,14 +145,14 @@ fun RenderContext.stylingDemo(): Div {
                 items {
                     val veryImportant: Style<BasicParams> = {
                         boxShadow { raised }
-                        background { color { danger } }
-                        color { neutral }
+                        background { color { danger.main } }
+                        color { neutral.main }
                         radius { larger }
                         hover {
-                            background { color { warning } }
+                            background { color { warning.main } }
                         }
                         active {
-                            border { color { warning } }
+                            border { color { warning.main } }
                         }
                         focus {
                             boxShadow { danger }
@@ -169,17 +169,17 @@ fun RenderContext.stylingDemo(): Div {
                 """
                 val veryImportant: Style<BasicParams> = {
                     boxShadow { raised }
-                    background { color { danger } }
+                    background { color { danger.main } }
                     color { neutral }
                     radius { larger }
                     hover {
                         background { color { danger.gray700 } }
                     }
                     active {
-                        border { color { warning } }
+                        border { color { warning.main } }
                     }
                     focus {
-                        boxShadow { danger }
+                        boxShadow { danger.main }
                     }
                 }
 

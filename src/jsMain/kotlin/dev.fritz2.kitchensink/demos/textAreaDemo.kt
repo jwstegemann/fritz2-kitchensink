@@ -32,7 +32,7 @@ fun RenderContext.textareaDemo(): Div {
         }
         componentFrame {
             val textStore = storeOf("")
-            textArea(store = textStore) {
+            textArea(value = textStore) {
                 placeholder("Textarea with placeholder only")
             }
             storeContentBox("Text") {
@@ -46,7 +46,7 @@ fun RenderContext.textareaDemo(): Div {
             source(
                 """
                 val textStore = storeOf("")
-                textArea(store = textStore) {
+                textArea(value = textStore) {
                     placeholder("Textarea with placeholder only")
                 }
                 """

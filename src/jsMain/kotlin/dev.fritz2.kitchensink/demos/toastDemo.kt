@@ -6,6 +6,7 @@ import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.P
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
+import dev.fritz2.styling.params.BackgroundBlendModes.color
 import dev.fritz2.styling.params.styled
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
@@ -21,7 +22,7 @@ private fun RenderContext.basicStyledToastContent(title: String = "Toast"): P {
             bottom { small }
             right { "80px" }
         }
-        color { neutral }
+        color { neutral.main }
     }) {
         +title
     }
@@ -59,7 +60,7 @@ fun RenderContext.toastDemo(): Div {
                         content {
                             (::p.styled {
                                 margin { normal }
-                                color { neutral }
+                                color { neutral.main }
                             }) {
                                 +"This is a basic toast."
                             }
@@ -78,7 +79,7 @@ fun RenderContext.toastDemo(): Div {
                         content {
                             (::p.styled {
                                 margin { normal }
-                                color { neutral }
+                                color { neutral.main }
                             }) {
                                 +"This is a basic toast."
                             }
@@ -218,7 +219,7 @@ fun RenderContext.toastDemo(): Div {
                             // Styled for better readability; any other content is okay as well!
                             (::p.styled {
                                 margin { normal }
-                                color { neutral }
+                                color { neutral.main }
                             }) {
                                 +flowItem
                             }
@@ -360,7 +361,7 @@ fun RenderContext.toastDemo(): Div {
             clickButton {
                 text("Show")
             } handledBy toast {
-                background { gray600 }
+                background {  gray600  }
                 content {
                     basicStyledToastContent("Toast with custom background color")
                 }
@@ -395,7 +396,7 @@ fun RenderContext.toastDemo(): Div {
             } handledBy toast {
                 closeButtonStyle {
                     margins { right { small } }
-                    background { color { warning } }
+                    background { color { warning.main } }
                 }
                 closeButtonIcon { fritz2 }
                 content {
@@ -409,7 +410,7 @@ fun RenderContext.toastDemo(): Div {
                     showToast {
                         closeButtonStyle {
                             margins { right { small } }
-                            background { color { warning } }
+                            background { color { warning.main } }
                         }
                         closeButtonIcon { fritz2 }
                         content {
@@ -443,7 +444,7 @@ fun RenderContext.toastDemo(): Div {
                         text("2000ms")
                     } handledBy toast({
                         background {
-                            color { secondary.base }
+                            color { secondary.main }
                         }
                     }) {
                         duration(2000)
@@ -531,7 +532,7 @@ fun RenderContext.toastDemo(): Div {
                         text("No Close Button")
                     } handledBy toast({
                         background {
-                            color { danger }
+                            color { danger.main }
                         }
                     }) {
                         hasCloseButton(false)

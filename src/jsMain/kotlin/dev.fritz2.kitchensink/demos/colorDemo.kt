@@ -59,7 +59,7 @@ fun renderColorScheme(context: RenderContext, name: String, colorScheme: ColorSc
                 md = { repeat(4) { "1fr" } }
             )
             gap { tiny }
-            background { color { neutral } }
+            background { color { neutral.main } }
             height(
                 sm = { "9rem" },
                 md = { "6rem" }
@@ -68,8 +68,8 @@ fun renderColorScheme(context: RenderContext, name: String, colorScheme: ColorSc
             flexBox({
                 baseStyle(this as BoxParams)
                 grid { area { gridAreas.MAIN } }
-                background { color { colorScheme.base } }
-                color { colorScheme.baseContrast }
+                background { color { colorScheme.main } }
+                color { colorScheme.mainContrast }
                 hover {
                     background { color { colorScheme.highlight } }
                     color { colorScheme.highlightContrast }
@@ -85,28 +85,31 @@ fun renderColorScheme(context: RenderContext, name: String, colorScheme: ColorSc
             flexBox({
                 grid { area { gridAreas.BASE } }
                 baseStyle(this as BoxParams)
-                background { color { colorScheme.base } }
-                color { colorScheme.baseContrast }
+                background { color { colorScheme.main } }
+                color { colorScheme.mainContrast }
                 radii(
                     sm = { bottomLeft { none } },
                     md = { bottomLeft { radiiSize() } }
                 )
+                tooltip(colorScheme.main)()
             }) {
-                hovered.data.map { if(!it) "base" else "" }.asText()
+                hovered.data.map { if(!it) "main" else "" }.asText()
             }
             flexBox({
                 grid { area { gridAreas.BASE_CONTRAST } }
                 baseStyle(this as BoxParams)
-                background { color { colorScheme.baseContrast } }
-                color { colorScheme.base }
+                background { color { colorScheme.mainContrast } }
+                color { colorScheme.main }
+                tooltip(colorScheme.mainContrast)()
             }) {
-                hovered.data.map { if(!it) "baseContrast" else "" }.asText()
+                hovered.data.map { if(!it) "mainContrast" else "" }.asText()
             }
             flexBox({
                 grid { area { gridAreas.HIGHLIGHT } }
                 baseStyle(this as BoxParams)
                 background { color { colorScheme.highlight } }
                 color { colorScheme.highlightContrast }
+                tooltip(colorScheme.highlight)()
                 radii(
                     sm = { bottomLeft { radiiSize() } },
                     md = { bottomLeft { none } }
@@ -119,6 +122,7 @@ fun renderColorScheme(context: RenderContext, name: String, colorScheme: ColorSc
                 baseStyle(this as BoxParams)
                 background { color { colorScheme.highlightContrast } }
                 color { colorScheme.highlight }
+                tooltip(colorScheme.highlightContrast)()
                 radii { bottomRight { radiiSize() } }
             }) {
                 hovered.data.map { if(it) "highlightContrast" else "" }.asText()
@@ -157,7 +161,7 @@ fun RenderContext.createColorBar(
                         right { small }
                     }
                     margin { "0.3rem" }
-                    background { color { neutral } }
+                    background { color { neutral.main } }
                     tooltip(color) { right }()
                 }) { +colorName }
             }
@@ -171,33 +175,32 @@ fun RenderContext.colorDemo(): Div {
     return contentFrame {
 
         showcaseHeader("Colors")
-
         paragraph {
             +"The fritz2 components default theme has its own set of colors which you can view here."
             +" Please see "
             internalLink("themes page", theme_)
             +" for more information on using themes. "
         }
-        showcaseSubSection("Color Schemes")
 
+        showcaseSubSection("Color Schemes")
         paragraph {
             +"The main foundation for colors is a class named "
             c("ColorScheme")
             +" that groups semantically related together. It offers the following four properties:"
             ul {
                 li {
-                    c("base")
+                    c("main")
                     +" use for areas, surfaces, borders"
                 }
                 li {
-                    c("baseContrast")
+                    c("mainContrast")
                     +" use for text, icons or alike placed upon a surface colored with "
-                    c("base")
+                    c("main")
                 }
                 li {
                     c("highlight")
                     +" use instead of "
-                    c("base")
+                    c("main")
                     +" for effects like hovering and similar"
                 }
                 li {
@@ -206,28 +209,43 @@ fun RenderContext.colorDemo(): Div {
                     c("highlight")
                 }
             }
+            +"The "
+            c("ColorScheme")
+            +"brings a function named "
+            c("inverted()")
+            +" it returns a "
+            c("ColorScheme")
+            +"which switches "
+            c("base")
+            +"  with "
+            c("highlight")
+            +" and "
+            c("baseContrast")
+            +"with "
+            c("highlightContrast")
+            +". A default use case can be if you want to create easily an inverted theme."
         }
 
+
+
         paragraph {
-            +"The default theme provides the following three color schemes:"
+            +"The default theme provides the following color schemes:"
         }
 
         renderColorScheme(this, "primary", Theme().colors.primary)
         renderColorScheme(this, "secondary", Theme().colors.secondary)
         renderColorScheme(this, "tertiary", Theme().colors.tertiary)
+        renderColorScheme(this, "neutral", Theme().colors.neutral)
 
         showcaseSubSection("Signal Colors")
-
         paragraph {
-            +"For typical alert messages we offer the following colors:"
+            +"For typical alert messages we offer the following sets of"
+            c("ColorScheme")
         }
-
-        div {
-            createColorBar(Theme().colors.info, "info")
-            createColorBar(Theme().colors.success, "success")
-            createColorBar(Theme().colors.warning, "warning")
-            createColorBar(Theme().colors.danger, "danger")
-        }
+        renderColorScheme(this, "info", Theme().colors.info)
+        renderColorScheme(this, "success", Theme().colors.success)
+        renderColorScheme(this, "warning", Theme().colors.warning)
+        renderColorScheme(this, "danger", Theme().colors.danger)
 
         showcaseSubSection("Shades of Gray")
 
@@ -251,7 +269,7 @@ fun RenderContext.colorDemo(): Div {
             +"Last but not least there exist colors for typical global settings:"
         }
 
-        createColorBar(Theme().backgroundColor, "backgroundColor", true)
-        createColorBar(Theme().fontColor, "fontColor")
+        createColorBar(Theme().colors.background, "backgroundColor", true)
+        createColorBar(Theme().colors.font, "fontColor")
     }
 }

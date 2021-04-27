@@ -5,8 +5,6 @@ import dev.fritz2.components.modal
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
-import dev.fritz2.kitchensink.versionNumber
-import dev.fritz2.kitchensink.versionStatus
 import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -17,7 +15,7 @@ fun RenderContext.gettingStarted(): Div {
 
         showcaseHeader("Getting Started")
         coloredBox(Theme().colors.warning) {
-            +"This is a $versionStatus version of fritz2 components."
+            +"This is a ${appStatus()} version of fritz2 components."
         }
 
         paragraph {
@@ -48,7 +46,7 @@ fun RenderContext.gettingStarted(): Div {
                     sourceSets {
                         val jsMain by getting {
                             dependencies {
-                               implementation("dev.fritz2:components:$versionNumber")
+                               implementation("dev.fritz2:components:${fritz2Version()}")
                             }
                         }
                     }
