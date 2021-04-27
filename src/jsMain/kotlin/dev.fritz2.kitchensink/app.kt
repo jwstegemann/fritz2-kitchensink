@@ -15,6 +15,7 @@ import dev.fritz2.styling.theme.render
 import dev.fritz2.styling.whenever
 import kotlinx.browser.window
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.onEach
 
 val themes = listOf<ExtendedTheme>(SmallFonts(), LargeFonts())
 
@@ -210,7 +211,7 @@ fun main() {
                                 icon({
                                     color { primary.main }
                                 }) { def(githubIcon) }
-                            }.map {
+                            }.events.onEach {
                                 window.open("https://github.com/jwstegemann/fritz2-kitchensink", "_blank")
                             }.watch()
 //                            navAnchor("Documentation", "https://docs.fritz2.dev/")
