@@ -242,7 +242,7 @@ fun RenderContext.iconsDemo(): Div {
                 size { small }
                 text("Visit us on Github!")
                 icon({
-                    color { primary.base }
+                    color { primary.main }
                 }) { def(githubIcon) }
             }.map { window.open("https://github.com/jwstegemann/fritz2", "_blank") }.watch()
         }
