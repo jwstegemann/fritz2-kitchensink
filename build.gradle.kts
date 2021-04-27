@@ -10,6 +10,12 @@ repositories {
     maven(url = "https://kotlin.bintray.com/kotlinx/") // soon will be just jcenter()
 }
 
+val appStatus = "alpha"
+val fritz2Version = "0.10-SNAPSHOT"
+
+
+val propertiesDir = "${buildDir}/properties"
+
 kotlin {
     js(IR) {
         browser()
@@ -29,7 +35,7 @@ kotlin {
 
         val commonMain by getting {
             dependencies {
-                implementation("dev.fritz2:components:0.10-SNAPSHOT")
+                implementation("dev.fritz2:components:$fritz2Version")
             }
         }
 
@@ -41,14 +47,35 @@ kotlin {
                 implementation(kotlin("test-annotations-common"))
             }
         }
+
+        val properties by creating {
+            resources.srcDir(propertiesDir)
+        }
+
         val jsMain by getting {
             dependencies {
+                dependsOn(properties)
             }
         }
+
         val jsTest by getting {
             dependencies {
                 implementation(kotlin("test-js"))
             }
         }
     }
+}
+
+tasks {
+    val propertiesTask= create("generateProperties") {
+        doLast {
+            val propertiesFile = file("$propertiesDir/properties.js")
+            propertiesFile.parentFile.mkdirs()
+            propertiesFile.writeText("""
+                window.document.fritz2Version = '$fritz2Version';
+                window.document.appStatus = '$appStatus';
+            """.trimIndent())
+        }
+    }
+    findByName("jsProcessResources")?.dependsOn(propertiesTask)
 }

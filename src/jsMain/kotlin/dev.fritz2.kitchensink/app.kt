@@ -2,6 +2,7 @@ package dev.fritz2.kitchensink
 
 import dev.fritz2.binding.RootStore
 import dev.fritz2.binding.storeOf
+import dev.fritz2.binding.watch
 import dev.fritz2.components.*
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.kitchensink.demos.*
@@ -14,6 +15,7 @@ import dev.fritz2.styling.theme.render
 import dev.fritz2.styling.whenever
 import kotlinx.browser.window
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.onEach
 
 val themes = listOf<ExtendedTheme>(SmallFonts(), LargeFonts())
 
@@ -52,9 +54,6 @@ object ThemeStore : RootStore<Int>(0) {
         index
     }
 }
-
-const val versionStatus = "alpha"
-const val versionNumber = "0.9.1"
 
 const val highlightBackgroundColor = "#2b303b"
 
@@ -114,24 +113,41 @@ fun main() {
                 boxShadow { flat }
             }) {
                 brand {
-                    (::a.styled {
-                        textDecoration { initial }
-                        color { primary.main }
-                    }) {
-                        href("https://www.fritz2.dev/")
-                        target("_new")
+                    stackUp {
+                        spacing { none }
+                        items {
+                            (::a.styled {
+                                textDecoration { initial }
+                                color { primary.main }
+                            }) {
+                                href("https://www.fritz2.dev/")
+                                target("_new")
 
-                        icon({
-                            size { "3rem" }
-                            color { primary.main }
-                        }) { fromTheme { fritz2 } }
+                                icon({
+                                    size { "3rem" }
+                                    color { primary.main }
+                                }) { fromTheme { fritz2 } }
 
-                        (::span.styled {
-                            margins { left { smaller } }
-                            verticalAlign { sub }
-                            fontSize(sm = { large }, md = { larger })
-                            fontWeight { lighter }
-                        }) { +"Components" }
+                                (::span.styled {
+                                    margins { left { smaller } }
+                                    verticalAlign { sub }
+                                    fontSize(sm = { large }, md = { larger })
+                                    fontWeight { lighter }
+                                }) { +"Components" }
+                            }
+
+                            (::a.styled {
+                                display { flex }
+                                justifyContent { flexEnd }
+                                width { full }
+                                margins { top { "-10px".important } }
+                                fontSize { tiny }
+                            }) {
+                                +fritz2Version()
+                                href("https://github.com/jwstegemann/fritz2/releases")
+                                target("_blank")
+                            }
+                        }
                     }
                     //FIXME: convert to styles
                     (::span.styled {
@@ -167,18 +183,41 @@ fun main() {
                         margins {
                             left { small }
                         }
-                    }) { +versionStatus.capitalize() }
+                    }) {
+                        +appStatus().capitalize()
+                    }
                 }
 
                 actions {
+
                     lineUp({
                         display(sm = { none }, md = { flex })
+                        alignItems { center }
                     }) {
                         items {
-                            navAnchor("Documentation", "https://docs.fritz2.dev/")
-                            navAnchor("API", "https://api.fritz2.dev")
-                            navAnchor("Examples", "https://www.fritz2.dev/examples.html")
-                            navAnchor("Github", "https://github.com/jwstegemann/fritz2")
+                            (::a.styled {
+                                fontSize { tiny }
+                                color { gray600 }
+                                textAlign { center }
+                            }) {
+                                +"Made with ❤️ using fritz2"
+                                href("https://github.com/jwstegemann/fritz2")
+                                target("_blank")
+                            }
+
+                            clickButton {
+                                variant { ghost }
+                                size { large }
+                                icon({
+                                    color { primary.main }
+                                }) { def(githubIcon) }
+                            }.events.onEach {
+                                window.open("https://github.com/jwstegemann/fritz2-kitchensink", "_blank")
+                            }.watch()
+//                            navAnchor("Documentation", "https://docs.fritz2.dev/")
+//                            navAnchor("API", "https://api.fritz2.dev")
+//                            navAnchor("Examples", "https://www.fritz2.dev/examples.html")
+//                            navAnchor("Github", "https://github.com/jwstegemann/fritz2")
                         }
                     }
                     clickButton({
@@ -231,6 +270,7 @@ fun main() {
                     {
                         spacing { tiny }
                         items {
+
                             (::p.styled {
                                 width { "100%" }
                                 margins { top { huge } }
