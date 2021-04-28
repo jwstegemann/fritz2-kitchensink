@@ -1,5 +1,6 @@
 package dev.fritz2.kitchensink.base
 
+import dev.fritz2.components.box
 import dev.fritz2.dom.html.A
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.P
@@ -66,10 +67,10 @@ fun RenderContext.contentFrame(
     maxWidth(sm = { unset }, md = { "34rem" }, lg = { "52rem" })
     padding { large }
     radius { normal }
-}, styling, baseClass, id, prefix) { init() }
+}, styling, baseClass, id, prefix, init)
 
 fun RenderContext.coloredBox(colorScheme: ColorScheme, init: P.() -> Unit): Div {
-    return div({
+    return box({
         margins {
             top { larger }
             bottom { larger }
@@ -99,8 +100,8 @@ fun RenderContext.coloredBox(colorScheme: ColorScheme, init: P.() -> Unit): Div 
     }
 }
 
-fun RenderContext.componentFrame(padding: Boolean = true, init: Div.() -> Unit): Div { //Auslagerung von Komponente
-    return div({
+fun RenderContext.componentFrame(padding: Boolean = true, init: Div.() -> Unit): Div {
+    return box({
         width { "100%" }
         margins {
             top { "1.25rem" }
@@ -111,16 +112,13 @@ fun RenderContext.componentFrame(padding: Boolean = true, init: Div.() -> Unit):
         }
         radius { small }
         if (padding) padding { normal }
-    }) {
-        init()
-    }
+    }, content = init)
 }
 
 fun RenderContext.storeContentBox(
     label: String,
     init: RenderContext.() -> Unit = {}
-): Div =
-    div({
+): Div = box({
         background {
             color { gray200 }
         }
@@ -166,7 +164,7 @@ fun RenderContext.internalLink(text: String, page: String): A {
 }
 
 fun RenderContext.navAnchor(linkText: String, href: String): Div {
-    return div({
+    return box({
         radius { small }
         border {
             width { none }
@@ -198,7 +196,7 @@ fun RenderContext.navAnchor(linkText: String, href: String): Div {
 }
 
 fun RenderContext.menuHeader(text: String): Div {
-    return div({
+    return box({
         width { "100%" }
     }) {
         p({
@@ -275,14 +273,14 @@ fun RenderContext.c(text: String) {
 
 fun RenderContext.teaserText(
     init: Div.() -> Unit = {}
-): Div = div({
+): Div = box({
     fontSize { small }
     textTransform { capitalize }
     color { primary.main }
     fontWeight { semiBold }
     margins { bottom { "0.7rem" } }
     fontSize { small }
-}) { init() }
+}, content = init)
 
 val githubIcon: IconDefinition = IconDefinition(
     "github",
