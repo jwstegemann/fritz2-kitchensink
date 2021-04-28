@@ -4,7 +4,7 @@ import dev.fritz2.components.*
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
-import dev.fritz2.styling.params.styled
+import dev.fritz2.styling.h4
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
@@ -309,14 +309,14 @@ fun RenderContext.popoverDemo(): Div {
                         }
                         header("A Plain Text Header.")
                         content {
-                            (::h4.styled {
+                            h4({
                                 color { info.main }
                                 textShadow { glowing }
                                 padding { huge }
                             }) { +"Popover, content, and footer have customized styling." }
                         }
                         footer {
-                            (::h4.styled {
+                            h4({
                                 fontStyle { italic }
                                 color { info.main }
                                 padding { normal } // todo this should be default
@@ -347,13 +347,13 @@ fun RenderContext.popoverDemo(): Div {
                         }
                         header("A Plain Text Header.")
                         content {
-                            (::h4.styled {
+                            h4({
                                 color { info.main }
                                 textShadow { glowing }
                                 padding { huge }
                             }) { +"Popover, content, and footer have customized styling." }
                         }
-                        footer { (::h4.styled {
+                        footer { h4({
                             fontStyle { italic }
                             color { info.main }
                             padding { normal }

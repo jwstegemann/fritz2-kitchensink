@@ -6,6 +6,7 @@ import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.kitchensink.theme_
+import dev.fritz2.styling.p
 import dev.fritz2.styling.params.*
 import dev.fritz2.styling.theme.ColorScheme
 import dev.fritz2.styling.theme.Theme
@@ -153,7 +154,7 @@ fun RenderContext.createColorBar(
                 radius { "1.3rem" }
                 if(withBorder) border { width { hair } }
             }) {
-                (::p.styled {
+                p({
                     width { "6rem" }
                     radius { "1rem" }
                     paddings {

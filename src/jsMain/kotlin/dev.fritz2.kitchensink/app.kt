@@ -7,12 +7,9 @@ import dev.fritz2.components.*
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.kitchensink.demos.*
 import dev.fritz2.routing.router
-import dev.fritz2.styling.name
-import dev.fritz2.styling.params.styled
-import dev.fritz2.styling.staticStyle
+import dev.fritz2.styling.*
 import dev.fritz2.styling.theme.Theme
 import dev.fritz2.styling.theme.render
-import dev.fritz2.styling.whenever
 import kotlinx.browser.window
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.onEach
@@ -99,7 +96,7 @@ fun main() {
     val menuBackgroundColor = Theme().colors.neutral
 
     render(themes.first()) {
-        (::div.styled {
+        div({
             height { "100%" }
             width { "100%" }
             position { relative {} }
@@ -116,7 +113,7 @@ fun main() {
                     stackUp {
                         spacing { none }
                         items {
-                            (::a.styled {
+                            a({
                                 textDecoration { initial }
                                 color { primary.main }
                             }) {
@@ -128,7 +125,7 @@ fun main() {
                                     color { primary.main }
                                 }) { fromTheme { fritz2 } }
 
-                                (::span.styled {
+                                span({
                                     margins { left { smaller } }
                                     verticalAlign { sub }
                                     fontSize(sm = { large }, md = { larger })
@@ -136,7 +133,7 @@ fun main() {
                                 }) { +"Components" }
                             }
 
-                            (::a.styled {
+                            a({
                                 display { flex }
                                 justifyContent { flexEnd }
                                 width { full }
@@ -150,7 +147,7 @@ fun main() {
                         }
                     }
                     //FIXME: convert to styles
-                    (::span.styled {
+                    span({
                         css("""
                             display: inline-flex;
                             vertical-align: top;
@@ -195,7 +192,7 @@ fun main() {
                         alignItems { center }
                     }) {
                         items {
-                            (::a.styled {
+                            a({
                                 fontSize { tiny }
                                 color { gray600 }
                                 textAlign { center }
@@ -271,7 +268,7 @@ fun main() {
                         spacing { tiny }
                         items {
 
-                            (::p.styled {
+                            p({
                                 width { "100%" }
                                 margins { top { huge } }
                             }) {
@@ -314,7 +311,7 @@ fun main() {
 
                         }
                     }
-                    (::div.styled(id = "content-right") {
+                    div({
                         paddings(md = {
                             left { large }
                             top { small }

@@ -5,19 +5,16 @@ import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.P
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.router
-import dev.fritz2.styling.StyleClass
-import dev.fritz2.styling.name
+import dev.fritz2.styling.*
 import dev.fritz2.styling.params.BasicParams
-import dev.fritz2.styling.params.styled
-import dev.fritz2.styling.style
+import dev.fritz2.styling.params.Style
 import dev.fritz2.styling.theme.ColorScheme
 import dev.fritz2.styling.theme.IconDefinition
-import dev.fritz2.styling.whenever
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 
 fun RenderContext.showcaseHeader(text: String) {
-    (::h1.styled {
+    h1({
         margins {
             top { normal }
         }
@@ -26,7 +23,7 @@ fun RenderContext.showcaseHeader(text: String) {
 }
 
 fun RenderContext.showcaseSection(text: String) {
-    (::h2.styled {
+    h2({
         margins {
             top { giant }
         }
@@ -35,7 +32,7 @@ fun RenderContext.showcaseSection(text: String) {
 }
 
 fun RenderContext.showcaseSubSection(text: String) {
-    (::h3.styled {
+    h3({
         margins {
             top { giant }
         }
@@ -49,11 +46,7 @@ fun RenderContext.paragraph(
     id: String? = null,
     prefix: String = "paragraph",
     init: P.() -> Unit = {}
-): P = ::p.styled(styling, baseClass, id, prefix) {
-    margins {
-        top { small }
-    }
-}(init)
+): P = p({ margins { top { small } } }, styling, baseClass, id, prefix) { init() }
 
 fun RenderContext.contentFrame(
     styling: BasicParams.() -> Unit = {},
@@ -61,23 +54,22 @@ fun RenderContext.contentFrame(
     id: String? = null,
     prefix: String = "contentframe",
     init: Div.() -> Unit = {}
-): Div =
-    ::div.styled(styling, baseClass, id, prefix) {
-        background { color { neutral.main } }
-        color { neutral.mainContrast }
-        margins(sm = {
-            top { "4rem" }
-        }, md = {
-            top { "5rem" }
-            bottom { huge }
-        })
-        maxWidth(sm = { unset }, md = { "34rem" }, lg = { "52rem" })
-        padding { large }
-        radius { normal }
-    }(init)
+): Div = div({
+    background { color { neutral.main } }
+    color { neutral.mainContrast }
+    margins(sm = {
+        top { "4rem" }
+    }, md = {
+        top { "5rem" }
+        bottom { huge }
+    })
+    maxWidth(sm = { unset }, md = { "34rem" }, lg = { "52rem" })
+    padding { large }
+    radius { normal }
+}, styling, baseClass, id, prefix) { init() }
 
 fun RenderContext.coloredBox(colorScheme: ColorScheme, init: P.() -> Unit): Div {
-    return (::div.styled {
+    return div({
         margins {
             top { larger }
             bottom { larger }
@@ -100,7 +92,7 @@ fun RenderContext.coloredBox(colorScheme: ColorScheme, init: P.() -> Unit): Div 
             color { colorScheme.highlight }
         }
         color { colorScheme.highlightContrast }
-    }){
+    }) {
         p {
             init()
         }
@@ -108,7 +100,7 @@ fun RenderContext.coloredBox(colorScheme: ColorScheme, init: P.() -> Unit): Div 
 }
 
 fun RenderContext.componentFrame(padding: Boolean = true, init: Div.() -> Unit): Div { //Auslagerung von Komponente
-    return (::div.styled {
+    return div({
         width { "100%" }
         margins {
             top { "1.25rem" }
@@ -119,7 +111,7 @@ fun RenderContext.componentFrame(padding: Boolean = true, init: Div.() -> Unit):
         }
         radius { small }
         if (padding) padding { normal }
-    }){
+    }) {
         init()
     }
 }
@@ -128,7 +120,7 @@ fun RenderContext.storeContentBox(
     label: String,
     init: RenderContext.() -> Unit = {}
 ): Div =
-    (::div.styled {
+    div({
         background {
             color { gray200 }
         }
@@ -147,20 +139,19 @@ fun RenderContext.storeContentBox(
         init()
     }
 
-val RenderContext.link
-    get() = (::a.styled {
-        padding { "0.2rem" }
-        radius { small }
-        color { secondary.main }
-        hover {
-            color { secondary.highlightContrast }
-            background { color { secondary.highlight } }
-        }
-        css("cursor: pointer")
-    })
+val link: Style<BasicParams> = {
+    padding { "0.2rem" }
+    radius { small }
+    color { secondary.main }
+    hover {
+        color { secondary.highlightContrast }
+        background { color { secondary.highlight } }
+    }
+    css("cursor: pointer")
+}
 
 fun RenderContext.externalLink(text: String, url: String, newTab: Boolean = true): A {
-    return link {
+    return a(link) {
         +text
         href(url)
         if (newTab) target("_new")
@@ -168,14 +159,14 @@ fun RenderContext.externalLink(text: String, url: String, newTab: Boolean = true
 }
 
 fun RenderContext.internalLink(text: String, page: String): A {
-    return link {
+    return a(link) {
         +text
         clicks.map { page } handledBy router.navTo
     }
 }
 
 fun RenderContext.navAnchor(linkText: String, href: String): Div {
-    return (::div.styled {
+    return div({
         radius { small }
         border {
             width { none }
@@ -193,8 +184,8 @@ fun RenderContext.navAnchor(linkText: String, href: String): Div {
             left { small }
             right { small }
         }
-    }){
-        (::a.styled {
+    }) {
+        a({
             fontSize { normal }
             fontWeight { semiBold }
             textDecoration { initial }
@@ -207,10 +198,10 @@ fun RenderContext.navAnchor(linkText: String, href: String): Div {
 }
 
 fun RenderContext.menuHeader(text: String): Div {
-    return (::div.styled {
+    return div({
         width { "100%" }
     }) {
-        (::p.styled {
+        p({
             paddings {
                 top { large }
                 left { tiny }
@@ -220,7 +211,7 @@ fun RenderContext.menuHeader(text: String): Div {
             fontWeight { bold }
             letterSpacing { large }
             color { secondary.main }
-        })  { +text }
+        }) { +text }
     }
 }
 
@@ -236,7 +227,7 @@ fun RenderContext.menuAnchor(linkText: String): P {
     val isActive = router.data.map { hash -> hash == linkText }
         .distinctUntilChanged()//.onEach { if (it) PlaygroundComponent.update() }
 
-    return (::p.styled {
+    return p({
         margins {
             top { tiny }
             bottom { tiny }
@@ -266,7 +257,7 @@ fun RenderContext.menuAnchor(linkText: String): P {
 }
 
 fun RenderContext.c(text: String) {
-    (::span.styled {
+    span({
         paddings {
             left { ".4em" }
             right { ".4em" }
@@ -284,15 +275,14 @@ fun RenderContext.c(text: String) {
 
 fun RenderContext.teaserText(
     init: Div.() -> Unit = {}
-): Div =
-    ::div.styled {
-        fontSize { small }
-        textTransform { capitalize }
-        color { primary.main }
-        fontWeight { semiBold }
-        margins { bottom { "0.7rem" } }
-        fontSize { small }
-    }(init)
+): Div = div({
+    fontSize { small }
+    textTransform { capitalize }
+    color { primary.main }
+    fontWeight { semiBold }
+    margins { bottom { "0.7rem" } }
+    fontSize { small }
+}) { init() }
 
 val githubIcon: IconDefinition = IconDefinition(
     "github",

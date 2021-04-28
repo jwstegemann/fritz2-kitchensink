@@ -5,7 +5,8 @@ import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.kitchensink.toasts_
-import dev.fritz2.styling.params.styled
+import dev.fritz2.styling.div
+import dev.fritz2.styling.span
 import dev.fritz2.styling.theme.AlertSeverity
 import dev.fritz2.styling.theme.ColorScheme
 import dev.fritz2.styling.theme.IconDefinition
@@ -252,7 +253,7 @@ fun RenderContext.alertDemo(): Div {
             }) {
                 title {
                     // Title that takes up the whole line
-                    (::div.styled {
+                    div({
                         fontWeight { bold }
                     }) {
                         +"Custom title"
@@ -265,7 +266,7 @@ fun RenderContext.alertDemo(): Div {
             }) {
                 title("Title")
                 content {
-                    (::span.styled {
+                    span({
                         color { gray200 }
                     }) {
                         +"Custom content"
@@ -279,7 +280,7 @@ fun RenderContext.alertDemo(): Div {
                     alert {
                         title {
                             // Title in its own line
-                            (::div.styled {
+                            div({
                                 fontWeight { bold }
                             }) {
                                 +"Custom title"
@@ -291,7 +292,7 @@ fun RenderContext.alertDemo(): Div {
                         title("Title")
                         content {
                             // Content with custom text color
-                            (::span.styled {
+                            span({
                                 color { gray200 }
                             }) {
                                 +"Custom content"

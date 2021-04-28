@@ -14,9 +14,9 @@ import dev.fritz2.kitchensink.AccountValidator
 import dev.fritz2.kitchensink.L
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.styling.StyleClass
+import dev.fritz2.styling.p
 import dev.fritz2.styling.params.BasicParams
 import dev.fritz2.styling.params.BoxParams
-import dev.fritz2.styling.params.styled
 import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.map
@@ -922,7 +922,7 @@ fun RenderContext.formControlDemo(): Div {
                     }, baseClass, id, prefix) {
                         spacing { tiny }
                         items {
-                            (::p.styled {
+                            p({
                                 textAlign { right }
                                 borders {
                                     bottom {
@@ -1336,7 +1336,7 @@ fun RenderContext.formControlDemo(): Div {
                         }, baseClass, id, prefix) {
                             spacing { tiny }
                             items {
-                                (::p.styled {
+                                p({
                                     textAlign { right }
                                     borders {
                                         bottom {
