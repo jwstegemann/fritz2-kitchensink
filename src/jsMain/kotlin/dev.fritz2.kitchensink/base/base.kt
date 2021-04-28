@@ -1,5 +1,6 @@
 package dev.fritz2.kitchensink.base
 
+import dev.fritz2.components.box
 import dev.fritz2.dom.html.A
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.P
@@ -45,15 +46,15 @@ fun RenderContext.paragraph(
     baseClass: StyleClass = StyleClass.None,
     id: String? = null,
     prefix: String = "paragraph",
-    init: P.() -> Unit = {}
-): P = p({ margins { top { small } } }, styling, baseClass, id, prefix) { init() }
+    content: P.() -> Unit = {}
+): P = p({ margins { top { small } } }, styling, baseClass, id, prefix, content)
 
 fun RenderContext.contentFrame(
     styling: BasicParams.() -> Unit = {},
     baseClass: StyleClass = StyleClass.None,
     id: String? = null,
     prefix: String = "contentframe",
-    init: Div.() -> Unit = {}
+    content: Div.() -> Unit = {}
 ): Div = div({
     background { color { neutral.main } }
     color { neutral.mainContrast }
@@ -66,10 +67,10 @@ fun RenderContext.contentFrame(
     maxWidth(sm = { unset }, md = { "34rem" }, lg = { "52rem" })
     padding { large }
     radius { normal }
-}, styling, baseClass, id, prefix) { init() }
+}, styling, baseClass, id, prefix, content)
 
-fun RenderContext.coloredBox(colorScheme: ColorScheme, init: P.() -> Unit): Div {
-    return div({
+fun RenderContext.coloredBox(colorScheme: ColorScheme, content: P.() -> Unit): Div {
+    return box({
         margins {
             top { larger }
             bottom { larger }
@@ -94,13 +95,13 @@ fun RenderContext.coloredBox(colorScheme: ColorScheme, init: P.() -> Unit): Div 
         color { colorScheme.highlightContrast }
     }) {
         p {
-            init()
+            content()
         }
     }
 }
 
-fun RenderContext.componentFrame(padding: Boolean = true, init: Div.() -> Unit): Div { //Auslagerung von Komponente
-    return div({
+fun RenderContext.componentFrame(padding: Boolean = true, content: Div.() -> Unit): Div {
+    return box({
         width { "100%" }
         margins {
             top { "1.25rem" }
@@ -111,16 +112,13 @@ fun RenderContext.componentFrame(padding: Boolean = true, init: Div.() -> Unit):
         }
         radius { small }
         if (padding) padding { normal }
-    }) {
-        init()
-    }
+    }, content = content)
 }
 
 fun RenderContext.storeContentBox(
     label: String,
-    init: RenderContext.() -> Unit = {}
-): Div =
-    div({
+    content: RenderContext.() -> Unit = {}
+): Div = box({
         background {
             color { gray200 }
         }
@@ -136,7 +134,7 @@ fun RenderContext.storeContentBox(
     }) {
         +label
         +": "
-        init()
+        content()
     }
 
 val link: Style<BasicParams> = {
@@ -166,7 +164,7 @@ fun RenderContext.internalLink(text: String, page: String): A {
 }
 
 fun RenderContext.navAnchor(linkText: String, href: String): Div {
-    return div({
+    return box({
         radius { small }
         border {
             width { none }
@@ -198,7 +196,7 @@ fun RenderContext.navAnchor(linkText: String, href: String): Div {
 }
 
 fun RenderContext.menuHeader(text: String): Div {
-    return div({
+    return box({
         width { "100%" }
     }) {
         p({
@@ -274,15 +272,15 @@ fun RenderContext.c(text: String) {
 }
 
 fun RenderContext.teaserText(
-    init: Div.() -> Unit = {}
-): Div = div({
+    content: Div.() -> Unit = {}
+): Div = box({
     fontSize { small }
     textTransform { capitalize }
     color { primary.main }
     fontWeight { semiBold }
     margins { bottom { "0.7rem" } }
     fontSize { small }
-}) { init() }
+}, content = content)
 
 val githubIcon: IconDefinition = IconDefinition(
     "github",
