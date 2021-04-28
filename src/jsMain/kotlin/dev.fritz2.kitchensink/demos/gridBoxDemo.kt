@@ -7,10 +7,10 @@ import dev.fritz2.components.pushButton
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
+import dev.fritz2.styling.p
 import dev.fritz2.styling.params.AreaName
 import dev.fritz2.styling.params.end
 import dev.fritz2.styling.params.start
-import dev.fritz2.styling.params.styled
 import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.map
@@ -141,7 +141,7 @@ fun RenderContext.gridBoxDemo(): Div {
                     }
                     paddings { all { "0.2rem" } }
                 }) {
-                    (::p.styled {
+                    p({
                         padding { "1rem" }
                     }) { +"Header" }
                 }
@@ -151,7 +151,7 @@ fun RenderContext.gridBoxDemo(): Div {
                     color { gray300 }
                     paddings { all { "0.2rem" } }
                 }) {
-                    (::p.styled {
+                    p({
                         padding { "1rem" }
                     }) { +"Sidebar" }
                 }
@@ -178,7 +178,7 @@ fun RenderContext.gridBoxDemo(): Div {
 
                     )
                 }) {
-                    (::p.styled {
+                    p({
                         padding { "1rem" }
                     }){ +"Content" }
                 }
@@ -187,7 +187,7 @@ fun RenderContext.gridBoxDemo(): Div {
                     background { color { gray300 } }
                     paddings { all { "0.2rem" } }
                 }) {
-                    (::p.styled {
+                    p({
                         padding { "1rem" }
                     }) { +"Footer" }
                 }

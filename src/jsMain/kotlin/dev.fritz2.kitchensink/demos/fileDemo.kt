@@ -7,7 +7,7 @@ import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.kitchensink.buttons_
-import dev.fritz2.styling.params.styled
+import dev.fritz2.styling.hr
 import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -22,7 +22,7 @@ fun RenderContext.fileDemo(): Div {
             stackUp {
                 items {
                     h2{ +"Selected file" }
-                    (::hr.styled { width { full } }){}
+                    hr({ width { full } }){}
                     p { +"Name: ${file.name}" }
                     p { +"Media Type: ${file.type}" }
                     p { +"Size: ${file.size.asKB(2)}" }
@@ -37,7 +37,7 @@ fun RenderContext.fileDemo(): Div {
             stackUp {
                 items {
                     h2{ +"Selected files" }
-                    (::hr.styled { width { full } }){}
+                    hr({ width { full } }){}
                     files.forEach {
                         lineUp {
                             items {

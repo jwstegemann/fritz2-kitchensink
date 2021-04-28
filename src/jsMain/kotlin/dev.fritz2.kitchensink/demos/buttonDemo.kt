@@ -5,7 +5,7 @@ import dev.fritz2.components.*
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
-import dev.fritz2.styling.params.styled
+import dev.fritz2.styling.p
 import dev.fritz2.styling.theme.ColorScheme
 import dev.fritz2.tracking.tracker
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -62,7 +62,7 @@ fun RenderContext.buttonDemo(): Div {
         componentFrame {
             val successToast = toast {
                 content {
-                    (::p.styled {
+                    p({
                         color { gray100 }
                         margin { small }
                     }) { +"Your data has been saved successfully." }

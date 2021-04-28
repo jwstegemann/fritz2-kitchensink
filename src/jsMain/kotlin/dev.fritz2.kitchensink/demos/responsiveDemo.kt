@@ -5,7 +5,9 @@ import dev.fritz2.components.flexBox
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
-import dev.fritz2.styling.params.styled
+import dev.fritz2.styling.h1
+import dev.fritz2.styling.img
+import dev.fritz2.styling.p
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
@@ -83,7 +85,7 @@ fun RenderContext.responsiveDemo(): Div {
                     )
                     flex { shrink { "0" } }
                 }) {
-                    (::img.styled {
+                    img({
                         width(sm = { full }, md = { wide.small })
                         boxShadow { flat }
                         radius { large }
@@ -104,11 +106,11 @@ fun RenderContext.responsiveDemo(): Div {
                     )
                 }) {
                     teaserText { +"Photo by Lauren York on Unsplash" }
-                    (::h1.styled {
+                    h1({
                         fontSize { large }
                         fontWeight { bold }
                     }) { +"Resize your viewport!" }
-                    (::p.styled {
+                    p({
                         paddings {
                             all { small }
                             left { none }
@@ -138,7 +140,7 @@ fun RenderContext.responsiveDemo(): Div {
                         )
                         flex { shrink { "0" } }
                     }) {
-                        (::img.styled {
+                        img({
                             width(sm = { full }, md = { wide.small })
                         }) {
                             src("...")
