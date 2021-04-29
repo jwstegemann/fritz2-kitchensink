@@ -178,9 +178,9 @@ fun RenderContext.colorDemo(): Div {
         showcaseHeader("Colors")
         paragraph {
             +"The fritz2 components default theme has its own set of colors which you can view here."
-            +" Please see "
-            internalLink("themes page", theme_)
-            +" for more information on using themes. "
+            +" For more information on using themes, have a look at the "
+            internalLink("Themes section", theme_)
+            +"."
         }
 
         showcaseSubSection("Color Schemes")

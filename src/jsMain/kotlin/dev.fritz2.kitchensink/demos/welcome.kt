@@ -90,7 +90,8 @@ fun RenderContext.welcome(): Div {
                 }
 
                 coloredBox(Theme().colors.warning) {
-                    +"Remember that this is a ${appStatus()} version."
+                    // todo: If Status is something other than ALPHA, replace an with a. Also check Getting Started (same thing)
+                    +"Remember that this is an ${appStatus()} version."
                     +" Most components still need some work, others are not implemented yet, and the API still needs"
                     +" to be completed and streamlined."
                 }
