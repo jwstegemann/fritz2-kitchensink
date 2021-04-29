@@ -5,7 +5,7 @@ import dev.fritz2.components.tooltip
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
-import dev.fritz2.styling.params.styled
+import dev.fritz2.styling.span
 import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -40,11 +40,11 @@ fun RenderContext.tooltipDemo(): Div {
             componentFrame {
                 lineUp {
                     items {
-                        (::span.styled {
+                        span({
                             tooltip("Visit us on www.fritz2.dev") ()
                         }) { +"Tooltip" }
 
-                        (::span.styled {
+                        span({
                             tooltip("Visit us!", "", "www.fritz2.dev") ()
                         }) { +"Multiline Tooltip" }
                     }
@@ -53,11 +53,11 @@ fun RenderContext.tooltipDemo(): Div {
             highlight {
                 source(
                 """
-                    (::span.styled { // add tooltip to styling parameter
+                    span({ // add tooltip to styling parameter
                         tooltip("Visit us on www.fritz2.dev") ()
                     }) { +"Tooltip" } // span content 
 
-                    (::span.styled { // empty Strings work for multiline as well
+                    span({ // empty Strings work for multiline as well
                         tooltip("Visit us!", "", "www.fritz2.dev") ()
                     }) { +"Multiline Tooltip" }
                 """
@@ -81,32 +81,42 @@ fun RenderContext.tooltipDemo(): Div {
             componentFrame {
                 lineUp {
                     items {
-                        (::span.styled() {
+                        span({
                             tooltip("top placement") { top } ()
                         }) { +"top" }
 
-                        (::span.styled() {
+                        span({
                             tooltip("right side placement") { right } ()
                         }) { +"right" }
 
-                        (::span.styled() {
+                        span({
                             tooltip(" bottom placement") { bottom } ()
                         }) { +"bottom" }
 
-                        (::span.styled() {
+                        span({
                             tooltip("left side placement") { left } ()
                         }) { +"left" }
-
                     }
                 }
             }
             highlight {
-                source(
-                    """
-                      (::span.styled(){
-                        tooltip("right side placement") { right } ()
-                    }) { +"right"}
-                    """
+                source("""
+                span({
+                    tooltip("top placement") { top } ()
+                }) { +"top" }
+                
+                span({
+                    tooltip("right side placement") { right } ()
+                }) { +"right" }
+                
+                span({
+                    tooltip(" bottom placement") { bottom } ()
+                }) { +"bottom" }
+                
+                span({
+                    tooltip("left side placement") { left } ()
+                }) { +"left" }
+                """
                 )
             }
 
