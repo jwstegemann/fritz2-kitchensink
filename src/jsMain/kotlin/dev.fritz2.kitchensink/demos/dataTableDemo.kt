@@ -19,6 +19,11 @@ import dev.fritz2.styling.params.BoxParams
 import dev.fritz2.styling.params.Style
 import kotlinx.coroutines.flow.map
 import dev.fritz2.components.datatable.*
+import kotlinx.coroutines.flow.combine
+import dev.fritz2.lenses.Lens
+import kotlinx.datetime.LocalDate
+import dev.fritz2.lenses.format
+
 
 val simpleColumnsDefinition: DataTableComponent<Person, Int>.() -> Unit = {
     columns {
@@ -489,6 +494,45 @@ fun RenderContext.dataTableDemo(): Div {
             )
         }
 
+        showcaseSection("Formating")
+        paragraph {
+            +"In order to adapt the appearance of the table to the content, the DataTable offers some configuration "
+            +"possibilities."
+        }
+
+        val dateFormat: Lens<LocalDate, String> = format(
+            parse = { LocalDate.parse(it) },
+            format = {
+                "${it.dayOfMonth.toString().padStart(2, '0')}.${
+                    it.monthNumber.toString().padStart(2, '0')
+                }.${it.year}"
+            }
+        )
+
+        componentFrame {
+            val personStore = storeOf(finalPersons.take(8))
+            dataTable(rows = personStore, rowIdProvider = FinalPerson::id) {
+                columns {
+                    column(title = "Id") {
+                        lens(L.FinalPerson.id.asString())
+                        width { minmax("70px") }
+                    }
+                    column(title = "Name") {
+                        width { minmax("2fr") }
+                        content { (_, state), _, _ ->
+                            +"${state.item.name()}"
+                        }
+                    }
+                    column(title = "Birthday") { lens(L.FinalPerson.birthday + dateFormat) }
+                    column(title = "Programming Languages") {
+                        width { minmax("3fr") }
+                        content { (_, state), _, _ ->
+                            +"${state.item.joinedLanguages()}"
+                        }
+                    }
+                }
+            }
+        }
 
         showcaseSection("Sorting")
         showcaseSection("Content Rendering")

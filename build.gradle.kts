@@ -36,6 +36,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation("dev.fritz2:components:$fritz2Version")
+                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.1.1")
             }
         }
 
