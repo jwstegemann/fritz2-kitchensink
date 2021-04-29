@@ -9,8 +9,6 @@ import dev.fritz2.kitchensink.base.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import selectField
 
-data class Person(val name: String = "", val id: Int = 0)
-
 @ExperimentalCoroutinesApi
 fun RenderContext.selectDemo(): Div {
 
@@ -211,7 +209,9 @@ fun RenderContext.selectDemo(): Div {
 
         componentFrame {
 
-            val persons = listOf(Person("John Doe", 16), Person("Jane Smith", 42))
+            data class SimplePerson(val name: String = "", val id: Int = 0)
+
+            val persons = listOf(SimplePerson("John Doe", 16), SimplePerson("Jane Smith", 42))
             val store = storeOf(persons[0])
 
             stackUp {
