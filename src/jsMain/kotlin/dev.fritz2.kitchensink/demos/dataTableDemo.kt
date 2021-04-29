@@ -18,6 +18,7 @@ import dev.fritz2.styling.*
 import dev.fritz2.styling.params.BoxParams
 import dev.fritz2.styling.params.Style
 import kotlinx.coroutines.flow.map
+import dev.fritz2.components.datatable.*
 
 val simpleColumnsDefinition: DataTableComponent<Person, Int>.() -> Unit = {
     columns {
@@ -290,27 +291,32 @@ fun RenderContext.dataTableDemo(): Div {
         }
 
         showcaseSubSection("Explicit Configuration")
-        val thStyle: Style<BoxParams> = {
-            background { color { primary.main } }
-            color { primary.mainContrast }
-            padding { normal }
-            border {
-                width { thin }
-                style { solid }
-                color { primary.highlight }
+        paragraph {
+            +"As shown in the sections above, there are three built-in combinations of selection mode and strategy "
+            +"determined depending on the passed parameter "
+            c("selection")
+            +":"
+            ul {
+                li {
+                    c("RootStore<T?>")
+                    +" -> "
+                    c("mode=single")
+                    +" and "
+                    c("strategy=click")
+                }
+                li {
+                    c("RootStore<List<T>>")
+                    +" -> "
+                    c("mode=multi")
+                    +" and "
+                    c("strategy=checkbox")
+                }
+                li {
+                    +"no selection store passed -> "
+                    c("mode=none")
+                    +" (Strategy does not matter anymore!)"
+                }
             }
-        }
-        val tdStyle: Style<BoxParams> = {
-            background { color { tertiary.highlight } }
-            color { tertiary.mainContrast }
-            padding { normal }
-            border {
-                width { thin }
-                style { solid }
-                color { tertiary.mainContrast }
-            }
-            textAlign { center }
-            fontSize { large }
         }
         paragraph {
             +"If the default selection behaviours based upon the type of the passed "
@@ -318,62 +324,80 @@ fun RenderContext.dataTableDemo(): Div {
             +" do not fit to your use case, it is possible to configure the behaviour manually."
         }
         paragraph {
-            +"There are two modes and two strategies available as built-ins with the following default combinations:"
-            table {
-                thead {
-                    th(thStyle) { +"strategy \\ mode" }
-                    th(thStyle) { +"single" }
-                    th(thStyle) { +"multiple" }
-                }
-                tbody {
-                    tr {
-                        th(thStyle) { +"click" }
-                        td(tdStyle) { +"✓" }
-                        td(tdStyle) { +"" }
-                    }
-                    tr {
-                        th(thStyle) { +"checkbox" }
-                        td(tdStyle) { +"" }
-                        td(tdStyle) { +"✓" }
-                    }
-                }
-            }
-        }
-        paragraph {
             +"By explicit configuration the strategy can be chosen freely:"
         }
         componentFrame {
             data class SelectionModel(
-                val single: Boolean,
+                val mode: dev.fritz2.components.datatable.SelectionMode,
                 val strategy: SelectionContext.StrategyContext.StrategySpecifier
             ) {
                 fun toSingleClick() = SelectionModel(
-                    true,
+                    dev.fritz2.components.datatable.SelectionMode.Single,
                     SelectionContext.StrategyContext.StrategySpecifier.Click
                 )
 
                 fun toMultiClick() = SelectionModel(
-                    false,
+                    dev.fritz2.components.datatable.SelectionMode.Multi,
                     SelectionContext.StrategyContext.StrategySpecifier.Click
                 )
 
                 fun toSingleCheckbox() = SelectionModel(
-                    true,
+                    dev.fritz2.components.datatable.SelectionMode.Single,
                     SelectionContext.StrategyContext.StrategySpecifier.Checkbox
                 )
 
                 fun toMultiCheckbox() = SelectionModel(
-                    false,
+                    dev.fritz2.components.datatable.SelectionMode.Multi,
                     SelectionContext.StrategyContext.StrategySpecifier.Checkbox
                 )
             }
 
             val selectionStore = storeOf(
                 SelectionModel(
-                    true,
+                    dev.fritz2.components.datatable.SelectionMode.Single,
                     SelectionContext.StrategyContext.StrategySpecifier.Click
                 )
             )
+
+            val thStyle: Style<BoxParams> = {
+                background { color { primary.main } }
+                color { primary.mainContrast }
+                padding { normal }
+                border {
+                    width { thin }
+                    style { solid }
+                    color { primary.highlight }
+                }
+            }
+            val tdStyle: Style<BoxParams> = {
+                background { color { tertiary.highlight } }
+                color { tertiary.mainContrast }
+                padding { normal }
+                border {
+                    width { thin }
+                    style { solid }
+                    color { tertiary.mainContrast }
+                }
+                textAlign { center }
+            }
+
+            fun RenderContext.renderCell(selected: Boolean, model: SelectionModel) {
+                td({
+                    tdStyle()
+                    fontSize { large }
+                    if (selected) {
+                        background { color { secondary.main } }
+                        color { secondary.mainContrast }
+                    }
+                }) {
+                    if (selected) {
+                        +"✓"
+                    } else {
+                        clicks.events.map { model } handledBy selectionStore.update
+                    }
+                }
+            }
+
             selectionStore.data.render {
                 table({
                     margins { bottom { normal } }
@@ -382,79 +406,44 @@ fun RenderContext.dataTableDemo(): Div {
                         th(thStyle) { +"strategy \\ mode" }
                         th(thStyle) { +"single" }
                         th(thStyle) { +"multiple" }
+                        th(thStyle) { +"none" }
                     }
                     tbody {
                         tr {
                             th(thStyle) { +"click" }
-                            if (it.strategy == SelectionContext.StrategyContext.StrategySpecifier.Click) {
-                                td(tdStyle) {
-                                    if (it.single) {
-                                        +"✓"
-                                    } else {
-                                        clicks.events.map {
-                                            selectionStore.current.toSingleClick()
-                                        } handledBy selectionStore.update
-                                    }
-                                }
-                                td(tdStyle) {
-                                    if (!it.single) {
-                                        +"✓"
-                                    } else {
-                                        clicks.events.map {
-                                            selectionStore.current.toMultiClick()
-                                        } handledBy selectionStore.update
-                                    }
-                                }
-                            } else {
-                                td(tdStyle) {
-                                    +""
+                            renderCell(
+                                it.strategy == SelectionContext.StrategyContext.StrategySpecifier.Click &&
+                                        it.mode == SelectionMode.Single,
+                                selectionStore.current.toSingleClick()
+                            )
+                            renderCell(
+                                it.strategy == SelectionContext.StrategyContext.StrategySpecifier.Click &&
+                                        it.mode == SelectionMode.Multi,
+                                selectionStore.current.toMultiClick()
+                            )
+                            td(tdStyle) {
+                                rowSpan(2)
+                                if (it.mode == SelectionMode.None) {
+                                    +"✓"
+                                } else {
                                     clicks.events.map {
-                                        selectionStore.current.toSingleClick()
-                                    } handledBy selectionStore.update
-                                }
-                                td(tdStyle) {
-                                    +""
-                                    clicks.events.map {
-                                        selectionStore.current.toMultiClick()
+                                        selectionStore.current.copy(mode = SelectionMode.None)
                                     } handledBy selectionStore.update
                                 }
                             }
                         }
                         tr {
                             th(thStyle) { +"checkbox" }
-                            if (it.strategy == SelectionContext.StrategyContext.StrategySpecifier.Checkbox) {
-                                td(tdStyle) {
-                                    if (it.single) {
-                                        +"✓"
-                                    } else {
-                                        clicks.events.map {
-                                            selectionStore.current.toSingleCheckbox()
-                                        } handledBy selectionStore.update
-                                    }
-                                }
-                                td(tdStyle) {
-                                    if (!it.single) {
-                                        +"✓"
-                                    } else {
-                                        clicks.events.map {
-                                            selectionStore.current.toMultiCheckbox()
-                                        } handledBy selectionStore.update
-                                    }
-                                }
-                            } else {
-                                td(tdStyle) {
-                                    +""
-                                    clicks.events.map {
-                                        selectionStore.current.toSingleCheckbox()
-                                    } handledBy selectionStore.update
-                                }
-                                td(tdStyle) {
-                                    +""
-                                    clicks.events.map {
-                                        selectionStore.current.toMultiCheckbox()
-                                    } handledBy selectionStore.update
-                                }
-                            }
+                            renderCell(
+                                it.strategy == SelectionContext.StrategyContext.StrategySpecifier.Checkbox &&
+                                        it.mode == SelectionMode.Single,
+                                selectionStore.current.toSingleCheckbox()
+                            )
+                            renderCell(
+                                it.strategy == SelectionContext.StrategyContext.StrategySpecifier.Checkbox &&
+                                        it.mode == SelectionMode.Multi,
+                                selectionStore.current.toMultiCheckbox()
+                            )
                         }
                     }
                 }
@@ -462,16 +451,20 @@ fun RenderContext.dataTableDemo(): Div {
             val selectedPersons = storeOf<List<Person>>(emptyList())
             val selectedPerson = storeOf<Person?>(null)
             selectionStore.data.render {
-                if (it.single) {
-                    renderDataTableSelectionSingle(
-                        selectedPerson,
-                        it.strategy
-                    )
-                } else {
-                    renderDataTableSelectionMultiple(
-                        selectedPersons,
-                        it.strategy
-                    )
+                when (it.mode) {
+                    dev.fritz2.components.datatable.SelectionMode.Single ->
+                        renderDataTableSelectionSingle(
+                            selectedPerson,
+                            it.strategy
+                        )
+                    dev.fritz2.components.datatable.SelectionMode.Multi ->
+                        renderDataTableSelectionMultiple(
+                            selectedPersons,
+                            it.strategy
+                        )
+                    else -> dataTable(rows = storeOf(persons.take(8)), rowIdProvider = Person::id) {
+                        simpleColumnsDefinition()
+                    }
                 }
             }
         }
@@ -486,7 +479,7 @@ fun RenderContext.dataTableDemo(): Div {
                     // open declaration context for selection aspects 
                     selection {
                     // set the strategy *explicitly*
-                        strategy { click } // or ``checkbox`` 
+                        strategy { click } // or ``checkbox`` or ``none`` 
                     }
                     columns {
                         // omitted ...
