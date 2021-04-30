@@ -108,6 +108,22 @@ val dateFormat: Lens<LocalDate, String> = format(
     }
 )
 
+enum class Functionality {
+    basic, advanced, ultimate
+}
+
+val categories = mapOf(
+    "Python" to Functionality.basic,
+    "Scala" to Functionality.advanced,
+    "Java" to Functionality.basic,
+    "Kotlin" to Functionality.basic,
+    "Rust" to Functionality.basic,
+    "Clojure" to Functionality.advanced,
+    "Frege" to Functionality.ultimate,
+)
+
+fun FinalPerson.functionalSkill() = categories[languages.maxOrNull()]
+
 fun RenderContext.dataTableDemo(): Div {
 
     return contentFrame {
@@ -1068,6 +1084,174 @@ fun RenderContext.dataTableDemo(): Div {
         }
 
         showcaseSection("Styling")
+        paragraph {
+            +"There are many possibilities to apply custom styling to the DataTable: "
+            ul {
+                li { +"changing the DataTable section within your theme" }
+                li { +"changing the header columns all at once within the decalaration" }
+                li { +"changing the header columns individually within the decalaration of a column" }
+                li { +"changing the columns all at once within the decalaration of columns" }
+                li { +"changing the columns individually within the decalaration of one column" }
+            }
+        }
+        paragraph {
+            +"All the styling within the DSL is done as usual within our components: As first parameter of the "
+            +"corresponding context opening function as the following snippet shows."
+        }
+        highlight {
+            source(
+                """
+                dataTable(rows = storeOf(persons), rowIdProvider = Person::id) {
+                    header({
+                        // style all header columns at once
+                    }) {
+                        // omitted
+                    }
+                    columns({
+                        // style all columns at once
+                    }) {
+                        column(styling = {
+                            // style one column specifically
+                        } title = "Id") {
+                            header({
+                                // style only the header of this column
+                            }) {
+                                // omitted
+                            }
+                            // omitted
+                        }
+                    }
+                }                    
+                """
+            )
+        }
+        paragraph {
+            +"Depending on the context level, additional information is injected into the styling expression, so "
+            +"one can be access the "
+            c("index")
+            +" of the row, the content as "
+            c("T")
+            +" or even stateful information like whether the row is currently selected or the column is sorted at "
+            +" the moment."
+        }
+
+        showcaseSubSection("Styling Example")
+        paragraph {
+            +"Let's assume the following analytics use case:"
+        }
+        paragraph {
+            +"Each of the available programming languages is assigned a level of supporting "
+            em { +"functional programming" }
+            +" paradigm. We consider three categories:"
+            ul {
+                li { +"ultimate" }
+                li { +"advanced" }
+                li { +"basic" }
+            }
+            +"To make it easier to analyse which knowledge level each person has, we would like to colorize the "
+            +"rows according to the above categories. (The sorting of the languages column is analogous changed, so "
+            +"that one can group this also by sorting)"
+        }
+        componentFrame {
+            val personStore = storeOf(finalPersons.take(30))
+
+            dataTable(rows = personStore, rowIdProvider = FinalPerson::id) {
+                options {
+                    maxHeight("35vh")
+                }
+                columns({ (_, state) ->
+                    background {
+                        color {
+                            when (state.item.functionalSkill()) {
+                                Functionality.basic -> "#B08D57"
+                                Functionality.advanced -> "silver"
+                                Functionality.ultimate -> "gold"
+                                else -> neutral.main
+                            }
+                        }
+                    }
+                }) {
+                    column(title = "Id") {
+                        lens(L.FinalPerson.id.asString())
+                        width { minmax("70px") }
+                        sorting { disabled }
+                    }
+                    column(title = "Name") {
+                        width { minmax("2fr") }
+                        content { (_, state), _, _ ->
+                            +"${state.item.name}"
+                        }
+                        sortBy(FinalPerson::lastname, FinalPerson::firstname)
+                    }
+                    column(title = "Birthday") {
+                        lens(L.FinalPerson.birthday + dateFormat)
+                        sortBy(FinalPerson::birthday)
+                    }
+                    column(title = "Programming Languages") {
+                        width { minmax("3fr") }
+                        content { (_, state), _, _ ->
+                            state.item.languages.forEach {
+                                span({
+                                    background { color { "palegreen" } }
+                                    radius { "1rem" }
+                                    paddings { horizontal { smaller } }
+                                    margins { right { tiny } }
+                                }) { +it }
+                            }
+                        }
+                        sortBy(compareBy<FinalPerson> { person ->
+                            person.functionalSkill()
+                        })
+                    }
+                }
+            }
+        }
+        highlight {
+            source(
+                """
+                enum class Functionality {
+                    basic, advanced, ultimate
+                }
+                
+                val categories = mapOf(
+                    "Python" to Functionality.basic,
+                    "Scala" to Functionality.advanced,
+                    "Java" to Functionality.basic,
+                    "Kotlin" to Functionality.basic,
+                    "Rust" to Functionality.basic,
+                    "Clojure" to Functionality.advanced,
+                    "Frege" to Functionality.ultimate,
+                )
+                
+                // just pick "best" functional language
+                fun FinalPerson.functionalSkill() = categories[languages.maxOrNull()]
+                
+                dataTable(rows = personStore, rowIdProvider = Person::id) {
+                    columns({ (_, state) -> // access state with ``Person`` inside
+                        background {
+                            color {
+                                // choose bgcolor by functional category
+                                when (state.item.functionalSkill()) {
+                                    Functionality.basic -> "#B08D57" // bronce
+                                    Functionality.advanced -> "silver"
+                                    Functionality.ultimate -> "gold"
+                                    else -> neutral.main
+                                }
+                            }
+                        }
+                    }) {
+                        // noise omitted!
+                        column(title = "Programming Languages") {
+                            sortBy(compareBy<FinalPerson> { person ->
+                                // adapt sorting
+                                person.functionalSkill()
+                            })        
+                        }
+                    } 
+                }                                                      
+                """
+            )
+        }
     }
 }
 
