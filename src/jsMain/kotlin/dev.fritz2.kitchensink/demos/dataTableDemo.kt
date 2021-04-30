@@ -13,12 +13,10 @@ import dev.fritz2.kitchensink.datatable.*
 import dev.fritz2.lenses.Lens
 import dev.fritz2.lenses.asString
 import dev.fritz2.lenses.format
+import dev.fritz2.styling.*
 import dev.fritz2.styling.params.BoxParams
+import dev.fritz2.styling.params.ColorProperty
 import dev.fritz2.styling.params.Style
-import dev.fritz2.styling.span
-import dev.fritz2.styling.table
-import dev.fritz2.styling.td
-import dev.fritz2.styling.th
 import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
@@ -86,9 +84,8 @@ fun RenderContext.renderDataTableSelectionMultiple(
                         if (it.isEmpty()) {
                             +"nothing selected..."
                         } else {
-                            selectedPersons.data.map {
-                                it.map { "${it.firstname} ${it.lastname}" }
-                                    .joinToString()
+                            selectedPersons.data.map { list ->
+                                list.joinToString { "${it.firstname} ${it.lastname}" }
                             }.asText()
                         }
                     }
@@ -111,17 +108,17 @@ val dateFormat: Lens<LocalDate, String> = format(
 )
 
 enum class Functionality {
-    basic, advanced, ultimate
+    BASIC, ADVANCED, ULTIMATE
 }
 
 val categories = mapOf(
-    "Python" to Functionality.basic,
-    "Scala" to Functionality.advanced,
-    "Java" to Functionality.basic,
-    "Kotlin" to Functionality.basic,
-    "Rust" to Functionality.basic,
-    "Clojure" to Functionality.advanced,
-    "Frege" to Functionality.ultimate,
+    "Python" to Functionality.BASIC,
+    "Scala" to Functionality.ADVANCED,
+    "Java" to Functionality.BASIC,
+    "Kotlin" to Functionality.BASIC,
+    "Rust" to Functionality.BASIC,
+    "Clojure" to Functionality.ADVANCED,
+    "Frege" to Functionality.ULTIMATE,
 )
 
 fun FinalPerson.functionalSkill() =
@@ -587,7 +584,7 @@ fun RenderContext.dataTableDemo(): Div {
             )
         }
 
-        showcaseSection("Formating")
+        showcaseSection("Formatting")
         paragraph {
             +"In order to adapt the appearance of the table to the content, the "
             c("dataTable")
@@ -684,7 +681,7 @@ fun RenderContext.dataTableDemo(): Div {
                                         content { (_, state), _, _ ->
                                             state.item.languages.forEach {
                                                 span({
-                                                    background { color { "palegreen" } }
+                                                    background { color { "#9EF01A" } }
                                                     radius { "1rem" }
                                                     paddings { horizontal { smaller } }
                                                     margins { right { tiny } }
@@ -753,7 +750,7 @@ fun RenderContext.dataTableDemo(): Div {
                 dataTable(rows = personStore, rowIdProvider = Person::id) {
                     options {
                         // apply 35% of the vertical space to the table
-                        // if rows exceeds space, vertival scrollbar appears
+                        // if rows exceeds space, vertical scrollbar appears
                         maxHeight("35vh")
                     }
                     header {
@@ -793,7 +790,7 @@ fun RenderContext.dataTableDemo(): Div {
                             width { minmax("2fr") }
                         }
                         column(title = "Birthday") {
-                            // nohting declared -> 1 fraction as default                        
+                            // nothing declared -> 1 fraction as default                        
                         }
                         column(title = "Programming Languages") {
                             // concatenated languages needs even longer space
@@ -842,7 +839,7 @@ fun RenderContext.dataTableDemo(): Div {
                 dataTable(rows = personStore, rowIdProvider = Person::id) {
                     columns {
                         column(title = "Birthday") {
-                            // apply formating lens to Date based lens
+                            // apply formatting lens to Date based lens
                             lens(L.FinalPerson.birthday + dateFormat)
                         }                    
                         // omitted...
@@ -903,7 +900,7 @@ fun RenderContext.dataTableDemo(): Div {
                                 state.item.languages.forEach {
                                     // create pile for each language
                                     span({
-                                        background { color { "palegreen" } }
+                                        background { color { "#9EF01A" } }
                                         radius { "1rem" }
                                         paddings { horizontal { smaller } }
                                         margins { right { tiny } }
@@ -971,7 +968,7 @@ fun RenderContext.dataTableDemo(): Div {
                 }
                 li {
                     c("languages")
-                    +" will be sorted by aize of the list"
+                    +" will be sorted by size of the list"
                 }
             }
         }
@@ -1024,7 +1021,7 @@ fun RenderContext.dataTableDemo(): Div {
                                     content { (_, state), _, _ ->
                                         state.item.languages.forEach {
                                             span({
-                                                background { color { "palegreen" } }
+                                                background { color { "#9EF01A" } }
                                                 radius { "1rem" }
                                                 paddings { horizontal { smaller } }
                                                 margins { right { tiny } }
@@ -1032,7 +1029,7 @@ fun RenderContext.dataTableDemo(): Div {
                                         }
                                     }
                                     if (applySorting) {
-                                        sortBy(compareBy<FinalPerson> { person ->
+                                        sortBy(compareBy { person ->
                                             person.languages.size
                                         })
                                     }
@@ -1080,7 +1077,7 @@ fun RenderContext.dataTableDemo(): Div {
         coloredBox(Theme().colors.info) {
             +"There are much more options to customize the sorting in a deeper way, for example change the UI inside "
             +"the column headers or even change the sorting at all. It might be useful to have a multi column "
-            +"selection for some use cases, that is, sort by first marked column, then by seconde one and so on. "
+            +"selection for some use cases, that is, sort by first marked column, then by second one and so on. "
             paragraph {
                 +"This is already possible to realize, but will be described in later sections!"
             }
@@ -1091,10 +1088,10 @@ fun RenderContext.dataTableDemo(): Div {
             +"There are many possibilities to apply custom styling to the DataTable: "
             ul {
                 li { +"changing the DataTable section within your theme" }
-                li { +"changing the header columns all at once within the decalaration" }
-                li { +"changing the header columns individually within the decalaration of a column" }
-                li { +"changing the columns all at once within the decalaration of columns" }
-                li { +"changing the columns individually within the decalaration of one column" }
+                li { +"changing the header columns all at once within the declaration" }
+                li { +"changing the header columns individually within the declaration of a column" }
+                li { +"changing the columns all at once within the declaration of columns" }
+                li { +"changing the columns individually within the declaration of one column" }
             }
         }
         paragraph {
@@ -1142,15 +1139,30 @@ fun RenderContext.dataTableDemo(): Div {
         paragraph {
             +"Let's assume the following analytics use case:"
         }
+
+        fun RenderContext.colorBox(text: String, color: ColorProperty) {
+            flexBox({
+                background { color { color } }
+                width (sm = { "80px" }, md = { "110px" }, lg = { "150px" })
+                height { "50px" }
+                justifyContent { center }
+                alignItems { center }
+                margin { smaller }
+                radius { small }
+            }) { +text }
+        }
+
         paragraph {
             +"Each of the available programming languages is assigned a level of supporting "
             em { +"functional programming" }
             +" paradigm. We consider three categories:"
-            ul {
-                li { +"ultimate" }
-                li { +"advanced" }
-                li { +"basic" }
+
+            div({ margins { all { normal } }}) {
+                colorBox("Ultimate", "#AED9E0")
+                colorBox("Advanced", "#B8F2E6")
+                colorBox("Basic", "#FAF3DD")
             }
+
             +"To make it easier to analyse which knowledge level each person has, we would like to colorize the "
             +"rows according to the above categories. (The sorting of the languages column is analogous changed, so "
             +"that one can group this also by sorting)"
@@ -1166,9 +1178,9 @@ fun RenderContext.dataTableDemo(): Div {
                     background {
                         color {
                             when (state.item.functionalSkill()) {
-                                Functionality.basic -> "#B08D57"
-                                Functionality.advanced -> "silver"
-                                Functionality.ultimate -> "gold"
+                                Functionality.BASIC -> "#AED9E0"
+                                Functionality.ADVANCED -> "#B8F2E6"
+                                Functionality.ULTIMATE -> "#FAF3DD"
                             }
                         }
                     }
@@ -1194,14 +1206,14 @@ fun RenderContext.dataTableDemo(): Div {
                         content { (_, state), _, _ ->
                             state.item.languages.forEach {
                                 span({
-                                    background { color { "palegreen" } }
+                                    background { color { "#9EF01A" } }
                                     radius { "1rem" }
                                     paddings { horizontal { smaller } }
                                     margins { right { tiny } }
                                 }) { +it }
                             }
                         }
-                        sortBy(compareBy<FinalPerson> { person ->
+                        sortBy(compareBy { person ->
                             person.functionalSkill()
                         })
                     }
@@ -1212,17 +1224,17 @@ fun RenderContext.dataTableDemo(): Div {
             source(
                 """
                 enum class Functionality {
-                    basic, advanced, ultimate
+                    BASIC, ADVANCED, ULTIMATE
                 }
                 
                 val categories = mapOf(
-                    "Python" to Functionality.basic,
-                    "Scala" to Functionality.advanced,
-                    "Java" to Functionality.basic,
-                    "Kotlin" to Functionality.basic,
-                    "Rust" to Functionality.basic,
-                    "Clojure" to Functionality.advanced,
-                    "Frege" to Functionality.ultimate,
+                    "Python" to Functionality.BASIC,
+                    "Scala" to Functionality.ADVANCED,
+                    "Java" to Functionality.BASIC,
+                    "Kotlin" to Functionality.BASIC,
+                    "Rust" to Functionality.BASIC,
+                    "Clojure" to Functionality.ADVANCED,
+                    "Frege" to Functionality.ULTIMATE,
                 )
                 
                 // just pick "best" functional language
@@ -1235,9 +1247,9 @@ fun RenderContext.dataTableDemo(): Div {
                             color {
                                 // choose bgcolor by functional category
                                 when (state.item.functionalSkill()) {
-                                    Functionality.basic -> "#B08D57" // bronce
-                                    Functionality.advanced -> "silver"
-                                    Functionality.ultimate -> "gold"
+                                    Functionality.BASIC -> "#AED9E0"
+                                    Functionality.ADVANCED -> "#B8F2E6"
+                                    Functionality.ULTIMATE -> "#FAF3DD"
                                 }
                             }
                         }
