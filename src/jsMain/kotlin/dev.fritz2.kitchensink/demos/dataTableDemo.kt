@@ -86,8 +86,10 @@ fun RenderContext.renderDataTableSelectionMultiple(
                         if (it.isEmpty()) {
                             +"nothing selected..."
                         } else {
-                            selectedPersons.data.map { it.map { "${it.firstname} ${it.lastname}" }
-                                .joinToString() }.asText()
+                            selectedPersons.data.map {
+                                it.map { "${it.firstname} ${it.lastname}" }
+                                    .joinToString()
+                            }.asText()
                         }
                     }
                 }
@@ -122,7 +124,8 @@ val categories = mapOf(
     "Frege" to Functionality.ultimate,
 )
 
-fun FinalPerson.functionalSkill() = categories[languages.maxOrNull()]
+fun FinalPerson.functionalSkill() =
+    languages.mapNotNull { categories[it] }.maxOf { it }
 
 fun RenderContext.dataTableDemo(): Div {
 
@@ -1166,7 +1169,6 @@ fun RenderContext.dataTableDemo(): Div {
                                 Functionality.basic -> "#B08D57"
                                 Functionality.advanced -> "silver"
                                 Functionality.ultimate -> "gold"
-                                else -> neutral.main
                             }
                         }
                     }
@@ -1179,7 +1181,7 @@ fun RenderContext.dataTableDemo(): Div {
                     column(title = "Name") {
                         width { minmax("2fr") }
                         content { (_, state), _, _ ->
-                            +"${state.item.name}"
+                            +state.item.name
                         }
                         sortBy(FinalPerson::lastname, FinalPerson::firstname)
                     }
@@ -1224,7 +1226,8 @@ fun RenderContext.dataTableDemo(): Div {
                 )
                 
                 // just pick "best" functional language
-                fun FinalPerson.functionalSkill() = categories[languages.maxOrNull()]
+                fun FinalPerson.functionalSkill() =
+                    languages.mapNotNull { categories[it] }.maxOf { it }
                 
                 dataTable(rows = personStore, rowIdProvider = Person::id) {
                     columns({ (_, state) -> // access state with ``Person`` inside
@@ -1235,7 +1238,6 @@ fun RenderContext.dataTableDemo(): Div {
                                     Functionality.basic -> "#B08D57" // bronce
                                     Functionality.advanced -> "silver"
                                     Functionality.ultimate -> "gold"
-                                    else -> neutral.main
                                 }
                             }
                         }
