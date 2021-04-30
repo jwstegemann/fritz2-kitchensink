@@ -13,12 +13,12 @@ val appStatus = "alpha"
 val fritz2Version = "0.10"
 
 
-//val propertiesDir = "${buildDir}/distributions"
+val propertiesDir = "${buildDir}/properties"
 
 kotlin {
-    js(IR) {
+    js(LEGACY) {
         browser()
-    }.binaries.executable()
+    }
 
     sourceSets {
         all {
@@ -48,13 +48,13 @@ kotlin {
             }
         }
 
-//        val properties by creating {
-//            resources.srcDir(propertiesDir)
-//        }
+        val properties by creating {
+            resources.srcDir(propertiesDir)
+        }
 
         val jsMain by getting {
             dependencies {
-//                dependsOn(properties)
+                dependsOn(properties)
             }
         }
 
@@ -66,16 +66,16 @@ kotlin {
     }
 }
 
-//tasks {
-//    val propertiesTask= create("generateProperties") {
-//        doLast {
-//            val propertiesFile = file("$propertiesDir/properties.js")
-//            propertiesFile.parentFile.mkdirs()
-//            propertiesFile.writeText("""
-//                window.document.fritz2Version = '$fritz2Version';
-//                window.document.appStatus = '$appStatus';
-//            """.trimIndent())
-//        }
-//    }
-//    findByName("jsProcessResources")?.dependsOn(propertiesTask)
-//}
+tasks {
+    val propertiesTask= create("generateProperties") {
+        doLast {
+            val propertiesFile = file("$propertiesDir/properties.js")
+            propertiesFile.parentFile.mkdirs()
+            propertiesFile.writeText("""
+                window.document.fritz2Version = '$fritz2Version';
+                window.document.appStatus = '$appStatus';
+            """.trimIndent())
+        }
+    }
+    findByName("jsProcessResources")?.dependsOn(propertiesTask)
+}
