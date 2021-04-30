@@ -634,19 +634,91 @@ fun RenderContext.formControlDemo(): Div {
             )
         }
 
-        showcaseSection("Custom validation messages")
+        showcaseSection("Custom Validation Messages")
         paragraph {
             +"Although it is recommended to use the validation approach with a store as shown in the first example,"
             +" formControl allows you to define validation messages ad hoc as well."
-            +" The following control reacts differently to a number of things. We also applied some styling to the"
-            +" rendering of the validation messages: an Alert component is used to display the message. It is set up for"
-            +" different message severities which change color and icon of the Alert."
+            br{}
+            +" The following control defines a single validation message using the function "
+            c("validationMessage")
+            +". It then applies some styling to the"
+            +" message rendering: an Alert component is used to display a large, bright message. It is set up for"
+            +" different message severities which change color and icon of the Alert. Of course, all options of the"
+            +" Alert component like size, stacking, etc, could be used here as well."
         }
         componentFrame {
             formControl {
                 label("Username")
-                inputField(value = nameStore) {
+                inputField(value = nameStore)
+                // create one single validation message
+                validationMessage {
+                    nameStore.data.map {
+                        if (it.length < 4) {
+                            errorMessage(nameStore.id, "The username must be at least 4 characters long.")
+                        } else null
+                    }
                 }
+
+                validationMessageRendering { message ->
+                    alert {
+                        severity {
+                            when (message.severity) {
+                                Severity.Info -> info
+                                Severity.Success -> success
+                                Severity.Warning -> warning
+                                Severity.Error -> error
+                            }
+                        }
+                        variant { solid }
+                        sizes { large }
+                        content(message.message)
+                    }
+                }
+            }
+        }
+        highlight {
+            source(
+                """
+                formControl {
+                    label("Username")
+                    inputField(value = nameStore)
+                    // create one single validation message
+                    validationMessage {
+                        nameStore.data.map {
+                            if (it.length < 4) {
+                                errorMessage(nameStore.id, "The username must be at least 4 characters long.")
+                            } else null
+                        }
+                    }
+                    // Change the rendering of your message: use the alert component
+                    validationMessageRendering { message ->
+                        alert {
+                            severity {
+                                when (message.severity) {
+                                    Severity.Info -> info
+                                    Severity.Success -> success
+                                    Severity.Warning -> warning
+                                    Severity.Error -> error
+                                }
+                            }
+                            variant { solid }
+                            sizes { large }
+                            content(message.message)
+                        }
+                    }
+                }
+                """
+            )
+        }
+        paragraph {
+            +"If you need more than one validation message, use this function to add multiple messages: "
+            c("validationMessages")
+            +". The changes made to the rendering in the above example work the same in both cases."
+        }
+        componentFrame {
+            formControl {
+                label("Username")
+                inputField(value = nameStore)
                 validationMessages {
                     nameStore.data.map {
                         val messages = mutableListOf<ComponentValidationMessage>()
@@ -674,7 +746,9 @@ fun RenderContext.formControlDemo(): Div {
                     }
                 }
                 validationMessageRendering { message ->
-                    alert {
+                    alert ({
+                        margins { vertical { tiny } }
+                    }) {
                         severity {
                             when (message.severity) {
                                 Severity.Info -> info
@@ -683,6 +757,9 @@ fun RenderContext.formControlDemo(): Div {
                                 Severity.Error -> error
                             }
                         }
+                        variant { leftAccent }
+                        sizes { small }
+                        stacking { separated }
                         content(message.message)
                     }
                 }
@@ -722,8 +799,11 @@ fun RenderContext.formControlDemo(): Div {
                             messages
                         }
                     } 
+                    // Change rendering: Use an alert component for validation message
                     validationMessageRendering { message ->
-                        alert {
+                        alert({
+                                margins { vertical { tiny } }
+                            }) {
                             severity {
                                 when (message.severity) {
                                     Severity.Info -> info
@@ -732,6 +812,9 @@ fun RenderContext.formControlDemo(): Div {
                                     Severity.Error -> error
                                 }
                             }
+                            variant { leftAccent }
+                            sizes { small }
+                            stacking { separated }
                             content(message.message)
                         }
                     }
