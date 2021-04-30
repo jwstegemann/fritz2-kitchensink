@@ -101,6 +101,15 @@ fun RenderContext.renderDataTableSelectionMultiple(
     }
 }
 
+val dateFormat: Lens<LocalDate, String> = format(
+    parse = { LocalDate.parse(it) },
+    format = {
+        "${it.dayOfMonth.toString().padStart(2, '0')}.${
+            it.monthNumber.toString().padStart(2, '0')
+        }.${it.year}"
+    }
+)
+
 fun RenderContext.dataTableDemo(): Div {
 
     return contentFrame {
@@ -593,16 +602,6 @@ fun RenderContext.dataTableDemo(): Div {
             +"explained one by one:"
         }
 
-        val dateFormat: Lens<LocalDate, String> = format(
-            parse = { LocalDate.parse(it) },
-            format = {
-                "${it.dayOfMonth.toString().padStart(2, '0')}.${
-                    it.monthNumber.toString().padStart(2, '0')
-                }.${it.year}"
-            }
-        )
-
-
         componentFrame {
             val fixedHeaderToggle = storeOf(true)
             val scrollingToggle = storeOf(true)
@@ -887,6 +886,170 @@ fun RenderContext.dataTableDemo(): Div {
         }
 
         showcaseSection("Sorting")
+        paragraph {
+            +"As already shown the DataTable offers an automatic sorting functionality, that can be quite easily "
+            +"configured to fit..."
+            ul {
+                li {
+                    +"... none"
+                    c("String")
+                    +" types"
+                }
+                li {
+                    +"... modified cell content like combined model properties"
+                }
+            }
+        }
+        paragraph {
+            +"The default sorting - as the content rendering - ist based upon the "
+            c("Lens<T, String>")
+            +", which is used by the table core to get a string based representation of the data for applying "
+            +"the standard lexicographic sorting."
+        }
+        paragraph {
+            +"In the former section about "
+            em { +"formatting" }
+            +" the sorting has been disabled for columns with special types and custom content for good reason: "
+            +" Lexigographic sorting does not make sense for human readable dates for example."
+        }
+        paragraph {
+            +"Within this section the missing sorting possibilities will be reintroduced."
+            ul {
+                li {
+                    +"Sorting for "
+                    c("id")
+                    +" will be disabled"
+                }
+                li {
+                    c("name")
+                    +" will be sorted first by the "
+                    c("lastname")
+                    +" and then by the "
+                    c("firstname")
+                    +" if two equal lastnames are found (which is at least once the case for Id 1 and 8!)"
+                }
+                li {
+                    c("birthday")
+                    +" will be sorted by the sorting implementation of the "
+                    c("LocalDate")
+                    +" type"
+                }
+                li {
+                    c("languages")
+                    +" will be sorted by aize of the list"
+                }
+            }
+        }
+        paragraph {
+            +"The following table configures those needed sorting options but allows also to disable those to make"
+            +" the different behaviours visible and easer to grasp:"
+        }
+
+        componentFrame {
+            val applySpecificSorting = storeOf(true)
+            val personStore = storeOf(
+                finalPersons.take(7) + finalPersons.take(1).map { p ->
+                    p.copy(id = 8, firstname = "A. ${p.firstname}")
+                })
+
+            stackUp {
+                spacing { normal }
+                items {
+                    switch(value = applySpecificSorting) {
+                        label("Apply specific sorting configuration")
+                    }
+                    applySpecificSorting.data.render { applySorting ->
+                        dataTable(rows = personStore, rowIdProvider = FinalPerson::id) {
+                            options {
+                                maxHeight("35vh")
+                            }
+                            columns {
+                                column(title = "Id") {
+                                    lens(L.FinalPerson.id.asString())
+                                    width { minmax("70px") }
+                                    sorting { disabled }
+                                }
+                                column(title = "Name") {
+                                    width { minmax("2fr") }
+                                    content { (_, state), _, _ ->
+                                        +"${state.item.name}"
+                                    }
+                                    if (applySorting) {
+                                        sortBy(FinalPerson::lastname, FinalPerson::firstname)
+                                    }
+                                }
+                                column(title = "Birthday") {
+                                    lens(L.FinalPerson.birthday + dateFormat)
+                                    if (applySorting) {
+                                        sortBy(FinalPerson::birthday)
+                                    }
+                                }
+                                column(title = "Programming Languages") {
+                                    width { minmax("3fr") }
+                                    content { (_, state), _, _ ->
+                                        state.item.languages.forEach {
+                                            span({
+                                                background { color { "palegreen" } }
+                                                radius { "1rem" }
+                                                paddings { horizontal { smaller } }
+                                                margins { right { tiny } }
+                                            }) { +it }
+                                        }
+                                    }
+                                    if (applySorting) {
+                                        sortBy(compareBy<FinalPerson> { person ->
+                                            person.languages.size
+                                        })
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        highlight {
+            source(
+                """
+                dataTable(rows = personStore, rowIdProvider = Person::id) {
+                    columns {
+                        // content and other noise omitted!
+                        column(title = "Id") {
+                            lens(L.FinalPerson.id.asString())
+                            // preselect default strategy (``asc``, ``desc`` or ``none`` )
+                            // or disable sorting at all
+                            sorting { disabled }
+                        }
+                        column(title = "Name") {                                                
+                            // provide arbitrary ``(T) -> Comparable<*>``
+                            // each one is applied from first to last if
+                            // comparison results in ``0``
+                            sortBy(FinalPerson::lastname, FinalPerson::firstname)
+                        }
+                        column(title = "Birthday") {
+                            // same as above; ``birthday`` is ``LocalDate``
+                            // -> Comparable implementation of specific type is used!
+                            sortBy(FinalPerson::birthday)
+                        }
+                        column(title = "Programming Languages") {
+                            // provide a custom comparator for full flexibility
+                            sortBy(compareBy<FinalPerson> { person ->
+                                person.languages.size
+                            })
+                        }
+                    } 
+                }                                  
+                """
+            )
+        }
+        coloredBox(Theme().colors.info) {
+            +"There are much more options to customize the sorting in a deeper way, for example change the UI inside "
+            +"the column headers or even change the sorting at all. It might be useful to have a multi column "
+            +"selection for some use cases, that is, sort by first marked column, then by seconde one and so on. "
+            paragraph {
+                +"This is already possible to realize, but will be described in later sections!"
+            }
+        }
 
         showcaseSection("Styling")
     }
