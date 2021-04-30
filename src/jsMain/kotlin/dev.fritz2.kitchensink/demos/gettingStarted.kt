@@ -15,7 +15,7 @@ fun RenderContext.gettingStarted(): Div {
 
         showcaseHeader("Getting Started")
         coloredBox(Theme().colors.warning) {
-            +"This is a ${appStatus()} version of fritz2 components."
+            +"This is an ${appStatus()} version of fritz2 components."
         }
 
         paragraph {
@@ -30,9 +30,10 @@ fun RenderContext.gettingStarted(): Div {
         paragraph {
             +"To learn how to create a new fritz2 Multiplatform project, take a look at the "
             externalLink("fritz2 project setup docs", "https://docs.fritz2.dev/ProjectSetup.html")
+            +"."
         }
         paragraph {
-            +"In order to use this component library add the following lines to your "
+            +"In order to use this component library, add the following lines to your "
             c("build.gradle.kts")
             +" file in the "
             c("sourceSets")

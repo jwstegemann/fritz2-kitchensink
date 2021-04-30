@@ -136,64 +136,6 @@ fun RenderContext.buttonDemo(): Div {
             )
         }
 
-        showcaseSection("Variants")
-        paragraph {
-            +"fritz2 offers three different flavors of buttons for various use cases: "
-            c("solid")
-            +" (default), "
-            c("outline")
-            +", "
-            c("ghost")
-            +", and "
-            c("link")
-            +"."
-        }
-        componentFrame {
-            lineUp {
-                items {
-                    clickButton {
-                        text("solid")
-                    }
-                    clickButton {
-                        text("outline")
-                        variant { outline }
-                    }
-                    clickButton {
-                        text("ghost")
-                        variant { ghost }
-                    }
-                    clickButton {
-                        text("link")
-                        variant { link }
-                    }
-                }
-            }
-        }
-        highlight {
-            source(
-                """
-                clickButton { 
-                    text("solid")
-                }
-                
-                clickButton {
-                    text("outline")
-                    variant { outline }
-                }
-                
-                clickButton {
-                    text("ghost")
-                    variant { ghost } 
-                }
-                
-                clickButton {
-                    text("link")
-                    variant { link } 
-                }
-                """
-            )
-        }
-
         showcaseSection("Types")
         paragraph {
             +"fritz2 predefined following "
