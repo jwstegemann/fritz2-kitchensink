@@ -7,7 +7,9 @@ import dev.fritz2.components.dataTable
 import dev.fritz2.components.datatable.DataTableComponent
 import dev.fritz2.components.datatable.SelectionContext
 import dev.fritz2.components.datatable.SelectionStrategy
+import dev.fritz2.components.datatable.ColumnsContext.ColumnContext.SortingContext
 import dev.fritz2.components.lineUp
+import dev.fritz2.components.stackUp
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
@@ -19,6 +21,7 @@ import dev.fritz2.styling.params.BoxParams
 import dev.fritz2.styling.params.Style
 import kotlinx.coroutines.flow.map
 import dev.fritz2.components.datatable.*
+import dev.fritz2.components.switch
 import kotlinx.coroutines.flow.combine
 import dev.fritz2.lenses.Lens
 import kotlinx.datetime.LocalDate
@@ -494,10 +497,100 @@ fun RenderContext.dataTableDemo(): Div {
             )
         }
 
+        showcaseSubSection("Double Click")
+        paragraph {
+            +"Besides the former mechanisms to select rows, there is always the possibility to react to a double click "
+            +"onto one row."
+        }
+        paragraph {
+            +"The double click is exposed as a specific event within the "
+            c("events")
+            +" context of the DataTable component."
+        }
+        componentFrame {
+            val selectedPerson = storeOf<Person?>(null)
+            dataTable(rows = storeOf(persons.take(8)), rowIdProvider = Person::id) {
+                events {
+                    dbClicks handledBy selectedPerson.update
+                }
+                simpleColumnsDefinition()
+            }
+            lineUp({
+                alignItems { end }
+            }) {
+                items {
+                    storeContentBox("Selected") {
+                        selectedPerson.data.render {
+                            span {
+                                if (it == null) {
+                                    "nothing selected..."
+                                } else {
+                                    +"${it.firstname} ${it.lastname}"
+                                }
+                            }
+                        }
+                    }
+                    clickButton { text("Clear selection") }.map { null } handledBy selectedPerson.update
+                }
+            }
+        }
+        highlight {
+            source(
+                """
+                // create a store 
+                val selectedPerson = storeOf<Person?>(null)
+                
+                dataTable(rows = storeOf(persons), rowIdProvider = Person::id) {
+                    events {
+                        // use specific event that offers a ``Flow<T>``                  
+                        dbClicks handledBy selectedPerson.update
+                    }                
+                    columns {
+                        // omitted...
+                    }
+                }                    
+                """
+            )
+        }
+
         showcaseSection("Formating")
         paragraph {
             +"In order to adapt the appearance of the table to the content, the DataTable offers some configuration "
             +"possibilities."
+        }
+        paragraph {
+            +"Within this section the following use cases are explained:"
+            ul {
+                li { +"Control maximum height and scrolling" }
+                li { +"Adjust column size to expected content" }
+                li { +"Apply custom formats via lenses" }
+                li { +"Combine model properties into one column" }
+            }
+        }
+        paragraph {
+            +"In order to demonstrate those features, the data model gets enhanced with richer types and an "
+            +"additional collection based property: Programming languages!"
+        }
+        highlight {
+            source(
+                """
+                @Lenses
+                data class Person(
+                    val id: Int,
+                    val firstname: String,
+                    val lastname: String,
+                    val birthday: LocalDate, // richer type for Date from kotlinx-datetime
+                    val languages: List<String>
+                ) {
+                    // combined property for the name                
+                    val name = "${'$'}firstname ${'$'}lastname"
+                }                    
+                """
+            )
+        }
+        paragraph {
+            +"The following table rendering shows the final result. Afterwards the separate configuration steps are "
+            +"explained one by one:"
         }
 
         val dateFormat: Lens<LocalDate, String> = format(
@@ -509,33 +602,292 @@ fun RenderContext.dataTableDemo(): Div {
             }
         )
 
+
         componentFrame {
-            val personStore = storeOf(finalPersons.take(8))
-            dataTable(rows = personStore, rowIdProvider = FinalPerson::id) {
-                columns {
-                    column(title = "Id") {
-                        lens(L.FinalPerson.id.asString())
-                        width { minmax("70px") }
-                    }
-                    column(title = "Name") {
-                        width { minmax("2fr") }
-                        content { (_, state), _, _ ->
-                            +"${state.item.name()}"
+            val fixedHeaderToggle = storeOf(true)
+            val scrollingToggle = storeOf(true)
+            val personStore = storeOf(finalPersons.take(25))
+
+            stackUp {
+                spacing { normal }
+                items {
+                    lineUp {
+                        items {
+                            switch(value = scrollingToggle) {
+                                label("Enable Scrolling (set maximum height)")
+                            }
+                            scrollingToggle.data.render {
+                                switch(value = fixedHeaderToggle) {
+                                    enabled(it)
+                                    label("Fix Header for Scrolling")
+                                }
+                            }
                         }
                     }
-                    column(title = "Birthday") { lens(L.FinalPerson.birthday + dateFormat) }
-                    column(title = "Programming Languages") {
-                        width { minmax("3fr") }
-                        content { (_, state), _, _ ->
-                            +"${state.item.joinedLanguages()}"
+                    scrollingToggle.data.combine(fixedHeaderToggle.data) { scrolling, header -> scrolling to header }
+                        .render { (scrolling, fixedHeader) ->
+                            dataTable(rows = personStore, rowIdProvider = FinalPerson::id) {
+                                options {
+                                    if (scrolling) {
+                                        maxHeight("35vh")
+                                    } else {
+                                        maxHeight("auto")
+                                    }
+                                }
+                                header {
+                                    fixedHeader(fixedHeader)
+                                }
+                                columns {
+                                    column(title = "Id") {
+                                        lens(L.FinalPerson.id.asString())
+                                        width { minmax("70px") }
+                                    }
+                                    column(title = "Name") {
+                                        width { minmax("2fr") }
+                                        content { (_, state), _, _ ->
+                                            +"${state.item.name}"
+                                        }
+                                        sorting { disabled }
+                                    }
+                                    column(title = "Birthday") {
+                                        lens(L.FinalPerson.birthday + dateFormat)
+                                        sorting { disabled }
+                                    }
+                                    column(title = "Programming Languages") {
+                                        width { minmax("3fr") }
+                                        content { (_, state), _, _ ->
+                                            state.item.languages.forEach {
+                                                span({
+                                                    background { color { "palegreen" } }
+                                                    radius { "1rem" }
+                                                    paddings { horizontal { smaller } }
+                                                    margins { right { tiny } }
+                                                }) { +it }
+                                            }
+                                        }
+                                        sorting { disabled }
+                                    }
+                                }
+                            }
                         }
-                    }
                 }
             }
         }
 
+        showcaseSubSection("Scrolling")
+        paragraph {
+            +"Scrolling is automatically activated, if a "
+            em { +"maximum" }
+            +" size is set via the "
+            c("maxHeight")
+            +" property within the "
+            c("options")
+            +" context. It is recommended to provide a viewport percentage by the "
+            c("vh")
+            +" unit! The default value ist set to "
+            c("97vh")
+            +" automatically."
+        }
+        coloredBox(Theme().colors.warning) {
+            +"Currently there is no way to disable the scrolling via our DataTable configuration. "
+            +"But this can be achieved by setting "
+            c("maxHeight")
+            +" property to "
+            c("auto")
+            +"."
+            highlight {
+                source(
+                    """
+                    dataTable(rows = personStore, rowIdProvider = FinalPerson::id) {
+                        options {
+                            maxHeight("auto")
+                        }                        
+                        // omitted                        
+                    }                        
+                    """.trimIndent()
+                )
+            }
+            +"This missing feature should be added in future versions of DataTable component! "
+            +"Watch out for "
+            externalLink("Issue 376", "https://github.com/jwstegemann/fritz2/issues/376")
+        }
+        paragraph {
+            +"If a table supports scrolling by default the header row behaves sticky. To disable this behaviour, "
+            +"one can set the "
+            c("fixedHeader")
+            +" property of the "
+            c("header")
+            +" context to "
+            c("false")
+            +"."
+        }
+        highlight {
+            source(
+                """
+                dataTable(rows = personStore, rowIdProvider = Person::id) {
+                    options {
+                        // apply 35% of the vertical space to the table
+                        // if rows exceeds space, vertival scrollbar appears
+                        maxHeight("35vh")
+                    }
+                    header {
+                        fixedHeader(false) // default ``true``
+                    }
+                    columns {
+                        // omitted...
+                    } 
+                }
+                """
+            )
+        }
+
+        showcaseSubSection("Column Size")
+        paragraph {
+            +"In order to reflect the data of different cells, it is possible to define the space a column takes. "
+            +"Best practise is to think in "
+            em { +"fractions" }
+            +" of the whole space available."
+        }
+        paragraph {
+            +"For columns with rather good maximum or even constant width, you can also apply fixed units like pixels."
+        }
+        highlight {
+            source(
+                """
+                dataTable(rows = personStore, rowIdProvider = Person::id) {
+                    columns {
+                        // all "noise" omitted to focus on size specific options 
+                        column(title = "Id") {
+                            // Ids won't exceed some amount of digits -> constant width
+                            width { minmax("70px") }
+                        }
+                        column(title = "Name") {
+                            // concatenated names takes more space,
+                            // so 2 fractions of whole space
+                            width { minmax("2fr") }
+                        }
+                        column(title = "Birthday") {
+                            // nohting declared -> 1 fraction as default                        
+                        }
+                        column(title = "Programming Languages") {
+                            // concatenated languages needs even longer space
+                            width { minmax("3fr") }
+                        }
+                    }
+                }
+                """
+            )
+        }
+
+        showcaseSubSection("Type Conversion")
+        paragraph {
+            +"In order to render the content of a cell, the DataTable needs a "
+            c("Lens<T, String>")
+            +" that is a conversion from an arbitrary type into a string."
+        }
+        paragraph {
+            +"If the model uses another type than a "
+            c("String")
+            +", one can provide a specific lens that integrates the formating (and parsing). "
+            +"Have a look at the "
+            externalLink(
+                "documentation",
+                "https://docs.fritz2.dev/Format.html"
+            )
+            +"for further details."
+        }
+        highlight {
+            source(
+                """
+                // create a formating lens for mapping Dates to Strings and vice versa 
+                val dateFormat: Lens<LocalDate, String> = format(
+                    parse = { LocalDate.parse(it) },
+                    format = {
+                        "${'$'}{it.dayOfMonth.toString().padStart(2, '0')}.${'$'}{
+                            it.monthNumber.toString().padStart(2, '0')
+                        }.${'$'}{it.year}"
+                    }
+                )  
+                                  
+                dataTable(rows = personStore, rowIdProvider = Person::id) {
+                    columns {
+                        column(title = "Birthday") {
+                            // apply formating lens to Date based lens
+                            lens(L.FinalPerson.birthday + dateFormat)
+                        }                    
+                        // omitted...
+                    } 
+                }                                  
+                """
+            )
+        }
+
+        showcaseSubSection("Custom Content")
+        paragraph {
+            +"To override the default "
+            c("Lens<T, String>")
+            +" based rendering, one can specify the whole render method within the "
+            c("content")
+            +" property of the "
+            c("column")
+            +" context."
+        }
+        paragraph {
+            +"In order to get access to the raw, typed data, there are some parameters injected into the expression "
+            +"by the DataTable:"
+            ul {
+                li {
+                    c("IndexedValue<StatefulItem<T>>")
+                    +": The index of the row and the item combined with some state information (sorting activated?, "
+                    +"is row selected?). We will use this parameter here."
+                }
+                li {
+                    c("Lens<T, String>")
+                    +": The provided lens. The default implementation uses this."
+                }
+                li {
+                    c("SubStore<T>")
+                    +": A substore of the whole data store with exatcly this one row inside. This is useful for "
+                    +"forms inside a cell, like a "
+                    c("inputField")
+                    +" for examples, that allows to change the content of a cell in place."
+                }
+            }
+        }
+        highlight {
+            source(
+                """
+                dataTable(rows = personStore, rowIdProvider = Person::id) {
+                    columns {
+                        column(title = "Name") {
+                            // declare custom content
+                            content { (_, state), _, _ -> // access StatefulItem<T>
+                                // refer to the special name property
+                                +"${'$'}{state.item.name}"
+                            }
+                        }
+                        column(title = "Programming Languages") {
+                            content { (_, state), _, _ ->
+                                state.item.languages.forEach {
+                                    // create pile for each language
+                                    span({
+                                        background { color { "palegreen" } }
+                                        radius { "1rem" }
+                                        paddings { horizontal { smaller } }
+                                        margins { right { tiny } }
+                                    }) { +it }
+                                }
+                            }                            
+                        }
+                        // omitted...
+                    } 
+                }                                  
+                """
+            )
+        }
+
         showcaseSection("Sorting")
-        showcaseSection("Content Rendering")
+
         showcaseSection("Styling")
     }
 }

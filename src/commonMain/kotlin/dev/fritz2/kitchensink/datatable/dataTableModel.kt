@@ -125,15 +125,9 @@ data class FinalPerson(
     val country: String,
     val languages: List<String>
 ) {
-    fun name() = "$firstname $lastname"
-    // TODO: Examine, why Lens generation fails again
-    /*
-    val name: String
-        get() = "$firstname $lastname"
-
-     */
-
-    fun joinedLanguages() = languages.joinToString(", ")
+//    fun name() = "$firstname $lastname"
+    val name = "$firstname $lastname"
+    val joinedLanguages = languages.joinToString(", ")
 }
 
 val finalPersons = persons.map {
