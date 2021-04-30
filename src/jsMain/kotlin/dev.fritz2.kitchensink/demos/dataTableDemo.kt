@@ -2,30 +2,27 @@ package dev.fritz2.kitchensink.demos
 
 import dev.fritz2.binding.RootStore
 import dev.fritz2.binding.storeOf
-import dev.fritz2.components.clickButton
-import dev.fritz2.components.dataTable
+import dev.fritz2.components.*
 import dev.fritz2.components.datatable.DataTableComponent
 import dev.fritz2.components.datatable.SelectionContext
-import dev.fritz2.components.datatable.SelectionStrategy
-import dev.fritz2.components.datatable.ColumnsContext.ColumnContext.SortingContext
-import dev.fritz2.components.lineUp
-import dev.fritz2.components.stackUp
+import dev.fritz2.components.datatable.SelectionMode
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.kitchensink.datatable.*
+import dev.fritz2.lenses.Lens
 import dev.fritz2.lenses.asString
-import dev.fritz2.styling.theme.Theme
-import dev.fritz2.styling.*
+import dev.fritz2.lenses.format
 import dev.fritz2.styling.params.BoxParams
 import dev.fritz2.styling.params.Style
-import kotlinx.coroutines.flow.map
-import dev.fritz2.components.datatable.*
-import dev.fritz2.components.switch
+import dev.fritz2.styling.span
+import dev.fritz2.styling.table
+import dev.fritz2.styling.td
+import dev.fritz2.styling.th
+import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.flow.combine
-import dev.fritz2.lenses.Lens
+import kotlinx.coroutines.flow.map
 import kotlinx.datetime.LocalDate
-import dev.fritz2.lenses.format
 
 
 val simpleColumnsDefinition: DataTableComponent<Person, Int>.() -> Unit = {
@@ -56,7 +53,7 @@ fun RenderContext.renderDataTableSelectionSingle(
                 selectedPerson.data.render {
                     span {
                         if (it == null) {
-                            "nothing selected..."
+                            +"nothing selected..."
                         } else {
                             +"${it.firstname} ${it.lastname}"
                         }
@@ -85,11 +82,12 @@ fun RenderContext.renderDataTableSelectionMultiple(
         items {
             storeContentBox("Selected") {
                 selectedPersons.data.render {
-                    if (it.isNotEmpty()) {
-                        ul {
-                            selectedPersons.data.renderEach {
-                                li { +"${it.firstname} ${it.lastname}" }
-                            }
+                    span {
+                        if (it.isEmpty()) {
+                            +"nothing selected..."
+                        } else {
+                            selectedPersons.data.map { it.map { "${it.firstname} ${it.lastname}" }
+                                .joinToString() }.asText()
                         }
                     }
                 }
@@ -116,7 +114,9 @@ fun RenderContext.dataTableDemo(): Div {
         showcaseHeader("DataTable")
 
         paragraph {
-            +"The DataTable component provides a way to visualize tabular data and offers interaction for the user "
+            +"The "
+            c("dataTable")
+            +" component provides a way to visualize tabular data and offers interaction for the user "
             +"in order to sort by columns or select specific rows."
         }
 
@@ -134,7 +134,9 @@ fun RenderContext.dataTableDemo(): Div {
 
         showcaseSection("Usage")
         paragraph {
-            +"In order to use the DataTable you need at least one store of type "
+            +"In order to use the "
+            c("dataTable")
+            +" you need at least one store of type "
             c("List<T>")
             +" where "
             c("T")
@@ -289,7 +291,7 @@ fun RenderContext.dataTableDemo(): Div {
                 dataTable(
                     rows = storeOf(persons), 
                     rowIdProvider = Person::id,
-                    selection = selectedPerson // inject this selection store 
+                    selection = selectedPersons // inject this selection store 
                 ) {
                     columns {
                         column(title = "Id") { lens(L.Person.id.asString()) }
@@ -345,33 +347,33 @@ fun RenderContext.dataTableDemo(): Div {
         }
         componentFrame {
             data class SelectionModel(
-                val mode: dev.fritz2.components.datatable.SelectionMode,
+                val mode: SelectionMode,
                 val strategy: SelectionContext.StrategyContext.StrategySpecifier
             ) {
                 fun toSingleClick() = SelectionModel(
-                    dev.fritz2.components.datatable.SelectionMode.Single,
+                    SelectionMode.Single,
                     SelectionContext.StrategyContext.StrategySpecifier.Click
                 )
 
                 fun toMultiClick() = SelectionModel(
-                    dev.fritz2.components.datatable.SelectionMode.Multi,
+                    SelectionMode.Multi,
                     SelectionContext.StrategyContext.StrategySpecifier.Click
                 )
 
                 fun toSingleCheckbox() = SelectionModel(
-                    dev.fritz2.components.datatable.SelectionMode.Single,
+                    SelectionMode.Single,
                     SelectionContext.StrategyContext.StrategySpecifier.Checkbox
                 )
 
                 fun toMultiCheckbox() = SelectionModel(
-                    dev.fritz2.components.datatable.SelectionMode.Multi,
+                    SelectionMode.Multi,
                     SelectionContext.StrategyContext.StrategySpecifier.Checkbox
                 )
             }
 
             val selectionStore = storeOf(
                 SelectionModel(
-                    dev.fritz2.components.datatable.SelectionMode.Single,
+                    SelectionMode.Single,
                     SelectionContext.StrategyContext.StrategySpecifier.Click
                 )
             )
@@ -469,12 +471,12 @@ fun RenderContext.dataTableDemo(): Div {
             val selectedPerson = storeOf<Person?>(null)
             selectionStore.data.render {
                 when (it.mode) {
-                    dev.fritz2.components.datatable.SelectionMode.Single ->
+                    SelectionMode.Single ->
                         renderDataTableSelectionSingle(
                             selectedPerson,
                             it.strategy
                         )
-                    dev.fritz2.components.datatable.SelectionMode.Multi ->
+                    SelectionMode.Multi ->
                         renderDataTableSelectionMultiple(
                             selectedPersons,
                             it.strategy
@@ -491,7 +493,7 @@ fun RenderContext.dataTableDemo(): Div {
                 dataTable(
                     rows = storeOf(persons),
                     rowIdProvider = Person::id,
-                    selection = selectionStore
+                    selection = selectedPerson // or selectedPersons
                 ) {
                     // open declaration context for selection aspects 
                     selection {
@@ -512,9 +514,13 @@ fun RenderContext.dataTableDemo(): Div {
             +"onto one row."
         }
         paragraph {
-            +"The double click is exposed as a specific event within the "
+            +"The "
+            c("dbClicks")
+            +" event is exposed within the "
             c("events")
-            +" context of the DataTable component."
+            +" context of the "
+            c("dataTable")
+            +" component."
         }
         componentFrame {
             val selectedPerson = storeOf<Person?>(null)
@@ -532,7 +538,7 @@ fun RenderContext.dataTableDemo(): Div {
                         selectedPerson.data.render {
                             span {
                                 if (it == null) {
-                                    "nothing selected..."
+                                    +"nothing selected..."
                                 } else {
                                     +"${it.firstname} ${it.lastname}"
                                 }
@@ -564,7 +570,9 @@ fun RenderContext.dataTableDemo(): Div {
 
         showcaseSection("Formating")
         paragraph {
-            +"In order to adapt the appearance of the table to the content, the DataTable offers some configuration "
+            +"In order to adapt the appearance of the table to the content, the "
+            c("dataTable")
+            +" offers some configuration "
             +"possibilities."
         }
         paragraph {
@@ -644,7 +652,7 @@ fun RenderContext.dataTableDemo(): Div {
                                     column(title = "Name") {
                                         width { minmax("2fr") }
                                         content { (_, state), _, _ ->
-                                            +"${state.item.name}"
+                                            +state.item.name
                                         }
                                         sorting { disabled }
                                     }
@@ -780,25 +788,29 @@ fun RenderContext.dataTableDemo(): Div {
 
         showcaseSubSection("Type Conversion")
         paragraph {
-            +"In order to render the content of a cell, the DataTable needs a "
+            +"In order to render the content of a cell, the "
+            c("dataTable")
+            +" needs a "
             c("Lens<T, String>")
             +" that is a conversion from an arbitrary type into a string."
         }
         paragraph {
             +"If the model uses another type than a "
             c("String")
-            +", one can provide a specific lens that integrates the formating (and parsing). "
+            +", you must provide a "
+            c("Lens<T, String>")
+            +" that integrates the formatting (and parsing). "
             +"Have a look at the "
             externalLink(
                 "documentation",
                 "https://docs.fritz2.dev/Format.html"
             )
-            +"for further details."
+            +" for further details."
         }
         highlight {
             source(
                 """
-                // create a formating lens for mapping Dates to Strings and vice versa 
+                // create a formatting Lens for mapping Dates to Strings and vice versa 
                 val dateFormat: Lens<LocalDate, String> = format(
                     parse = { LocalDate.parse(it) },
                     format = {
@@ -825,7 +837,7 @@ fun RenderContext.dataTableDemo(): Div {
         paragraph {
             +"To override the default "
             c("Lens<T, String>")
-            +" based rendering, one can specify the whole render method within the "
+            +" based rendering, you can specify the whole render method within the "
             c("content")
             +" property of the "
             c("column")
@@ -833,7 +845,9 @@ fun RenderContext.dataTableDemo(): Div {
         }
         paragraph {
             +"In order to get access to the raw, typed data, there are some parameters injected into the expression "
-            +"by the DataTable:"
+            +"by the "
+            c("dataTable")
+            +":"
             ul {
                 li {
                     c("IndexedValue<StatefulItem<T>>")
@@ -846,7 +860,7 @@ fun RenderContext.dataTableDemo(): Div {
                 }
                 li {
                     c("SubStore<T>")
-                    +": A substore of the whole data store with exatcly this one row inside. This is useful for "
+                    +": A Substore of the whole data store with exactly this one row inside. This is useful for "
                     +"forms inside a cell, like a "
                     c("inputField")
                     +" for examples, that allows to change the content of a cell in place."
@@ -862,7 +876,7 @@ fun RenderContext.dataTableDemo(): Div {
                             // declare custom content
                             content { (_, state), _, _ -> // access StatefulItem<T>
                                 // refer to the special name property
-                                +"${'$'}{state.item.name}"
+                                +state.item.name
                             }
                         }
                         column(title = "Programming Languages") {
@@ -887,11 +901,13 @@ fun RenderContext.dataTableDemo(): Div {
 
         showcaseSection("Sorting")
         paragraph {
-            +"As already shown the DataTable offers an automatic sorting functionality, that can be quite easily "
+            +"As already shown the "
+            c("dataTable")
+            +" offers an automatic sorting functionality, that can be quite easily "
             +"configured to fit..."
             ul {
                 li {
-                    +"... none"
+                    +"... none "
                     c("String")
                     +" types"
                 }
@@ -910,7 +926,7 @@ fun RenderContext.dataTableDemo(): Div {
             +"In the former section about "
             em { +"formatting" }
             +" the sorting has been disabled for columns with special types and custom content for good reason: "
-            +" Lexigographic sorting does not make sense for human readable dates for example."
+            +" Lexicographic sorting does not make sense for human readable dates for example."
         }
         paragraph {
             +"Within this section the missing sorting possibilities will be reintroduced."
@@ -942,7 +958,7 @@ fun RenderContext.dataTableDemo(): Div {
         }
         paragraph {
             +"The following table configures those needed sorting options but allows also to disable those to make"
-            +" the different behaviours visible and easer to grasp:"
+            +" the different behaviours visible and easier to grasp:"
         }
 
         componentFrame {
@@ -972,7 +988,7 @@ fun RenderContext.dataTableDemo(): Div {
                                 column(title = "Name") {
                                     width { minmax("2fr") }
                                     content { (_, state), _, _ ->
-                                        +"${state.item.name}"
+                                        +state.item.name
                                     }
                                     if (applySorting) {
                                         sortBy(FinalPerson::lastname, FinalPerson::firstname)
