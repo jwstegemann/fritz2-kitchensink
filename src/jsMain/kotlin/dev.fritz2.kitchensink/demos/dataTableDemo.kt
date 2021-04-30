@@ -131,7 +131,7 @@ fun RenderContext.dataTableDemo(): Div {
 
         paragraph {
             +"The "
-            c("dataTable")
+            +"DataTable"
             +" component provides a way to visualize tabular data and offers interaction for the user "
             +"in order to sort by columns or select specific rows."
         }
@@ -151,7 +151,7 @@ fun RenderContext.dataTableDemo(): Div {
         showcaseSection("Usage")
         paragraph {
             +"In order to use the "
-            c("dataTable")
+            +"DataTable"
             +" you need at least one store of type "
             c("List<T>")
             +" where "
@@ -245,7 +245,7 @@ fun RenderContext.dataTableDemo(): Div {
             +"In order to activate the selection of one row, just pass a "
             c("Store<T?>")
             +" into the factory function "
-            c("dataTable")
+            +"DataTable"
             +" that acts as the target (and source) of the selection:"
         }
         componentFrame {
@@ -288,7 +288,7 @@ fun RenderContext.dataTableDemo(): Div {
             +"In order to enable the selection of multiple rows, just pass a "
             c("Store<List<T>>")
             +" into the factory function "
-            c("dataTable")
+            +"DataTable"
             +" that acts as the target (and source) of the selection:"
         }
         componentFrame {
@@ -535,7 +535,7 @@ fun RenderContext.dataTableDemo(): Div {
             +" event is exposed within the "
             c("events")
             +" context of the "
-            c("dataTable")
+            +"DataTable"
             +" component."
         }
         componentFrame {
@@ -587,7 +587,7 @@ fun RenderContext.dataTableDemo(): Div {
         showcaseSection("Formatting")
         paragraph {
             +"In order to adapt the appearance of the table to the content, the "
-            c("dataTable")
+            +"DataTable"
             +" offers some configuration "
             +"possibilities."
         }
@@ -730,9 +730,9 @@ fun RenderContext.dataTableDemo(): Div {
                     """.trimIndent()
                 )
             }
-            +"This missing feature should be added in future versions of DataTable component! "
-            +"Watch out for "
-            externalLink("Issue 376", "https://github.com/jwstegemann/fritz2/issues/376")
+            +"This missing feature should be added in future versions! "
+            +"See "
+            externalLink("Issue #376", "https://github.com/jwstegemann/fritz2/issues/376")
         }
         paragraph {
             +"If a table supports scrolling by default the header row behaves sticky. To disable this behaviour, "
@@ -805,7 +805,7 @@ fun RenderContext.dataTableDemo(): Div {
         showcaseSubSection("Type Conversion")
         paragraph {
             +"In order to render the content of a cell, the "
-            c("dataTable")
+            +"DataTable"
             +" needs a "
             c("Lens<T, String>")
             +" that is a conversion from an arbitrary type into a string."
@@ -862,7 +862,7 @@ fun RenderContext.dataTableDemo(): Div {
         paragraph {
             +"In order to get access to the raw, typed data, there are some parameters injected into the expression "
             +"by the "
-            c("dataTable")
+            +"DataTable"
             +":"
             ul {
                 li {
@@ -918,7 +918,7 @@ fun RenderContext.dataTableDemo(): Div {
         showcaseSection("Sorting")
         paragraph {
             +"As already shown the "
-            c("dataTable")
+            +"DataTable"
             +" offers an automatic sorting functionality, that can be quite easily "
             +"configured to fit..."
             ul {
