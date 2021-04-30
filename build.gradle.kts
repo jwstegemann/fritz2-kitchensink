@@ -4,7 +4,6 @@ plugins {
 }
 
 repositories {
-    mavenLocal()
     mavenCentral()
     maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
     maven(url = "https://kotlin.bintray.com/kotlinx/") // soon will be just jcenter()
@@ -14,7 +13,7 @@ val appStatus = "alpha"
 val fritz2Version = "0.10"
 
 
-val propertiesDir = "${buildDir}/properties"
+//val propertiesDir = "${buildDir}/distributions"
 
 kotlin {
     js(IR) {
@@ -49,13 +48,13 @@ kotlin {
             }
         }
 
-        val properties by creating {
-            resources.srcDir(propertiesDir)
-        }
+//        val properties by creating {
+//            resources.srcDir(propertiesDir)
+//        }
 
         val jsMain by getting {
             dependencies {
-                dependsOn(properties)
+//                dependsOn(properties)
             }
         }
 
@@ -67,16 +66,16 @@ kotlin {
     }
 }
 
-tasks {
-    val propertiesTask= create("generateProperties") {
-        doLast {
-            val propertiesFile = file("$propertiesDir/properties.js")
-            propertiesFile.parentFile.mkdirs()
-            propertiesFile.writeText("""
-                window.document.fritz2Version = '$fritz2Version';
-                window.document.appStatus = '$appStatus';
-            """.trimIndent())
-        }
-    }
-    findByName("jsProcessResources")?.dependsOn(propertiesTask)
-}
+//tasks {
+//    val propertiesTask= create("generateProperties") {
+//        doLast {
+//            val propertiesFile = file("$propertiesDir/properties.js")
+//            propertiesFile.parentFile.mkdirs()
+//            propertiesFile.writeText("""
+//                window.document.fritz2Version = '$fritz2Version';
+//                window.document.appStatus = '$appStatus';
+//            """.trimIndent())
+//        }
+//    }
+//    findByName("jsProcessResources")?.dependsOn(propertiesTask)
+//}

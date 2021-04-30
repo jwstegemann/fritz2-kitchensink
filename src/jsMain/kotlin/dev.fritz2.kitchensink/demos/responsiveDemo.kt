@@ -90,8 +90,8 @@ fun RenderContext.responsiveDemo(): Div {
                         boxShadow { flat }
                         radius { large }
                     }) {
-                        src("https://images.unsplash.com/photo-1552584783-ac27eae7783a?ixlib=rb-")
-                        alt("Photo by Lauren York on Unsplash")
+                        src("background.jpg")
+                        alt("Photo by Jong Marshes on Unsplash")
                     }
                 }
 
@@ -105,7 +105,21 @@ fun RenderContext.responsiveDemo(): Div {
                         md = { left { normal } }
                     )
                 }) {
-                    teaserText { +"Photo by Lauren York on Unsplash" }
+                    p({
+                        fontSize { smaller }
+                        paddings { top { "1.5rem" }}
+                    }) {
+                        +"Photo by "
+                        externalLink(
+                            "Jong Marshes",
+                            "https://unsplash.com/@turnlip19?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
+                        )
+                        +" on "
+                        externalLink(
+                            "Unsplash",
+                            "https://unsplash.com/s/photos/water?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
+                        )
+                    }
                     h1({
                         fontSize { large }
                         fontWeight { bold }
