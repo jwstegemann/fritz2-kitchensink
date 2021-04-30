@@ -21,9 +21,6 @@ import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.map
 
-// todos:
-// Should the formControl Validation valid-Icons be blue? Also, they look broken an misplaced.
-
 @ExperimentalCoroutinesApi
 fun RenderContext.formControlDemo(): Div {
     return contentFrame {
