@@ -8,10 +8,7 @@ import dev.fritz2.components.*
 import dev.fritz2.components.validation.*
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
-import dev.fritz2.kitchensink.Account
-import dev.fritz2.kitchensink.AccountCreationPhase
-import dev.fritz2.kitchensink.AccountValidator
-import dev.fritz2.kitchensink.L
+import dev.fritz2.kitchensink.formControl.*
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.styling.StyleClass
 import dev.fritz2.styling.p

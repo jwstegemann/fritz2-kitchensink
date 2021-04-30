@@ -39,7 +39,7 @@ fun RenderContext.checkboxesDemo(): Div {
 
         showcaseSection("Usage")
         paragraph {
-            +"Single checkboxes simply need a Flow of Boolean representing their state, passed via the"
+            +"Single checkboxes simply need a Flow of Boolean representing their state, passed via the "
             c("checked")
             +" function. If you want to connect a handler to the state changes, use the event context."
         }
