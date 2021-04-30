@@ -979,7 +979,7 @@ fun RenderContext.formControlDemo(): Div {
             +", or you can override the default functions for the supported components."
         }
         paragraph {
-            +"If modifying the control itself is not sufficient, you can even implement your own renderer, "
+            +"If modifying the control itself is not sufficient, you can even implement your own renderer,"
             +" which means adopting the entire process and structure of the rendered formControl."
         }
         paragraph {
@@ -1098,7 +1098,7 @@ fun RenderContext.formControlDemo(): Div {
 
         showcaseSubSection("Internal Store Concept")
         paragraph {
-            +"In order to handle the user input correctly, some internal stores are created:"
+            +"In order to handle the user input correctly, some internal stores are needed:"
             ul {
                 li {
                     +"First is the main store which is responsible for emitting the new values to the external"
@@ -1136,12 +1136,12 @@ fun RenderContext.formControlDemo(): Div {
             }
         }
         paragraph {
-            +"Armed with this state information, we can "
+            +"Armed with this state information, we can.."
             ul {
                 li { +"reset the inputField if the radioGroup is active" }
                 li {
-                    +"avoid sending an empty value to the client if the user activates the inputField by "
-                    +"selecting the custom option"
+                    +"avoid sending an empty value to the client if the user activates the inputField by"
+                    +" selecting the custom option"
                 }
             }
         }
@@ -1206,13 +1206,13 @@ fun RenderContext.formControlDemo(): Div {
         showcaseSubSection("Wrapping Function")
         paragraph {
             +"Now we can create the wrapping function which will be the entry point for the new control."
-            +" To keep this example simple, we will not create a stand alone control (as you could, of course), but "
+            +" To keep this example simple, we will not create a stand alone control (as you could, of course), but"
             +" create a combination of radioGroup and inputField instead. You could also override an existing wrapping function in order to replace its behaviour."
         }
 
         paragraph {
             +"Also note that some internal functions need to be called, and therefore have to be manually"
-            +" integrated into your custom code in order to achieve a complete integration with "
+            +" integrated into your custom code in order to achieve a complete integration with"
             +" formControl's functionalities like automatic validation messages, styling aspects and so on."
         }
         highlight {
@@ -1266,7 +1266,7 @@ fun RenderContext.formControlDemo(): Div {
         }
         paragraph {
             +"The final step is to bind our control to a fitting renderer."
-            +"fritz2 offers two built-ins for our standard wrapped controls:"
+            +" fritz2 offers two built-ins for our standard wrapped controls:"
             ul {
                 li {
                     c("SingleControlRenderer")
@@ -1297,12 +1297,12 @@ fun RenderContext.formControlDemo(): Div {
 
         coloredBox(Theme().colors.warning) {
             +"If you don't provide a renderer for a control, then of course nothing is rendered at all."
-            +"So if you don't see anything on your page, you probably forgot the registration or have a typo in it."
+            +" So if you don't see anything on your page, you probably forgot the registration or have a typo in it."
         }
 
         showcaseSubSection("Custom Renderer")
         paragraph {
-            +"A custom renderer allows you to change the way the form is rendered. Here's an example."
+            +"A custom renderer allows you to change the way the form is rendered. Here's an example which does the following:"
             ul {
                 li { +"Separate the label from the form with a bar" }
                 li { +"Move the helper text up directly underneath the label" }
@@ -1375,9 +1375,9 @@ fun RenderContext.formControlDemo(): Div {
 
         showcaseSubSection("Recap")
         paragraph {
-            +"This example showcases the complete process with all relevant aspects for creating your own control and "
-            +"renderer, including deep customizations."
-            +"You learned how to..."
+            +"This example showcases the complete process with all relevant aspects for creating your own control and"
+            +" renderer, including deep customizations."
+            +" You learned how to..."
             ul {
                 li { +"set up a new component and its factory function" }
                 li { +"write a new wrapping function for a control" }
@@ -1390,7 +1390,7 @@ fun RenderContext.formControlDemo(): Div {
         }
         paragraph {
             +"fritz2 offers form control customization because it is sometimes necessary to change or extend the"
-            +" built-in components and their behavior. However, we recommend to make careful use of this "
+            +" built-in components and their behavior. However, we recommend to make careful use of this"
             +" as not to clutter your UI with lots of different looking and behaving forms."
         }
     }
