@@ -638,7 +638,8 @@ fun RenderContext.formControlDemo(): Div {
         paragraph {
             +"Although it is recommended to use the validation approach with a store as shown in the first example,"
             +" formControl allows you to define validation messages ad hoc as well."
-            br{}
+        }
+        paragraph {
             +" The following control defines a single validation message using the function "
             c("validationMessage")
             +". It then applies some styling to the"
@@ -746,7 +747,7 @@ fun RenderContext.formControlDemo(): Div {
                     }
                 }
                 validationMessageRendering { message ->
-                    alert ({
+                    alert({
                         margins { vertical { tiny } }
                     }) {
                         severity {
@@ -943,7 +944,7 @@ fun RenderContext.formControlDemo(): Div {
                                         width { fat }
                                     }
                                 }
-                            }){ +component.label.value }
+                            }) { +component.label.value }
                             component.renderHelperText(this)
                             fieldset {
                                 control(this)
