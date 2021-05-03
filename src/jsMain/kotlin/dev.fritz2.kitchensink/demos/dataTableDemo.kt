@@ -141,10 +141,13 @@ fun RenderContext.dataTableDemo(): Div {
             +"interactive table with live editing a cell directly within the table itself. "
             +"The component is also very flexible and offers lots of customization possibilities like for..."
             ul {
-                li { +"the styling of the header or the columns" }
-                li { +"the styling based upon the index or the content of a row or cell" }
                 li { +"the sorting mechanisms (logic and UI)" }
                 li { +"the selection mechanism (logic and UI)" }
+                li { +"the general styling of the header or the columns" }
+                li {
+                    +"styling and content customization based upon the data and meta-information like the index, "
+                    +"selection or sorting state"
+                }
             }
         }
 
@@ -245,7 +248,7 @@ fun RenderContext.dataTableDemo(): Div {
             +"In order to activate the selection of one row, just pass a "
             c("Store<T?>")
             +" into the factory function "
-            +"DataTable"
+            c("dataTable")
             +" that acts as the target (and source) of the selection:"
         }
         componentFrame {
@@ -283,12 +286,12 @@ fun RenderContext.dataTableDemo(): Div {
             +") is selected!"
         }
 
-        showcaseSubSection("Multiple Selection")
+        showcaseSubSection("Multi Selection")
         paragraph {
             +"In order to enable the selection of multiple rows, just pass a "
             c("Store<List<T>>")
             +" into the factory function "
-            +"DataTable"
+            c("dataTable")
             +" that acts as the target (and source) of the selection:"
         }
         componentFrame {
@@ -320,7 +323,7 @@ fun RenderContext.dataTableDemo(): Div {
             )
         }
         paragraph {
-            +"By default multiple selection is realized by prepending an additional column with checkboxes to the "
+            +"By default multi selection is realized by prepending an additional column with checkboxes to the "
             +"table. This offers the possibility to have also a checkbox within the header of that selection column, "
             +"so that one can select all the rows at once."
         }
@@ -404,7 +407,7 @@ fun RenderContext.dataTableDemo(): Div {
                     color { primary.highlight }
                 }
             }
-            val tdStyle: Style<BoxParams> = {
+            val tdStyle: BoxParams.(Boolean) -> Unit = { selected ->
                 background { color { tertiary.highlight } }
                 color { tertiary.mainContrast }
                 padding { normal }
@@ -414,17 +417,20 @@ fun RenderContext.dataTableDemo(): Div {
                     color { tertiary.mainContrast }
                 }
                 textAlign { center }
+                fontSize { large }
+                if (selected) {
+                    background { color { secondary.main } }
+                    color { secondary.mainContrast }
+                }
             }
 
-            fun RenderContext.renderCell(selected: Boolean, model: SelectionModel) {
+            fun RenderContext.renderCell(selected: Boolean, model: SelectionModel, rowSpan: Int = 1) {
                 td({
-                    tdStyle()
-                    fontSize { large }
-                    if (selected) {
-                        background { color { secondary.main } }
-                        color { secondary.mainContrast }
-                    }
+                    tdStyle(selected)
                 }) {
+                    if (rowSpan > 1) {
+                        rowSpan(2)
+                    }
                     if (selected) {
                         +"✓"
                     } else {
@@ -440,7 +446,7 @@ fun RenderContext.dataTableDemo(): Div {
                     thead {
                         th(thStyle) { +"strategy \\ mode" }
                         th(thStyle) { +"single" }
-                        th(thStyle) { +"multiple" }
+                        th(thStyle) { +"multi" }
                         th(thStyle) { +"none" }
                     }
                     tbody {
@@ -456,16 +462,11 @@ fun RenderContext.dataTableDemo(): Div {
                                         it.mode == SelectionMode.Multi,
                                 selectionStore.current.toMultiClick()
                             )
-                            td(tdStyle) {
-                                rowSpan(2)
-                                if (it.mode == SelectionMode.None) {
-                                    +"✓"
-                                } else {
-                                    clicks.events.map {
-                                        selectionStore.current.copy(mode = SelectionMode.None)
-                                    } handledBy selectionStore.update
-                                }
-                            }
+                            renderCell(
+                                it.mode == SelectionMode.None,
+                                selectionStore.current.copy(mode = SelectionMode.None),
+                                2
+                            )
                         }
                         tr {
                             th(thStyle) { +"checkbox" }
@@ -513,7 +514,7 @@ fun RenderContext.dataTableDemo(): Div {
                 ) {
                     // open declaration context for selection aspects 
                     selection {
-                    // set the strategy *explicitly*
+                        // set the strategy *explicitly*
                         strategy { click } // or ``checkbox`` or ``none`` 
                     }
                     columns {
@@ -876,8 +877,8 @@ fun RenderContext.dataTableDemo(): Div {
                 }
                 li {
                     c("SubStore<T>")
-                    +": A Substore of the whole data store with exactly this one row inside. This is useful for "
-                    +"forms inside a cell, like a "
+                    +": A substore of the whole data store with exactly the current row inside. This is useful for "
+                    +"forms inside a cell, like an "
                     c("inputField")
                     +" for examples, that allows to change the content of a cell in place."
                 }
@@ -891,7 +892,7 @@ fun RenderContext.dataTableDemo(): Div {
                         column(title = "Name") {
                             // declare custom content
                             content { (_, state), _, _ -> // access StatefulItem<T>
-                                // refer to the special name property
+                                // refer to the model's name property
                                 +state.item.name
                             }
                         }
@@ -993,7 +994,7 @@ fun RenderContext.dataTableDemo(): Div {
                     applySpecificSorting.data.render { applySorting ->
                         dataTable(rows = personStore, rowIdProvider = FinalPerson::id) {
                             options {
-                                maxHeight("35vh")
+                                maxHeight("40vh")
                             }
                             columns {
                                 column(title = "Id") {
@@ -1127,7 +1128,7 @@ fun RenderContext.dataTableDemo(): Div {
         }
         paragraph {
             +"Depending on the context level, additional information is injected into the styling expression, so "
-            +"one can be access the "
+            +"one can access the "
             c("index")
             +" of the row, the content as "
             c("T")
@@ -1143,7 +1144,7 @@ fun RenderContext.dataTableDemo(): Div {
         fun RenderContext.colorBox(text: String, color: ColorProperty) {
             flexBox({
                 background { color { color } }
-                width (sm = { "80px" }, md = { "110px" }, lg = { "150px" })
+                width(sm = { "80px" }, md = { "110px" }, lg = { "150px" })
                 height { "50px" }
                 justifyContent { center }
                 alignItems { center }
@@ -1157,7 +1158,7 @@ fun RenderContext.dataTableDemo(): Div {
             em { +"functional programming" }
             +" paradigm. We consider three categories:"
 
-            div({ margins { all { normal } }}) {
+            div({ margins { all { normal } } }) {
                 colorBox("Ultimate", "#AED9E0")
                 colorBox("Advanced", "#B8F2E6")
                 colorBox("Basic", "#FAF3DD")
@@ -1178,11 +1179,16 @@ fun RenderContext.dataTableDemo(): Div {
                     background {
                         color {
                             when (state.item.functionalSkill()) {
-                                Functionality.BASIC -> "#AED9E0"
+                                Functionality.ULTIMATE -> "#AED9E0"
                                 Functionality.ADVANCED -> "#B8F2E6"
-                                Functionality.ULTIMATE -> "#FAF3DD"
+                                Functionality.BASIC -> "#FAF3DD"
                             }
                         }
+                    }
+                    border {
+                        style { solid }
+                        width { thin }
+                        color { neutral.main }
                     }
                 }) {
                     column(title = "Id") {
@@ -1229,11 +1235,11 @@ fun RenderContext.dataTableDemo(): Div {
                 
                 val categories = mapOf(
                     "Python" to Functionality.BASIC,
-                    "Scala" to Functionality.ADVANCED,
                     "Java" to Functionality.BASIC,
                     "Kotlin" to Functionality.BASIC,
                     "Rust" to Functionality.BASIC,
                     "Clojure" to Functionality.ADVANCED,
+                    "Scala" to Functionality.ADVANCED,
                     "Frege" to Functionality.ULTIMATE,
                 )
                 
