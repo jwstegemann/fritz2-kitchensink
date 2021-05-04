@@ -6,6 +6,7 @@ import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.kitchensink.theme_
+import dev.fritz2.styling.p
 import dev.fritz2.styling.params.*
 import dev.fritz2.styling.theme.ColorScheme
 import dev.fritz2.styling.theme.Theme
@@ -153,7 +154,7 @@ fun RenderContext.createColorBar(
                 radius { "1.3rem" }
                 if(withBorder) border { width { hair } }
             }) {
-                (::p.styled {
+                p({
                     width { "6rem" }
                     radius { "1rem" }
                     paddings {
@@ -177,9 +178,9 @@ fun RenderContext.colorDemo(): Div {
         showcaseHeader("Colors")
         paragraph {
             +"The fritz2 components default theme has its own set of colors which you can view here."
-            +" Please see "
-            internalLink("themes page", theme_)
-            +" for more information on using themes. "
+            +" For more information on using themes, have a look at the "
+            internalLink("Themes section", theme_)
+            +"."
         }
 
         showcaseSubSection("Color Schemes")

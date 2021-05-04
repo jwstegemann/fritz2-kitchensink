@@ -9,7 +9,7 @@ import dev.fritz2.kitchensink.base.*
 import dev.fritz2.kitchensink.theme_
 import dev.fritz2.styling.params.BasicParams
 import dev.fritz2.styling.params.Style
-import dev.fritz2.styling.params.styled
+import dev.fritz2.styling.span
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
@@ -46,7 +46,7 @@ fun RenderContext.stylingDemo(): Div {
         componentFrame {
             lineUp {
                 items {
-                    (::span.styled {
+                    span({
                         color { secondary.mainContrast }
                         background { color { secondary.main } }
                         fontWeight { bold }
@@ -64,7 +64,7 @@ fun RenderContext.stylingDemo(): Div {
         highlight {
             source(
                 """
-                (::span.styled {
+                span({
                     color { secondary.mainContrast }
                     background { color { secondary.main } }
                     fontWeight { bold }

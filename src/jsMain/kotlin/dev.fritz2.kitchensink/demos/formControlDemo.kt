@@ -8,15 +8,12 @@ import dev.fritz2.components.*
 import dev.fritz2.components.validation.*
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
-import dev.fritz2.kitchensink.Account
-import dev.fritz2.kitchensink.AccountCreationPhase
-import dev.fritz2.kitchensink.AccountValidator
-import dev.fritz2.kitchensink.L
+import dev.fritz2.kitchensink.formControl.*
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.styling.StyleClass
+import dev.fritz2.styling.p
 import dev.fritz2.styling.params.BasicParams
 import dev.fritz2.styling.params.BoxParams
-import dev.fritz2.styling.params.styled
 import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.map
@@ -395,46 +392,47 @@ fun RenderContext.formControlDemo(): Div {
             )
         }
         paragraph {
-            +"Feel free to study the full code on "
+            +"To study the full code, hop over to "
             externalLink(
                 "github",
                 "https://github.com/jwstegemann/fritz2-kitchensink/blob/ec44eec27cbdaf98a24dac87bcbe05af2a449a1f/src/commonMain/kotlin/dev/fritz2/kitchensink/formControlModel.kt#L21-L121"
             )
+            +"."
         }
 
 
-        showcaseSubSection("Gluing it all together") // todo review needed starting here
+        showcaseSubSection("Gluing it all together")
 
         paragraph {
-            +"We have already connected our data instance via the store and its substores to the form itself, but "
-            +" there is no connection between the validation code and our form yet."
+            +"We have already connected our data instance via the store and its substores to the form itself, but"
+            +" there is no connection between the validation code and the form yet."
         }
         paragraph {
-            +"In order to integrate the validation to the changes of our model, we can augment the store by "
-            +" applying a special interface named "
+            +"In order to validate any changes to our model, we can augment the store by"
+            +" applying the interface named "
             c("WithValidator<D, T>")
-            +" that adds validation to the store."
+            +", which adds validation to the store."
         }
         highlight {
             source(
                 """
                 val accountStore = object : RootStore<Account>(
                     Account("", "", emptyList(), false)
-                ), // use the same type for the model and metadata as for the ``ComponentValidator<D, T>`` 
+                ), 
+                // model type and metadata type must match those for ``ComponentValidator<D, T>`` 
                 WithValidator<Account, AccountCreationPhase> {
-                    // set the used validator instance; could be injected too of course 
+                    // set your validator (or inject) 
                     override val validator = AccountValidator
         
-                    // use the built-in ``validate`` method to sync every data change with 
-                    // the execution of the validator
+                    // sync every data change with a call to the built-in ``validate``-method
                     init {
                         // pass the appropriate metadata
                         validate(AccountCreationPhase.Input)
                     }
         
-                    // create a custom handler to validate after a specific event:
-                    // - pass the fitting metadata; see section about validation
-                    // - execute a given action, here a SimpleHandler<Unit> to continue
+                    // to validate after a specific event, create a custom handler:
+                    // - pass the appropriate metadata (see section about validation)
+                    // - execute your action, for example a SimpleHandler<Unit> to continue
                     //   processing if validation is successful
                     val register = handle<SimpleHandler<Unit>> { model, handler ->
                         if (validator.isValid(model, AccountCreationPhase.Registration)) {
@@ -447,7 +445,7 @@ fun RenderContext.formControlDemo(): Div {
             )
         }
         paragraph {
-            +"As last missing piece we must connect the registration button with our special handler:"
+            +"Lastly, let's connect the registration button to the special handler:"
         }
         highlight {
             source(
@@ -457,7 +455,7 @@ fun RenderContext.formControlDemo(): Div {
                     hasCloseButton(false)
                     content {
                         flexBox {
-                            p { +"Your have been successfully registered!" }
+                            p { +"You have been successfully registered!" }
                             clickButton { text("fritz:it up") } handledBy close
                         }
                     }
@@ -465,52 +463,49 @@ fun RenderContext.formControlDemo(): Div {
                      
                 clickButton {
                     text("Register")
-                    // pass the further handler to the validating handler
+                    // pass the handler to the validating handler
                 }.map { registerSuccessDialog } handledBy accountStore.register
                 """
             )
         }
 
         paragraph {
-            +"The example at the start consists exactly of all those code fragments, only some styling and "
-            +"layout code was intentionally omitted to shrink the code as much as possible without touching "
-            +"functionality!"
+            +"All the code fragments we just went through make up the code of the first example on this page."
+            +" Some styling and layouting code was omitted in the source examples to keep it short, but"
+            +" the example is functional and otherwise complete."
         }
         paragraph {
-            +"In the former example we focused more on the whole combination of model, store, validation and "
-            +"formControl rather than on this special component itself. We believe it is very important "
-            +"to present a rather complex component by a fitting example use case and within a common applicable "
-            +"context in order to really grasp the core concepts and to enable our users to apply those patterns "
-            +"by themselves."
+            +"This example focuses on the combination of model, store, and validation with the"
+            +" formControl component, rather than focusing on the component itself. We wanted"
+            +" to showcase this complex component with a worthy example within a common applicable"
+            +" context to enable our users to apply those patterns "
+            +" by themselves."
         }
         paragraph {
-            +"On the other hand the "
-            c("formControl")
-            +"itself offers a lot more than we have shown so far! So in the next sections we focus on aspects like "
-            +"styling and customization technics without a complex context."
+            +"But the following sections will focus on aspects we have not shown so far, like "
+            +" styling and customization techniques in a much simpler context."
         }
 
         showcaseSection("Usage")
         paragraph {
-            +"You have already seen the basic usage, so let's keep it short and simple. "
-            +"Just pay attention to the fact, that a formControl is only intended to wrap "
+            +"The basic usage of a formControl is simple - just define your control inside its context and"
+            +" add a label and, optionally, a helper text. Caution - a formControl can only wrap "
             strong { +"one" }
-            +" control! (If you want to embed more than one control, you have to customize this component as shown "
-            +" in the customization section at the end of this guide!)"
+            +" control. If you want to embed more than one control, you have to customize this component as shown "
+            +" in the customization section at the end of this guide."
         }
         componentFrame {
             formControl {
                 label("Username")
-                helperText("Just choose a good user name")
+                helperText("What should we call you?")
                 // use the appropriate single element control with its specific API
                 inputField(value = nameStore) {
-                    placeholder("Some placeholder text")
+                    placeholder("Fritz")
                 }
-                // throws an exception: only one (and the first) control is accepted
+                // throws an exception: only one (the first) control is accepted
                 inputField {
                     placeholder(
-                        "This control throws an exception " +
-                                "because a form control may only contain one control."
+                        "This input throws an exception because a form control may only contain one control."
                     )
                 }
             }
@@ -521,16 +516,16 @@ fun RenderContext.formControlDemo(): Div {
                 """
                 formControl {
                     label("Username")
-                    helperText("Just choose a good user name")
+                    helperText("What should we call you?")
                     // use the appropriate single element control with its specific API
                     inputField(value = nameStore) {
-                        placeholder("Some placeholder text")
+                        placeholder("Fritz")
                     }
-                    // throws an exception: only one (and the first) control is accepted
-                    // have a look into the browser dev tools console!
+                    // throws an exception: only one (the first) control is accepted
                     inputField {
-                        placeholder("This control throws an exception " +
-                                "because a form control may only contain one control.")
+                        placeholder(
+                            "This input throws an exception because a form control may only contain one control."
+                        )
                     }
                 }                    
                 """
@@ -554,12 +549,12 @@ fun RenderContext.formControlDemo(): Div {
 
         showcaseSection("Styling")
         paragraph {
-            +"You can change the appearance of the sub-elements of a formControl in many different ways."
-            +"In the example below we show you some aspects like:"
+            +"You can change the appearance of a formControl in many different ways."
+            +" The example below changes the following aspects:"
             ul {
-                li { +"changing the size" }
-                li { +"styling the label text" }
-                li { +"styling the helper text" }
+                li { +"size" }
+                li { +"label text style" }
+                li { +"helper text style" }
             }
         }
         componentFrame {
@@ -568,26 +563,25 @@ fun RenderContext.formControlDemo(): Div {
                 items {
                     sequenceOf(
                         Pair(FormControlComponent.FormSizeContext.small, "Small"),
-                        Pair(FormControlComponent.FormSizeContext.normal, "Normal"),
+                        Pair(FormControlComponent.FormSizeContext.normal, "Normal (default)"),
                         Pair(FormControlComponent.FormSizeContext.large, "Large")
                     ).forEach {
                         formControl {
                             size { it.first }
-                            label("${it.second} sized Passphrase")
+                            label("${it.second} passphrase size")
                             labelStyle {
-                                // It is a good advice to apply the *default* first and only modify remains
+                                // Always apply the default first and only modify remains
                                 Theme().formControl.label()
                                 color { info.main }
                             }
                             helperText("Remember: the longer, the better!")
                             helperTextStyle {
-                                // Just as above, rely on the default styling first
                                 Theme().formControl.helperText()
                                 fontStyle { italic }
                                 color { secondary.main }
                             }
                             inputField(value = passphraseStore) {
-                                placeholder("enter a secure passphrase")
+                                placeholder("Enter a secure passphrase")
                                 type("password")
                             }
                         }
@@ -600,21 +594,20 @@ fun RenderContext.formControlDemo(): Div {
                 """
                 formControl {
                     size { small }
-                    label("Small sized Passphrase")
+                    label("Small passphrase size")
                     labelStyle {
-                        // It is a good advice to apply the *default* first and only modify remains
+                        // It is good advice to apply the default first and only modify remains
                         Theme().formControl.label()
                         color { info.main }
                     }
                     helperText("Remember: the longer, the better!")
                     helperTextStyle {
-                        // Just as above, rely on the default styling first
                         Theme().formControl.helperText()
                         fontStyle { italic }
                         color { secondary.main }
                     }
                     inputField(value = passphraseStore) {
-                        placeholder("enter a secure passphrase")
+                        placeholder("Enter a secure passphrase")
                         type("password")
                     }
                 }             
@@ -622,61 +615,122 @@ fun RenderContext.formControlDemo(): Div {
                 // The following snippets only show changes for better readability
                        
                 formControl {
-                    size { normal } // is default value, so can be omitted 
-                    label("Normal sized Passphrase")
-                    // ... and so on
+                    label("Normal (default) passphrase size")
+                    // ...
                 }
                                          
                 formControl {
                     size { large } 
-                    label("Large sized Passphrase")
-                    // ... and so on
+                    label("Large passphrase size")
+                    // ... 
                 }                                                                  
                 """
             )
         }
 
-        showcaseSection("Custom validation messages")
+        showcaseSection("Custom Validation Messages")
         paragraph {
-            +"Also we recommend to use the validation approach with a store as shown in the first example, "
-            +"formControl allows you to define validation messages ad hoc. "
+            +"Although it is recommended to use the validation approach with a store as shown in the first example,"
+            +" formControl allows you to define validation messages ad hoc as well."
+        }
+        paragraph {
+            +" The following control defines a single validation message using the function "
+            c("validationMessage")
+            +". It then applies some styling to the"
+            +" message rendering: an Alert component is used to display a large, bright message. It is set up for"
+            +" different message severities which change color and icon of the Alert. Of course, all options of the"
+            +" Alert component like size, stacking, etc, could be used here as well."
         }
         componentFrame {
             formControl {
                 label("Username")
-                inputField(value = nameStore) {
-                }
-                // just create one message at once
+                inputField(value = nameStore)
+                // create one single validation message
                 validationMessage {
                     nameStore.data.map {
-                        if (it.length < 3) {
-                            errorMessage(nameStore.id, "The username must be at least 4 chars long!")
+                        if (it.length < 4) {
+                            errorMessage(nameStore.id, "The username must be at least 4 characters long.")
                         } else null
                     }
                 }
+
+                validationMessageRendering { message ->
+                    alert {
+                        severity {
+                            when (message.severity) {
+                                Severity.Info -> info
+                                Severity.Success -> success
+                                Severity.Warning -> warning
+                                Severity.Error -> error
+                            }
+                        }
+                        variant { solid }
+                        sizes { large }
+                        content(message.message)
+                    }
+                }
             }
+        }
+        highlight {
+            source(
+                """
+                formControl {
+                    label("Username")
+                    inputField(value = nameStore)
+                    // create one single validation message
+                    validationMessage {
+                        nameStore.data.map {
+                            if (it.length < 4) {
+                                errorMessage(nameStore.id, "The username must be at least 4 characters long.")
+                            } else null
+                        }
+                    }
+                    // Change the rendering of your message: use the alert component
+                    validationMessageRendering { message ->
+                        alert {
+                            severity {
+                                when (message.severity) {
+                                    Severity.Info -> info
+                                    Severity.Success -> success
+                                    Severity.Warning -> warning
+                                    Severity.Error -> error
+                                }
+                            }
+                            variant { solid }
+                            sizes { large }
+                            content(message.message)
+                        }
+                    }
+                }
+                """
+            )
+        }
+        paragraph {
+            +"If you need more than one validation message, use this function to add multiple messages: "
+            c("validationMessages")
+            +". The changes made to the rendering in the above example work the same in both cases."
+        }
+        componentFrame {
             formControl {
                 label("Username")
-                inputField(value = nameStore) {
-                }
-                // create an arbitrary amount of messages
+                inputField(value = nameStore)
                 validationMessages {
                     nameStore.data.map {
                         val messages = mutableListOf<ComponentValidationMessage>()
                         if (it.length < 4) {
                             messages.add(
-                                errorMessage(nameStore.id, "The username must be at least 4 chars long!")
+                                errorMessage(nameStore.id, "The username must be at least 4 characters long.")
                             )
                         } else if (it.length > 16) {
                             messages.add(
-                                warningMessage(nameStore.id, "Using more than 16 chars might be cumbersome")
+                                warningMessage(nameStore.id, "Isn't more than 16 characters a little long?")
                             )
                         }
                         if (it.toCharArray().toHashSet().size == 1) {
                             messages.add(
                                 warningMessage(
                                     nameStore.id,
-                                    "To only use one char as name is not very expressive!"
+                                    "Using only one char in your name is not very expressive."
                                 )
                             )
                         }
@@ -698,15 +752,7 @@ fun RenderContext.formControlDemo(): Div {
                                 Severity.Error -> error
                             }
                         }
-                        icon {
-                            when (message.severity) {
-                                Severity.Info -> circleInformation
-                                Severity.Success -> circleCheck
-                                Severity.Warning -> circleWarning
-                                Severity.Error -> circleError
-                            }
-                        }
-                        variant { solid }
+                        variant { leftAccent }
                         sizes { small }
                         stacking { separated }
                         content(message.message)
@@ -721,37 +767,24 @@ fun RenderContext.formControlDemo(): Div {
                     label("Username")
                     inputField(value = nameStore) {
                     }
-                    // just create one message at once
-                    validationMessage {
-                        nameStore.data.map {
-                            if (it.length < 3) {
-                                errorMessage(nameStore.id, "The username must be at least 4 chars long!")
-                            } else null
-                        }
-                    }
-                }
-                formControl {
-                    label("Username")
-                    inputField(value = nameStore) {
-                    }
                     // create an arbitrary amount of messages
                     validationMessages {
                         nameStore.data.map {
                             val messages = mutableListOf<ComponentValidationMessage>()
                             if (it.length < 4) {
                                 messages.add(
-                                    errorMessage(nameStore.id, "The username must be at least 4 chars long!")
+                                    errorMessage(nameStore.id, "The username must be at least 4 characters long.")
                                 )
                             } else if (it.length > 16) {
                                 messages.add(
-                                    warningMessage(nameStore.id, "Using more than 16 chars might be cumbersome")
+                                    warningMessage(nameStore.id, "Isn't 16 characters a little long?")
                                 )
                             }
                             if (it.toCharArray().toHashSet().size == 1) {
                                 messages.add(
                                     warningMessage(
                                         nameStore.id,
-                                        "To only use one char as name is not very expressive!"
+                                        "Using only one char in your name is not very expressive."
                                     )
                                 )
                             }
@@ -760,29 +793,12 @@ fun RenderContext.formControlDemo(): Div {
                             }
                             messages
                         }
-                    }
-                }                    
-                """
-            )
-        }
-        paragraph {
-            +"You can also customize the way they get rendered too."
-        }
-        highlight {
-            source(
-                """
-                formControl {
-                    label("Username")
-                    inputField(value = nameStore) {
-                    }
-                    validationMessages {
-                        // omitted for better readability
-                    }
-                    // One ``ComponentValidationMessage``is passed into the expression
+                    } 
+                    // Change rendering: Use an alert component for validation message
                     validationMessageRendering { message ->
                         alert({
-                            margins { vertical { tiny } }
-                        }) {
+                                margins { vertical { tiny } }
+                            }) {
                             severity {
                                 when (message.severity) {
                                     Severity.Info -> info
@@ -791,32 +807,24 @@ fun RenderContext.formControlDemo(): Div {
                                     Severity.Error -> error
                                 }
                             }
-                            icon {
-                                when (message.severity) {
-                                    Severity.Info -> circleInformation
-                                    Severity.Success -> circleCheck
-                                    Severity.Warning -> circleWarning
-                                    Severity.Error -> circleError
-                                }
-                            }
-                            variant { solid }
+                            variant { leftAccent }
                             sizes { small }
                             stacking { separated }
                             content(message.message)
                         }
-                    }                    
-                }                    
+                    }
+                }
                 """
             )
         }
 
-        showcaseSection("Deep customizations")
+        showcaseSection("Deep Customization")
 
         /*
-         * Complex customization example
+         * Complex Customization Example
          *
-         * extend ControlComponent in order to override or extend functions for controls and for setting up
-         * other renderers
+         * Extend ControlComponent in order to override or extend functions for controls and for setting up
+         * other renderers.
          *
          */
         class ExtendedFormControlComponent : FormControlComponent() {
@@ -830,7 +838,7 @@ fun RenderContext.formControlDemo(): Div {
                     private val inputActivated = "inputActivated"
                     private val inputActive = "inputActive"
                     val inputDisabled = "inputDisabled"
-                    val custom = "custom"
+                    val custom = "custom:"
 
                     val selectedStore = object : RootStore<String>(current.value) {
                         override val update = handle<String> { old, value ->
@@ -922,7 +930,7 @@ fun RenderContext.formControlDemo(): Div {
                     }, baseClass, id, prefix) {
                         spacing { tiny }
                         items {
-                            (::p.styled {
+                            p({
                                 textAlign { right }
                                 borders {
                                     bottom {
@@ -930,7 +938,7 @@ fun RenderContext.formControlDemo(): Div {
                                         width { fat }
                                     }
                                 }
-                            }){ +component.label.value }
+                            }) { +component.label.value }
                             component.renderHelperText(this)
                             fieldset {
                                 control(this)
@@ -960,39 +968,37 @@ fun RenderContext.formControlDemo(): Div {
         val favoriteFrameworks = listOf("fritz2", "Ktor", "EXPOSED", "Spring", "patternfly-fritz2")
 
         paragraph {
-            +"Write custom FormControls for your components. You can either write your own functions which"
+            +"You can create custom formControls for your components. You can either write your own functions which"
             +" simply extend "
             c("FormControlComponent")
-            +", or you can override the default functions for the supported components. "
+            +", or you can override the default functions for the supported components."
         }
         paragraph {
-            +"If the modification of the control itself is not sufficient, you can even implement your own renderer, "
-            +"that means adopting the whole process and structure of the rendered formControl."
+            +"If modifying the control itself is not sufficient, you can even implement your own renderer,"
+            +" which means adopting the entire process and structure of the rendered formControl."
         }
         paragraph {
             +"But remember: "
         }
         coloredBox(Theme().colors.warning) {
-            +"With great power comes great responsibility!"
+            +"With great power comes great responsibility."
         }
         paragraph {
-            +" In order to keep all the functionality, you must process the properties appropriate. So we recommend "
-            +"to study the two built-in's renderer code!"
+            +"In order to conserve the functionality, you must process all properties appropriately. It's very helpful"
+            +" to study the sources of the two built-in renderers."
         }
         paragraph {
-            +"The following example adds a wrapping function and also a custom renderer, so you get the whole picture:"
+            +"The following example adds a wrapping function and also a custom renderer for a complete picture."
         }
         paragraph {
-            +"Imagine the use case that the user has to choose between different predefined values but to allow him "
-            +"optionally to pass a custom value alternatively. "
-            +"This can be realized by combining a "
+            +"In this use case, the user can choose between some predefined values, but can alternatively"
+            +" pass a custom value. This can be realized by combining a "
             c("radioGroup")
             +" with an "
             c("inputField")
-            +". "
-            +"Both stand alone forms must be merged into one control, so that the client can benefit from all the "
-            +"features a formControl offers. On top we would like to adjust the rendering of this control, so "
-            +"that the helper text is shown right below the label and some other minor aspects."
+            +"."
+            +" Both standalone forms must be merged into one control. Additionally, the rendering of this control will be adjusted"
+            +" to show the helper text right below the label and to change some other minor aspects."
         }
         paragraph {
             +"Have a look at the result and the usage of the newly created "
@@ -1006,13 +1012,13 @@ fun RenderContext.formControlDemo(): Div {
         componentFrame {
             extendedFormControl {
                 label("Select one framework")
-                helperText("Note that you can't provide an empty name!")
+                helperText("Note: Framework name cannot be empty.")
                 radioGroupWithInput(items = favoriteFrameworks, value = selectedFramework) {
                 }
                 validationMessage {
                     selectedFramework.data.map {
                         if (it.isBlank()) {
-                            errorMessage(selectedFramework.id, "Empty custom selection is not allowed!")
+                            errorMessage(selectedFramework.id, "Please enter a name for your custom selection.")
                         } else null
                     }
                 }
@@ -1020,9 +1026,7 @@ fun RenderContext.formControlDemo(): Div {
         }
         storeContentBox("Selected") {
             selectedFramework.data.render {
-                span {
-                    +it
-                }
+                span { +it }
             }
         }
 
@@ -1035,18 +1039,17 @@ fun RenderContext.formControlDemo(): Div {
                 // use the new factory method to have access to the new wrapped control
                 extendedFormControl {
                     label("Select one framework")
-                    helperText("Note that you can't provide an empty name!")
-                    // call the new wrapped control
+                    helperText("Note: Framework name cannot be empty.")
                     radioGroupWithInput(items = favoriteFrameworks, value = selectedFramework) {
                     }
                     validationMessage {
                         selectedFramework.data.map {
                             if (it.isBlank()) {
-                                errorMessage(selectedFramework.id, "Empty custom selection is not allowed!")
+                                errorMessage(selectedFramework.id, "Please enter a name for your custom selection.")
                             } else null
                         }
                     }
-                }                    
+                }                  
                 """
             )
         }
@@ -1055,26 +1058,25 @@ fun RenderContext.formControlDemo(): Div {
             +"Let's walk through the design process step by step."
         }
 
-        showcaseSubSection("Component setup")
+        showcaseSubSection("Custom Component Setup")
         paragraph {
-            +"The first thing you need to do is to derive from "
+            +"The first thing you need to do is derive from the "
             c("FormControlComponent")
-            +" class in order to extend its functionality and to mimic the original factory function in order to "
-            +"bring the new component in place."
+            +" class in order to extend its functionality and to mimic the original factory function."
         }
         highlight {
             source(
                 """
                 class ExtendedFormControlComponent : FormControlComponent() {
 
-                    // we place all further snippets here! 
+                    // more code will be added here 
                     
                     init {
-                        // we need to set up some things here
+                        // some setup will happen here
                     }
                 }
                 
-                // new factory function for using the new component
+                // new factory function for the new component
                 fun RenderContext.extendedFormControl(
                     styling: BasicParams.() -> Unit = {},
                     baseClass: StyleClass = StyleClass.None,
@@ -1089,66 +1091,59 @@ fun RenderContext.formControlDemo(): Div {
             )
         }
 
-        showcaseSubSection("Internal store concept")
+        showcaseSubSection("Internal Store Concept")
         paragraph {
-            +"In order to handle the user input correctly, we create an internal store, or to be more precise, even "
-            +"three of them:"
+            +"In order to handle the user input correctly, some internal stores are needed:"
             ul {
                 li {
-                    +"The first is the main store that is responsible for emitting the new values to the external "
-                    +"client side store."
+                    +"First is the main store which is responsible for emitting the new values to the external"
+                    +" client side store."
                 }
                 li {
-                    +"One store is dedicated for the "
+                    +"Another store is dedicated to managing the "
                     c("radioGroup")
-                    +" component and will manage its selection updates. It will propagate its state to the main store."
+                    +" selection updates. It will propagate its state to the main store."
                 }
                 li {
-                    +"The final store is dedicated for the "
+                    +"A final store is created for the "
                     c("inputField")
-                    +" component. It will propagate its changes to the main store too."
+                    +" component. It will propagate its changes to the main store as well."
                 }
             }
         }
         paragraph {
-            +"There is one "
-            strong { +"critical" }
-            +" aspect in the combination of two input components to deal with: We must manage the decision, which "
-            +"component holds the current value we have to emit to the client?"
-        }
-        paragraph {
-            +"Our solution is to tie some "
-            strong { +"state" }
-            +" information to the value itself in the internal stores. It is "
+            +"When combining two input components, it must be decided which component holds the current value to emit to the client."
+            +"One solution is to tie some state"
+            +" information to the value in the internal stores. We used "
             c("String")
-            +" based here and totally sufficient as we use it only in the context of an object."
+            +" in this example, which is sufficient for this use case."
         }
         paragraph {
-            +"We have to decide between three different states:"
+            +"Three different states must be stored:"
             ul {
-                li { +"the inputField is not active (so the radioGroup is instead)." }
+                li { +"inputField is not active, so use radioGroup" }
                 li {
-                    +"the inputField just was activated, by selecting the "
+                    +"inputField was just now activated by selecting the "
                     strong { +"custom" }
-                    +" option."
+                    +" option"
                 }
-                li { +"the inputField is active (so the radioGroup is not)" }
+                li { +"inputField is active, so don't use radioGroup" }
             }
         }
         paragraph {
-            +"Armed with this state information we can "
+            +"Armed with this state information, we can.."
             ul {
                 li { +"reset the inputField if the radioGroup is active" }
                 li {
-                    +"avoid to send an empty value to the client if the user activates the inputField by "
-                    +"selecting the custom option."
+                    +"avoid sending an empty value to the client if the user activates the inputField by"
+                    +" selecting the custom option"
                 }
             }
         }
         highlight {
             source(
                 """
-                // simple value class to combine the current value and the internal state                     
+                // combine current value and internal state in a class                   
                 inner class Selection(val value: String, val mode: String)
     
                 private fun createStores(clientStore: Store<String>) =
@@ -1160,11 +1155,11 @@ fun RenderContext.formControlDemo(): Div {
                         private val inputActive = "inputActive"
                         val inputDisabled = "inputDisabled"
                         
-                        val custom = "custom"
+                        val custom = "custom:"
     
                         val selectedStore = object : RootStore<String>(current.value) {
                             override val update = handle<String> { old, value ->
-                                // reset the inputField, if the user switches back to some predefined value
+                                // reset the inputField when the user switches back to a predefined value
                                 if (old == custom) {
                                     inputStore.reset(Unit)
                                 }
@@ -1185,7 +1180,7 @@ fun RenderContext.formControlDemo(): Div {
     
                         // emit the value to the client  
                         val select = handleAndEmit<Selection, String> { old, new ->
-                            // the user just activated the input -> do not send its value yet!
+                            // the user just now activated the input, so do not send its value yet!
                             if (new.mode == inputActivated) {
                                 emit(old.value)
                             } else {
@@ -1203,19 +1198,17 @@ fun RenderContext.formControlDemo(): Div {
             )
         }
 
-        showcaseSubSection("Wrapping function")
+        showcaseSubSection("Wrapping Function")
         paragraph {
-            +"Now we can create the wrapping function that will be the entry point for using the new control."
-            +"To keep this example simple, we do not create a stand alone control as you could do of course, but "
-            +"we create the combination of radioGroup and inputField just in place."
+            +"Now we can create the wrapping function which will be the entry point for the new control."
+            +" To keep this example simple, we will not create a stand alone control (as you could, of course), but"
+            +" create a combination of radioGroup and inputField instead. You could also override an existing wrapping function in order to replace its behaviour."
         }
+
         paragraph {
-            +"You can of course also override an existing wrapping function in order to replace its behaviour!"
-        }
-        paragraph {
-            +"Be aware of the fact that some internal functions need to be called and therefore have to be manually "
-            +"integrated into your custom code in order to achieve a complete integration with "
-            +"formControl's functionalities like automatic validation messages, some styling aspects and so on!"
+            +"Also note that some internal functions need to be called, and therefore have to be manually"
+            +" integrated into your custom code in order to achieve a complete integration with"
+            +" formControl's functionalities like automatic validation messages, styling aspects and so on."
         }
         highlight {
             source(
@@ -1231,11 +1224,11 @@ fun RenderContext.formControlDemo(): Div {
                 ) {
                     val innerStore = createStores(store)
                     val validationMessagesBuilder = ValidationResult.builderOf(this, store)
-                    // Important to choose some unique key; if you override a function, use the appropriate
-                    // key from the predefined ones in ``FormControlComponent.ControlNames``
+                    // Important: Choose a unique key - if you override a function, use the appropriate
+                    //            key from the predefined ones in ``FormControlComponent.ControlNames``
                     registerControl("radioGroupWithInput", {
-                        // Within this renderContext place all components you wish.
-                        // For our example we need the following two:                     
+                        // Place all your components inside this render context.
+                        // For our example, we need the following two:                     
                         radioGroup(
                             styling,
                             items = items + innerStore.custom,
@@ -1267,16 +1260,16 @@ fun RenderContext.formControlDemo(): Div {
             )
         }
         paragraph {
-            +"There is one very important sub step left: We must bind our control to a fitting renderer. "
-            +"There are already two built-ins used for our standard wrapped controls:"
+            +"The final step is to bind our control to a fitting renderer."
+            +" fritz2 offers two built-ins for our standard wrapped controls:"
             ul {
                 li {
                     c("SingleControlRenderer")
-                    +"is used to render the form with a single control like an inputField for example."
+                    +"is used to render forms with a single control, like an inputField for example."
                 }
                 li {
                     c("ControlGroupRenderer")
-                    +"is used to render groups of controls as checkBoxGroup and radiogroup."
+                    +"is used to render groups of controls, like checkBoxGroups and radioGroups."
                 }
             }
             +"You can also write your own custom renderer, as we will explore in the next section."
@@ -1286,9 +1279,9 @@ fun RenderContext.formControlDemo(): Div {
                 """
                 class ExtendedFormControlComponent : FormControlComponent() {
                 
-                    // all other stuff omitted
+                    // non-essential code was omitted to keep it short
                     
-                    // we recommend to put this into the ``init`` block
+                    // It's recommended to register your render strategy within the init block
                     init {
                         registerRenderStrategy("radioGroupWithInput", ControlGroupRenderer(this))
                     }
@@ -1298,28 +1291,26 @@ fun RenderContext.formControlDemo(): Div {
         }
 
         coloredBox(Theme().colors.warning) {
-            +"If you don't provide a renderer for a control, "
-            strong { +"nothing" }
-            +" of the form is rendered."
-            +"So if you don't see anything you probably forgot the registration or have some typo in it!"
+            +"If you don't provide a renderer for a control, then of course nothing is rendered at all."
+            +" So if you don't see anything on your page, you probably forgot the registration or have a typo in it."
         }
 
-        showcaseSubSection("Custom renderer")
+        showcaseSubSection("Custom Renderer")
         paragraph {
-            +"As last step we would like to change the way the form gets rendered:"
+            +"A custom renderer allows you to change the way the form is rendered. Here's an example which does the following:"
             ul {
-                li { +"Separate the label from the form with a decent bar" }
-                li { +"Lifting up the helper text directly beneath the label" }
+                li { +"Separate the label from the form with a bar" }
+                li { +"Move the helper text up directly underneath the label" }
             }
-            +"To do this, we only need to implement the "
+            +"To do this, just implement the "
             c("ControlRenderer")
-            +" interface and register our control with the new renderer."
+            +" interface and register your custom control with the new renderer."
         }
         highlight {
             source(
                 """
                 // to simplify our code, we chose to embed the renderer into our new
-                // component class - feel free to put it anywhere it fits for your use case! 
+                // component class - feel free to put it anywhere it fits for your use case.
                 inner class VerticalRenderer(private val component: FormControlComponent) : ControlRenderer {
                     override fun render(
                         styling: BasicParams.() -> Unit,
@@ -1336,7 +1327,7 @@ fun RenderContext.formControlDemo(): Div {
                         }, baseClass, id, prefix) {
                             spacing { tiny }
                             items {
-                                (::p.styled {
+                                p({
                                     textAlign { right }
                                     borders {
                                         bottom {
@@ -1366,7 +1357,7 @@ fun RenderContext.formControlDemo(): Div {
                 """
                 class ExtendedFormControlComponent : FormControlComponent() {
                 
-                    // all other stuff omitted
+                    // ...
                     
                     // change the registration to use the newly created renderer
                     init {
@@ -1379,23 +1370,23 @@ fun RenderContext.formControlDemo(): Div {
 
         showcaseSubSection("Recap")
         paragraph {
-            +"We have shown the complete process and all relevant aspects in order to create your own control and "
-            +"renderer in order to customize the formControl in the deepest possible ways. "
-            +"We have explained how to..."
+            +"This example showcases the complete process with all relevant aspects for creating your own control and"
+            +" renderer, including deep customizations."
+            +" You learned how to..."
             ul {
                 li { +"set up a new component and its factory function" }
                 li { +"write a new wrapping function for a control" }
                 li {
-                    +"explained en passant one approach to use internal stores to process the state changes and "
+                    +"use internal stores to process state changes and "
                     +"communicate it back to the client side"
                 }
                 li { +"write your own custom renderer for the whole form" }
             }
         }
         paragraph {
-            +"We offer those possibilities because we know it is sometimes necessary to change or extend our "
-            +"built-in components and their behavior, but we recommend you to do this in a very thoughtful way and "
-            +"not to clutter your UI with lots of different looking and behaving forms!"
+            +"fritz2 offers form control customization because it is sometimes necessary to change or extend the"
+            +" built-in components and their behavior. However, we recommend to make careful use of this"
+            +" as not to clutter your UI with lots of different looking and behaving forms."
         }
     }
 }

@@ -6,8 +6,7 @@ import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.P
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
-import dev.fritz2.styling.params.BackgroundBlendModes.color
-import dev.fritz2.styling.params.styled
+import dev.fritz2.styling.p
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.filter
@@ -15,7 +14,7 @@ import kotlinx.coroutines.flow.flow
 
 
 private fun RenderContext.basicStyledToastContent(title: String = "Toast"): P {
-    return (::p.styled {
+    return p({
         margins {
             top { small }
             left { small }
@@ -58,7 +57,7 @@ fun RenderContext.toastDemo(): Div {
                         text("Show")
                     } handledBy toast {
                         content {
-                            (::p.styled {
+                            p({
                                 margin { normal }
                                 color { neutral.main }
                             }) {
@@ -77,7 +76,7 @@ fun RenderContext.toastDemo(): Div {
                         text("Show")
                     } handledBy toast {
                         content {
-                            (::p.styled {
+                            p({
                                 margin { normal }
                                 color { neutral.main }
                             }) {
@@ -217,7 +216,7 @@ fun RenderContext.toastDemo(): Div {
                         placement { bottomRight }
                         content {
                             // Styled for better readability; any other content is okay as well!
-                            (::p.styled {
+                            p({
                                 margin { normal }
                                 color { neutral.main }
                             }) {
@@ -245,7 +244,7 @@ fun RenderContext.toastDemo(): Div {
                         placement { bottomRight }
                         content {
                             // Styled for better readability; any other content is okay as well!
-                            (::p.styled {
+                            p({
                                 margin { normal }
                                 color { neutral }
                             }) {

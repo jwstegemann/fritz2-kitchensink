@@ -1,8 +1,9 @@
-package dev.fritz2.kitchensink
+package dev.fritz2.kitchensink.formControl
 
 import dev.fritz2.components.validation.*
 import dev.fritz2.identification.RootInspector
 import dev.fritz2.identification.inspect
+import dev.fritz2.kitchensink.formControl.L
 import dev.fritz2.lenses.Lenses
 
 @Lenses

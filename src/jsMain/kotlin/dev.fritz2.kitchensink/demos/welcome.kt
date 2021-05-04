@@ -7,8 +7,10 @@ import dev.fritz2.components.stackUp
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
+import dev.fritz2.styling.h1
+import dev.fritz2.styling.h2
+import dev.fritz2.styling.p
 import dev.fritz2.styling.params.AlignContentValues.start
-import dev.fritz2.styling.params.styled
 import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -34,7 +36,7 @@ fun RenderContext.welcome(): Div {
                     css("drop-shadow(0 0 0.5rem gray);")
                 }) { fromTheme { fritz2 } }
                 box {
-                    (::h1.styled {
+                    h1({
                         fontSize(
                             sm = { "1.5rem" },
                             md = { "4.0rem" }
@@ -46,7 +48,7 @@ fun RenderContext.welcome(): Div {
                         color { primary.main }
                         textShadow { flat }
                     }) { +"tailor-made" }
-                    (::h1.styled {
+                    h1({
                         fontSize(
                             sm = { "1.5rem" },
                             md = { "4.0rem" }
@@ -67,7 +69,7 @@ fun RenderContext.welcome(): Div {
         }) {
             spacing { normal }
             items {
-                (::h2.styled {
+                h2({
                     margins { vertical { small } }
                 }) {
                     +"All you need is less."
@@ -88,7 +90,8 @@ fun RenderContext.welcome(): Div {
                 }
 
                 coloredBox(Theme().colors.warning) {
-                    +"Remember that this is a ${appStatus()} version."
+                    // todo: If Status is something other than ALPHA, replace an with a. Also check Getting Started (same thing)
+                    +"Remember that this is an ${appStatus()} version."
                     +" Most components still need some work, others are not implemented yet, and the API still needs"
                     +" to be completed and streamlined."
                 }
@@ -109,7 +112,7 @@ fun RenderContext.welcome(): Div {
                     +"."
                 }
 
-                (::p.styled {
+                p({
                     fontSize { smaller }
                     paddings { top { "1.5rem" }}
                 }) {

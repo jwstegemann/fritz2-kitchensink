@@ -5,7 +5,9 @@ import dev.fritz2.components.flexBox
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
-import dev.fritz2.styling.params.styled
+import dev.fritz2.styling.h1
+import dev.fritz2.styling.img
+import dev.fritz2.styling.p
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
@@ -83,13 +85,13 @@ fun RenderContext.responsiveDemo(): Div {
                     )
                     flex { shrink { "0" } }
                 }) {
-                    (::img.styled {
+                    img({
                         width(sm = { full }, md = { wide.small })
                         boxShadow { flat }
                         radius { large }
                     }) {
-                        src("https://images.unsplash.com/photo-1552584783-ac27eae7783a?ixlib=rb-")
-                        alt("Photo by Lauren York on Unsplash")
+                        src("background.jpg")
+                        alt("Photo by Jong Marshes on Unsplash")
                     }
                 }
 
@@ -103,12 +105,26 @@ fun RenderContext.responsiveDemo(): Div {
                         md = { left { normal } }
                     )
                 }) {
-                    teaserText { +"Photo by Lauren York on Unsplash" }
-                    (::h1.styled {
+                    p({
+                        fontSize { smaller }
+                        paddings { top { "1.5rem" }}
+                    }) {
+                        +"Photo by "
+                        externalLink(
+                            "Jong Marshes",
+                            "https://unsplash.com/@turnlip19?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
+                        )
+                        +" on "
+                        externalLink(
+                            "Unsplash",
+                            "https://unsplash.com/s/photos/water?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
+                        )
+                    }
+                    h1({
                         fontSize { large }
                         fontWeight { bold }
                     }) { +"Resize your viewport!" }
-                    (::p.styled {
+                    p({
                         paddings {
                             all { small }
                             left { none }
@@ -138,7 +154,7 @@ fun RenderContext.responsiveDemo(): Div {
                         )
                         flex { shrink { "0" } }
                     }) {
-                        (::img.styled {
+                        img({
                             width(sm = { full }, md = { wide.small })
                         }) {
                             src("...")

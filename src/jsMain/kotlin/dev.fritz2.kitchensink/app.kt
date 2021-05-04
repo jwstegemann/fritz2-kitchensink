@@ -7,12 +7,9 @@ import dev.fritz2.components.*
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.kitchensink.demos.*
 import dev.fritz2.routing.router
-import dev.fritz2.styling.name
-import dev.fritz2.styling.params.styled
-import dev.fritz2.styling.staticStyle
+import dev.fritz2.styling.*
 import dev.fritz2.styling.theme.Theme
 import dev.fritz2.styling.theme.render
-import dev.fritz2.styling.whenever
 import kotlinx.browser.window
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.onEach
@@ -46,6 +43,7 @@ const val responsive_ = "Responsiveness"
 const val textarea_ = "TextArea"
 const val alert_ = "Alert"
 const val toasts_ = "Toast"
+const val datatable_ = "DataTable"
 
 val router = router(welcome_)
 
@@ -59,7 +57,7 @@ object ThemeStore : RootStore<Int>(0) {
 const val highlightBackgroundColor = "#2b303b"
 
 const val welcomeContentStaticCss = """
-    background-image: url("https://unsplash.com/photos/79mNMAvSORg/download?force=true&w=1920");
+    background-image: url("background.jpg");
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
@@ -100,7 +98,7 @@ fun main() {
     val menuBackgroundColor = Theme().colors.neutral
 
     render(themes.first()) {
-        (::div.styled {
+        box({
             height { "100%" }
             width { "100%" }
             position { relative {} }
@@ -117,7 +115,7 @@ fun main() {
                     stackUp {
                         spacing { none }
                         items {
-                            (::a.styled {
+                            a({
                                 textDecoration { initial }
                                 color { primary.main }
                             }) {
@@ -129,7 +127,7 @@ fun main() {
                                     color { primary.main }
                                 }) { fromTheme { fritz2 } }
 
-                                (::span.styled {
+                                span({
                                     margins { left { smaller } }
                                     verticalAlign { sub }
                                     fontSize(sm = { large }, md = { larger })
@@ -137,7 +135,7 @@ fun main() {
                                 }) { +"Components" }
                             }
 
-                            (::a.styled {
+                            a({
                                 display { flex }
                                 justifyContent { flexEnd }
                                 width { full }
@@ -151,7 +149,7 @@ fun main() {
                         }
                     }
                     //FIXME: convert to styles
-                    (::span.styled {
+                    span({
                         css("""
                             display: inline-flex;
                             vertical-align: top;
@@ -196,7 +194,7 @@ fun main() {
                         alignItems { center }
                     }) {
                         items {
-                            (::a.styled {
+                            a({
                                 fontSize { tiny }
                                 color { gray600 }
                                 textAlign { center }
@@ -272,7 +270,7 @@ fun main() {
                         spacing { tiny }
                         items {
 
-                            (::p.styled {
+                            p({
                                 width { "100%" }
                                 margins { top { huge } }
                             }) {
@@ -302,6 +300,9 @@ fun main() {
                             menuAnchor(switch_)
                             menuAnchor(formcontrol_)
 
+                            menuHeader("COMPLEX")
+                            menuAnchor(datatable_)
+
                             menuHeader("OVERLAY")
                             menuAnchor(menu_)
                             menuAnchor(modal_)
@@ -316,7 +317,7 @@ fun main() {
 
                         }
                     }
-                    (::div.styled(id = "content-right") {
+                    box({
                         paddings(md = {
                             left { large }
                             top { small }
@@ -359,6 +360,7 @@ fun main() {
                                 textarea_ -> textareaDemo()
                                 alert_ -> alertDemo()
                                 toasts_ -> toastDemo()
+                                datatable_ -> dataTableDemo()
                                 else -> welcome()
                             }
                         }
@@ -367,4 +369,7 @@ fun main() {
             }
         }
     }
+
+    console.log(showStaticStyle())
+    console.log(showDynamicStyle())
 }
