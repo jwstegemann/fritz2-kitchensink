@@ -44,7 +44,11 @@ fun RenderContext.menuDemo(): Div {
             c("entries")
             +" context hosting all the entries of the Menu. In this example it only has a single item created via the "
             c("item")
-            +" method. The latter also exposes a Flow of MouseEvents for clicks to be handled by a store."
+            +" method. Within the "
+            c("item")
+            +"-context events are exposed via an "
+            c("events")
+            +" context, similarly to e.g. buttons."
         }
         componentFrame {
             menu {
@@ -64,7 +68,10 @@ fun RenderContext.menuDemo(): Div {
                             item {
                                 icon { sun }
                                 text("Hello world!")
-                            } handledBy someStore
+                                events {
+                                    clicks handledBy someStore.update
+                                }
+                            }
                         }
                     }
                  """
@@ -72,15 +79,34 @@ fun RenderContext.menuDemo(): Div {
         }
 
         paragraph {
-            +"Other possible children are Subheaders, Dividers and custom components, whith the latter being any fritz2-"
-            +"component. "
-            +"They are created via the "
-            c("subheader")
-            +", "
-            c("divider")
-            +" and "
-            c("custom")
-            +" contexts."
+            +"Other possible children are:"
+            ul {
+                li {
+                    b { +"Subheader: " }
+                    +"Small headline that can be used to mark the beginning of a group of entries."
+                    br { }
+                    +"Created via the "
+                    c("subheader")
+                    +" context."
+                }
+                li {
+                    b { +"Divider: " }
+                    +"A thin line that can be used to separate two entries or group multiple entries together"
+                    br { }
+                    +"Created via the "
+                    c("divider")
+                    +" method."
+                }
+                li {
+                    b { +"Custom components " }
+                    +"that can be any fritz2-component: "
+                    br { }
+                    +"Created via the "
+                    c("custom")
+                    +" context."
+                }
+            }
+            +"Find an example of the above mentioned entries below:"
         }
         componentFrame {
             menu {
@@ -120,7 +146,9 @@ fun RenderContext.menuDemo(): Div {
         }
 
         showcaseSection("Toggle")
-        paragraph {
+        paragraph({
+            margins { bottom { small } }
+        }) {
             +"Any component can be used as a Menu's toggle and can be specified via the "
             c("toggle")
             +" method. The specified toggle does not need to be clickable by itself as the clicks are handled by the "
@@ -131,6 +159,7 @@ fun RenderContext.menuDemo(): Div {
         }) {
             icon { circleInformation }
             variant { leftAccent }
+            stacking { compact }
             content("Buttons are good components to use for the toggle as they require very little adjustments " +
                     "to work well with the Menu.")
         }
