@@ -205,7 +205,10 @@ fun RenderContext.menuDemo(): Div {
             +"The dropdown's relative position to the toggle can either be to the left of, to the right of, or below "
             +"it. By default, the dropdown is rendered "
             i { +"below" }
-            +" the toggle. The position can be changed via the "
+            +" the toggle and growing to the right if needed ("
+            i { +"right-facing" }
+            +"). "
+            +"The position can be changed via the "
             c("placement")
             +" property."
         }
@@ -215,7 +218,7 @@ fun RenderContext.menuDemo(): Div {
                     toggle {
                         pushButton {
                             icon {
-                                fromTheme { chevronLeft }
+                                fromTheme { arrowLeft }
                             }
                             text("Left")
                         }
@@ -234,12 +237,12 @@ fun RenderContext.menuDemo(): Div {
                     toggle {
                         pushButton {
                             icon {
-                                fromTheme { chevronDown }
+                                fromTheme { arrowLeftDown }
                             }
-                            text("Bottom")
+                            text("Bottom (left-facing)")
                         }
                     }
-                    placement { bottom }
+                    placement { bottomLeftFacing }
                     entries {
                         item {
                             text("Dropdown below")
@@ -253,7 +256,26 @@ fun RenderContext.menuDemo(): Div {
                     toggle {
                         pushButton {
                             icon {
-                                fromTheme { chevronRight }
+                                fromTheme { arrowRightDown }
+                            }
+                            text("Default: Bottom (right-facing)")
+                        }
+                    }
+                    placement { bottomRightFacing }
+                    entries {
+                        item {
+                            text("Dropdown below")
+                        }
+                    }
+                }
+            }
+
+            menuBox {
+                menu {
+                    toggle {
+                        pushButton {
+                            icon {
+                                fromTheme { arrowRight }
                             }
                             text("Right")
                         }
@@ -298,9 +320,11 @@ fun RenderContext.menuDemo(): Div {
             +" context would produce a lot of boilerplate code."
             br { }
             br { }
-            +"Contexts can be injected by simply writing extension methods for the "
+            +"A contexts can be injected by simply writing an extension method for the "
             c("MenuEntriesContext")
-            +" class as shown below. "
+            +" class that adds a subclass of "
+            c("MenuEntryComponent")
+            +" to the menu."
             +"You are not required to implement the custom DSL in any specific way. "
             +"It is necessary, however, to call the "
             c("addItem")
@@ -311,7 +335,7 @@ fun RenderContext.menuDemo(): Div {
             class RadioGroupContext {
                 val items = ComponentProperty(listOf<String>())
 
-                fun build() = object : MenuEntry {
+                fun build() = object : MenuEntryComponent {
                     override fun render(
                         context: RenderContext,
                         styling: BoxParams.() -> Unit,
@@ -351,7 +375,7 @@ fun RenderContext.menuDemo(): Div {
                 class RadioGroupContext {
                     val items = ComponentProperty(listOf<String>())
     
-                    fun build() = object : MenuEntry {
+                    fun build() = object : MenuEntryComponent {
                         override fun render(
                             context: RenderContext,
                             styling: BoxParams.() -> Unit,
