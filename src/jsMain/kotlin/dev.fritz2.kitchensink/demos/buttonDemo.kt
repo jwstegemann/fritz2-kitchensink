@@ -380,11 +380,6 @@ fun RenderContext.buttonDemo(): Div {
             c("target")
             +" attribute directly."
         }
-        paragraph {
-            +"If you need to access other attributes from the anchor element you can use the "
-            c("elementLink")
-            +" context instead."
-        }
         componentFrame {
 
             val hrefStore = storeOf("//www.fritz2.dev")
