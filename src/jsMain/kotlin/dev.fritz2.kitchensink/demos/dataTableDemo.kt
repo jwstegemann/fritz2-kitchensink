@@ -1,13 +1,13 @@
 package dev.fritz2.kitchensink.demos
 
-import dev.fritz2.binding.RootStore
-import dev.fritz2.binding.storeOf
+import dev.fritz2.binding.*
 import dev.fritz2.components.*
 import dev.fritz2.components.datatable.DataTableComponent
 import dev.fritz2.components.datatable.SelectionContext
 import dev.fritz2.components.datatable.SelectionMode
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
+import dev.fritz2.dom.html.Span
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.kitchensink.datatable.*
 import dev.fritz2.lenses.Lens
@@ -16,11 +16,13 @@ import dev.fritz2.lenses.format
 import dev.fritz2.styling.*
 import dev.fritz2.styling.params.BoxParams
 import dev.fritz2.styling.params.ColorProperty
+import dev.fritz2.styling.params.FlexParams
 import dev.fritz2.styling.params.Style
 import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.datetime.LocalDate
+import selectField
 
 
 val simpleColumnsDefinition: DataTableComponent<Person, Int>.() -> Unit = {
@@ -44,7 +46,7 @@ fun RenderContext.renderDataTableSelectionSingle(
         simpleColumnsDefinition()
     }
     lineUp({
-        alignItems { end }
+        alignItems { baseline }
     }) {
         items {
             storeContentBox("Selected") {
@@ -722,7 +724,7 @@ fun RenderContext.dataTableDemo(): Div {
             highlight {
                 source(
                     """
-                    dataTable(rows = personStore, rowIdProvider = FinalPerson::id) {
+                    dataTable(rows = personStore, rowIdProvider = Person::id) {
                         options {
                             maxHeight("auto")
                         }                        
@@ -841,7 +843,7 @@ fun RenderContext.dataTableDemo(): Div {
                     columns {
                         column(title = "Birthday") {
                             // apply formatting lens to Date based lens
-                            lens(L.FinalPerson.birthday + dateFormat)
+                            lens(L.Person.birthday + dateFormat)
                         }                    
                         // omitted...
                     } 
@@ -1048,7 +1050,7 @@ fun RenderContext.dataTableDemo(): Div {
                     columns {
                         // content and other noise omitted!
                         column(title = "Id") {
-                            lens(L.FinalPerson.id.asString())
+                            lens(L.Person.id.asString())
                             // preselect default strategy (``asc``, ``desc`` or ``none`` )
                             // or disable sorting at all
                             sorting { disabled }
@@ -1057,16 +1059,16 @@ fun RenderContext.dataTableDemo(): Div {
                             // provide arbitrary ``(T) -> Comparable<*>``
                             // each one is applied from first to last if
                             // comparison results in ``0``
-                            sortBy(FinalPerson::lastname, FinalPerson::firstname)
+                            sortBy(Person::lastname, Person::firstname)
                         }
                         column(title = "Birthday") {
                             // same as above; ``birthday`` is ``LocalDate``
                             // -> Comparable implementation of specific type is used!
-                            sortBy(FinalPerson::birthday)
+                            sortBy(Person::birthday)
                         }
                         column(title = "Programming Languages") {
                             // provide a custom comparator for full flexibility
-                            sortBy(compareBy<FinalPerson> { person ->
+                            sortBy(compareBy<Person> { person ->
                                 person.languages.size
                             })
                         }
@@ -1244,7 +1246,7 @@ fun RenderContext.dataTableDemo(): Div {
                 )
                 
                 // just pick "best" functional language
-                fun FinalPerson.functionalSkill() =
+                fun Person.functionalSkill() =
                     languages.mapNotNull { categories[it] }.maxOf { it }
                 
                 dataTable(rows = personStore, rowIdProvider = Person::id) {
@@ -1262,7 +1264,7 @@ fun RenderContext.dataTableDemo(): Div {
                     }) {
                         // noise omitted!
                         column(title = "Programming Languages") {
-                            sortBy(compareBy<FinalPerson> { person ->
+                            sortBy(compareBy<Person> { person ->
                                 // adapt sorting
                                 person.functionalSkill()
                             })        
@@ -1272,6 +1274,689 @@ fun RenderContext.dataTableDemo(): Div {
                 """
             )
         }
+
+        showcaseSection("Advanced Topics")
+
+        fun RenderContext.pill(content: Span.() -> Unit) {
+            span({
+                display { inlineFlex }
+                alignItems { center }
+                background { color { "#9EF01A" } }
+                color { neutral.mainContrast }
+                radius { "1rem" }
+                paddings { horizontal { smaller } }
+                margins {
+                    right { tiny }
+                    top { tiny }
+                }
+            }) {
+                content()
+            }
+        }
+
+        showcaseSection("Editable Content")
+        paragraph {
+            +"In order to make the content of da DataTable editable, there are arbitrary possibilities, as the "
+            +"component itself provides no built-in functionality and therefore there are no constraints imposed "
+            +"on the client."
+        }
+        paragraph {
+            +"Nevertheless there are two approaches we want to describe here:"
+            ul {
+                li { +"Edit columns in place" }
+                li { +"Use a dedicated action to edit a single row" }
+            }
+        }
+
+        showcaseSubSection("Edit Columns in place")
+        paragraph {
+            +"Imagine simple "
+            c("inputField")
+            +"s and some custom "
+            em { +"pill" }
+            +" based mechanism in combination with "
+            c("selectField")
+            +" in order to edit the content of a DataTable."
+        }
+        paragraph {
+            +"The key idea is to use the exposed "
+            c("SubStore")
+            +"s of the "
+            c("column")
+            +" context's "
+            c("content")
+            +" function. Those stores with a single "
+            c("T")
+            +" of the whole data rows represented by a "
+            c("List<T>")
+            +" can be further "
+            em { +"substored" }
+            +" in order to create a dedicated store for one form element. "
+            +"The following snippet shows this approach:"
+        }
+        highlight {
+            source(
+                """
+                column(title = "Firstname") {
+                    // define a custom content to render some form
+                    content { _, _, row -> // access the store for this specific row
+                        // create a form element and pass a *fitting* sub-store
+                        // so the changes can be directly handled by the form itself
+                        inputField(value = row.sub(L.Person.firstname)) {
+                            placeholder("firstname")
+                        }
+                    }
+                }                    
+                """
+            )
+        }
+        paragraph {
+            +"The following table shows this concept and is explained afterwards. "
+            +"The rows can be selected in order to demonstrate, that the changes to the data are reflected by the "
+            +"selection:"
+        }
+        componentFrame {
+            val personStore = storeOf(finalPersons.take(8))
+            val selectedPerson = storeOf<FinalPerson?>(null)
+
+            dataTable(
+                rows = personStore,
+                rowIdProvider = FinalPerson::id,
+                selection = selectedPerson
+            ) {
+                selection { strategy { checkbox } }
+                options {
+                    maxHeight("50vh")
+                }
+                columns {
+                    column(title = "Id") {
+                        lens(L.FinalPerson.id.asString())
+                        width { minmax("70px") }
+                        sorting { disabled }
+                    }
+                    column(title = "Firstname") {
+                        content { _, _, row ->
+                            val firstname = row.sub(L.FinalPerson.firstname)
+                            inputField(value = firstname) {
+                                placeholder("firstname")
+                                size { small }
+                            }
+                        }
+                    }
+                    column(title = "Lastname") {
+                        content { _, _, row ->
+                            val lastname = row.sub(L.FinalPerson.lastname)
+                            inputField(value = lastname) {
+                                placeholder("lastname")
+                                size { small }
+                            }
+                        }
+                    }
+                    column(title = "Programming Languages") {
+                        width { minmax("3fr") }
+                        content { (_, state), _, row ->
+                            val editToggle = storeOf(false)
+                            val languages = row.sub(L.FinalPerson.languages)
+                            val addLanguage = languages.handle<String> { langs, new ->
+                                langs + new
+                            }
+                            val dropLanguage = languages.handle<String> { langs, dropped ->
+                                langs - dropped
+                            }
+                            editToggle.data.render { editable ->
+                                if (editable && row.current.languages.size < categories.size) {
+                                    selectField(items = categories.keys.subtract(row.current.languages).toList()) {
+                                        size { small }
+                                        events {
+                                            selected handledBy addLanguage
+                                        }
+                                    }
+                                } else {
+                                    state.item.languages.forEach { language ->
+                                        pill {
+                                            +language
+                                            icon({
+                                                size { "1rem" }
+                                            }) { fromTheme { close } }
+                                            clicks.map { language } handledBy dropLanguage
+                                        }
+                                    }
+                                }
+                            }
+                            clicks.map { true } handledBy editToggle.update
+                        }
+                        sortBy(compareBy { person ->
+                            person.languages.size
+                        })
+                    }
+                }
+            }
+            lineUp({
+                alignItems { end }
+            }) {
+                items {
+                    storeContentBox("Selected") {
+                        selectedPerson.data.render {
+                            span {
+                                if (it == null) {
+                                    +"nothing selected..."
+                                } else {
+                                    +"${it.firstname} ${it.lastname} {${it.languages.joinToString(", ")}}"
+                                }
+                            }
+                        }
+                    }
+                    clickButton { text("Clear selection") }.map { null } handledBy selectedPerson.update
+                }
+            }
+        }
+        highlight {
+            source(
+                """
+                // noise omitted (datatable structure, styling, some content)
+                column(title = "Id") { }
+                column(title = "Firstname") {
+                    content { _, _, row ->
+                        inputField(value = row.sub(L.Person.firstname)) {
+                            placeholder("firstname")
+                        }
+                    }
+                }
+                column(title = "Lastname") {
+                    // just like firstname above!
+                }
+                column(title = "Programming Languages") {
+                    content { (_, state), _, row ->
+                        // create a local state to decide if the languages pills 
+                        // or the ``selectField`` should be rendered
+                        val editToggle = storeOf(false)
+                        
+                        // create sub-store for languages list to
+                        // enrich the sub-store with expressive custom handlers
+                        // to make event configuration more readable later on
+                        val languages = row.sub(L.Person.languages)
+                        val addLanguage = languages.handle<String> { languages, new ->
+                            languages + new
+                        }
+                        val dropLanguage = languages.handle<String> { languages, dropped ->
+                            languages - dropped
+                        }
+                        
+                        editToggle.data.render { editable ->
+                            // render ``selectField`` for new language to add
+                            if (editable && row.current.languages.size < categories.size) {
+                                selectField(items = /* all missing languages */) {
+                                    events {
+                                        // tie new language to custom "add" handler
+                                        selected handledBy addLanguage
+                                    }
+                                }
+                            } else {
+                                // render the existing languages
+                                state.item.languages.forEach { language ->
+                                    // use a custom ``pill`` "component" (code omitted)
+                                    pill {
+                                        +language
+                                        // tie language to custom "drop" handler
+                                        clicks.map { language } handledBy dropLanguage
+                                    }
+                                }
+                            }
+                        }
+                        clicks.map { true } handledBy editToggle.update
+                    }
+                }
+                """
+            )
+        }
+
+        showcaseSubSection("Edit by dedicated Action")
+        paragraph {
+            +"As second scenario we consider an overall readonly table with special CRUD action buttons inside "
+            +"each row to activate the "
+            em { +"draft" }
+            +" mode for one column at once. The changed data row can then be saved or the changes can be reverted "
+            +" with another action."
+        }
+        paragraph {
+            +"The core idea with this approach is to embed the additional needed "
+            em { +"state" }
+            +" directly into the model. In this case there is a model based upon a "
+            c("Person")
+            +" and each person object has an optional counterpart: Another person that represents the "
+            em { +"draft" }
+            +". So instead of having a "
+            c("List<Person>")
+            +" as model, we create an UI-logic tailored model "
+            c("DraftablePerson")
+            +" that consists of two individual person objects for each state:"
+            ul {
+                li { +"stable" }
+                li { +"draft" }
+            }
+        }
+        highlight {
+            source(
+                """
+                @Lenses
+                data class DraftablePerson(
+                    val stable: Person, // the "core" data
+                    val draft: Person // the editable data part
+                ) {
+                    val isDrafted = stable.id == draft.id
+                
+                    // helper factories to convert to new state 
+                    fun drafted() = DraftablePerson(stable, stable)
+                    fun committed() = DraftablePerson(draft, FinalPerson.emptyPerson())
+                    fun resetted() = DraftablePerson(stable, FinalPerson.emptyPerson())
+                }                    
+                """
+            )
+        }
+        paragraph {
+            +"Based upon this model can gather the following information inside each rendered column of a row:"
+            ul {
+                li {
+                    +"Decide whether this row is "
+                    em { +"stable" }
+                    +" or a "
+                    em { +"draft" }
+                }
+                li { +"create sub-stores for changing the draft object with form elements." }
+            }
+            +"So for all rendering inside a column for the readonly parts, we refer to "
+            c("stable")
+            +" property and for all editable content to "
+            c("draft")
+            +" property."
+        }
+        paragraph {
+            +"The following table shows the result including the functionality to remove a person and to add a new one."
+            +"The currently drafted person is shown below in order to make the changes during the editing visible:"
+        }
+
+        componentFrame {
+            val persons = finalPersons.take(8).map { DraftablePerson(it, FinalPerson.emptyPerson()) }
+            val personsStore = object : RootStore<List<DraftablePerson>>(persons) {
+
+                val existDraft = data.map { person -> person.any { it.isDrafted } }
+
+                val drop = handle<DraftablePerson> { persons, personToDrop ->
+                    persons - personToDrop
+                }
+                val add = handle<DraftablePerson> { persons, personToAdd ->
+                    persons + personToAdd
+                }
+
+                val updatePerson = handle<DraftablePerson> { persons, changedPerson ->
+                    persons.map {
+                        if (it.stable.id == changedPerson.stable.id) changedPerson
+                        else it
+                    }
+                }
+
+                val createPerson = handle { persons ->
+                    val new = FinalPerson
+                        .emptyPerson()
+                        .copy(id = current.maxOf { it.stable.id } + 1)
+                    persons + DraftablePerson(new, new)
+                }
+            }
+
+            dataTable(rows = personsStore, rowIdProvider = { it.stable.id }) {
+                selection { strategy { checkbox } }
+                options {
+                    maxHeight("50vh")
+                }
+                columns {
+                    column(title = "Id") {
+                        lens(L.DraftablePerson.stable + L.FinalPerson.id.asString())
+                        width { minmax("70px") }
+                        sorting { disabled }
+                    }
+                    column(title = "Firstname") {
+                        content { (_, state), _, row ->
+                            if (state.item.isDrafted) {
+                                val firstname = row.sub(L.DraftablePerson.draft + L.FinalPerson.firstname)
+                                inputField(value = firstname) {
+                                    placeholder("firstname")
+                                    size { small }
+                                }
+                            } else {
+                                +state.item.stable.firstname
+                            }
+                        }
+                    }
+                    column(title = "Lastname") {
+                        content { (_, state), _, row ->
+                            if (state.item.isDrafted) {
+                                val lastname = row.sub(L.DraftablePerson.draft + L.FinalPerson.lastname)
+                                inputField(value = lastname) {
+                                    placeholder("lastname")
+                                    size { small }
+                                }
+                            } else {
+                                +state.item.stable.lastname
+                            }
+                        }
+                    }
+                    column(title = "Programming Languages") {
+                        width { minmax("3fr") }
+                        content { (_, state), _, row ->
+                            if (state.item.isDrafted) {
+                                val editToggle = storeOf(false)
+                                editToggle.data.render { editable ->
+                                    val languages = row.sub(L.DraftablePerson.draft + L.FinalPerson.languages)
+                                    val addLanguage = languages.handle<String> { langs, added ->
+                                        langs + added
+                                    }
+                                    val removeLanguage = languages.handle<String> { langs, dropped ->
+                                        langs - dropped
+                                    }
+                                    if (editable && state.item.draft.languages.size < categories.size) {
+                                        selectField(
+                                            items = categories.keys.subtract(state.item.draft.languages).toList()
+                                        ) {
+                                            size { small }
+                                            events {
+                                                selected handledBy addLanguage
+                                            }
+                                        }
+                                    } else {
+                                        state.item.draft.languages.forEach { language ->
+                                            pill {
+                                                +language
+                                                icon({
+                                                    size { "1rem" }
+                                                }) { fromTheme { close } }
+                                                clicks.map { language } handledBy removeLanguage
+                                            }
+                                        }
+                                    }
+                                }
+                                clicks.map { true } handledBy editToggle.update
+                            } else {
+                                state.item.stable.languages.forEach { language ->
+                                    pill { +language }
+                                }
+                            }
+                        }
+                        sortBy(compareBy { state ->
+                            state.stable.languages.size
+                        })
+                    }
+                    column(title = "CRUD Actions") {
+                        width { minmax("10rem") }
+                        sorting { disabled }
+                        header({
+                            this as FlexParams
+                            display { inlineFlex }
+                            justifyContent { center }
+                        }) { column -> +column.title }
+                        content { (_, state), _, row ->
+                            lineUp({
+                                justifyContent { center }
+                            }) {
+                                spacing { tiny }
+                                items {
+                                    clickButton {
+                                        icon { fromTheme { remove } }
+                                        size { small }
+                                    }.map { row.current } handledBy personsStore.drop
+                                    if (state.item.isDrafted) {
+                                        clickButton {
+                                            icon { fromTheme { check } }
+                                            size { small }
+                                        }.map { state.item.committed() } handledBy personsStore.updatePerson
+                                        clickButton {
+                                            icon { fromTheme { close } }
+                                            size { small }
+                                        }.map { state.item.resetted() } handledBy personsStore.updatePerson
+                                    } else {
+                                        clickButton {
+                                            icon { fromTheme { edit } }
+                                            size { small }
+                                            disabled(personsStore.existDraft)
+                                        }.map { state.item.drafted() } handledBy personsStore.updatePerson
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            lineUp({
+                alignItems { end }
+            }) {
+                items {
+                    storeContentBox("Draft") {
+                        personsStore.data.map {
+                            it.filter { person -> person.isDrafted }.map { it.draft }.firstOrNull()
+                        }.render {
+                            span {
+                                if (it == null) {
+                                    +"nothing drafted..."
+                                } else {
+                                    +"${it.firstname} ${it.lastname} {${it.languages.joinToString(", ")}}"
+                                }
+                            }
+                        }
+                    }
+                    clickButton { icon { fromTheme { add } } } handledBy personsStore.createPerson
+                }
+            }
+        }
+        paragraph {
+            +"First of all let's discover the store concept of this solution:"
+        }
+        highlight {
+            source(
+                """
+                val persons = // some List of DraftablePerson
+                val personsStore = object : RootStore<List<DraftablePerson>>(persons) {
+    
+                    // needed to enable or disable edit-buttons
+                    val existDraft = data.map { person -> person.any { it.isDrafted } }
+    
+                    val drop = handle<DraftablePerson> { persons, personToDrop ->
+                        persons - personToDrop
+                    }
+                    val add = handle<DraftablePerson> { persons, personToAdd ->
+                        persons + personToAdd
+                    }
+    
+                    val updatePerson = handle<DraftablePerson> { persons, changedPerson ->
+                        persons.map {
+                            if (it.stable.id == changedPerson.stable.id) changedPerson
+                            else it
+                        }
+                    }
+    
+                    val createPerson = handle { persons ->
+                        val new = FinalPerson
+                            .emptyPerson()
+                            .copy(id = current.maxOf { it.stable.id } + 1)
+                        // create new person a priori as "draft"
+                        // -> so it gets rendered for editing right away!
+                        persons + DraftablePerson(new, new) 
+                    }
+                }                    
+                """
+            )
+        }
+        paragraph {
+            +"As the content would get a bit long and repitetive, we present each relevant column declaration "
+            +"separately."
+        }
+        paragraph {
+            +"The easiest declaration belongs to the name columns. We need to stateful information here:"
+            ul {
+                li {
+                    +"the "
+                    em { +"draft" }
+                    +" state in order to render the read-only or respectively the editable content"
+                }
+                li {
+                    +"a fitting sub-store of the name's property to pass this into the factory function of "
+                    c("inputField")
+                    +"."
+                }
+            }
+        }
+        highlight {
+            source(
+                """
+                column(title = "Firstname") {
+                    content { (_, state), _, row -> // access the item and the row-store
+                        if (state.item.isDrafted) {
+                            // render the editable version
+                            
+                            // create a fitting sub-store by combining lenses:
+                            // 1.) refer to ``draft`` part of ``DraftablePerson`` object
+                            // 2.) refer to the ``firstname`` property of a ``Person``
+                            // -> created a ``Lens<DraftablePerson, String>``
+                            // the sub-store refers to the ``draft`` only
+                            // -> the stable part remains untouched!
+                            // (so we can easily revert the changes later)
+                            val firstname = row.sub(
+                                L.DraftablePerson.draft + L.FinalPerson.firstname
+                            )
+                            
+                            // let form itself handle the value changing automatically
+                            inputField(value = firstname) {
+                                placeholder("firstname")
+                            }
+                        } else {
+                            // render the read-only version
+                            +state.item.stable.firstname
+                        }
+                    }
+                }                    
+                """
+            )
+        }
+
+        paragraph {
+            +"The column of the languages just looks a bit more complex, but at the core the same mechanisms are "
+            +"applied here as for the names: "
+        }
+        paragraph {
+            +"At first there is a branching based upon the "
+            c("draft")
+            +" state as before, then the appropriate sub-store including proper handlers for manipulating the "
+            +"languages list are defined."
+        }
+        paragraph {
+            +"In order to switch between the language pills and the "
+            c("selectField")
+            +" for adding a new language, an additional boolean toggle store is declared. Based upon its state, "
+            +"the tow cases gets rendered."
+        }
+        highlight {
+            source(
+                """
+                column(title = "Programming Languages") {
+                    content { (_, state), _, row ->
+                        if (state.item.isDrafted) {
+                            // render the editable version
+                            
+                            // need state to decide whether known
+                            // languages or ``selectField`` for adding
+                            // a new language should be rendered
+                            val editToggle = storeOf(false)
+                            editToggle.data.render { editable ->
+                            
+                                // create sub-store and enrich it with
+                                // expressive specialized handlers
+                                // for better readability
+                                val languages = row.sub(
+                                    L.DraftablePerson.draft + L.FinalPerson.languages
+                                )
+                                val addLanguage = languages.handle<String> { 
+                                    langs, added -> langs + added
+                                }
+                                val removeLanguage = languages.handle<String> { 
+                                    langs, dropped -> langs - dropped
+                                }
+                                
+                                // evaluate second state:
+                                if (editable && 
+                                    state.item.draft.languages.size < categories.size) {
+                                    // render select for new language
+                                    selectField(items = /* all missing languages */) {
+                                        events {
+                                            selected handledBy addLanguage
+                                        }
+                                    }
+                                } else {
+                                    // render known languages with removeble pill
+                                    state.item.draft.languages.forEach { language ->
+                                        pill {
+                                            +language
+                                            icon { fromTheme { close } }
+                                            clicks.map { language } handledBy removeLanguage
+                                        }
+                                    }
+                                }
+                            }
+                            // Remark: we just need to set it once to ``true``
+                            // After the content has changed, the whole cell
+                            // is newly rendered -> the initial state will
+                            // again be set to ``false``!
+                            clicks.map { true } handledBy editToggle.update
+                            
+                        } else {
+                            // render the read-only version
+                            state.item.stable.languages.forEach { language ->
+                                pill { +language }
+                            }
+                        }
+                    }
+                }                    
+                """.trimIndent()
+            )
+        }
+
+        paragraph {
+            +"Last but not least the CRUD buttons need to be defined. Nothing really new here besides the "
+            +"expressive use of specialized handlers of the main store and the converter factories of the "
+            c("DraftablePerson")
+            +" model for creating a draft or committing it back as stable."
+        }
+        highlight {
+            source(
+                """
+                column(title = "CRUD Actions") {
+                    content { (_, state), _, row ->
+                    
+                        // always offer remove button
+                        clickButton {
+                            icon { fromTheme { remove } }
+                        }.map { row.current } handledBy personsStore.drop
+                        
+                        if (state.item.isDrafted) {
+                            // Draft is active -> offer buttons to save or cancel
+                            clickButton {
+                                icon { fromTheme { check } }
+                            }.map { state.item.committed() } handledBy personsStore.updatePerson
+                            clickButton {
+                                icon { fromTheme { close } }
+                            }.map { state.item.resetted() } handledBy personsStore.updatePerson
+                            
+                        } else {
+                            // No draft active -> offer edit button
+                            clickButton {
+                                icon { fromTheme { edit } }
+                                // use specialized flow to disable all other edit buttons
+                                disabled(personsStore.existDraft)
+                            }.map { state.item.drafted() } handledBy personsStore.updatePerson
+                        }
+                    }
+                }                    
+                """
+            )
+        }
+
     }
 }
 
