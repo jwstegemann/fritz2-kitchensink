@@ -2,7 +2,6 @@ package dev.fritz2.kitchensink
 
 import dev.fritz2.binding.RootStore
 import dev.fritz2.binding.storeOf
-import dev.fritz2.binding.watch
 import dev.fritz2.components.*
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.kitchensink.demos.*
@@ -12,7 +11,6 @@ import dev.fritz2.styling.theme.Theme
 import dev.fritz2.styling.theme.render
 import kotlinx.browser.window
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.onEach
 
 val themes = listOf<ExtendedTheme>(SmallFonts(), LargeFonts())
 
@@ -119,7 +117,7 @@ fun main() {
                                 color { primary.main }
                             }) {
                                 href("https://www.fritz2.dev/")
-                                target("_new")
+                                target("_blank")
 
                                 icon({
                                     size { "3rem" }
@@ -203,15 +201,15 @@ fun main() {
                                 target("_blank")
                             }
 
-                            clickButton {
+                            linkButton {
                                 variant { ghost }
                                 size { large }
                                 icon({
                                     color { primary.main }
                                 }) { def(githubIcon) }
-                            }.events.onEach {
-                                window.open("https://github.com/jwstegemann/fritz2-kitchensink", "_blank")
-                            }.watch()
+                                href("https://github.com/jwstegemann/fritz2-kitchensink")
+                                target("_blank")
+                            }
 //                            navAnchor("Documentation", "https://docs.fritz2.dev/")
 //                            navAnchor("API", "https://api.fritz2.dev")
 //                            navAnchor("Examples", "https://www.fritz2.dev/examples.html")
