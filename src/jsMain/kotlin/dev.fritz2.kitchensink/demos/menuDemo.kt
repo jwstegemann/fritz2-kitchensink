@@ -5,83 +5,50 @@ import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.styling.StyleClass
+import dev.fritz2.styling.params.BasicParams
 import dev.fritz2.styling.params.BoxParams
-import dev.fritz2.styling.params.DirectionValues
-import dev.fritz2.styling.params.JustifyContentValues
-import dev.fritz2.styling.params.WrapValues
-import dev.fritz2.styling.theme.Theme
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import dev.fritz2.styling.params.DisplayValues
+import dev.fritz2.styling.params.Style
+import dev.fritz2.styling.style
 
-@ExperimentalCoroutinesApi
 fun RenderContext.menuDemo(): Div {
 
-    fun RenderContext.menuBox(expression: RenderContext.() -> Unit) {
-        box({
-            margin { smaller }
-            display { inlineBlock }
-        }) {
-            expression()
+    val listItemStyle = style {
+        margins {
+            bottom { small }
         }
     }
 
+    val demoMenuStyle: Style<BasicParams> = {
+        radius { "6px" }
+        boxShadow { raised }
+    }
+
     return contentFrame {
-
-        showcaseHeader("Menu")
+        showcaseSection("Menu")
         paragraph {
-            +"The Menu is a non-modal dialog that contains a list of menu entries and floats around a toggle element. "
-            +"It is used to display settings and actions in a drop-down-menu similar to those used in traditional "
-            + "desktop software. "
-            +"Menus are closed whenever a click outside the dropdown occurs or if another Menu is opened."
+            +"A Menu is a component displaying typical menu-entries such as buttons, headers and dividers in a vertical "
+            +"view."
         }
-        showcaseSection("Usage")
         paragraph {
-            +"Menus are created using the "
-            c("menu")
-            +" method. "
-            br { }
-            +"Follow the example below to create a simple menu with a default toggle and one single entry. "
-            +"You will notice the "
-            c("entries")
-            +" context hosting all the entries of the Menu. In this example it only has a single item created via the "
-            c("item")
-            +" method. Within the "
-            c("item")
-            +"-context events are exposed via an "
-            c("events")
-            +" context, similarly to e.g. buttons."
-        }
-        componentFrame {
-            menu {
-                entries {
-                    item {
-                        icon { sun }
-                        text("Hello world!")
-                    }
-                }
-            }
-        }
-        highlight {
-            source(
-                """
-                    menu {
-                        entries {
-                            item {
-                                icon { sun }
-                                text("Hello world!")
-                                events {
-                                    clicks handledBy someStore.update
-                                }
-                            }
-                        }
-                    }
-                 """
-            )
-        }
-
-        paragraph {
-            +"Other possible children are:"
+            +"Find a list of the menu entries that are available below:"
             ul {
-                li {
+                li(baseClass = listItemStyle.name) {
+                    b { +"Item: " }
+                    +"Clickable menu-button consisting of a title and an optional icon. Clicks are exposed via the "
+                    c("events")
+                    +" context just like with regular buttons. Adding to this, it is also possible to disable an item "
+                    +"via the "
+                    c("disabled")
+                    +" or "
+                    c("enabled")
+                    +" properties."
+                    br { }
+                    +"Created via the "
+                    c("item")
+                    +" context."
+                }
+                li(baseClass = listItemStyle.name) {
                     b { +"Subheader: " }
                     +"Small headline that can be used to mark the beginning of a group of entries."
                     br { }
@@ -89,7 +56,7 @@ fun RenderContext.menuDemo(): Div {
                     c("subheader")
                     +" context."
                 }
-                li {
+                li(baseClass = listItemStyle.name) {
                     b { +"Divider: " }
                     +"A thin line that can be used to separate two entries or group multiple entries together"
                     br { }
@@ -97,7 +64,7 @@ fun RenderContext.menuDemo(): Div {
                     c("divider")
                     +" method."
                 }
-                li {
+                li(baseClass = listItemStyle.name) {
                     b { +"Custom components " }
                     +"that can be any fritz2-component: "
                     br { }
@@ -106,16 +73,59 @@ fun RenderContext.menuDemo(): Div {
                     +" context."
                 }
             }
-            +"Find an example of the above mentioned entries below:"
+        }
+        paragraph {
+            +"A complete example of all the available types of entries is available below."
+
+            box({
+                margins { vertical { smaller } }
+            }) {
+                alert {
+                    severity { info }
+                    variant { leftAccent }
+                    stacking { compact }
+                    content(
+                        "All menus in this demo are custom styled to appear inside a raised box. This is " +
+                                "done to be able to better distinguish the menu from the rest of the page."
+                    )
+                }
+            }
         }
         componentFrame {
-            menu {
+            menu(demoMenuStyle) {
                 entries {
-                    subheader("Subheader")
+                    subheader("Items")
                     item {
-                        text("Hello world!")
+                        text("Basic item")
+                    }
+                    item {
+                        icon { sun }
+                        text("Item with icon")
+                    }
+                    item {
+                        text("Clickable item")
+                        icon { notification }
+                        events {
+                            clicks handledBy toast {
+                                placement { bottomRight }
+                                hasCloseButton(false)
+                                content {
+                                    alert {
+                                        variant { leftAccent }
+                                        stacking { compact }
+                                        content("Menu item clicked")
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    item {
+                        text("Disabled item")
+                        icon { ban }
+                        disabled(true)
                     }
                     divider()
+                    subheader("Other")
                     custom {
                         pushButton {
                             text("I'm a custom entry")
@@ -129,11 +139,29 @@ fun RenderContext.menuDemo(): Div {
                 """
                     menu {
                         entries {
-                            subheader("Subheader")
+                            subheader("Items")
                             item {
-                                text("Hello world!")
+                                text("Basic item")
+                            }
+                            item {
+                                icon { sun }
+                                text("Item with icon")
+                            }
+                            item {
+                                text("Clickable item")
+                                icon { notification }
+                                events {
+                                    clicks handledBy someHandler
+                                    }
+                                }
+                            }
+                            item {
+                                text("Disabled item")
+                                icon { ban }
+                                disabled(true)
                             }
                             divider()
+                            subheader("Other")
                             custom {
                                 pushButton {
                                     text("I'm a custom entry")
@@ -141,199 +169,6 @@ fun RenderContext.menuDemo(): Div {
                             }
                         }
                     }
-                 """
-            )
-        }
-
-        showcaseSection("Toggle")
-        paragraph({
-            margins { bottom { small } }
-        }) {
-            +"Any component can be used as a Menu's toggle and can be specified via the "
-            c("toggle")
-            +" method. The specified toggle does not need to be clickable by itself as the clicks are handled by the "
-            +"MenuComponent."
-        }
-        alert({
-            margins { top { normal } }
-        }) {
-            icon { circleInformation }
-            variant { leftAccent }
-            stacking { compact }
-            content("Buttons are good components to use for the toggle as they require very little adjustments " +
-                    "to work well with the Menu.")
-        }
-        componentFrame {
-            menuBox {
-                menu {
-                    toggle {
-                        pushButton {
-                            text("Toggle")
-                        }
-                    }
-                    entries {
-                        item {
-                            text("Hello world!")
-                        }
-                    }
-                }
-            }
-
-            menuBox {
-                menu {
-                    toggle {
-                        pushButton {
-                            text("Toggle")
-                            variant { outline }
-                        }
-                    }
-                    entries {
-                        item {
-                            text("Hello world!")
-                        }
-                    }
-                }
-            }
-
-            menuBox {
-                menu {
-                    toggle {
-                        icon {
-                            fromTheme { chevronDoubleDown }
-                        }
-                    }
-                    entries {
-                        item {
-                            text("Hello world!")
-                        }
-                    }
-                }
-            }
-        }
-        highlight {
-            source(
-                """
-                    menu {
-                        toggle {
-                            pushButton {
-                                text("Toggle")
-                            }
-                        }
-                        entries {
-                            item {
-                                text("Hello world!")
-                            }
-                        }
-                    }
-                 """
-            )
-        }
-
-        showcaseSection("Placement")
-        paragraph {
-            +"The dropdown's relative position to the toggle can either be to the left of, to the right of, or below "
-            +"it. By default, the dropdown is rendered "
-            i { +"below" }
-            +" the toggle and growing to the right if needed ("
-            i { +"right-facing" }
-            +"). "
-            +"The position can be changed via the "
-            c("placement")
-            +" property."
-        }
-        componentFrame {
-            menuBox {
-                menu {
-                    toggle {
-                        pushButton {
-                            icon {
-                                fromTheme { arrowLeft }
-                            }
-                            text("Left")
-                        }
-                    }
-                    placement { left }
-                    entries {
-                        item {
-                            text("Dropdown to the left")
-                        }
-                    }
-                }
-            }
-
-            menuBox {
-                menu {
-                    toggle {
-                        pushButton {
-                            icon {
-                                fromTheme { arrowLeftDown }
-                            }
-                            text("Bottom (left-facing)")
-                        }
-                    }
-                    placement { bottomLeftFacing }
-                    entries {
-                        item {
-                            text("Dropdown below")
-                        }
-                    }
-                }
-            }
-
-            menuBox {
-                menu {
-                    toggle {
-                        pushButton {
-                            icon {
-                                fromTheme { arrowRightDown }
-                            }
-                            text("Default: Bottom (right-facing)")
-                        }
-                    }
-                    placement { bottomRightFacing }
-                    entries {
-                        item {
-                            text("Dropdown below")
-                        }
-                    }
-                }
-            }
-
-            menuBox {
-                menu {
-                    toggle {
-                        pushButton {
-                            icon {
-                                fromTheme { arrowRight }
-                            }
-                            text("Right")
-                        }
-                    }
-                    placement { right }
-                    entries {
-                        item {
-                            text("Dropdown to the right")
-                        }
-                    }
-                }
-            }
-        }
-        highlight {
-            source(
-                """
-                menu {
-                    toggle {
-                        pushButton {
-                            icon {
-                                fromTheme { chevronLeft }
-                            }
-                            text("Left")
-                        }
-                    }
-                    placement { left }
-                    
-                    // entries go here
-                }
                  """
             )
         }
@@ -389,7 +224,7 @@ fun RenderContext.menuDemo(): Div {
                 .build()
                 .run(::addEntry)
 
-            menu {
+            menu(demoMenuStyle) {
                 entries {
                     radios {
                         items(listOf("Item 1", "Item 2", "Item 3"))

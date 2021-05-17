@@ -31,7 +31,7 @@ const val checkbox_ = "Checkbox"
 const val radio_ = "RadioGroup"
 const val switch_ = "Switch"
 const val stack_ = "Stack"
-const val menu_ = "Menu"
+const val dropdown_ = "Dropdown"
 const val modal_ = "Modal"
 const val popover_ = "Popover"
 const val styling_ = "Styling"
@@ -42,6 +42,7 @@ const val tooltip_ = "Tooltip"
 const val responsive_ = "Responsiveness"
 const val textarea_ = "TextArea"
 const val alert_ = "Alert"
+const val menu_ = "Menu"
 const val toasts_ = "Toast"
 const val datatable_ = "DataTable"
 
@@ -304,7 +305,7 @@ fun main() {
                             menuAnchor(datatable_)
 
                             menuHeader("OVERLAY")
-                            menuAnchor(menu_)
+                            menuAnchor(dropdown_)
                             menuAnchor(modal_)
                             menuAnchor(popover_)
                             menuAnchor(tooltip_)
@@ -312,6 +313,7 @@ fun main() {
 
                             menuHeader("MISC")
                             menuAnchor(alert_)
+                            menuAnchor(menu_)
                             menuAnchor(icons_)
                             menuAnchor(spinner_)
 
@@ -348,7 +350,7 @@ fun main() {
                                 radio_ -> radiosDemo()
                                 switch_ -> switchDemo()
                                 stack_ -> stackDemo()
-                                menu_ -> menuDemo()
+                                dropdown_ -> dropdownDemo()
                                 modal_ -> modalDemo()
                                 popover_ -> popoverDemo()
                                 tooltip_ -> tooltipDemo()
@@ -359,6 +361,7 @@ fun main() {
                                 responsive_ -> responsiveDemo()
                                 textarea_ -> textareaDemo()
                                 alert_ -> alertDemo()
+                                menu_ -> menuDemo()
                                 toasts_ -> toastDemo()
                                 datatable_ -> dataTableDemo()
                                 else -> welcome()
