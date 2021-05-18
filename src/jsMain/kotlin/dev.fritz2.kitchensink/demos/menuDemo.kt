@@ -4,6 +4,7 @@ import dev.fritz2.components.*
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
+import dev.fritz2.kitchensink.dropdown_
 import dev.fritz2.styling.StyleClass
 import dev.fritz2.styling.params.BasicParams
 import dev.fritz2.styling.params.BoxParams
@@ -144,15 +145,14 @@ fun RenderContext.menuDemo(): Div {
                                 text("Basic item")
                             }
                             item {
-                                icon { sun }
                                 text("Item with icon")
+                                icon { sun }
                             }
                             item {
                                 text("Clickable item")
                                 icon { notification }
                                 events {
                                     clicks handledBy someHandler
-                                    }
                                 }
                             }
                             item {
@@ -170,6 +170,89 @@ fun RenderContext.menuDemo(): Div {
                         }
                     }
                  """
+            )
+        }
+
+        showcaseSection("Dropdown Menus")
+        paragraph {
+            +"Menus are often used together with "
+            internalLink("Dropdowns", dropdown_)
+            +" to create so called dropdown-menus. Instead of creating a dropdown manually you can simply use the "
+            +"builtin "
+            c("dropdownMenu")
+            +" convenience method. "
+            +"It creates a menu wrapped inside a dropdown and can be customized just like a normal menu. "
+        }
+        componentFrame {
+            dropdownMenu {
+                entries {
+                    item {
+                        text("This is a menu item")
+                    }
+                }
+            }
+        }
+        highlight {
+            source(
+                """
+                    dropdownMenu {
+                        entries {
+                            item {
+                                text("This is a menu item")
+                            }
+                        }
+                    }
+                """.trimIndent()
+            )
+        }
+        paragraph {
+            +"Additionally, a "
+            c("dropdown")
+            +" context is available that can be used to customize properties of the underlying dropdown component such "
+            +"as it's placement, alignment or toggle element."
+        }
+        componentFrame {
+            dropdownMenu {
+                dropdown {
+                    placement { right }
+                    alignment { start }
+                    toggle {
+                        clickButton {
+                            text("Dropdown-Menu")
+                            icon { fromTheme { chevronRight } }
+                            variant { outline }
+                        }
+                    }
+                }
+                entries {
+                    item {
+                        text("This is a menu item")
+                    }
+                }
+            }
+        }
+        highlight {
+            source(
+                """
+                    dropdownMenu {
+                        dropdown {
+                            placement { right }
+                            alignment { start }
+                            toggle {
+                                clickButton {
+                                    text("Dropdown-Menu")
+                                    icon { fromTheme { chevronRight } }
+                                    variant { outline }
+                                }
+                            }
+                        }
+                        entries {
+                            item {
+                                text("This is a menu item")
+                            }
+                        }
+                    }
+                """.trimIndent()
             )
         }
 
