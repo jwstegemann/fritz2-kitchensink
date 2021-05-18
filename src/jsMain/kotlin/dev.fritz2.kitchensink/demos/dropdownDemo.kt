@@ -5,6 +5,7 @@ import dev.fritz2.components.*
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
+import dev.fritz2.kitchensink.menu_
 import dev.fritz2.styling.StyleClass
 import dev.fritz2.styling.p
 import dev.fritz2.styling.params.BoxParams
@@ -33,10 +34,11 @@ fun RenderContext.dropdownDemo(): Div {
         paragraph {
             +"The Dropdown is a non-modal dialog that contains arbitrary content and floats around a toggle element. "
             +"It can be used to display settings and actions in a dropdown similar to those used in traditional "
-            + "desktop software, for example in combo-boxes or dropdown-menus. For the latter fritz2 offers a dedicated "
-            // TODO: Include link to dropdown-menu demo
-            + "component which can be found <here>. "
-            +"Menus are closed whenever a click outside the dropdown occurs or if another Menu is opened."
+            + "desktop software, for example in combo-boxes or dropdown-menus. "
+            +"The latter can be created as described in the "
+            internalLink("Menu", menu_)
+            +" demo. "
+            +"Dropdowns are automatically closed whenever an outside click occurs, or if another one is opened."
         }
         showcaseSection("Usage")
         paragraph {
