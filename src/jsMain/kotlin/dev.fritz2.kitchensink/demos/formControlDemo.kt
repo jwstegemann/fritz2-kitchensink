@@ -542,6 +542,7 @@ fun RenderContext.formControlDemo(): Div {
                 li { +"TextArea" }
                 li { +"Switch" }
                 li { +"Checkbox" }
+                li { +"Slider" }
                 li { +"CheckboxGroup" }
                 li { +"RadioGroup" }
             }

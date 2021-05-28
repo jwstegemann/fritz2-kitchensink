@@ -43,6 +43,7 @@ const val textarea_ = "TextArea"
 const val alert_ = "Alert"
 const val toasts_ = "Toast"
 const val datatable_ = "DataTable"
+const val slider_ = "Slider"
 
 val router = router(welcome_)
 
@@ -297,6 +298,7 @@ fun main() {
                             menuAnchor(radio_)
                             menuAnchor(textarea_)
                             menuAnchor(switch_)
+                            menuAnchor(slider_)
                             menuAnchor(formcontrol_)
 
                             menuHeader("COMPLEX")
@@ -358,6 +360,7 @@ fun main() {
                                 alert_ -> alertDemo()
                                 toasts_ -> toastDemo()
                                 datatable_ -> dataTableDemo()
+                                slider_ -> sliderDemo()
                                 else -> welcome()
                             }
                         }
