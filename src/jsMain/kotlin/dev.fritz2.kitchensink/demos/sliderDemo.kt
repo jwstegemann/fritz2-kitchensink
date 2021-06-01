@@ -21,6 +21,12 @@ fun RenderContext.sliderDemo(): Div {
             +"is more important than the exact number."
         }
 
+        coloredBox(Theme().colors.danger) {
+            +"Devices with touchscreen are not yet supported for sliding actions. "
+            +"See "
+            externalLink("Issue #376", "https://github.com/jwstegemann/fritz2/issues/376")
+        }
+
         showcaseSection("Usage")
         paragraph {
             +"Define some store which holds an "
