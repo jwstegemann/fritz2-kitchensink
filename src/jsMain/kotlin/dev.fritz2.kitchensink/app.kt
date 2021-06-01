@@ -367,7 +367,4 @@ fun main() {
             }
         }
     }
-
-    console.log(showStaticStyle())
-    console.log(showDynamicStyle())
 }
