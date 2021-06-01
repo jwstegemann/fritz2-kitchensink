@@ -6,12 +6,7 @@ import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.kitchensink.menu_
-import dev.fritz2.styling.StyleClass
 import dev.fritz2.styling.p
-import dev.fritz2.styling.params.BoxParams
-import dev.fritz2.styling.params.DirectionValues
-import dev.fritz2.styling.params.JustifyContentValues
-import dev.fritz2.styling.params.WrapValues
 import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.combine
@@ -159,17 +154,10 @@ fun RenderContext.dropdownDemo(): Div {
 
         showcaseSection("Placement and Alignment")
         paragraph {
-            box({
-                margins { bottom { small } }
-            }) {
-                alert {
-                    variant { leftAccent }
-                    stacking { compact }
-                    content(
-                        "Placements and alignments work differently on mobile devices: The dropdown uses " +
-                                "all the available width in this case and the configuration is ignored."
-                    )
-                }
+
+            coloredBox(Theme().colors.info) {
+               +"Placements and alignments work differently on mobile devices: The dropdown uses "
+               +"all the available width in this case and the configuration is ignored."
             }
 
             +"The dropdown's relative position to the toggle can either be to the left, to the right, on top or below "

@@ -8,9 +8,9 @@ import dev.fritz2.kitchensink.dropdown_
 import dev.fritz2.styling.StyleClass
 import dev.fritz2.styling.params.BasicParams
 import dev.fritz2.styling.params.BoxParams
-import dev.fritz2.styling.params.DisplayValues
 import dev.fritz2.styling.params.Style
 import dev.fritz2.styling.style
+import dev.fritz2.styling.theme.Theme
 
 fun RenderContext.menuDemo(): Div {
 
@@ -50,11 +50,11 @@ fun RenderContext.menuDemo(): Div {
                     +" context."
                 }
                 li(baseClass = listItemStyle.name) {
-                    b { +"Subheader: " }
+                    b { +"header: " }
                     +"Small headline that can be used to mark the beginning of a group of entries."
                     br { }
                     +"Created via the "
-                    c("subheader")
+                    c("header")
                     +" context."
                 }
                 li(baseClass = listItemStyle.name) {
@@ -81,56 +81,49 @@ fun RenderContext.menuDemo(): Div {
             box({
                 margins { vertical { smaller } }
             }) {
-                alert {
-                    severity { info }
-                    variant { leftAccent }
-                    stacking { compact }
-                    content(
-                        "All menus in this demo are custom styled to appear inside a raised box. This is " +
-                                "done to be able to better distinguish the menu from the rest of the page."
-                    )
+                coloredBox(Theme().colors.info) {
+                    +"All menus in this demo are custom styled to appear inside a raised box. This is "
+                    +"done to be able to better distinguish the menu from the rest of the page."
                 }
             }
         }
         componentFrame {
             menu(demoMenuStyle) {
-                entries {
-                    subheader("Items")
-                    item {
-                        text("Basic item")
-                    }
-                    item {
-                        icon { sun }
-                        text("Item with icon")
-                    }
-                    item {
-                        text("Clickable item")
-                        icon { notification }
-                        events {
-                            clicks handledBy toast {
-                                placement { bottomRight }
-                                hasCloseButton(false)
-                                content {
-                                    alert {
-                                        variant { leftAccent }
-                                        stacking { compact }
-                                        content("Menu item clicked")
-                                    }
+                header("Items")
+                entry {
+                    text("Basic item")
+                }
+                entry {
+                    icon { sun }
+                    text("Item with icon")
+                }
+                entry {
+                    text("Clickable item")
+                    icon { notification }
+                    events {
+                        clicks handledBy toast {
+                            placement { bottomRight }
+                            hasCloseButton(false)
+                            content {
+                                alert {
+                                    variant { leftAccent }
+                                    stacking { compact }
+                                    content("Menu item clicked")
                                 }
                             }
                         }
                     }
-                    item {
-                        text("Disabled item")
-                        icon { ban }
-                        disabled(true)
-                    }
-                    divider()
-                    subheader("Other")
-                    custom {
-                        pushButton {
-                            text("I'm a custom entry")
-                        }
+                }
+                entry {
+                    text("Disabled item")
+                    icon { ban }
+                    disabled(true)
+                }
+                divider()
+                header("Other")
+                custom {
+                    pushButton {
+                        text("I'm a custom entry")
                     }
                 }
             }
@@ -139,33 +132,41 @@ fun RenderContext.menuDemo(): Div {
             source(
                 """
                     menu {
-                        entries {
-                            subheader("Items")
-                            item {
-                                text("Basic item")
-                            }
-                            item {
-                                text("Item with icon")
-                                icon { sun }
-                            }
-                            item {
-                                text("Clickable item")
-                                icon { notification }
-                                events {
-                                    clicks handledBy someHandler
+                        header("Items")
+                        entry {
+                            text("Basic item")
+                        }
+                        entry {
+                            icon { sun }
+                            text("Item with icon")
+                        }
+                        entry {
+                            text("Clickable item")
+                            icon { notification }
+                            events {
+                                clicks handledBy toast {
+                                    placement { bottomRight }
+                                    hasCloseButton(false)
+                                    content {
+                                        alert {
+                                            variant { leftAccent }
+                                            stacking { compact }
+                                            content("Menu item clicked")
+                                        }
+                                    }
                                 }
                             }
-                            item {
-                                text("Disabled item")
-                                icon { ban }
-                                disabled(true)
-                            }
-                            divider()
-                            subheader("Other")
-                            custom {
-                                pushButton {
-                                    text("I'm a custom entry")
-                                }
+                        }
+                        entry {
+                            text("Disabled item")
+                            icon { ban }
+                            disabled(true)
+                        }
+                        divider()
+                        header("Other")
+                        custom {
+                            pushButton {
+                                text("I'm a custom entry")
                             }
                         }
                     }
@@ -184,10 +185,12 @@ fun RenderContext.menuDemo(): Div {
             +"It creates a menu wrapped inside a dropdown and can be customized just like a normal menu. "
         }
         componentFrame {
-            dropdownMenu {
-                entries {
-                    item {
-                        text("This is a menu item")
+            dropdown {
+                content {
+                    menu {
+                        entry {
+                            text("This is a menu item")
+                        }
                     }
                 }
             }
@@ -195,13 +198,15 @@ fun RenderContext.menuDemo(): Div {
         highlight {
             source(
                 """
-                    dropdownMenu {
-                        entries {
-                            item {
+                dropdown {
+                    content {
+                        menu {
+                            entry {
                                 text("This is a menu item")
                             }
                         }
                     }
+                }
                 """.trimIndent()
             )
         }
@@ -212,7 +217,30 @@ fun RenderContext.menuDemo(): Div {
             +"as it's placement, alignment or toggle element."
         }
         componentFrame {
-            dropdownMenu {
+            dropdown {
+                placement { right }
+                alignment { start }
+                toggle {
+                    clickButton {
+                        text("Dropdown-Menu")
+                        icon { fromTheme { chevronRight } }
+                        variant { outline }
+                    }
+                }
+                content {
+                    menu {
+                        entry {
+                            text("This is a menu item")
+                            text("This is a menu item")
+                            text("This is a menu item")
+                        }
+                    }
+                }
+            }
+        }
+        highlight {
+            source(
+                """
                 dropdown {
                     placement { right }
                     alignment { start }
@@ -223,35 +251,16 @@ fun RenderContext.menuDemo(): Div {
                             variant { outline }
                         }
                     }
-                }
-                entries {
-                    item {
-                        text("This is a menu item")
-                    }
-                }
-            }
-        }
-        highlight {
-            source(
-                """
-                    dropdownMenu {
-                        dropdown {
-                            placement { right }
-                            alignment { start }
-                            toggle {
-                                clickButton {
-                                    text("Dropdown-Menu")
-                                    icon { fromTheme { chevronRight } }
-                                    variant { outline }
-                                }
-                            }
-                        }
-                        entries {
-                            item {
+                    content {
+                        menu {
+                            entry {
+                                text("This is a menu item")
+                                text("This is a menu item")
                                 text("This is a menu item")
                             }
                         }
                     }
+                }
                 """.trimIndent()
             )
         }
@@ -265,8 +274,8 @@ fun RenderContext.menuDemo(): Div {
             +"a project and the "
             c("custom")
             +" context would produce a lot of boilerplate code."
-            br { }
-            br { }
+        }
+        paragraph {
             +"A contexts can be injected by simply writing an extension method for the "
             c("MenuEntriesContext")
             +" class that adds a subclass of "
@@ -282,7 +291,7 @@ fun RenderContext.menuDemo(): Div {
             class RadioGroupContext {
                 val items = ComponentProperty(listOf<String>())
 
-                fun build() = object : MenuEntryComponent {
+                fun build() = object : MenuEntryComponent() {
                     override fun render(
                         context: RenderContext,
                         styling: BoxParams.() -> Unit,
@@ -302,16 +311,14 @@ fun RenderContext.menuDemo(): Div {
                 }
             }
 
-            fun MenuEntriesContext.radios(expression: RadioGroupContext.() -> Unit) = RadioGroupContext()
+            fun MenuComponent.radios(expression: RadioGroupContext.() -> Unit) = RadioGroupContext()
                 .apply(expression)
                 .build()
                 .run(::addEntry)
 
             menu(demoMenuStyle) {
-                entries {
-                    radios {
-                        items(listOf("Item 1", "Item 2", "Item 3"))
-                    }
+                radios {
+                    items(listOf("Item 1", "Item 2", "Item 3"))
                 }
             }
         }
@@ -343,17 +350,14 @@ fun RenderContext.menuDemo(): Div {
                 }
     
                 // Function to actually configure and add a radio group to the Menu:
-                fun MenuEntriesContext.radios(expression: RadioGroupContext.() -> Unit) = RadioGroupContext()
+                fun MenuComponent.radios(expression: RadioGroupContext.() -> Unit) = RadioGroupContext()
                     .apply(expression)
                     .build()
                     .run(::addEntry)
     
-                menu {
-                    entries {
-                        // The extended DSL is now available:
-                        radios {
-                            items(listOf("Item 1", "Item 2", "Item 3"))
-                        }
+                menu(demoMenuStyle) {
+                    radios {
+                        items(listOf("Item 1", "Item 2", "Item 3"))
                     }
                 }
                  """
