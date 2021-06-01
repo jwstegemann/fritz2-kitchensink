@@ -666,7 +666,7 @@ fun RenderContext.formControlDemo(): Div {
                             }
                         }
                         variant { solid }
-                        sizes { large }
+                        size { large }
                         content(message.message)
                     }
                 }
@@ -698,7 +698,7 @@ fun RenderContext.formControlDemo(): Div {
                                 }
                             }
                             variant { solid }
-                            sizes { large }
+                            size { large }
                             content(message.message)
                         }
                     }
@@ -754,7 +754,7 @@ fun RenderContext.formControlDemo(): Div {
                             }
                         }
                         variant { leftAccent }
-                        sizes { small }
+                        size { small }
                         stacking { separated }
                         content(message.message)
                     }
@@ -809,7 +809,7 @@ fun RenderContext.formControlDemo(): Div {
                                 }
                             }
                             variant { leftAccent }
-                            sizes { small }
+                            size { small }
                             stacking { separated }
                             content(message.message)
                         }
