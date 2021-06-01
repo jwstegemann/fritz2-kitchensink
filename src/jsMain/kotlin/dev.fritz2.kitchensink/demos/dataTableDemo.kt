@@ -1375,6 +1375,7 @@ fun RenderContext.dataTableDemo(): Div {
                         sorting { disabled }
                     }
                     column(title = "Firstname") {
+                        lens(L.FinalPerson.firstname)
                         content { _, _, row ->
                             val firstname = row.sub(L.FinalPerson.firstname)
                             inputField(value = firstname) {
@@ -1384,6 +1385,7 @@ fun RenderContext.dataTableDemo(): Div {
                         }
                     }
                     column(title = "Lastname") {
+                        lens(L.FinalPerson.lastname)
                         content { _, _, row ->
                             val lastname = row.sub(L.FinalPerson.lastname)
                             inputField(value = lastname) {
@@ -1615,6 +1617,7 @@ fun RenderContext.dataTableDemo(): Div {
                         sorting { disabled }
                     }
                     column(title = "Firstname") {
+                        lens(L.DraftablePerson.stable + L.FinalPerson.firstname)
                         content { (_, state), _, row ->
                             if (state.item.isDrafted) {
                                 val firstname = row.sub(L.DraftablePerson.draft + L.FinalPerson.firstname)
@@ -1628,6 +1631,7 @@ fun RenderContext.dataTableDemo(): Div {
                         }
                     }
                     column(title = "Lastname") {
+                        lens(L.DraftablePerson.stable + L.FinalPerson.lastname)
                         content { (_, state), _, row ->
                             if (state.item.isDrafted) {
                                 val lastname = row.sub(L.DraftablePerson.draft + L.FinalPerson.lastname)
