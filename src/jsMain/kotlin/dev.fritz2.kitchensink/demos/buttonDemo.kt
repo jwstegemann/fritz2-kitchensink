@@ -1,6 +1,7 @@
 package dev.fritz2.kitchensink.demos
 
 import dev.fritz2.binding.RootStore
+import dev.fritz2.binding.storeOf
 import dev.fritz2.components.*
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
@@ -359,6 +360,99 @@ fun RenderContext.buttonDemo(): Div {
                     variant { ghost }
                     loading(buttonStore.loading.data)
                 } handledBy buttonStore.showMsg
+                """
+            )
+        }
+
+        showcaseSection("Link")
+        paragraph {
+            +"There is also a special button for links which uses an "
+            c("<a>")
+            +" element instead of "
+            c("<button>")
+            +" element. Besides the "
+            c("linkButton")
+            +" component offers everything that "
+            c("pushButton")
+            +" has and adds extra functions to set a "
+            c("href")
+            +" and a "
+            c("target")
+            +" attribute directly."
+        }
+        componentFrame {
+
+            val hrefStore = storeOf("//www.fritz2.dev")
+            val targetStore = storeOf("_blank")
+
+            formControl {
+                label("Url")
+                inputField(value = hrefStore)
+            }
+
+            formControl({ margins { bottom { large } } }) {
+                label("Target")
+                selectField(items = listOf("_blank", "_self"),value = targetStore)
+            }
+
+            lineUp {
+                items {
+                    linkButton {
+                        text("Open")
+                        href(hrefStore.data)
+                        target(targetStore.data)
+
+                    }
+                    linkButton {
+                        text("Open")
+                        icon { fromTheme { externalLink } }
+                        href(hrefStore.data)
+                        target(targetStore.data)
+                    }
+                    linkButton {
+                        text("Open")
+                        variant { link }
+                        href(hrefStore.data)
+                        target(targetStore.data)
+                    }
+                    linkButton {
+                        icon { fromTheme { externalLink } }
+                        variant { link }
+                        href(hrefStore.data)
+                        target(targetStore.data)
+                    }
+                }
+            }
+        }
+        highlight {
+            source(
+                """
+                linkButton {
+                    text("Open")
+                    href(hrefStore.data)
+                    target(targetStore.data)
+                }
+                
+                linkButton {
+                    text("Open")
+                    icon { fromTheme { externalLink } }
+                    href(hrefStore.data)
+                    target(targetStore.data)
+                }
+                
+                linkButton {
+                    text("Open")
+                    variant { link }
+                    href(hrefStore.data)
+                    target(targetStore.data)
+                }
+                
+                linkButton {
+                    icon { fromTheme { externalLink } }
+                    variant { link }
+                    href(hrefStore.data)
+                    target(targetStore.data)
+                }
                 """
             )
         }

@@ -1,12 +1,10 @@
 package dev.fritz2.kitchensink.demos
 
-import dev.fritz2.binding.watch
 import dev.fritz2.components.*
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.styling.theme.Theme
-import kotlinx.browser.window
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
@@ -237,14 +235,16 @@ fun RenderContext.iconsDemo(): Div {
             +" to create a nice button:"
         }
         componentFrame {
-            clickButton {
+            linkButton {
                 variant { outline }
                 size { small }
                 text("Visit us on Github!")
                 icon({
                     color { primary.main }
                 }) { def(githubIcon) }
-            }.map { window.open("https://github.com/jwstegemann/fritz2", "_blank") }.watch()
+                href("https://github.com/jwstegemann/fritz2")
+                target("_blank")
+            }
         }
 
         highlight {

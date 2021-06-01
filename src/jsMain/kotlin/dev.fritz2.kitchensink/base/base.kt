@@ -152,7 +152,7 @@ fun RenderContext.externalLink(text: String, url: String, newTab: Boolean = true
     return a(link) {
         +text
         href(url)
-        if (newTab) target("_new")
+        if (newTab) target("_blank")
     }
 }
 
