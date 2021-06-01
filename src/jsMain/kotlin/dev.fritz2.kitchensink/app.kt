@@ -2,7 +2,6 @@ package dev.fritz2.kitchensink
 
 import dev.fritz2.binding.RootStore
 import dev.fritz2.binding.storeOf
-import dev.fritz2.binding.watch
 import dev.fritz2.components.*
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.kitchensink.demos.*
@@ -12,7 +11,6 @@ import dev.fritz2.styling.theme.Theme
 import dev.fritz2.styling.theme.render
 import kotlinx.browser.window
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.onEach
 
 val themes = listOf<ExtendedTheme>(SmallFonts(), LargeFonts())
 
@@ -45,6 +43,7 @@ const val alert_ = "Alert"
 const val menu_ = "Menu"
 const val toasts_ = "Toast"
 const val datatable_ = "DataTable"
+const val slider_ = "Slider"
 
 val router = router(welcome_)
 
@@ -121,7 +120,7 @@ fun main() {
                                 color { primary.main }
                             }) {
                                 href("https://www.fritz2.dev/")
-                                target("_new")
+                                target("_blank")
 
                                 icon({
                                     size { "3rem" }
@@ -205,15 +204,15 @@ fun main() {
                                 target("_blank")
                             }
 
-                            clickButton {
+                            linkButton {
                                 variant { ghost }
                                 size { large }
                                 icon({
                                     color { primary.main }
                                 }) { def(githubIcon) }
-                            }.events.onEach {
-                                window.open("https://github.com/jwstegemann/fritz2-kitchensink", "_blank")
-                            }.watch()
+                                href("https://github.com/jwstegemann/fritz2-kitchensink")
+                                target("_blank")
+                            }
 //                            navAnchor("Documentation", "https://docs.fritz2.dev/")
 //                            navAnchor("API", "https://api.fritz2.dev")
 //                            navAnchor("Examples", "https://www.fritz2.dev/examples.html")
@@ -299,6 +298,7 @@ fun main() {
                             menuAnchor(radio_)
                             menuAnchor(textarea_)
                             menuAnchor(switch_)
+                            menuAnchor(slider_)
                             menuAnchor(formcontrol_)
 
                             menuHeader("COMPLEX")
@@ -364,6 +364,7 @@ fun main() {
                                 menu_ -> menuDemo()
                                 toasts_ -> toastDemo()
                                 datatable_ -> dataTableDemo()
+                                slider_ -> sliderDemo()
                                 else -> welcome()
                             }
                         }
