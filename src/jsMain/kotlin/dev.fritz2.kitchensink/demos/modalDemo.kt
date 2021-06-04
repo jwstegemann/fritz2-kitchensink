@@ -306,7 +306,7 @@ fun RenderContext.modalDemo(): Div {
                                 color { neutral.main }
                                 background { color { warning.main } }
                             }) {
-                                icon { fromTheme { logOut } }
+                                icon { logOut }
                             } handledBy close
                         }
                     }
@@ -325,7 +325,7 @@ fun RenderContext.modalDemo(): Div {
                             color { neutral }
                             background { color { warning.main } }
                         }) {
-                            icon { fromTheme { logOut } }
+                            icon { logOut }
                         } handledBy close
                     }
                 }
