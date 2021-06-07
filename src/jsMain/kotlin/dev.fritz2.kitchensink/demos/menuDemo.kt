@@ -220,28 +220,23 @@ fun RenderContext.menuDemo(): Div {
         }
         paragraph {
             +"A contexts can be injected by simply writing an extension method for the "
-            c("MenuEntriesContext")
-            +" class that adds a subclass of "
-            c("MenuEntryComponent")
-            +" to the menu."
+            c("MenuComponent")
+            +" class that adds an implementation of the "
+            c("MenuChild")
+            +" interface to the menu."
+            br { }
             +"You are not required to implement the custom DSL in any specific way. "
             +"It is necessary, however, to call the "
-            c("addItem")
+            c("addChild")
             +" method exposed by the receiving class in order for your component to be added to the Menu's list of "
-            +"entries."
+            +"children."
         }
         componentFrame {
             class RadioGroupContext {
                 val items = ComponentProperty(listOf<String>())
 
-                fun build() = object : MenuEntryComponent() {
-                    override fun render(
-                        context: RenderContext,
-                        styling: BoxParams.() -> Unit,
-                        baseClass: StyleClass,
-                        id: String?,
-                        prefix: String
-                    ) {
+                fun build() = object : MenuChild {
+                    override fun render(context: RenderContext) {
                         context.apply {
                             radioGroup(items = items.value, styling = {
                                 margins {
@@ -257,7 +252,7 @@ fun RenderContext.menuDemo(): Div {
             fun MenuComponent.radios(expression: RadioGroupContext.() -> Unit) = RadioGroupContext()
                 .apply(expression)
                 .build()
-                .run(::addEntry)
+                .run(::addChild)
 
             menu(demoMenuStyle) {
                 radios {
@@ -268,18 +263,11 @@ fun RenderContext.menuDemo(): Div {
         highlight {
             source(
                 """
-                // Custom context to set up a radio-group from within the DSL:
                 class RadioGroupContext {
                     val items = ComponentProperty(listOf<String>())
     
-                    fun build() = object : MenuEntryComponent {
-                        override fun render(
-                            context: RenderContext,
-                            styling: BoxParams.() -> Unit,
-                            baseClass: StyleClass,
-                            id: String?,
-                            prefix: String
-                        ) {
+                    fun build() = object : MenuChild {
+                        override fun render(context: RenderContext) {
                             context.apply {
                                 radioGroup(items = items.value, styling = {
                                     margins {
@@ -292,13 +280,12 @@ fun RenderContext.menuDemo(): Div {
                     }
                 }
     
-                // Function to actually configure and add a radio group to the Menu:
                 fun MenuComponent.radios(expression: RadioGroupContext.() -> Unit) = RadioGroupContext()
                     .apply(expression)
                     .build()
-                    .run(::addEntry)
+                    .run(::addChild)
     
-                menu(demoMenuStyle) {
+                menu {
                     radios {
                         items(listOf("Item 1", "Item 2", "Item 3"))
                     }
