@@ -178,11 +178,8 @@ fun RenderContext.menuDemo(): Div {
         paragraph {
             +"Menus are often used together with "
             internalLink("Dropdowns", dropdown_)
-            +" to create so called dropdown-menus. Instead of creating a dropdown manually you can simply use the "
-            +"builtin "
-            c("dropdownMenu")
-            +" convenience method. "
-            +"It creates a menu wrapped inside a dropdown and can be customized just like a normal menu. "
+            +" to create so called dropdown-menus. Just pass a MenuComponent as the dropdown's content as demonstrated "
+            +"below:"
         }
         componentFrame {
             dropdown {
@@ -202,60 +199,6 @@ fun RenderContext.menuDemo(): Div {
                     content {
                         menu {
                             entry {
-                                text("This is a menu item")
-                            }
-                        }
-                    }
-                }
-                """.trimIndent()
-            )
-        }
-        paragraph {
-            +"Additionally, a "
-            c("dropdown")
-            +" context is available that can be used to customize properties of the underlying dropdown component such "
-            +"as it's placement, alignment or toggle element."
-        }
-        componentFrame {
-            dropdown {
-                placement { right }
-                alignment { start }
-                toggle {
-                    clickButton {
-                        text("Dropdown-Menu")
-                        icon { fromTheme { chevronRight } }
-                        variant { outline }
-                    }
-                }
-                content {
-                    menu {
-                        entry {
-                            text("This is a menu item")
-                            text("This is a menu item")
-                            text("This is a menu item")
-                        }
-                    }
-                }
-            }
-        }
-        highlight {
-            source(
-                """
-                dropdown {
-                    placement { right }
-                    alignment { start }
-                    toggle {
-                        clickButton {
-                            text("Dropdown-Menu")
-                            icon { fromTheme { chevronRight } }
-                            variant { outline }
-                        }
-                    }
-                    content {
-                        menu {
-                            entry {
-                                text("This is a menu item")
-                                text("This is a menu item")
                                 text("This is a menu item")
                             }
                         }
