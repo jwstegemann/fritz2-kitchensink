@@ -50,7 +50,7 @@ fun RenderContext.menuDemo(): Div {
                     +" context."
                 }
                 li(baseClass = listItemStyle.name) {
-                    b { +"header: " }
+                    b { +"Header: " }
                     +"Small headline that can be used to mark the beginning of a group of entries."
                     br { }
                     +"Created via the "
@@ -59,15 +59,15 @@ fun RenderContext.menuDemo(): Div {
                 }
                 li(baseClass = listItemStyle.name) {
                     b { +"Divider: " }
-                    +"A thin line that can be used to separate two entries or group multiple entries together"
+                    +"A thin line that can be used to separate two entries or group multiple entries together."
                     br { }
                     +"Created via the "
                     c("divider")
                     +" method."
                 }
                 li(baseClass = listItemStyle.name) {
-                    b { +"Custom components " }
-                    +"that can be any fritz2-component: "
+                    b { +"Custom components: " }
+                    +"Can be any fritz2-component."
                     br { }
                     +"Created via the "
                     c("custom")

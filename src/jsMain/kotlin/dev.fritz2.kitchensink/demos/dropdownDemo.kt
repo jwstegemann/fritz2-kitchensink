@@ -6,7 +6,9 @@ import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.kitchensink.menu_
+import dev.fritz2.styling.div
 import dev.fritz2.styling.p
+import dev.fritz2.styling.span
 import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.combine
@@ -37,12 +39,9 @@ fun RenderContext.dropdownDemo(): Div {
         }
         showcaseSection("Usage")
         paragraph {
-            +"Dropdown are either created using the "
+            +"Dropdown are created using the "
             c("dropdown")
-            +" method, or via the "
-            c("WithDropdown")
-            +" interface/mixin if you are developing your own component. An example for the latter, special case will "
-            +"follow further below."
+            +" method. "
             br { }
             +"Follow the example below to create a simple dropdown with a default toggle and a basic demo content. "
         }
@@ -81,6 +80,14 @@ fun RenderContext.dropdownDemo(): Div {
             c("toggle")
             +" property. The specified toggle does not need to be clickable by itself as the clicks are handled by the "
             +"dropdown component."
+            br { }
+            br { }
+            +"Please note that, compared to the actual dropdown, the toggle itself can only be styled by providing a "
+            +"custom toggle element via the "
+            c("toggle")
+            +" context. Passing a style to the "
+            c("dropdown")
+            +" method will style the dropdown."
         }
         componentFrame {
             menuBox {
@@ -226,30 +233,39 @@ fun RenderContext.dropdownDemo(): Div {
                         placement { it.first }
                         alignment { it.second }
                         content {
-                            p({
-                                margin { smaller }
+                            div({
+                                margin { small }
                             }) {
-                                +"${it.first} ${it.second}"
+                                span({
+                                    margins {
+                                        bottom { smaller }
+                                    }
+                                }) {
+                                    +"Selected values:"
+                                }
+                                p({
+                                    fontFamily { mono }
+                                }) {
+                                    +"${it.first} ${it.second}"
+                                }
                             }
                         }
                     }
                 }
             }
         }
-        placementAlignmentFlow.render {
-            highlight {
-                source(
-                    """
+        highlight {
+            source(
+                """
                     dropdown {
-                        placement { ${it.first.name.lowercase()} }
-                        alignment { ${it.second.name.lowercase()} }
+                        placement { bottom }
+                        alignment { start }
                         content {
                             // ...
                         }
                     }
                     """
-                )
-            }
+            )
         }
     }
 }
