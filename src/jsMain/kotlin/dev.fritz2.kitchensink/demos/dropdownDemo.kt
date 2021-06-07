@@ -145,7 +145,7 @@ fun RenderContext.dropdownDemo(): Div {
         highlight {
             source(
                 """
-                    menu {
+                    dropdown {
                         toggle {
                             pushButton {
                                 text("Toggle")
