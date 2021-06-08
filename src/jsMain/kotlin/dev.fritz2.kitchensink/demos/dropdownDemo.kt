@@ -201,7 +201,7 @@ fun RenderContext.dropdownDemo(): Div {
                 radioGroup(items = placements, value = placementStore, styling = {
                     margins { left { small } }
                 }) {
-                    direction { row }
+                    orientation { horizontal }
                 }
             }
 
@@ -212,7 +212,7 @@ fun RenderContext.dropdownDemo(): Div {
                 radioGroup(items = alignments, value = alignmentStore, styling = {
                     margins { left { small } }
                 }) {
-                    direction { row }
+                    orientation { horizontal }
                 }
             }
 
@@ -223,7 +223,7 @@ fun RenderContext.dropdownDemo(): Div {
                     dropdown {
                         toggle {
                             clickButton {
-                                icon { fromTheme { menu } }
+                                icon { menu }
                                 text("Open Dropdown")
                             }
                         }
