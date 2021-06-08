@@ -145,16 +145,51 @@ fun RenderContext.dropdownDemo(): Div {
         highlight {
             source(
                 """
-                    dropdown {
-                        toggle {
-                            pushButton {
-                                text("Toggle")
-                            }
-                        }
-                        content {
-                            // ...
+                dropdown {
+                    toggle {
+                        pushButton {
+                            text("Toggle")
                         }
                     }
+                    content {
+                        p({
+                            margin { smaller }
+                        }) {
+                            +"Very basic content"
+                        }
+                    }
+                }
+
+                dropdown {
+                    toggle {
+                        pushButton {
+                            text("Toggle")
+                            variant { outline }
+                        }
+                    }
+                    content {
+                        p({
+                            margin { smaller }
+                        }) {
+                            +"Very basic content"
+                        }
+                    }
+                }
+
+                dropdown {
+                    toggle {
+                        icon {
+                            fromTheme { chevronDoubleDown }
+                        }
+                    }
+                    content {
+                        p({
+                            margin { smaller }
+                        }) {
+                            +"Very basic content"
+                        }
+                    }
+                }
                  """
             )
         }

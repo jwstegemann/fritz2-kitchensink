@@ -5,9 +5,8 @@ import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.kitchensink.dropdown_
-import dev.fritz2.styling.StyleClass
+import dev.fritz2.styling.div
 import dev.fritz2.styling.params.BasicParams
-import dev.fritz2.styling.params.BoxParams
 import dev.fritz2.styling.params.Style
 import dev.fritz2.styling.style
 import dev.fritz2.styling.theme.Theme
@@ -20,9 +19,52 @@ fun RenderContext.menuDemo(): Div {
         }
     }
 
-    val demoMenuStyle: Style<BasicParams> = {
+    val raisedMenuStyle: Style<BasicParams> = {
+        width { maxContent }
         radius { "6px" }
         boxShadow { raised }
+    }
+
+    fun RenderContext.demoMenu() {
+        menu {
+            header("Entries")
+            entry {
+                text("Basic entry")
+            }
+            entry {
+                icon { sun }
+                text("Item with icon")
+            }
+            entry {
+                text("Clickable entry")
+                icon { notification }
+                events {
+                    clicks handledBy toast {
+                        placement { bottomRight }
+                        hasCloseButton(false)
+                        content {
+                            alert {
+                                variant { leftAccent }
+                                stacking { compact }
+                                content("Menu entry clicked")
+                            }
+                        }
+                    }
+                }
+            }
+            entry {
+                text("Disabled entry")
+                icon { ban }
+                disabled(true)
+            }
+            divider()
+            header("Other")
+            custom {
+                pushButton {
+                    text("I'm a custom entry")
+                }
+            }
+        }
     }
 
     return contentFrame {
@@ -35,10 +77,10 @@ fun RenderContext.menuDemo(): Div {
             +"Find a list of the possible menu entries below:"
             ul {
                 li(baseClass = listItemStyle.name) {
-                    b { +"Item: " }
+                    b { +"Entry: " }
                     +"Clickable menu-button consisting of a title and an optional icon. Clicks are exposed via the "
                     c("events")
-                    +" context just like with regular buttons. Additionally, it is also possible to disable an item "
+                    +" context just like with regular buttons. Additionally, it is also possible to disable an entry "
                     +"via the "
                     c("disabled")
                     +" or "
@@ -46,7 +88,7 @@ fun RenderContext.menuDemo(): Div {
                     +" properties."
                     br { }
                     +"Created via the "
-                    c("item")
+                    c("entry")
                     +" context."
                 }
                 li(baseClass = listItemStyle.name) {
@@ -88,44 +130,8 @@ fun RenderContext.menuDemo(): Div {
             }
         }
         componentFrame {
-            menu(demoMenuStyle) {
-                header("Items")
-                entry {
-                    text("Basic item")
-                }
-                entry {
-                    icon { sun }
-                    text("Item with icon")
-                }
-                entry {
-                    text("Clickable item")
-                    icon { notification }
-                    events {
-                        clicks handledBy toast {
-                            placement { bottomRight }
-                            hasCloseButton(false)
-                            content {
-                                alert {
-                                    variant { leftAccent }
-                                    stacking { compact }
-                                    content("Menu item clicked")
-                                }
-                            }
-                        }
-                    }
-                }
-                entry {
-                    text("Disabled item")
-                    icon { ban }
-                    disabled(true)
-                }
-                divider()
-                header("Other")
-                custom {
-                    pushButton {
-                        text("I'm a custom entry")
-                    }
-                }
+            div(raisedMenuStyle) {
+                demoMenu()
             }
         }
         highlight {
@@ -134,14 +140,14 @@ fun RenderContext.menuDemo(): Div {
                     menu {
                         header("Items")
                         entry {
-                            text("Basic item")
+                            text("Basic entry")
                         }
                         entry {
                             icon { sun }
                             text("Item with icon")
                         }
                         entry {
-                            text("Clickable item")
+                            text("Clickable entry")
                             icon { notification }
                             events {
                                 clicks handledBy toast {
@@ -151,14 +157,14 @@ fun RenderContext.menuDemo(): Div {
                                         alert {
                                             variant { leftAccent }
                                             stacking { compact }
-                                            content("Menu item clicked")
+                                            content("Menu entry clicked")
                                         }
                                     }
                                 }
                             }
                         }
                         entry {
-                            text("Disabled item")
+                            text("Disabled entry")
                             icon { ban }
                             disabled(true)
                         }
@@ -178,17 +184,13 @@ fun RenderContext.menuDemo(): Div {
         paragraph {
             +"Menus are often used together with "
             internalLink("Dropdowns", dropdown_)
-            +" to create so called dropdown-menus. Just pass a MenuComponent as the dropdown's content as demonstrated "
-            +"below:"
+            +" to create so called dropdown-menus. Just pass a MenuComponent as the dropdown's content as shown "
+            +"below. The demo-menu from the beginning is used in this example."
         }
         componentFrame {
             dropdown {
                 content {
-                    menu {
-                        entry {
-                            text("This is a menu item")
-                        }
-                    }
+                    demoMenu()
                 }
             }
         }
@@ -199,7 +201,7 @@ fun RenderContext.menuDemo(): Div {
                     content {
                         menu {
                             entry {
-                                text("This is a menu item")
+                                text("This is a menu entry")
                             }
                         }
                     }
@@ -254,7 +256,7 @@ fun RenderContext.menuDemo(): Div {
                 .build()
                 .run(::addChild)
 
-            menu(demoMenuStyle) {
+            menu(raisedMenuStyle) {
                 radios {
                     items(listOf("Item 1", "Item 2", "Item 3"))
                 }
