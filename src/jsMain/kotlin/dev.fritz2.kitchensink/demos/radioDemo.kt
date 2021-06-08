@@ -31,7 +31,7 @@ fun RenderContext.radiosDemo(): Div {
             c("store")
             +" parameter. This selection store offers therefore the possibility to preselect an item."
             +"Using the "
-            c("direction")
+            c("orientation")
             +" property, you can display the radios in a row or as a column."
         }
         val languages = listOf("javascript", "java", "kotlin", "scala")
@@ -39,7 +39,7 @@ fun RenderContext.radiosDemo(): Div {
 
         componentFrame {
             radioGroup(value = pickedLanguage, items = languages) {
-                direction { row }
+                orientation { horizontal }
             }
             storeContentBox("Selected") {
                 pickedLanguage.data.render {
@@ -53,7 +53,7 @@ fun RenderContext.radiosDemo(): Div {
             val languages = listOf("javascript", "java", "kotlin", "scala")
             val pickedLanguage = storeOf(languages[2])
             radioGroup(items = languages, store = pickedLanguage) {
-               direction { row }
+               orientation { horizontal }
             }
             """
             )
