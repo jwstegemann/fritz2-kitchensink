@@ -33,7 +33,7 @@ fun RenderContext.menuDemo(): Div {
             }
             entry {
                 icon { sun }
-                text("Item with icon")
+                text("Entry with icon")
             }
             entry {
                 text("Clickable entry")
@@ -119,16 +119,13 @@ fun RenderContext.menuDemo(): Div {
         }
         paragraph {
             +"A complete example of all the available types of entries is available below."
-
-            box({
-                margins { vertical { smaller } }
-            }) {
-                coloredBox(Theme().colors.info) {
-                    +"All menus in this demo are custom styled to appear inside a raised box. This is "
-                    +"done to be able to better distinguish the menu from the rest of the page."
-                }
-            }
         }
+
+        coloredBox(Theme().colors.info) {
+            +"All menus in this demo are custom styled to appear inside a raised box. This is "
+            +"done to be able to better distinguish the menu from the rest of the page."
+        }
+
         componentFrame {
             div(raisedMenuStyle) {
                 demoMenu()
@@ -138,13 +135,13 @@ fun RenderContext.menuDemo(): Div {
             source(
                 """
                     menu {
-                        header("Items")
+                        header("Entries")
                         entry {
                             text("Basic entry")
                         }
                         entry {
                             icon { sun }
-                            text("Item with icon")
+                            text("Entry with icon")
                         }
                         entry {
                             text("Clickable entry")
@@ -199,11 +196,7 @@ fun RenderContext.menuDemo(): Div {
                 """
                 dropdown {
                     content {
-                        menu {
-                            entry {
-                                text("This is a menu entry")
-                            }
-                        }
+                        // see above example code
                     }
                 }
                 """.trimIndent()
@@ -226,7 +219,8 @@ fun RenderContext.menuDemo(): Div {
             +" class that adds an implementation of the "
             c("MenuChild")
             +" interface to the menu."
-            br { }
+        }
+        paragraph {
             +"You are not required to implement the custom DSL in any specific way. "
             +"It is necessary, however, to call the "
             c("addChild")
@@ -234,26 +228,26 @@ fun RenderContext.menuDemo(): Div {
             +"children."
         }
         componentFrame {
-            class RadioGroupContext {
+            class RadioGroupContext : MenuChild {
                 val items = ComponentProperty(listOf<String>())
 
-                fun build() = object : MenuChild {
-                    override fun render(context: RenderContext) {
-                        context.apply {
-                            radioGroup(items = items.value, styling = {
+                override fun render(context: RenderContext) {
+                    context.apply {
+                        radioGroup(
+                            items = this@RadioGroupContext.items.value,
+                            styling = {
                                 margins {
                                     horizontal { small }
                                     vertical { smaller }
                                 }
-                            })
-                        }
+                            }
+                        )
                     }
                 }
             }
 
             fun MenuComponent.radios(expression: RadioGroupContext.() -> Unit) = RadioGroupContext()
                 .apply(expression)
-                .build()
                 .run(::addChild)
 
             menu(raisedMenuStyle) {
@@ -265,29 +259,30 @@ fun RenderContext.menuDemo(): Div {
         highlight {
             source(
                 """
-                class RadioGroupContext {
+                class RadioGroupContext : MenuChild {
                     val items = ComponentProperty(listOf<String>())
     
-                    fun build() = object : MenuChild {
-                        override fun render(context: RenderContext) {
-                            context.apply {
-                                radioGroup(items = items.value, styling = {
+                    override fun render(context: RenderContext) {
+                        context.apply {
+                            radioGroup(
+                                items = this@RadioGroupContext.items.value,
+                                styling = {
                                     margins {
                                         horizontal { small }
                                         vertical { smaller }
                                     }
-                                })
-                            }
+                                }
+                            )
                         }
                     }
                 }
     
-                fun MenuComponent.radios(expression: RadioGroupContext.() -> Unit) = RadioGroupContext()
-                    .apply(expression)
-                    .build()
-                    .run(::addChild)
+                fun MenuComponent.radios(expression: RadioGroupContext.() -> Unit) =
+                    RadioGroupContext()
+                        .apply(expression)
+                        .run(::addChild)
     
-                menu {
+                menu(raisedMenuStyle) {
                     radios {
                         items(listOf("Item 1", "Item 2", "Item 3"))
                     }

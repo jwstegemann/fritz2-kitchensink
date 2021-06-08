@@ -16,41 +16,31 @@ import kotlinx.coroutines.flow.combine
 @ExperimentalCoroutinesApi
 fun RenderContext.dropdownDemo(): Div {
 
-    fun RenderContext.menuBox(expression: RenderContext.() -> Unit) {
-        box({
-            margin { smaller }
-            display { inlineBlock }
-        }) {
-            expression()
-        }
-    }
-
     return contentFrame {
 
         showcaseHeader("Dropdown")
         paragraph {
             +"The Dropdown is a non-modal dialog that contains arbitrary content and floats around a toggle element. "
             +"It can be used to display settings and actions in a dropdown similar to those used in traditional "
-            + "desktop software, for example in combo-boxes or dropdown-menus. "
+            +"desktop software, for example in combo-boxes or dropdown-menus. "
             +"The latter can be created as described in the "
             internalLink("Menu", menu_)
             +" demo. "
             +"Dropdowns are automatically closed whenever an outside click occurs, or if another one is opened."
         }
+
         showcaseSection("Usage")
         paragraph {
             +"Dropdown are created using the "
             c("dropdown")
-            +" method. "
-            br { }
+            +" method."
             +"Follow the example below to create a simple dropdown with a default toggle and a basic demo content. "
         }
+
         componentFrame {
             dropdown {
                 content {
-                    p({
-                        margin { smaller }
-                    }) {
+                    p({ margin { smaller } }) {
                         +"Very basic content"
                     }
                 }
@@ -61,10 +51,8 @@ fun RenderContext.dropdownDemo(): Div {
                 """
                     dropdown {
                         content {
-                            p({
-                                margin { smaller }
-                            }) { 
-                                +"Very basic content" 
+                            p({ margin { smaller } }) {
+                                +"Very basic content"
                             }
                         }
                     }
@@ -73,15 +61,14 @@ fun RenderContext.dropdownDemo(): Div {
         }
 
         showcaseSection("Toggle")
-        paragraph({
-            margins { bottom { small } }
-        }) {
+        paragraph {
             +"Any component can be used as a dropdown's toggle and can be specified via the "
             c("toggle")
             +" property. The specified toggle does not need to be clickable by itself as the clicks are handled by the "
             +"dropdown component."
-            br { }
-            br { }
+        }
+
+        paragraph {
             +"Please note that, compared to the actual dropdown, the toggle itself can only be styled by providing a "
             +"custom toggle element via the "
             c("toggle")
@@ -90,54 +77,40 @@ fun RenderContext.dropdownDemo(): Div {
             +" method will style the dropdown."
         }
         componentFrame {
-            menuBox {
-                dropdown {
-                    toggle {
-                        pushButton {
-                            text("Toggle")
-                        }
-                    }
-                    content {
-                        p({
-                            margin { smaller }
-                        }) {
+            lineUp {
+                items {
+                    fun RenderContext.basicContent() {
+                        p({ margin { smaller } }) {
                             +"Very basic content"
                         }
                     }
-                }
-            }
 
-            menuBox {
-                dropdown {
-                    toggle {
-                        pushButton {
-                            text("Toggle")
-                            variant { outline }
+                    dropdown {
+                        toggle {
+                            pushButton {
+                                text("Toggle")
+                            }
                         }
+                        content { basicContent() }
                     }
-                    content {
-                        p({
-                            margin { smaller }
-                        }) {
-                            +"Very basic content"
-                        }
-                    }
-                }
-            }
 
-            menuBox {
-                dropdown {
-                    toggle {
-                        icon {
-                            fromTheme { chevronDoubleDown }
+                    dropdown {
+                        toggle {
+                            pushButton {
+                                text("Toggle")
+                                variant { outline }
+                            }
                         }
+                        content { basicContent() }
                     }
-                    content {
-                        p({
-                            margin { smaller }
-                        }) {
-                            +"Very basic content"
+
+                    dropdown {
+                        toggle {
+                            icon {
+                                fromTheme { chevronDoubleDown }
+                            }
                         }
+                        content { basicContent() }
                     }
                 }
             }
@@ -145,19 +118,19 @@ fun RenderContext.dropdownDemo(): Div {
         highlight {
             source(
                 """
+                fun RenderContext.basicContent() {
+                    p({ margin { smaller } }) {
+                        +"Very basic content"
+                    }
+                }
+
                 dropdown {
                     toggle {
                         pushButton {
                             text("Toggle")
                         }
                     }
-                    content {
-                        p({
-                            margin { smaller }
-                        }) {
-                            +"Very basic content"
-                        }
-                    }
+                    content { basicContent() }
                 }
 
                 dropdown {
@@ -167,13 +140,7 @@ fun RenderContext.dropdownDemo(): Div {
                             variant { outline }
                         }
                     }
-                    content {
-                        p({
-                            margin { smaller }
-                        }) {
-                            +"Very basic content"
-                        }
-                    }
+                    content { basicContent() }
                 }
 
                 dropdown {
@@ -182,26 +149,20 @@ fun RenderContext.dropdownDemo(): Div {
                             fromTheme { chevronDoubleDown }
                         }
                     }
-                    content {
-                        p({
-                            margin { smaller }
-                        }) {
-                            +"Very basic content"
-                        }
-                    }
+                    content { basicContent() }
                 }
                  """
             )
         }
 
         showcaseSection("Placement and Alignment")
+
+        coloredBox(Theme().colors.info) {
+            +"Placements and alignments work differently on mobile devices: The dropdown uses "
+            +"all the available width in this case and the configuration is ignored."
+        }
+
         paragraph {
-
-            coloredBox(Theme().colors.info) {
-               +"Placements and alignments work differently on mobile devices: The dropdown uses "
-               +"all the available width in this case and the configuration is ignored."
-            }
-
             +"The dropdown's relative position to the toggle can either be to the left, to the right, on top or below "
             +"of it. The possible values are named just like this. By default, the dropdown is rendered "
             i { +"below" }
@@ -209,8 +170,9 @@ fun RenderContext.dropdownDemo(): Div {
             +"The position can be changed via the "
             c("placement")
             +" property."
-            br { }
-            br { }
+        }
+
+        paragraph {
             +"The dropdown's "
             c("alignment")
             +" property specifies how the dropdown is laid out on the cross-axis. Possible values are "
