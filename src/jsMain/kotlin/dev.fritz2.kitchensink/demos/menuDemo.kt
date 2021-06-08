@@ -32,13 +32,13 @@ fun RenderContext.menuDemo(): Div {
             +"view."
         }
         paragraph {
-            +"Find a list of the menu entries that are available below:"
+            +"Find a list of the possible menu entries below:"
             ul {
                 li(baseClass = listItemStyle.name) {
                     b { +"Item: " }
                     +"Clickable menu-button consisting of a title and an optional icon. Clicks are exposed via the "
                     c("events")
-                    +" context just like with regular buttons. Adding to this, it is also possible to disable an item "
+                    +" context just like with regular buttons. Additionally, it is also possible to disable an item "
                     +"via the "
                     c("disabled")
                     +" or "
@@ -211,7 +211,7 @@ fun RenderContext.menuDemo(): Div {
         showcaseSection("Extending the DSL")
         paragraph {
             +"The Menu's DSL can be extended in such a way that the "
-            c("entries")
+            c("menu")
             +" context supports arbitrary fritz2 components natively. "
             +"This can be handy when a specific, non-standard component is repeatedly used as a menu entry throughout "
             +"a project and the "
@@ -219,7 +219,7 @@ fun RenderContext.menuDemo(): Div {
             +" context would produce a lot of boilerplate code."
         }
         paragraph {
-            +"A contexts can be injected by simply writing an extension method for the "
+            +"A context can be injected by simply writing an extension method for the "
             c("MenuComponent")
             +" class that adds an implementation of the "
             c("MenuChild")
