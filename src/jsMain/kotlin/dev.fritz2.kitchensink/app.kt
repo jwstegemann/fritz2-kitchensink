@@ -202,12 +202,12 @@ fun main() {
                                 target("_blank")
                             }
 
-                            linkButton {
+                            linkButton({
+                                color { primary.main }
+                            }) {
                                 variant { ghost }
                                 size { large }
-                                icon({
-                                    color { primary.main }
-                                }) { def(githubIcon) }
+                                icon { githubIcon }
                                 href("https://github.com/jwstegemann/fritz2-kitchensink")
                                 target("_blank")
                             }
@@ -220,7 +220,7 @@ fun main() {
                     clickButton({
                         display(sm = { flex }, md = { none })
                     }) {
-                        icon { fromTheme { menu } }
+                        icon { menu }
                     }.map {
                         window.scrollTo(0.0, 0.0)
                         !menuStore.current

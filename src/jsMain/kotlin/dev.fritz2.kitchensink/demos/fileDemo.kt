@@ -161,7 +161,7 @@ fun RenderContext.fileDemo(): Div {
                         button({
                             background { color { info.main } }
                         }) {
-                            icon { fromTheme { cloudUpload } }
+                            icon { cloudUpload }
                             text("Accept every file")
                         }
                     } handledBy fileStore.showFile
@@ -171,7 +171,7 @@ fun RenderContext.fileDemo(): Div {
                         button({
                             background { color { warning.main } }
                         }) {
-                            icon { fromTheme { image } }
+                            icon { image }
                             text("Accept only image files")
                         }
                     } handledBy fileStore.showFile
@@ -181,7 +181,7 @@ fun RenderContext.fileDemo(): Div {
                         button({
                             background { color { danger.main } }
                         }) {
-                            icon { fromTheme { document } }
+                            icon { document }
                             text("Accept only pdf files")
                         }
                     } handledBy fileStore.showFile
@@ -195,7 +195,7 @@ fun RenderContext.fileDemo(): Div {
                     button({
                         background { color { info.main } }
                     }) {
-                        icon { fromTheme { cloudUpload } }
+                        icon { cloudUpload }
                         text("Accept every file")
                     }
                 } handledBy fileStore.showFile
@@ -205,7 +205,7 @@ fun RenderContext.fileDemo(): Div {
                     button({
                         background { color { warning.main } }
                     }) {
-                        icon { fromTheme { image } }
+                        icon { image }
                         text("Accept only image files")
                     }
                 } handledBy fileStore.showFile
@@ -215,7 +215,7 @@ fun RenderContext.fileDemo(): Div {
                     button({
                         background { color { danger.main } }
                     }) {
-                        icon { fromTheme { document } }
+                        icon { document }
                         text("Accept only pdf files")
                     }
                 } handledBy fileStore.showFile
@@ -238,7 +238,7 @@ fun RenderContext.fileDemo(): Div {
                         encoding("utf-8")
                         accept("text/plain")
                         button {
-                            icon { fromTheme { cloudUpload } }
+                            icon { cloudUpload }
                             text("Text files")
                         }
                     } handledBy fileStore.showFilesWithContent
@@ -252,7 +252,7 @@ fun RenderContext.fileDemo(): Div {
                     encoding("utf-8")
                     accept("text/plain")
                     button {
-                        icon { fromTheme { cloudUpload } }
+                        icon { cloudUpload }
                         text("Text files")
                     }
                 } handledBy fileStore.showFilesWithContent

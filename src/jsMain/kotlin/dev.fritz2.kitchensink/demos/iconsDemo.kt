@@ -205,7 +205,7 @@ fun RenderContext.iconsDemo(): Div {
         highlight {
             source(
                 """
-                icon { fromTheme { favorite } }
+                icon { favorite }
 
                 icon({
                     size { "4rem" }
@@ -235,13 +235,13 @@ fun RenderContext.iconsDemo(): Div {
             +" to create a nice button:"
         }
         componentFrame {
-            linkButton {
+            linkButton({
+                color { primary.main }
+            }) {
                 variant { outline }
                 size { small }
+                icon { githubIcon }
                 text("Visit us on Github!")
-                icon({
-                    color { primary.main }
-                }) { def(githubIcon) }
                 href("https://github.com/jwstegemann/fritz2")
                 target("_blank")
             }
