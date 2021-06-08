@@ -76,14 +76,14 @@ fun RenderContext.buttonDemo(): Div {
                     } handledBy successToast
 
                     pushButton {
-                        icon { fromTheme { arrowLeft } }
+                        icon { arrowLeft }
                         text("Previous")
                         type { info }
                     }
 
                     pushButton {
                         type { warning }
-                        icon { fromTheme { arrowRight } }
+                        icon { arrowRight }
                         iconPlacement { right }
                         text("Next")
                     }
@@ -92,7 +92,7 @@ fun RenderContext.buttonDemo(): Div {
                         radius { none }
                     }) {
                         type { danger }
-                        icon { fromTheme { close } }
+                        icon { close }
                         events {
                             clicks handledBy successToast
                         }
@@ -105,19 +105,17 @@ fun RenderContext.buttonDemo(): Div {
                 """
                     clickButton {
                         text("Show Toast")
-                    } handledBy toast {
-                        content { "Your data has been saved successfully." }
-                    }
+                    } handledBy successToast
 
                     pushButton {
-                        type { info }
-                        icon { fromTheme { arrowLeft } }
+                        icon { arrowLeft }
                         text("Previous")
+                        type { info }
                     }
 
                     pushButton {
                         type { warning }
-                        icon { fromTheme { arrowRight } }
+                        icon { arrowRight }
                         iconPlacement { right }
                         text("Next")
                     }
@@ -126,11 +124,9 @@ fun RenderContext.buttonDemo(): Div {
                         radius { none }
                     }) {
                         type { danger }
-                        icon { fromTheme { close } }
+                        icon { close }
                         events {
-                            clicks handledBy toast {
-                                content { "Your data has been saved successfully." }
-                            }
+                            clicks handledBy successToast
                         }
                     }
                 """
@@ -310,13 +306,13 @@ fun RenderContext.buttonDemo(): Div {
                     } handledBy buttonStore.showMsg
 
                     clickButton {
-                        icon { fromTheme { play } }
+                        icon { play }
                         text("Play")
                         loading(buttonStore.loading.data)
                     } handledBy buttonStore.showMsg
 
                     clickButton {
-                        icon { fromTheme { play } }
+                        icon { play }
                         variant { ghost }
                         loading(buttonStore.loading.data)
                     } handledBy buttonStore.showMsg
@@ -350,13 +346,13 @@ fun RenderContext.buttonDemo(): Div {
                 } handledBy buttonStore.showMsg
 
                 clickButton {
-                    icon { fromTheme { play } }
+                    icon { play }
                     text("Play")
                     loading(buttonStore.loading.data)
                 } handledBy buttonStore.showMsg
 
                 clickButton {
-                    icon { fromTheme { play } }
+                    icon { play }
                     variant { ghost }
                     loading(buttonStore.loading.data)
                 } handledBy buttonStore.showMsg
@@ -405,7 +401,7 @@ fun RenderContext.buttonDemo(): Div {
                     }
                     linkButton {
                         text("Open")
-                        icon { fromTheme { externalLink } }
+                        icon { externalLink }
                         href(hrefStore.data)
                         target(targetStore.data)
                     }
@@ -416,7 +412,7 @@ fun RenderContext.buttonDemo(): Div {
                         target(targetStore.data)
                     }
                     linkButton {
-                        icon { fromTheme { externalLink } }
+                        icon { externalLink }
                         variant { link }
                         href(hrefStore.data)
                         target(targetStore.data)
@@ -431,11 +427,12 @@ fun RenderContext.buttonDemo(): Div {
                     text("Open")
                     href(hrefStore.data)
                     target(targetStore.data)
+
                 }
                 
                 linkButton {
                     text("Open")
-                    icon { fromTheme { externalLink } }
+                    icon { externalLink }
                     href(hrefStore.data)
                     target(targetStore.data)
                 }
@@ -448,7 +445,7 @@ fun RenderContext.buttonDemo(): Div {
                 }
                 
                 linkButton {
-                    icon { fromTheme { externalLink } }
+                    icon { externalLink }
                     variant { link }
                     href(hrefStore.data)
                     target(targetStore.data)

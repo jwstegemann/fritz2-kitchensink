@@ -1,10 +1,10 @@
 package dev.fritz2.kitchensink.demos
 
-import dev.fritz2.components.box
 import dev.fritz2.components.flexBox
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
+import dev.fritz2.styling.div
 import dev.fritz2.styling.h1
 import dev.fritz2.styling.img
 import dev.fritz2.styling.p
@@ -36,7 +36,7 @@ fun RenderContext.responsiveDemo(): Div {
         highlight {
             source(
                 """
-                box({
+                div({
                     fontSize(sm = { tiny }, lg = { normal })
                     width(sm = { full }, lg = { "768px" })
                     color { primary.main }
@@ -74,8 +74,7 @@ fun RenderContext.responsiveDemo(): Div {
                 padding { small }
                 direction(sm = { column }, md = { row })
             }) {
-                box({
-                    zIndex { layer(1) }
+                div({
                     margins(
                         {
                             top { small }
@@ -95,8 +94,7 @@ fun RenderContext.responsiveDemo(): Div {
                     }
                 }
 
-                box({
-                    zIndex { base }
+                div({
                     margins(
                         {
                             top { small }
@@ -144,7 +142,7 @@ fun RenderContext.responsiveDemo(): Div {
                 flexBox({
                     direction(sm = { column }, md = { row })
                 }) {
-                    box({
+                    div({
                         margins(
                             {
                                 top { small }
@@ -161,8 +159,7 @@ fun RenderContext.responsiveDemo(): Div {
                         }
                     }
     
-                    box({
-                        zIndex { base }
+                    div({
                         margins(
                             sm = {
                                 top { small }

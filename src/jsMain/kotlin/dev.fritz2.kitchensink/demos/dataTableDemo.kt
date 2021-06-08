@@ -1,6 +1,7 @@
 package dev.fritz2.kitchensink.demos
 
-import dev.fritz2.binding.*
+import dev.fritz2.binding.RootStore
+import dev.fritz2.binding.storeOf
 import dev.fritz2.components.*
 import dev.fritz2.components.datatable.DataTableComponent
 import dev.fritz2.components.datatable.SelectionContext
@@ -1704,21 +1705,21 @@ fun RenderContext.dataTableDemo(): Div {
                                 spacing { tiny }
                                 items {
                                     clickButton {
-                                        icon { fromTheme { remove } }
+                                        icon { remove }
                                         size { small }
                                     }.map { row.current } handledBy personsStore.drop
                                     if (state.item.isDrafted) {
                                         clickButton {
-                                            icon { fromTheme { check } }
+                                            icon { check }
                                             size { small }
                                         }.map { state.item.committed() } handledBy personsStore.updatePerson
                                         clickButton {
-                                            icon { fromTheme { close } }
+                                            icon { close }
                                             size { small }
                                         }.map { state.item.resetted() } handledBy personsStore.updatePerson
                                     } else {
                                         clickButton {
-                                            icon { fromTheme { edit } }
+                                            icon { edit }
                                             size { small }
                                             disabled(personsStore.existDraft)
                                         }.map { state.item.drafted() } handledBy personsStore.updatePerson
@@ -1746,7 +1747,7 @@ fun RenderContext.dataTableDemo(): Div {
                             }
                         }
                     }
-                    clickButton { icon { fromTheme { add } } } handledBy personsStore.createPerson
+                    clickButton { icon { add } } handledBy personsStore.createPerson
                 }
             }
         }
@@ -1893,7 +1894,7 @@ fun RenderContext.dataTableDemo(): Div {
                                         }
                                     }
                                 } else {
-                                    // render known languages with removeble pill
+                                    // render known languages with removable pill
                                     state.item.draft.languages.forEach { language ->
                                         pill {
                                             +language
@@ -1935,22 +1936,22 @@ fun RenderContext.dataTableDemo(): Div {
                     
                         // always offer remove button
                         clickButton {
-                            icon { fromTheme { remove } }
+                            icon { remove }
                         }.map { row.current } handledBy personsStore.drop
                         
                         if (state.item.isDrafted) {
                             // Draft is active -> offer buttons to save or cancel
                             clickButton {
-                                icon { fromTheme { check } }
+                                icon { check }
                             }.map { state.item.committed() } handledBy personsStore.updatePerson
                             clickButton {
-                                icon { fromTheme { close } }
+                                icon { close }
                             }.map { state.item.resetted() } handledBy personsStore.updatePerson
                             
                         } else {
                             // No draft active -> offer edit button
                             clickButton {
-                                icon { fromTheme { edit } }
+                                icon { edit }
                                 // use specialized flow to disable all other edit buttons
                                 disabled(personsStore.existDraft)
                             }.map { state.item.drafted() } handledBy personsStore.updatePerson
