@@ -236,7 +236,6 @@ fun RenderContext.checkboxesDemo(): Div {
                         disabled(true)
                     }
                     checkboxGroup(values = usageCheckboxGroupStore, items = demoItems) {
-                        orientation { vertical }
                         disabled(true)
                     }
                 }
@@ -251,7 +250,6 @@ fun RenderContext.checkboxesDemo(): Div {
                         disabled(true)
                     }
                     checkboxGroup(values = usageCheckboxGroupStore, items = demoItems) {
-                        orientation { vertical }
                         disabled(true)
                     }
                     """
