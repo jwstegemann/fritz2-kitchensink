@@ -3,7 +3,6 @@ package dev.fritz2.kitchensink.formControl
 import dev.fritz2.components.validation.*
 import dev.fritz2.identification.RootInspector
 import dev.fritz2.identification.inspect
-import dev.fritz2.kitchensink.formControl.L
 import dev.fritz2.lenses.Lenses
 
 @Lenses
@@ -72,7 +71,7 @@ object AccountValidator : ComponentValidator<Account, AccountCreationPhase>() {
                     warningMessage(passphrase.id, "We recommend a passphrase with at least 16 characters.")
                 )
             }
-            if (passphrase.data.toLowerCase() == "fritz2") {
+            if (passphrase.data.lowercase() == "fritz2") {
                 messages.add(
                     warningMessage(passphrase.id, "'fritz2' is a great framework, but a poor choice of passphrase.")
                 )

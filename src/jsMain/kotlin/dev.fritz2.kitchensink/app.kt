@@ -181,7 +181,7 @@ fun main() {
                             left { small }
                         }
                     }) {
-                        +appStatus().capitalize()
+                        +appStatus().replaceFirstChar { it.uppercase() }
                     }
                 }
 
