@@ -70,13 +70,13 @@ fun RenderContext.checkboxesDemo(): Div {
             c("List<T>")
             +" as group items, and its selection event returns all currently checked entries."
             +" The example below uses Strings, but any type can be displayed. Since the store is a non-optional"
-            +" argument anyway, the component always connects the checked-handler automatically. Using the"
-            c("direction")
+            +" argument anyway, the component always connects the checked-handler automatically. Using the "
+            c("orientation")
             +" function, you can display the group in a row or as a column."
         }
         componentFrame {
             checkboxGroup(values = usageCheckboxGroupStore, items = demoItems) {
-                direction { row }
+                orientation { horizontal }
             }
             storeContentBox("Checked") {
                 usageCheckboxGroupStore.data.render {
@@ -90,7 +90,7 @@ fun RenderContext.checkboxesDemo(): Div {
                 val allItems = listOf("item 1", "item 2", "item 3")
                 val checkedItems = storeOf(listOf("item 2", "item 3"))
                 checkboxGroup(values = checkedItems, items = allItems) {
-                    direction { row }
+                    orientation { horizontal }
                 }
                 """
             )
@@ -236,7 +236,6 @@ fun RenderContext.checkboxesDemo(): Div {
                         disabled(true)
                     }
                     checkboxGroup(values = usageCheckboxGroupStore, items = demoItems) {
-                        direction { column }
                         disabled(true)
                     }
                 }
@@ -251,7 +250,6 @@ fun RenderContext.checkboxesDemo(): Div {
                         disabled(true)
                     }
                     checkboxGroup(values = usageCheckboxGroupStore, items = demoItems) {
-                        direction { column }
                         disabled(true)
                     }
                     """

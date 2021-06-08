@@ -365,7 +365,7 @@ fun RenderContext.modalDemo(): Div {
                 items {
                     // todo this radio group should have default selected
                     radioGroup(value = ModalComponent.overlay, items = overlayVariants.values.toList()) {
-                        direction { row }
+                        orientation { horizontal }
                         label { overlay ->
                             overlayVariants.filter { it.value == overlay }.map {
                                 it.key

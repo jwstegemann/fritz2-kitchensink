@@ -109,7 +109,7 @@ fun RenderContext.formControlDemo(): Div {
                             items = listOf("Kotlin", "fritz2", "Html", "CSS", "Design", "Open Source"),
                             values = interestStore
                         ) {
-                            direction { column }
+                            orientation { vertical }
                         }
                     }
                     formControl {
@@ -225,7 +225,7 @@ fun RenderContext.formControlDemo(): Div {
                         ),
                         values = interestStore
                     ) {
-                        direction { column }
+                        orientation { vertical }
                     }
                 }
                 formControl {
@@ -898,7 +898,7 @@ fun RenderContext.formControlDemo(): Div {
                         size { this@ExtendedFormControlComponent.sizeBuilder(this) }
                         severity(validationMessagesBuilder().hasSeverity)
                         build()
-                        direction { column }
+                        orientation { vertical }
                     }
                     inputField({
                         margins { top { tiny } }
@@ -1241,7 +1241,7 @@ fun RenderContext.formControlDemo(): Div {
                             size { this@ExtendedFormControlComponent.sizeBuilder(this) }
                             severity(validationMessagesBuilder().hasSeverity)
                             build()
-                            direction { column }
+                            orientation { vertical }
                         }
                         inputField({
                             margins { top { tiny } }
