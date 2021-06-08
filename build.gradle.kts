@@ -1,31 +1,29 @@
 plugins {
-    id("dev.fritz2.fritz2-gradle") version "0.10"
-    kotlin("multiplatform") version "1.4.30"
+    id("dev.fritz2.fritz2-gradle") version "0.11"
+    kotlin("multiplatform") version "1.5.10"
 }
 
 repositories {
     mavenLocal()
-    mavenCentral()
     maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
-    maven(url = "https://kotlin.bintray.com/kotlinx/") // soon will be just jcenter()
+    maven("https://s01.oss.sonatype.org/content/repositories/releases/")
+    mavenCentral()
 }
 
 val appStatus = "alpha"
-val fritz2Version = "0.11-SNAPSHOT"
+val fritz2Version = "0.11"
 
 
 val propertiesDir = "${buildDir}/properties"
 
 kotlin {
-    js(LEGACY) {
+    js(IR) {
         browser()
-    }
+    }.binaries.executable()
 
     sourceSets {
         all {
             languageSettings.apply {
-                enableLanguageFeature("InlineClasses") // language feature name
-                useExperimentalAnnotation("kotlin.ExperimentalUnsignedTypes") // annotation FQ-name
                 useExperimentalAnnotation("kotlin.ExperimentalStdlibApi")
                 useExperimentalAnnotation("kotlinx.coroutines.ExperimentalCoroutinesApi")
                 useExperimentalAnnotation("kotlinx.coroutines.InternalCoroutinesApi")
@@ -58,6 +56,7 @@ kotlin {
                 dependsOn(properties)
             }
         }
+
 
         val jsTest by getting {
             dependencies {
