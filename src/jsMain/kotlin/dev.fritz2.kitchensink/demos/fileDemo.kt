@@ -56,8 +56,11 @@ fun RenderContext.fileDemo(): Div {
         val showFile = handle<File> { _, file ->
             fileModal(file)()
         }
-        val showFileWithContent = handle<File> { _, file ->
-            filesModal(listOf(file), showContent = true)()
+        val showFiles = handle<List<File>> { _, files ->
+            filesModal(files)()
+        }
+        val showFilesWithContent = handle<List<File>> { _, files ->
+            filesModal(files, showContent = true)()
         }
     }
 
@@ -67,7 +70,7 @@ fun RenderContext.fileDemo(): Div {
 
         paragraph {
             +"""
-            Use this component to open a file selection dialog. The dialog returns a single file  
+            Use this component to open a file selection dialog. The dialog returns a single or multiple files 
             which can be received by the handler of a store. 
             """
         }
@@ -81,7 +84,9 @@ fun RenderContext.fileDemo(): Div {
         paragraph {
             +"Use the "
             c("file")
-            +" function for a single file selection for selecting multiple files. "
+            +" function for a single file selection, or "
+            c("files")
+            +" for selecting multiple files. "
             +"You can use any button described on our "
             internalLink("button page", buttons_)
             +" - just call the "
@@ -89,11 +94,8 @@ fun RenderContext.fileDemo(): Div {
             +" function inside the file function context."
             +"The functions return a "
             c("File")
-            /*
             +" or a "
             c("List<File>")
-
-             */
             +"  which can directed to a matching handler using "
             c("handledBy")
             +"."
@@ -113,6 +115,10 @@ fun RenderContext.fileDemo(): Div {
                     file {
                         button { text("Single select") }
                     } handledBy fileStore.showFile
+
+                    files {
+                        button { text("Multi select") }
+                    } handledBy fileStore.showFiles
                 }
             }
         }
@@ -123,11 +129,21 @@ fun RenderContext.fileDemo(): Div {
                     val showFile = handle<File> { _, file ->
                         fileModal(file)()
                     }
+                    val showFiles = handle<List<File>> { _, files ->
+                        filesModal(files)()
+                    }
+                    val showFilesWithContent = handle<List<File>> { _, files ->
+                        filesModal(files, showContent = true)()
+                    }
                 }
                 
                 file {
                     button { text("Single select") }
                 } handledBy fileStore.showFile
+
+                files {
+                    button { text("Multi select") }
+                } handledBy fileStore.showFiles
                 """
             )
         }
@@ -218,14 +234,14 @@ fun RenderContext.fileDemo(): Div {
         componentFrame {
             lineUp(switchLayoutSm) {
                 items {
-                    file {
+                    files {
                         encoding("utf-8")
                         accept("text/plain")
                         button {
                             icon { cloudUpload }
                             text("Text files")
                         }
-                    } handledBy fileStore.showFileWithContent
+                    } handledBy fileStore.showFilesWithContent
                 }
             }
         }
