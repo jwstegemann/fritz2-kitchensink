@@ -18,7 +18,7 @@ fun RenderContext.buttonDemo(): Div {
     val modal = modal({
         minHeight { "0" }
     }) {
-        size { small }
+        width { small }
         content {
             lineUp {
                 items {

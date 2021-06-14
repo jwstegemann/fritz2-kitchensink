@@ -9,7 +9,10 @@ import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.styling.params.FlexParams
 import dev.fritz2.styling.theme.Property
-import dev.fritz2.styling.theme.Theme
+import dev.fritz2.styling.*
+import dev.fritz2.styling.params.Shadow
+import dev.fritz2.styling.params.ShadowProperty
+import dev.fritz2.styling.theme.Shadows
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.map
 
@@ -88,6 +91,12 @@ fun RenderContext.modalDemo(): Div {
                     clickButton {
                         text("Blank Dialog")
                     } handledBy modal { }
+
+                    clickButton {
+                        text("Static Height")
+                    } handledBy modal({
+                        minHeight { "30rem" }
+                    }) { }
                 }
             }
         }
@@ -105,6 +114,13 @@ fun RenderContext.modalDemo(): Div {
                 clickButton {
                     text("Open Default Dialog")
                 } handledBy modal { }
+                
+                clickButton {
+                    text("Static Height")
+                } handledBy modal({
+                    // use styling parameter to set a height
+                    minHeight { "30rem" }
+                }) { }                
                 """
             )
         }
@@ -237,7 +253,7 @@ fun RenderContext.modalDemo(): Div {
                     clickButton {
                         text("Top")
                     } handledBy modal {
-                        size { small }
+                        width { small }
                         placement { top }
                         content {
                             p { +loremIpsum }
@@ -247,7 +263,7 @@ fun RenderContext.modalDemo(): Div {
                     clickButton {
                         text("Center")
                     } handledBy modal {
-                        size { small }
+                        width { small }
                         placement { center }
                         content {
                             p { +loremIpsum }
@@ -257,7 +273,7 @@ fun RenderContext.modalDemo(): Div {
                     clickButton {
                         text("Bottom")
                     } handledBy modal {
-                        size { small }
+                        width { small }
                         placement { bottom }
                         content {
                             p { +loremIpsum }
@@ -287,6 +303,17 @@ fun RenderContext.modalDemo(): Div {
             c("stretch")
             +" option enlarges the dialog vertically from top to bottom independently from the content."
         }
+        componentFrame {
+            clickButton {
+                text("Stretch")
+            } handledBy modal {
+                width { small }
+                placement { stretch }
+                content {
+                    p { +loremIpsum }
+                }
+            }
+        }
         paragraph {
             +"This is extremely useful if there are different contents within the modal depending on user actions. "
             +" With a "
@@ -294,49 +321,36 @@ fun RenderContext.modalDemo(): Div {
             +" modal, there will be no flickering on the vertical axis, as the size stays the same"
         }
         componentFrame {
-            stackUp {
+            val stretched = storeOf(true)
+
+            data class Step(val heading: String, val content: String)
+
+            val steps = listOf(
+                Step("Step 1", loremIpsum),
+                Step("Step 2", loremIpsum.repeat(5)),
+                Step("Step 3", loremIpsum.repeat(3)),
+            )
+            val stepStore = storeOf(steps[0])
+
+            lineUp({
+                alignItems { center }
+            }) {
                 items {
+                    switch(value = stretched) { label(stretched.data.map { if (it) "stretch" else "top" }) }
                     clickButton {
-                        text("Stretch")
+                        text("Dynamic Content")
                     } handledBy modal {
-                        width { small }
-                        placement { stretch }
+                        width { large }
+                        placement { if (stretched.current) stretch else top }
                         content {
-                            p { +loremIpsum }
-                        }
-                    }
-                    lineUp({
-                        alignItems { center }
-                    }) {
-                        items {
-                            val stretched = storeOf(true)
-
-                            data class Step(val heading: String, val content: String)
-
-                            val steps = listOf(
-                                Step("Step 1", loremIpsum),
-                                Step("Step 2", loremIpsum.repeat(5)),
-                                Step("Step 3", loremIpsum.repeat(3)),
-                            )
-                            val stepStore = storeOf(steps[0])
-
-                            switch(value = stretched) { label(stretched.data.map { if (it) "stretch" else "top" }) }
-                            clickButton {
-                                text("Dynamic Content")
-                            } handledBy modal {
-                                width { large }
-                                placement { if (stretched.current) stretch else top }
-                                content {
-                                    stackUp {
-                                        items {
-                                            stepStore.data.render { currentStep ->
-                                                h1 { +currentStep.heading }
-                                                p { +currentStep.content }
-                                                clickButton { text("Next Step") }.map {
-                                                    steps[(steps.indexOf(currentStep) + 1) % steps.size]
-                                                } handledBy stepStore.update
-                                            }
-                                        }
+                            stackUp {
+                                items {
+                                    stepStore.data.render { currentStep ->
+                                        h1 { +currentStep.heading }
+                                        p { +currentStep.content }
+                                        clickButton { text("Next Step") }.map {
+                                            steps[(steps.indexOf(currentStep) + 1) % steps.size]
+                                        } handledBy stepStore.update
                                     }
                                 }
                             }
@@ -347,6 +361,126 @@ fun RenderContext.modalDemo(): Div {
         }
 
         showcaseSection("Scrolling")
+        paragraph {
+            +"If the content is longer than the screen size, vertical scrolling gets enabled automatically. "
+            +"It depends on the vertical placement, whether the scrolling will be handled outside or inside of "
+            +"the modal dialog:"
+            ul {
+                li {
+                    +"If the modal is placed "
+                    c("top")
+                    +" then the scrolling is handled outside per default."
+                }
+                li {
+                    +"For any other option the scrolling will be handled inside of the dialog. "
+                    +"If the content of the dialog is more complex - think of a layout with header, content and "
+                    +"footer - just place an "
+                    c("overflow { auto }")
+                    +" style inside the content container to delegate the scrolling into this element."
+                }
+            }
+        }
+        componentFrame {
+            lineUp {
+                items {
+                    clickButton { text("External") } handledBy modal {
+                        // placement { top } is default
+                        content {
+                            repeat(30, { p { +loremIpsum } })
+                        }
+                    }
+
+                    clickButton { text("Internal") } handledBy modal {
+                        placement { center }
+                        content {
+                            repeat(30, { p { +loremIpsum } })
+                        }
+                    }
+
+                    val fixedBox: RenderContext.(String, Shadows.() -> Property) -> Unit = { title, shadow ->
+                        flexBox({
+                            background { color { tertiary.main } }
+                            color { tertiary.mainContrast }
+                            height { "4rem" }
+                            justifyContent { center }
+                            alignItems { center }
+                            boxShadow { shadow() }
+                        }) {
+                            h1 { +title }
+                        }
+                    }
+
+                    clickButton { text("Delegated Internal") } handledBy modal({
+                        padding { none }
+                    }) {
+                        placement { center }
+                        content {
+                            fixedBox("Header", { raised })
+                            div({
+                                overflow { auto }
+                                maxHeight { "calc(100vh - 10rem)" }
+                                padding { normal }
+                            }) {
+                                repeat(30, { p { +loremIpsum } })
+                            }
+                            fixedBox("Footer", { top })
+                        }
+                    }
+                }
+            }
+        }
+        highlight {
+            source(
+                """
+                clickButton { text("External") } handledBy modal {
+                    // placement { top } is default
+                    content {
+                        repeat(30, { p { +loremIpsum } })
+                    }
+                }
+
+                clickButton { text("Internal") } handledBy modal {
+                    placement { center }
+                    content {
+                        repeat(30, { p { +loremIpsum } })
+                    }
+                }
+
+                // mini component for header and footer
+                val fixedBox: RenderContext.(String) -> Unit = { title ->
+                    flexBox({
+                        background { color { gray300 } }
+                        height { "4rem" } // 2 times for both -> 8rem!
+                        justifyContent { center }
+                        alignItems { center }
+                    }) {
+                        h1 { +title }
+                    }
+                }
+
+                clickButton { text("Delegated Internal") } handledBy modal({
+                    padding { none }
+                }) {
+                    placement { center }
+                    content {
+                        fixedBox("Header")
+                        div({
+                            overflow { auto }
+                            // set a max height for enforce the internal scrolling
+                            // subtract the sum of header and footer and the default margin 
+                            // outside, which is top and bottom each "1rem" from the
+                            // default theme
+                            maxHeight { "calc(100vh - 10rem)" }
+                            padding { normal }
+                        }) {
+                            repeat(30, { p { +loremIpsum } })
+                        }
+                        fixedBox("Footer")
+                    }
+                }                    
+                """
+            )
+        }
 
         showcaseSection("Layered Modals")
         paragraph { +"Modals can be stacked over one another with only the topmost modal accepting input." }
@@ -516,8 +650,8 @@ fun RenderContext.modalDemo(): Div {
                 Pair("Default Overlay", DefaultOverlay()),
                 Pair("Overlay For Each Level", DefaultOverlay(OverlayMethod.CoveringEach)),
                 Pair("Styled Overlay", DefaultOverlay(OverlayMethod.CoveringTopMost) {
-                    width { "100%" }
-                    height { "400%" }
+                    width { "100vw" }
+                    height { "2000%" }
                     position {
                         absolute {
                             horizontal { "0" }
@@ -544,18 +678,9 @@ fun RenderContext.modalDemo(): Div {
                         }
                     }
 
-                    clickButton { text("Stack'em") } handledBy modal {
-                        content {
-                            paragraph(
-                                { paddings { bottom { larger } } }
-                            ) { +"Overlay Demonstration Layer 1" }
-                            clickButton { text("Open Another Modal") } handledBy modal {
-                                content {
-                                    paragraph { +"Overlay Demonstration Layer 2" }
-                                }
-                            }
-                        }
-                    }
+                    clickButton {
+                        text("Stack'em")
+                    } handledBy createDeepDialogs(30, ModalComponent.WidthContext.normal)
                 }
             }
         }
