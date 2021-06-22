@@ -903,7 +903,7 @@ fun RenderContext.formControlDemo(): Div {
                 items: List<String>,
                 value: Store<String>,
                 baseClass: StyleClass = StyleClass.None,
-                id: String = value?.id,
+                id: String = value.id,
                 prefix: String = "radioGroupWithInput",
                 build: RadioGroupComponent<String>.() -> Unit
             ) {
@@ -947,10 +947,10 @@ fun RenderContext.formControlDemo(): Div {
                     baseClass: StyleClass,
                     id: String?,
                     prefix: String,
-                    renderContext: RenderContext,
+                    context: RenderContext,
                     control: RenderContext.() -> Unit
                 ) {
-                    renderContext.stackUp({
+                    context.stackUp({
                         alignItems { start }
                         component.ownSize()
                         styling(this as BoxParams)
