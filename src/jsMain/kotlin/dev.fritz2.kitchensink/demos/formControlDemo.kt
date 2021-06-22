@@ -6,6 +6,7 @@ import dev.fritz2.binding.Store
 import dev.fritz2.binding.storeOf
 import dev.fritz2.components.*
 import dev.fritz2.components.validation.*
+import dev.fritz2.components.forms.control.*
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.formControl.*
@@ -45,7 +46,8 @@ fun RenderContext.formControlDemo(): Div {
         }
 
         val accountStore = object : RootStore<Account>(
-            Account("", "", emptyList(), false)
+            Account("", "", emptyList(), false),
+            "Account"
         ), WithValidator<Account, AccountCreationPhase> {
             override val validator = AccountValidator
 
@@ -170,7 +172,8 @@ fun RenderContext.formControlDemo(): Div {
             source(
                 """
                 val accountStore = object : RootStore<Account>(
-                    Account("", "", emptyList(), false)
+                    Account("", "", emptyList(), false),
+                    "Account" // important to pass an Id, see information in the box below!
                 )
 
                 val nameStore = accountStore.sub(L.Account.username)
@@ -179,6 +182,22 @@ fun RenderContext.formControlDemo(): Div {
                 val confirmationStore = accountStore.sub(L.Account.confirmation)
                 """
             )
+        }
+        coloredBox(Theme().colors.info) {
+            +"The "
+            c("formControl")
+            +" tries to determine a good default for the "
+            c("id")
+            +" parameter of its control, so that a rendered label can be connected with it. "
+            +"Thus if no value for the id is explicitly given, it relies on the id of the passed store, which "
+            +"will get its id by its "
+            c("RootStore")
+            +" or its parent"
+            c("SubStore")
+            +" chained by dots."
+            br { }
+            +"It is therefore recommended to always pass an id into a (root-)store at creation, so that the id value "
+            +"of a formcontrol's control is really unique!"
         }
 
         showcaseSubSection("Assembling The Form")
@@ -880,38 +899,41 @@ fun RenderContext.formControlDemo(): Div {
                 items: List<String>,
                 value: Store<String>,
                 baseClass: StyleClass = StyleClass.None,
-                id: String? = null,
+                id: String = value?.id,
                 prefix: String = "radioGroupWithInput",
                 build: RadioGroupComponent<String>.() -> Unit
             ) {
                 val innerStore = createStores(value)
                 val validationMessagesBuilder = ValidationResult.builderOf(this, value)
-                registerControl("radioGroupWithInput", {
-                    radioGroup(
-                        styling,
-                        items = items + innerStore.custom,
-                        innerStore.selectedStore,
-                        baseClass,
-                        id,
-                        prefix
-                    ) {
-                        size { this@ExtendedFormControlComponent.sizeBuilder(this) }
-                        severity(validationMessagesBuilder().hasSeverity)
-                        build()
-                        orientation { vertical }
-                    }
-                    inputField({
-                        margins { top { tiny } }
-                    }, value = innerStore.inputStore) {
-                        size { this@ExtendedFormControlComponent.sizeBuilder(this) }
-                        severity(validationMessagesBuilder().hasSeverity)
-                        disabled(innerStore.data.map { it.mode == innerStore.inputDisabled })
-                        value(innerStore.inputStore.data)
-                        placeholder("custom value")
-                    }
-                }, {
-                    this@ExtendedFormControlComponent.validationMessagesBuilder = validationMessagesBuilder
-                })
+                registerControl(
+                    id,
+                    "radioGroupWithInput",
+                    {
+                        radioGroup(
+                            styling,
+                            items = items + innerStore.custom,
+                            innerStore.selectedStore,
+                            baseClass,
+                            id,
+                            prefix
+                        ) {
+                            size { this@ExtendedFormControlComponent.sizeBuilder(this) }
+                            severity(validationMessagesBuilder().hasSeverity)
+                            build()
+                            orientation { vertical }
+                        }
+                        inputField({
+                            margins { top { tiny } }
+                        }, value = innerStore.inputStore) {
+                            size { this@ExtendedFormControlComponent.sizeBuilder(this) }
+                            severity(validationMessagesBuilder().hasSeverity)
+                            disabled(innerStore.data.map { it.mode == innerStore.inputDisabled })
+                            value(innerStore.inputStore.data)
+                            placeholder("custom value")
+                        }
+                    }, {
+                        this@ExtendedFormControlComponent.validationMessagesBuilder = validationMessagesBuilder
+                    })
             }
 
             // Define your own renderer
@@ -1217,9 +1239,9 @@ fun RenderContext.formControlDemo(): Div {
                 fun radioGroupWithInput(
                     styling: BasicParams.() -> Unit = {},
                     items: List<String>,
-                    store: Store<String>,
+                    value: Store<String>,
                     baseClass: StyleClass = StyleClass.None,
-                    id: String? = null,
+                    id: String? = value?.id, // try to determine good default
                     prefix: String = "radioGroupWithInput",
                     build: RadioGroupComponent<String>.() -> Unit
                 ) {
@@ -1227,7 +1249,7 @@ fun RenderContext.formControlDemo(): Div {
                     val validationMessagesBuilder = ValidationResult.builderOf(this, store)
                     // Important: Choose a unique key - if you override a function, use the appropriate
                     //            key from the predefined ones in ``FormControlComponent.ControlNames``
-                    registerControl("radioGroupWithInput", {
+                    registerControl(id, "radioGroupWithInput", {
                         // Place all your components inside this render context.
                         // For our example, we need the following two:                     
                         radioGroup(
