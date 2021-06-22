@@ -17,7 +17,7 @@ fun RenderContext.fileDemo(): Div {
     fun Long.asKB(digits: Int = 0): String = "${(this / 1000.toDouble()).asDynamic().toFixed(digits)} KB"
 
     fun fileModal(file: File) = modal {
-        size { small }
+        width { small }
         content {
             stackUp {
                 items {
@@ -32,7 +32,7 @@ fun RenderContext.fileDemo(): Div {
     }
 
     fun filesModal(files: List<File>, showContent: Boolean = false) = modal {
-        size { small }
+        width { small }
         content {
             stackUp {
                 items {

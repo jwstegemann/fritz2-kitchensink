@@ -69,7 +69,7 @@ fun RenderContext.formControlDemo(): Div {
         val confirmationStore = accountStore.sub(L.Account.confirmation)
 
         val registerSuccessDialog = modal { close ->
-            size { small }
+            width { small }
             hasCloseButton(false)
             content {
                 flexBox({
