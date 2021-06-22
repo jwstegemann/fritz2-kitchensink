@@ -5,12 +5,16 @@ import dev.fritz2.binding.SimpleHandler
 import dev.fritz2.binding.Store
 import dev.fritz2.binding.storeOf
 import dev.fritz2.components.*
+import dev.fritz2.components.forms.control.ControlRenderer
+import dev.fritz2.components.forms.control.FormControlComponent
 import dev.fritz2.components.validation.*
-import dev.fritz2.components.forms.control.*
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
-import dev.fritz2.kitchensink.formControl.*
 import dev.fritz2.kitchensink.base.*
+import dev.fritz2.kitchensink.formControl.Account
+import dev.fritz2.kitchensink.formControl.AccountCreationPhase
+import dev.fritz2.kitchensink.formControl.AccountValidator
+import dev.fritz2.kitchensink.formControl.L
 import dev.fritz2.styling.StyleClass
 import dev.fritz2.styling.p
 import dev.fritz2.styling.params.BasicParams
@@ -948,7 +952,7 @@ fun RenderContext.formControlDemo(): Div {
                 ) {
                     renderContext.stackUp({
                         alignItems { start }
-                        component.ownSize()()
+                        component.ownSize()
                         styling(this as BoxParams)
                     }, baseClass, id, prefix) {
                         spacing { tiny }
