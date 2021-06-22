@@ -2,12 +2,12 @@ package dev.fritz2.kitchensink.demos
 
 import dev.fritz2.binding.storeOf
 import dev.fritz2.components.lineUp
+import dev.fritz2.components.selectField
 import dev.fritz2.components.stackUp
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import selectField
 
 @ExperimentalCoroutinesApi
 fun RenderContext.selectDemo(): Div {

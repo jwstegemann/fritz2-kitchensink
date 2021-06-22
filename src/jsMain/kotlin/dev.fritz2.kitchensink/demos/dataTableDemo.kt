@@ -23,8 +23,6 @@ import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.datetime.LocalDate
-import selectField
-
 
 val simpleColumnsDefinition: DataTableComponent<Person, Int>.() -> Unit = {
     columns {
