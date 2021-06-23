@@ -53,7 +53,7 @@ fun RenderContext.formControlDemo(): Div {
             Account("", "", emptyList(), false),
             "Account"
         ), WithValidator<Account, AccountCreationPhase> {
-            override val validator = AccountValidator
+            override val validator = AccountValidator("Account")
 
             init {
                 validate(AccountCreationPhase.Input)
@@ -202,6 +202,8 @@ fun RenderContext.formControlDemo(): Div {
             br { }
             +"It is therefore recommended to always pass an id into a (root-)store at creation, so that the id value "
             +"of a formcontrol's control is really unique!"
+            br { }
+            +"Be aware that the same id must be used within an inspector for validation purposes!"
         }
 
         showcaseSubSection("Assembling The Form")
@@ -302,12 +304,15 @@ fun RenderContext.formControlDemo(): Div {
             source(
                 """
                 // Simplified first implementation
-                object AccountValidator : ComponentValidator<Account, Unit>() {
+                class AccountValidator(private val rootId: String) 
+                    : ComponentValidator<Account, Unit>() {
                     override fun validate(data: Account, metadata: Unit): List<ComponentValidationMessage> {
                         val messages = mutableListOf<ComponentValidationMessage>()
                 
                         // create an inspector for "ad hoc" model inspection
-                        val inspector = inspect(data)
+                        // inject the root-store's id! This is very important so the 
+                        // generated IDs of the messages match their corresponding UI element!
+                        val inspector = inspect(data, rootId) 
                         val username = inspector.sub(L.Account.username)
                         val passphrase = inspector.sub(L.Account.passphrase)
                 
@@ -370,9 +375,10 @@ fun RenderContext.formControlDemo(): Div {
         highlight {
             source(
                 """
-                object AccountValidator : ComponentValidator<Account, AccountCreationPhase>() {
+                class AccountValidator(private val rootId: String) 
+                    : ComponentValidator<Account, AccountCreationPhase>() {
                     override fun validate(data: Account, metadata: AccountCreationPhase): List<ComponentValidationMessage> {
-                        val inspector = inspect(data)
+                        val inspector = inspect(data, rootId)
                         return validateUsername(inspector, metadata) +
                                 validatePassphrase(inspector, metadata) +
                                 validateInterests(inspector) +
@@ -440,12 +446,13 @@ fun RenderContext.formControlDemo(): Div {
             source(
                 """
                 val accountStore = object : RootStore<Account>(
-                    Account("", "", emptyList(), false)
+                    Account("", "", emptyList(), false),
+                    "Account"
                 ), 
                 // model type and metadata type must match those for ``ComponentValidator<D, T>`` 
                 WithValidator<Account, AccountCreationPhase> {
                     // set your validator (or inject) 
-                    override val validator = AccountValidator
+                    override val validator = AccountValidator("Account")
         
                     // sync every data change with a call to the built-in ``validate``-method
                     init {
