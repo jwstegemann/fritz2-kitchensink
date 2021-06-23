@@ -18,9 +18,9 @@ enum class AccountCreationPhase {
     Registration
 }
 
-object AccountValidator : ComponentValidator<Account, AccountCreationPhase>() {
+class AccountValidator(private val rootId: String) : ComponentValidator<Account, AccountCreationPhase>() {
     override fun validate(data: Account, metadata: AccountCreationPhase): List<ComponentValidationMessage> {
-        val inspector = inspect(data)
+        val inspector = inspect(data, rootId)
         return validateUsername(inspector, metadata) +
                 validatePassphrase(inspector, metadata) +
                 validateInterests(inspector) +
