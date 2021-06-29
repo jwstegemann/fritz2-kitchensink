@@ -43,9 +43,10 @@ fun RenderContext.menuDemo(): Div {
                         placement { bottomRight }
                         hasCloseButton(false)
                         content {
-                            alert {
+                            alert({
+                                margin { none }
+                            }) {
                                 variant { leftAccent }
-                                stacking { compact }
                                 content("Menu entry clicked")
                             }
                         }
@@ -151,9 +152,10 @@ fun RenderContext.menuDemo(): Div {
                                     placement { bottomRight }
                                     hasCloseButton(false)
                                     content {
-                                        alert {
+                                        alert({
+                                            margin { none }
+                                        }) {
                                             variant { leftAccent }
-                                            stacking { compact }
                                             content("Menu entry clicked")
                                         }
                                     }
