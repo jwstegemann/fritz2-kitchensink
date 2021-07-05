@@ -138,13 +138,18 @@ fun RenderContext.typeAheadDemo(): Div {
                     c("limit(value)")
                     +": limit the proposals to the first "
                     c("value")
-                    +" items. This might be useful for large proposal spaces."
+                    +" items. This might be useful for large proposal spaces. Default is "
+                    c("20")
+                    +"."
                 }
                 li {
                     c("draftThreshold(value)")
                     +": start the proposal function only if the input has at least "
                     c("value")
-                    +" length. This might be useful if a longer draft before searching improves the selectivity."
+                    +" length. This might be useful if a longer draft before searching improves the selectivity. "
+                    +"Default is "
+                    c("1")
+                    +"."
                 }
             }
         }
@@ -282,15 +287,14 @@ fun RenderContext.typeAheadDemo(): Div {
             )
         }
         paragraph {
-            +"On the way to create a valid proposal, we ignore the wrapping of "
+            +"On the way to create a valid proposal, we ignore the wrapping into a "
             c("Flow<>")
-            +" at first and start by just using a draft parameter to filter the list by querying for "
-            +"for containment:"
+            +" at first and start by just using a draft parameter to filter the list by querying for containment:"
         }
         highlight {
             source(
                 """
-                // the component itself will inject the `draft` as parameter 
+                // the component itself will inject the current `draft` as parameter 
                 // into the passed function
                 val filtered: (String) -> List<String> = { draft ->
                     languages.filter { language -> language.contains(draft) }
@@ -575,10 +579,10 @@ fun RenderContext.typeAheadDemo(): Div {
         }
 
         paragraph {
-            +"In fact the easy combination of other component's state with the proposal function has been the "
-            +"design decision the type signature of "
+            +"In fact the easy combination of other component's state with the proposal function has been driven the "
+            +"design decision to choose the type signature of "
             c("Proposal")
-            +" is built upon!"
+            +" at it is!"
         }
 
         showcaseSection("Sizes")
