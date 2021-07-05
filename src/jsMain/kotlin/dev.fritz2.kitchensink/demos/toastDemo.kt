@@ -1,12 +1,18 @@
 package dev.fritz2.kitchensink.demos
 
 import dev.fritz2.binding.RootStore
+import dev.fritz2.binding.SimpleHandler
 import dev.fritz2.components.*
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.P
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
+import dev.fritz2.styling.StyleClass
 import dev.fritz2.styling.p
+import dev.fritz2.styling.params.BasicParams
+import dev.fritz2.styling.params.plus
+import dev.fritz2.styling.theme.AlertSeverity
+import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.filter
@@ -16,12 +22,11 @@ import kotlinx.coroutines.flow.flow
 private fun RenderContext.basicStyledToastContent(title: String = "Toast"): P {
     return p({
         margins {
-            top { small }
+            vertical { small }
             left { small }
-            bottom { small }
             right { "80px" }
         }
-        color { neutral.main }
+        color { info.mainContrast }
     }) {
         +title
     }
@@ -58,8 +63,8 @@ fun RenderContext.toastDemo(): Div {
                     } handledBy toast {
                         content {
                             p({
-                                margin { normal }
-                                color { neutral.main }
+                                margin { small }
+                                color { info.mainContrast }
                             }) {
                                 +"This is a basic toast."
                             }
@@ -77,8 +82,8 @@ fun RenderContext.toastDemo(): Div {
                     } handledBy toast {
                         content {
                             p({
-                                margin { normal }
-                                color { neutral.main }
+                                margin { small }
+                                color { info.mainContrast }
                             }) {
                                 +"This is a basic toast."
                             }
@@ -102,6 +107,9 @@ fun RenderContext.toastDemo(): Div {
             } handledBy toast {
                 content {
                     alert({
+                        paddings {
+                            right { huge } // needed to not be overlapped by the close-button
+                        }
                         margin { none }
                     }) {
                         title("AlertToast!")
@@ -118,6 +126,9 @@ fun RenderContext.toastDemo(): Div {
                 } handledBy toast {
                     content {
                         alert({
+                            paddings {
+                                right { huge } // needed to not be overlapped by the close-button
+                            }
                             margin { none }
                         }) {
                             title("AlertToast!")
@@ -221,8 +232,12 @@ fun RenderContext.toastDemo(): Div {
                         content {
                             // Styled for better readability; any other content is okay as well!
                             p({
-                                margin { normal }
-                                color { neutral.main }
+                                margins {
+                                    vertical { small }
+                                    left { small }
+                                    right { "80px" }
+                                }
+                                color { info.mainContrast }
                             }) {
                                 +flowItem
                             }
@@ -249,8 +264,12 @@ fun RenderContext.toastDemo(): Div {
                         content {
                             // Styled for better readability; any other content is okay as well!
                             p({
-                                margin { normal }
-                                color { neutral }
+                                margins {
+                                    vertical { small }
+                                    left { small }
+                                    right { "80px" }
+                                }
+                                color { info.mainContrast }
                             }) {
                                 +flowItem
                             }
@@ -364,7 +383,7 @@ fun RenderContext.toastDemo(): Div {
             clickButton {
                 text("Show")
             } handledBy toast {
-                background {  gray600  }
+                background {  gray500  }
                 content {
                     basicStyledToastContent("Toast with custom background color")
                 }
@@ -374,7 +393,7 @@ fun RenderContext.toastDemo(): Div {
             source(
                 """
                 showToast {
-                    background { gray600 }
+                    background { gray500 }
                     content {
                         // Content omitted
                     }
