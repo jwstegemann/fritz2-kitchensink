@@ -101,7 +101,9 @@ fun RenderContext.toastDemo(): Div {
                 text("Create An Alert-Toast")
             } handledBy toast {
                 content {
-                    alert {
+                    alert({
+                        margin { none }
+                    }) {
                         title("AlertToast!")
                         content("This is an alert in a toast.")
                     }
@@ -115,7 +117,9 @@ fun RenderContext.toastDemo(): Div {
                     text("Create An Alert-Toast")
                 } handledBy toast {
                     content {
-                        alert {
+                        alert({
+                            margin { none }
+                        }) {
                             title("AlertToast!")
                             content("This is an alert in a toast.")
                         }
@@ -514,7 +518,7 @@ fun RenderContext.toastDemo(): Div {
             +"You can also remove the close button so that the toast can't be closed by the user. In this case it will"
             +" still disappear when the timer runs out."
         }
-        var counter: Int = 0
+        var counter = 0
 
         componentFrame {
             lineUp {
