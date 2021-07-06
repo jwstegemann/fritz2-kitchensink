@@ -1,17 +1,12 @@
 package dev.fritz2.kitchensink.demos
 
 import dev.fritz2.binding.RootStore
-import dev.fritz2.binding.SimpleHandler
 import dev.fritz2.components.*
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.P
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
-import dev.fritz2.styling.StyleClass
 import dev.fritz2.styling.p
-import dev.fritz2.styling.params.BasicParams
-import dev.fritz2.styling.params.plus
-import dev.fritz2.styling.theme.AlertSeverity
 import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
@@ -93,49 +88,84 @@ fun RenderContext.toastDemo(): Div {
             )
         }
 
-        showcaseSubSection("Use Alerts As Content")
+        showcaseSubSection("Alert-Toasts")
         paragraph {
             +"A typical use case is to show an "
             c("alert")
-            +" within a toast. Just place the alert into the "
+            +" within a toast. The easies way to do so is to use the "
+            c("alertToast")
+            +" and "
+            c("showAlertToast")
+            +" methods which will take care of all the necessary styling. "
+            +"Alternatively, it is also possible to pass an alert manually via the "
             c("content")
-            +" property of the toast:"
+            +" property."
         }
         componentFrame {
             clickButton {
-                text("Create An Alert-Toast")
-            } handledBy toast {
-                content {
-                    alert({
-                        paddings {
-                            right { huge } // needed to not be overlapped by the close-button
+                text("Show")
+            } handledBy alertToast {
+                title("AlertToast!")
+                content("This is an alert in a toast.")
+            }
+
+            val variationsStore = object : RootStore<Unit>(Unit) {
+                val show = handle<Unit> { _, _ ->
+                    listOf(
+                        Theme().alert.severities.info,
+                        Theme().alert.severities.success,
+                        Theme().alert.severities.warning,
+                        Theme().alert.severities.error
+                    ).forEach {
+                        showAlertToast {
+                            title("AlertToast!")
+                            content("This is an alert in a toast.")
+                            variant { leftAccent }
+                            severity { it }
                         }
-                        margin { none }
-                    }) {
-                        title("AlertToast!")
-                        content("This is an alert in a toast.")
                     }
                 }
             }
+
+            clickButton({
+                margins { left { normal } }
+            }) {
+                text("Show variations")
+                variant { outline }
+            } handledBy variationsStore.show
         }
         highlight {
             source(
                 """
                 clickButton {
-                    text("Create An Alert-Toast")
-                } handledBy toast {
-                    content {
-                        alert({
-                            paddings {
-                                right { huge } // needed to not be overlapped by the close-button
+                    text("Show")
+                } handledBy alertToast {
+                    title("AlertToast!")
+                    content("This is an alert in a toast.")
+                }
+    
+                val variationsStore = object : RootStore<Unit>(Unit) {
+                    val show = handle<Unit> { _, _ ->
+                        listOf(
+                            Theme().alert.severities.info,
+                            Theme().alert.severities.success,
+                            Theme().alert.severities.warning,
+                            Theme().alert.severities.error
+                        ).forEach {
+                            showAlertToast {
+                                title("AlertToast!")
+                                content("This is an alert in a toast.")
+                                variant { leftAccent }
+                                severity { it }
                             }
-                            margin { none }
-                        }) {
-                            title("AlertToast!")
-                            content("This is an alert in a toast.")
                         }
                     }
                 }
+    
+                clickButton {
+                    text("Show variations")
+                    variant { outline }
+                } handledBy variationsStore.show
                 """.trimIndent()
             )
         }
