@@ -442,13 +442,21 @@ fun RenderContext.toastDemo(): Div {
             c("closeButtonRendering")
             +" properties."
         }
+        coloredBox(Theme().colors.info) {
+            +"Please note: The close-button is rendered above the toast's content so you might need to "
+            +"add some padding to your content so it is not overlapped by the close-button. "
+            br { }
+            +"If you create an alert-toast via the respective functions this is done automatically."
+        }
         componentFrame {
             clickButton {
                 text("Show")
             } handledBy toast {
                 closeButtonStyle {
-                    margins { right { small } }
-                    background { color { warning.main } }
+                    background { color { neutral.main } }
+                    color { info.main }
+                    radius { "50%" }
+                    padding { tiny }
                 }
                 closeButtonIcon { fritz2 }
                 content {
@@ -459,10 +467,13 @@ fun RenderContext.toastDemo(): Div {
         highlight {
             source(
                 """
-                    showToast {
+                    clickButton {
+                        text("Show")
+                    } handledBy toast {
                         closeButtonStyle {
-                            margins { right { small } }
-                            background { color { warning.main } }
+                            background { color { neutral.main } }
+                            color { info.main }
+                            radius { small }
                         }
                         closeButtonIcon { fritz2 }
                         content {
