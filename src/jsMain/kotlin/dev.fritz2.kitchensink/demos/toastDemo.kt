@@ -105,8 +105,10 @@ fun RenderContext.toastDemo(): Div {
             clickButton {
                 text("Show")
             } handledBy alertToast {
-                title("AlertToast!")
-                content("This is an alert in a toast.")
+                alert {
+                    title("AlertToast!")
+                    content("This is an alert in a toast.")
+                }
             }
 
             val variationsStore = object : RootStore<Unit>(Unit) {
@@ -118,10 +120,12 @@ fun RenderContext.toastDemo(): Div {
                         Theme().alert.severities.error
                     ).forEach {
                         showAlertToast {
-                            title("AlertToast!")
-                            content("This is an alert in a toast.")
-                            variant { leftAccent }
-                            severity { it }
+                            alert {
+                                title("AlertToast!")
+                                content("This is an alert in a toast.")
+                                variant { leftAccent }
+                                severity { it }
+                            }
                         }
                     }
                 }
