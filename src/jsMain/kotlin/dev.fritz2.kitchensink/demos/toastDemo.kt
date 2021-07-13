@@ -7,6 +7,7 @@ import dev.fritz2.dom.html.P
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.styling.p
+import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.filter
@@ -16,12 +17,11 @@ import kotlinx.coroutines.flow.flow
 private fun RenderContext.basicStyledToastContent(title: String = "Toast"): P {
     return p({
         margins {
-            top { small }
+            vertical { small }
             left { small }
-            bottom { small }
             right { "80px" }
         }
-        color { neutral.main }
+        color { info.mainContrast }
     }) {
         +title
     }
@@ -58,8 +58,8 @@ fun RenderContext.toastDemo(): Div {
                     } handledBy toast {
                         content {
                             p({
-                                margin { normal }
-                                color { neutral.main }
+                                margin { small }
+                                color { info.mainContrast }
                             }) {
                                 +"This is a basic toast."
                             }
@@ -77,8 +77,8 @@ fun RenderContext.toastDemo(): Div {
                     } handledBy toast {
                         content {
                             p({
-                                margin { normal }
-                                color { neutral.main }
+                                margin { small }
+                                color { info.mainContrast }
                             }) {
                                 +"This is a basic toast."
                             }
@@ -88,39 +88,96 @@ fun RenderContext.toastDemo(): Div {
             )
         }
 
-        showcaseSubSection("Use Alerts As Content")
+        showcaseSubSection("Alert-Toasts")
         paragraph {
             +"A typical use case is to show an "
             c("alert")
-            +" within a toast. Just place the alert into the "
+            +" within a toast. The easies way to do so is to use the "
+            c("alertToast")
+            +" and "
+            c("showAlertToast")
+            +". Instead of a "
             c("content")
-            +" property of the toast:"
+            +" property there is an "
+            c("alert")
+            +" sub-context, which offers the same API as a stand-alone "
+            c("Alert")
+            +" component."
         }
         componentFrame {
             clickButton {
-                text("Create An Alert-Toast")
-            } handledBy toast {
-                content {
-                    alert {
-                        title("AlertToast!")
-                        content("This is an alert in a toast.")
+                text("Show")
+            } handledBy alertToast {
+                duration(5000)
+                alert {
+                    title("AlertToast!")
+                    content("This is an alert in a toast.")
+                }
+            }
+
+            val variationsStore = object : RootStore<Unit>(Unit) {
+                val show = handle<Unit> { _, _ ->
+                    listOf(
+                        Theme().alert.severities.info to "Info",
+                        Theme().alert.severities.success to "Success",
+                        Theme().alert.severities.warning to "Warning",
+                        Theme().alert.severities.error to "Error"
+                    ).forEach { (severiy, name) ->
+                        showAlertToast {
+                            alert {
+                                title("$name AlertToast!")
+                                content("This is an ${name.lowercase()} alert in a toast.")
+                                variant { leftAccent }
+                                severity { severiy }
+                            }
+                        }
                     }
                 }
             }
+
+            clickButton({
+                margins { left { normal } }
+            }) {
+                text("Show variations")
+                variant { outline }
+            } handledBy variationsStore.show
         }
         highlight {
             source(
                 """
                 clickButton {
-                    text("Create An Alert-Toast")
-                } handledBy toast {
-                    content {
-                        alert {
-                            title("AlertToast!")
-                            content("This is an alert in a toast.")
+                    text("Show")
+                } handledBy alertToast {                   
+                    // instead of `content`:
+                    alert { // use all properties of a stand-alone alert
+                        title("AlertToast!")
+                        content("This is an alert in a toast.")
+                    }
+                    // use any other regular toast property too
+                    duration(5000)                
+                }
+    
+                val variationsStore = object : RootStore<Unit>(Unit) {
+                    val show = handle<Unit> { _, _ ->
+                        listOf(
+                            Theme().alert.severities.info to "Info",
+                            Theme().alert.severities.success to "Success",
+                            Theme().alert.severities.warning to "Warning",
+                            Theme().alert.severities.error to "Error"
+                        ).forEach { (severiy, name) ->
+                            showAlertToast {
+                                alert {
+                                    title("${'$'}name AlertToast!")
+                                    content("This is an ${'$'}{name.lowercase()} alert in a toast.")
+                                    variant { leftAccent }
+                                    severity { severiy }
+                                }
+                            }
                         }
                     }
                 }
+    
+                clickButton { text("Show variations") } handledBy variationsStore.show
                 """.trimIndent()
             )
         }
@@ -217,8 +274,12 @@ fun RenderContext.toastDemo(): Div {
                         content {
                             // Styled for better readability; any other content is okay as well!
                             p({
-                                margin { normal }
-                                color { neutral.main }
+                                margins {
+                                    vertical { small }
+                                    left { small }
+                                    right { "80px" }
+                                }
+                                color { info.mainContrast }
                             }) {
                                 +flowItem
                             }
@@ -245,8 +306,12 @@ fun RenderContext.toastDemo(): Div {
                         content {
                             // Styled for better readability; any other content is okay as well!
                             p({
-                                margin { normal }
-                                color { neutral }
+                                margins {
+                                    vertical { small }
+                                    left { small }
+                                    right { "80px" }
+                                }
+                                color { info.mainContrast }
                             }) {
                                 +flowItem
                             }
@@ -360,7 +425,7 @@ fun RenderContext.toastDemo(): Div {
             clickButton {
                 text("Show")
             } handledBy toast {
-                background {  gray600  }
+                background {  gray500  }
                 content {
                     basicStyledToastContent("Toast with custom background color")
                 }
@@ -370,7 +435,7 @@ fun RenderContext.toastDemo(): Div {
             source(
                 """
                 showToast {
-                    background { gray600 }
+                    background { gray500 }
                     content {
                         // Content omitted
                     }
@@ -389,13 +454,21 @@ fun RenderContext.toastDemo(): Div {
             c("closeButtonRendering")
             +" properties."
         }
+        coloredBox(Theme().colors.info) {
+            +"Please note: The close-button is rendered above the toast's content so you might need to "
+            +"add some padding to your content so it is not overlapped by the close-button. "
+            br { }
+            +"If you create an alert-toast via the respective functions this is done automatically."
+        }
         componentFrame {
             clickButton {
                 text("Show")
             } handledBy toast {
                 closeButtonStyle {
-                    margins { right { small } }
-                    background { color { warning.main } }
+                    background { color { neutral.main } }
+                    color { info.main }
+                    radius { "50%" }
+                    padding { tiny }
                 }
                 closeButtonIcon { fritz2 }
                 content {
@@ -406,10 +479,13 @@ fun RenderContext.toastDemo(): Div {
         highlight {
             source(
                 """
-                    showToast {
+                    clickButton {
+                        text("Show")
+                    } handledBy toast {
                         closeButtonStyle {
-                            margins { right { small } }
-                            background { color { warning.main } }
+                            background { color { neutral.main } }
+                            color { info.main }
+                            radius { small }
                         }
                         closeButtonIcon { fritz2 }
                         content {
@@ -514,7 +590,7 @@ fun RenderContext.toastDemo(): Div {
             +"You can also remove the close button so that the toast can't be closed by the user. In this case it will"
             +" still disappear when the timer runs out."
         }
-        var counter: Int = 0
+        var counter = 0
 
         componentFrame {
             lineUp {
