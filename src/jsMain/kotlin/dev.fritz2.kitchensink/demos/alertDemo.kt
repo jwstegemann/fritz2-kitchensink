@@ -179,7 +179,13 @@ fun RenderContext.alertDemo(): Div {
         paragraph {
             +"The alert's layout variant can be changed via the "
             c("variant")
-            +" property. Currently a solid, subtle and ghost variant are available, as well as variants of suble with "
+            +" property. Currently "
+            c("solid")
+            +", "
+            c("subtle")
+            +" and "
+            c("ghost")
+            +" variants are available, as well as variants of subtle with "
             +" either a colored left or top accent."
         }
         componentFrame {
@@ -209,7 +215,7 @@ fun RenderContext.alertDemo(): Div {
             alert({
                 margin { tiny }
             }) {
-                content("This is a discreet alert.")
+                content("This is a ghost alert.")
                 variant { ghost }
             }
         }
@@ -232,8 +238,8 @@ fun RenderContext.alertDemo(): Div {
                         variant { topAccent }
                     }
                     alert {
-                        content("This is a discreet alert.")
-                        variant { discreet }
+                        content("This is a ghost alert.")
+                        variant { ghost }
                     }
                 """
             )
