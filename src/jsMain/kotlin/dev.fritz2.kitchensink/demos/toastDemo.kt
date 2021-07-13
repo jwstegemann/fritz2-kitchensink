@@ -96,15 +96,19 @@ fun RenderContext.toastDemo(): Div {
             c("alertToast")
             +" and "
             c("showAlertToast")
-            +" methods which will take care of all the necessary styling. "
-            +"Alternatively, it is also possible to pass an alert manually via the "
+            +". Instead of a "
             c("content")
-            +" property."
+            +" property there is an "
+            c("alert")
+            +" sub-context, which offers the same API as a stand-alone "
+            c("Alert")
+            +" component."
         }
         componentFrame {
             clickButton {
                 text("Show")
             } handledBy alertToast {
+                duration(5000)
                 alert {
                     title("AlertToast!")
                     content("This is an alert in a toast.")
@@ -114,17 +118,17 @@ fun RenderContext.toastDemo(): Div {
             val variationsStore = object : RootStore<Unit>(Unit) {
                 val show = handle<Unit> { _, _ ->
                     listOf(
-                        Theme().alert.severities.info,
-                        Theme().alert.severities.success,
-                        Theme().alert.severities.warning,
-                        Theme().alert.severities.error
-                    ).forEach {
+                        Theme().alert.severities.info to "Info",
+                        Theme().alert.severities.success to "Success",
+                        Theme().alert.severities.warning to "Warning",
+                        Theme().alert.severities.error to "Error"
+                    ).forEach { (severiy, name) ->
                         showAlertToast {
                             alert {
-                                title("AlertToast!")
-                                content("This is an alert in a toast.")
+                                title("$name AlertToast!")
+                                content("This is an ${name.lowercase()} alert in a toast.")
                                 variant { leftAccent }
-                                severity { it }
+                                severity { severiy }
                             }
                         }
                     }
@@ -143,33 +147,37 @@ fun RenderContext.toastDemo(): Div {
                 """
                 clickButton {
                     text("Show")
-                } handledBy alertToast {
-                    title("AlertToast!")
-                    content("This is an alert in a toast.")
+                } handledBy alertToast {                   
+                    // instead of `content`:
+                    alert { // use all properties of a stand-alone alert
+                        title("AlertToast!")
+                        content("This is an alert in a toast.")
+                    }
+                    // use any other regular toast property too
+                    duration(5000)                
                 }
     
                 val variationsStore = object : RootStore<Unit>(Unit) {
                     val show = handle<Unit> { _, _ ->
                         listOf(
-                            Theme().alert.severities.info,
-                            Theme().alert.severities.success,
-                            Theme().alert.severities.warning,
-                            Theme().alert.severities.error
-                        ).forEach {
+                            Theme().alert.severities.info to "Info",
+                            Theme().alert.severities.success to "Success",
+                            Theme().alert.severities.warning to "Warning",
+                            Theme().alert.severities.error to "Error"
+                        ).forEach { (severiy, name) ->
                             showAlertToast {
-                                title("AlertToast!")
-                                content("This is an alert in a toast.")
-                                variant { leftAccent }
-                                severity { it }
+                                alert {
+                                    title("${'$'}name AlertToast!")
+                                    content("This is an ${'$'}{name.lowercase()} alert in a toast.")
+                                    variant { leftAccent }
+                                    severity { severiy }
+                                }
                             }
                         }
                     }
                 }
     
-                clickButton {
-                    text("Show variations")
-                    variant { outline }
-                } handledBy variationsStore.show
+                clickButton { text("Show variations") } handledBy variationsStore.show
                 """.trimIndent()
             )
         }
