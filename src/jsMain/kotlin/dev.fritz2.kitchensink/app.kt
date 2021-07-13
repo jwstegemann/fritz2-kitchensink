@@ -44,6 +44,7 @@ const val menu_ = "Menu"
 const val toasts_ = "Toast"
 const val datatable_ = "DataTable"
 const val slider_ = "Slider"
+const val typeAhead_ = "TypeAhead"
 
 val router = router(welcome_)
 
@@ -293,6 +294,7 @@ fun main() {
                             menuAnchor(buttons_)
                             menuAnchor(input_)
                             menuAnchor(select_)
+                            menuAnchor(typeAhead_)
                             menuAnchor(file_)
                             menuAnchor(checkbox_)
                             menuAnchor(radio_)
@@ -365,6 +367,7 @@ fun main() {
                                 toasts_ -> toastDemo()
                                 datatable_ -> dataTableDemo()
                                 slider_ -> sliderDemo()
+                                typeAhead_ -> typeAheadDemo()
                                 else -> welcome()
                             }
                         }
