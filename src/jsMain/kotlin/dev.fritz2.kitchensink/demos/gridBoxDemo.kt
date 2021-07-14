@@ -1,12 +1,12 @@
 package dev.fritz2.kitchensink.demos
 
 import dev.fritz2.binding.storeOf
-import dev.fritz2.components.box
 import dev.fritz2.components.gridBox
 import dev.fritz2.components.pushButton
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
+import dev.fritz2.styling.div
 import dev.fritz2.styling.p
 import dev.fritz2.styling.params.AreaName
 import dev.fritz2.styling.params.end
@@ -134,7 +134,7 @@ fun RenderContext.gridBoxDemo(): Div {
                 )
                 gap { large }
             }) {
-                box({
+                div({
                     grid { area { grid.HEADER } }
                     background {
                         color { gray300 }
@@ -145,7 +145,7 @@ fun RenderContext.gridBoxDemo(): Div {
                         padding { "1rem" }
                     }) { +"Header" }
                 }
-                box({
+                div({
                     grid { area { grid.SIDEBAR } }
                     background { color { primary.main } }
                     color { gray300 }
@@ -155,7 +155,7 @@ fun RenderContext.gridBoxDemo(): Div {
                         padding { "1rem" }
                     }) { +"Sidebar" }
                 }
-                box({
+                div({
                     paddings { all { "0.2rem" } }
                     grid(sm = { area { grid.CONTENT } })
                     background(
@@ -182,7 +182,7 @@ fun RenderContext.gridBoxDemo(): Div {
                         padding { "1rem" }
                     }){ +"Content" }
                 }
-                box({
+                div({
                     grid { area { grid.FOOTER } }
                     background { color { gray300 } }
                     paddings { all { "0.2rem" } }
@@ -193,7 +193,7 @@ fun RenderContext.gridBoxDemo(): Div {
                 }
                 toggle.data.render { show ->
                     if (show) {
-                        box({
+                        div({
                             margin { none }
                             paddings { all { "0.2rem" } }
                             grid(

@@ -1,6 +1,5 @@
 package dev.fritz2.kitchensink.base
 
-import dev.fritz2.components.box
 import dev.fritz2.dom.html.A
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.P
@@ -70,7 +69,7 @@ fun RenderContext.contentFrame(
 }, styling, baseClass, id, prefix, content)
 
 fun RenderContext.coloredBox(colorScheme: ColorScheme, content: P.() -> Unit): Div {
-    return box({
+    return div({
         margins {
             top { larger }
             bottom { larger }
@@ -101,7 +100,7 @@ fun RenderContext.coloredBox(colorScheme: ColorScheme, content: P.() -> Unit): D
 }
 
 fun RenderContext.componentFrame(padding: Boolean = true, content: Div.() -> Unit): Div {
-    return box({
+    return div({
         width { "100%" }
         margins {
             top { "1.25rem" }
@@ -118,7 +117,7 @@ fun RenderContext.componentFrame(padding: Boolean = true, content: Div.() -> Uni
 fun RenderContext.storeContentBox(
     label: String,
     content: RenderContext.() -> Unit = {}
-): Div = box({
+): Div = div({
         background {
             color { gray200 }
         }
@@ -164,7 +163,7 @@ fun RenderContext.internalLink(text: String, page: String): A {
 }
 
 fun RenderContext.navAnchor(linkText: String, href: String): Div {
-    return box({
+    return div({
         radius { small }
         border {
             width { none }
@@ -196,7 +195,7 @@ fun RenderContext.navAnchor(linkText: String, href: String): Div {
 }
 
 fun RenderContext.menuHeader(text: String): Div {
-    return box({
+    return div({
         width { "100%" }
     }) {
         p({
@@ -273,7 +272,7 @@ fun RenderContext.c(text: String) {
 
 fun RenderContext.teaserText(
     content: Div.() -> Unit = {}
-): Div = box({
+): Div = div({
     fontSize { small }
     textTransform { capitalize }
     color { primary.main }
