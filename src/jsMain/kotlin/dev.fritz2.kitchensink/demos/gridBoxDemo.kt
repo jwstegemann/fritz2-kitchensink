@@ -299,13 +299,13 @@ fun RenderContext.gridBoxDemo(): Div {
                 gridBox({
                     // omitted, same as above
                 }) {
-                    box({
+                    div({
                         grid { area { grid.HEADER } } // refer to cell type 
                     }) {
                         // your content
                     }
                     // next type
-                    box({
+                    div({
                         grid { area { grid.CONTENT } }  
                     }) {
                         // your content
@@ -329,7 +329,7 @@ fun RenderContext.gridBoxDemo(): Div {
                     // as above
                 }) {
                     // define the drawer
-                    box({
+                    div({
                         grid(
                             sm = { // structure for small displays
                                 row {

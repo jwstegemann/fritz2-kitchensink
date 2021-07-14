@@ -286,7 +286,7 @@ fun RenderContext.alertDemo(): Div {
                     alert {
                         title {
                             // Title that takes up the whole line
-                            box({
+                            div({
                                 fontWeight { bold }
                             }) {
                                 +"Custom title"
