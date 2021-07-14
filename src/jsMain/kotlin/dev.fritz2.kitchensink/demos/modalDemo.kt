@@ -3,6 +3,7 @@ package dev.fritz2.kitchensink.demos
 import dev.fritz2.binding.SimpleHandler
 import dev.fritz2.binding.storeOf
 import dev.fritz2.components.*
+import dev.fritz2.components.modal.*
 import dev.fritz2.components.datatable.ColumnsContext
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
