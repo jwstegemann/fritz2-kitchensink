@@ -73,10 +73,10 @@ fun RenderContext.formControlDemo(): Div {
         val interestStore = accountStore.sub(L.Account.interests)
         val confirmationStore = accountStore.sub(L.Account.confirmation)
 
-        val registerSuccessDialog = modal { close ->
+        val registerSuccessDialog = modal {
             width { small }
             hasCloseButton(false)
-            content {
+            content { close ->
                 flexBox({
                     justifyContent { spaceEvenly }
                     alignItems { center }
