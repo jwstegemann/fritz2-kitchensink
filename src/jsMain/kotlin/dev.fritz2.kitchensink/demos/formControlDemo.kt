@@ -109,6 +109,20 @@ fun RenderContext.formControlDemo(): Div {
                             type("password")
                         }
                     }
+
+                    val langStore = storeOf("")
+                    formControl {
+                        label("Choose one")
+                        selectField(items = listOf("Kotlin", "fritz2", "Html", "CSS", "Design", "Open Source"), value = langStore, id = "selectTest") {
+                        }
+                    }
+
+                    formControl {
+                        label(langStore.data)
+                        textArea(value = langStore, id = "area52") {
+                        }
+                    }
+
                     formControl {
                         label("Choose up to three interests:")
 
@@ -973,7 +987,7 @@ fun RenderContext.formControlDemo(): Div {
                                         width { fat }
                                     }
                                 }
-                            }) { +component.label.value }
+                            }) { component.label.values.asText() }
                             component.renderHelperText(this)
                             fieldset {
                                 control(this)
@@ -984,9 +998,12 @@ fun RenderContext.formControlDemo(): Div {
                 }
             }
 
-            init {
-                // apply the new renderer to the new form
-                registerRenderStrategy("radioGroupWithInput", VerticalRenderer(this))
+            override fun finalizeRenderStrategies(
+                strategies: MutableMap<String, ControlRenderer>,
+                single: ControlRenderer,
+                group: ControlRenderer
+            ) {
+                strategies.put("radioGroupWithInput", VerticalRenderer(this))
             }
         }
 
@@ -1147,9 +1164,9 @@ fun RenderContext.formControlDemo(): Div {
             }
         }
         paragraph {
-            +"When combining two input components, it must be decided which component holds the current value to emit to the client."
-            +"One solution is to tie some state"
-            +" information to the value in the internal stores. We used "
+            +"When combining two input components, it must be decided which component holds the current value to emit "
+            +"to the client. One solution is to tie some state "
+            +"information to the value in the internal stores. We used "
             c("String")
             +" in this example, which is sufficient for this use case."
         }
@@ -1300,11 +1317,11 @@ fun RenderContext.formControlDemo(): Div {
             ul {
                 li {
                     c("SingleControlRenderer")
-                    +"is used to render forms with a single control, like an inputField for example."
+                    +" is used to render forms with a single control, like an inputField for example."
                 }
                 li {
                     c("ControlGroupRenderer")
-                    +"is used to render groups of controls, like checkBoxGroups and radioGroups."
+                    +" is used to render groups of controls, like checkBoxGroups and radioGroups."
                 }
             }
             +"You can also write your own custom renderer, as we will explore in the next section."
@@ -1316,9 +1333,15 @@ fun RenderContext.formControlDemo(): Div {
                 
                     // non-essential code was omitted to keep it short
                     
-                    // It's recommended to register your render strategy within the init block
-                    init {
-                        registerRenderStrategy("radioGroupWithInput", ControlGroupRenderer(this))
+                    // override this hook method to register or modify render strategies
+                    override fun finalizeRenderStrategies(
+                        strategies: MutableMap<String, ControlRenderer>,
+                        single: ControlRenderer, // the two built-in renderers are injected,
+                        group: ControlRenderer   // so they can be reused (see below)
+                    ) {
+                        strategies.put("radioGroupWithInput", group)
+                        //                                    ^^^^^
+                        //                                    use built-in inctance!
                     }
                 }
                 """
@@ -1370,7 +1393,7 @@ fun RenderContext.formControlDemo(): Div {
                                             width { fat }
                                         }
                                     }
-                                }){ +component.label.value }
+                                }){ component.label.values.asText() }
                                 component.renderHelperText(this)
                                 fieldset {
                                     control(this)
@@ -1395,8 +1418,12 @@ fun RenderContext.formControlDemo(): Div {
                     // ...
                     
                     // change the registration to use the newly created renderer
-                    init {
-                        registerRenderStrategy("radioGroupWithInput", VerticalRenderer(this))
+                    override fun finalizeRenderStrategies(
+                        strategies: MutableMap<String, ControlRenderer>,
+                        single: ControlRenderer,
+                        group: ControlRenderer
+                    ) {
+                        strategies.put("radioGroupWithInput", ControlGroupRenderer(this))
                     }
                 }
                 """
