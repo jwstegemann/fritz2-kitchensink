@@ -1,11 +1,15 @@
 package dev.fritz2.kitchensink.demos
 
 import dev.fritz2.binding.storeOf
-import dev.fritz2.components.*
+import dev.fritz2.components.flexBox
+import dev.fritz2.components.gridBox
+import dev.fritz2.components.lineUp
+import dev.fritz2.components.tooltip
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.kitchensink.theme_
+import dev.fritz2.styling.div
 import dev.fritz2.styling.p
 import dev.fritz2.styling.params.*
 import dev.fritz2.styling.theme.ColorScheme
@@ -77,7 +81,7 @@ fun renderColorScheme(context: RenderContext, name: String, colorScheme: ColorSc
                 }
                 radii { top { radiiSize() } }
             }) {
-                box({
+                div({
                     fontSize { large }
                 }) { +name }
                 mouseenters.map { true } handledBy hovered.update
@@ -143,7 +147,7 @@ fun RenderContext.createColorBar(
         }
     }) {
         items {
-            box({
+            div({
                 width { "100%" }
                 background {
                     color { color }

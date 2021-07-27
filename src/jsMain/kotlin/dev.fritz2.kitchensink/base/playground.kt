@@ -1,7 +1,7 @@
 package dev.fritz2.kitchensink.base
 
-import dev.fritz2.components.box
 import dev.fritz2.dom.html.RenderContext
+import dev.fritz2.styling.div
 import dev.fritz2.styling.staticStyle
 import kotlinx.browser.window
 
@@ -77,7 +77,7 @@ fun RenderContext.playground(
     val component = PlaygroundComponent().apply(build)
 
 
-    box({
+    div({
         margins { top { large } }
         display { flex }
         background { color { backgroundColor } }
