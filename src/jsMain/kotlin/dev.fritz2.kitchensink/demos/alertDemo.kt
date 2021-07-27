@@ -1,11 +1,11 @@
 package dev.fritz2.kitchensink.demos
 
 import dev.fritz2.components.alert
-import dev.fritz2.components.box
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.kitchensink.toasts_
+import dev.fritz2.styling.div
 import dev.fritz2.styling.span
 import dev.fritz2.styling.theme.AlertSeverity
 import dev.fritz2.styling.theme.ColorScheme
@@ -259,7 +259,7 @@ fun RenderContext.alertDemo(): Div {
             }) {
                 title {
                     // Title that takes up the whole line
-                    box({
+                    div({
                         fontWeight { bold }
                     }) {
                         +"Custom title"
@@ -286,7 +286,7 @@ fun RenderContext.alertDemo(): Div {
                     alert {
                         title {
                             // Title that takes up the whole line
-                            box({
+                            div({
                                 fontWeight { bold }
                             }) {
                                 +"Custom title"

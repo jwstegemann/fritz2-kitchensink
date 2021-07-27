@@ -216,7 +216,7 @@ fun RenderContext.dropdownDemo(): Div {
                 }
             }
 
-            box({
+            div({
                 margins { top { normal } }
             }) {
                 placementAlignmentFlow.render {

@@ -1,6 +1,5 @@
 package dev.fritz2.kitchensink.demos
 
-import dev.fritz2.components.box
 import dev.fritz2.components.icon
 import dev.fritz2.components.lineUp
 import dev.fritz2.components.stackUp
@@ -35,7 +34,7 @@ fun RenderContext.welcome(): Div {
                     color { primary.main }
                     css("drop-shadow(0 0 0.5rem gray);")
                 }) { fromTheme { fritz2 } }
-                box {
+                div {
                     h1({
                         fontSize(
                             sm = { "1.5rem" },

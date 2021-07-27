@@ -51,6 +51,12 @@ fun RenderContext.toastDemo(): Div {
             c("info")
             +" color defined in the theme."
         }
+        coloredBox(Theme().colors.info) {
+            +"Please note: The close-button is rendered above the toast's content. You might need to "
+            +"add some padding to your content in order for it to not be overlapped by the close-button. "
+            br { }
+            +"If you create an alert-toast via the respective functions this is done automatically."
+        }
         componentFrame {
             lineUp {
                 items {
@@ -58,12 +64,7 @@ fun RenderContext.toastDemo(): Div {
                         text("Show")
                     } handledBy toast {
                         content {
-                            p({
-                                margin { small }
-                                color { info.mainContrast }
-                            }) {
-                                +"This is a basic toast."
-                            }
+                            basicStyledToastContent("This is a basic toast.")
                         }
                     }
                 }
@@ -78,7 +79,11 @@ fun RenderContext.toastDemo(): Div {
                     } handledBy toast {
                         content {
                             p({
-                                margin { small }
+                                margins {
+                                    vertical { small }
+                                    left { small }
+                                    right { "80px" }
+                                }
                                 color { info.mainContrast }
                             }) {
                                 +"This is a basic toast."
@@ -454,12 +459,6 @@ fun RenderContext.toastDemo(): Div {
             +" or ultimately by the "
             c("closeButtonRendering")
             +" properties."
-        }
-        coloredBox(Theme().colors.info) {
-            +"Please note: The close-button is rendered above the toast's content so you might need to "
-            +"add some padding to your content so it is not overlapped by the close-button. "
-            br { }
-            +"If you create an alert-toast via the respective functions this is done automatically."
         }
         componentFrame {
             clickButton {
