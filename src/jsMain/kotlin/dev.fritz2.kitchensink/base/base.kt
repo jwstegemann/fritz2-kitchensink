@@ -1,9 +1,7 @@
 package dev.fritz2.kitchensink.base
 
-import dev.fritz2.dom.html.A
-import dev.fritz2.dom.html.Div
-import dev.fritz2.dom.html.P
-import dev.fritz2.dom.html.RenderContext
+import dev.fritz2.components.menu.MenuComponent
+import dev.fritz2.dom.html.*
 import dev.fritz2.kitchensink.router
 import dev.fritz2.styling.*
 import dev.fritz2.styling.params.BasicParams
@@ -45,28 +43,25 @@ fun RenderContext.paragraph(
     baseClass: StyleClass = StyleClass.None,
     id: String? = null,
     prefix: String = "paragraph",
+    scope: ScopeContext.() -> Unit = {},
     content: P.() -> Unit = {}
-): P = p({ margins { top { small } } }, styling, baseClass, id, prefix, content)
+): P = p({ margins { top { small } } }, styling, baseClass, id, prefix, scope, content)
 
 fun RenderContext.contentFrame(
     styling: BasicParams.() -> Unit = {},
     baseClass: StyleClass = StyleClass.None,
     id: String? = null,
     prefix: String = "contentframe",
+    scope: ScopeContext.() -> Unit = {},
     content: Div.() -> Unit = {}
 ): Div = div({
-    background { color { neutral.main } }
-    color { neutral.mainContrast }
-    margins(sm = {
-        top { "4rem" }
-    }, md = {
-        top { "5rem" }
-        bottom { huge }
-    })
+//    background { color { neutral.main } }
+//    color { neutral.mainContrast }
+    margins(md = { bottom { huge } })
     maxWidth(sm = { unset }, md = { "34rem" }, lg = { "52rem" })
     padding { large }
     radius { normal }
-}, styling, baseClass, id, prefix, content)
+}, styling, baseClass, id, prefix, scope, content)
 
 fun RenderContext.coloredBox(colorScheme: ColorScheme, content: P.() -> Unit): Div {
     return div({
@@ -212,8 +207,7 @@ fun RenderContext.menuHeader(text: String): Div {
     }
 }
 
-fun RenderContext.menuAnchor(linkText: String): P {
-
+fun MenuComponent.menuAnchor(linkText: String) {
     val selected = style {
         color { gray100 }
         background {
@@ -222,36 +216,59 @@ fun RenderContext.menuAnchor(linkText: String): P {
     }
 
     val isActive = router.data.map { hash -> hash == linkText }
-        .distinctUntilChanged()//.onEach { if (it) PlaygroundComponent.update() }
+        .distinctUntilChanged()
 
-    return p({
-        margins {
-            top { tiny }
-            bottom { tiny }
-            left { none }
+    entry {
+        text(linkText)
+        element {
+            className(selected.whenever(isActive).name)
         }
-        width { "90%" }
-        radius { small }
-        hover {
-            color { primary.highlightContrast }
-            background { color { primary.highlight } }
+        events {
+            clicks.map { linkText } handledBy router.navTo
         }
-        paddings {
-            top { tiny }
-            bottom { tiny }
-            left { small }
-            right { small }
-        }
-        css("""text-overflow: ellipsis; overflow: hidden;""")
-        fontWeight { medium }
-        css("cursor: pointer")
-
-    }) {
-        className(selected.whenever(isActive).name)
-        clicks.map { linkText } handledBy router.navTo
-        +linkText
     }
 }
+
+//fun RenderContext.menuAnchor(linkText: String): P {
+//
+//    val selected = style {
+//        color { gray100 }
+//        background {
+//            color { primary.main }
+//        }
+//    }
+//
+//    val isActive = router.data.map { hash -> hash == linkText }
+//        .distinctUntilChanged()//.onEach { if (it) PlaygroundComponent.update() }
+//
+//    return p({
+//        margins {
+//            top { tiny }
+//            bottom { tiny }
+//            left { none }
+//        }
+//        width { "90%" }
+//        radius { small }
+//        hover {
+//            color { primary.highlightContrast }
+//            background { color { primary.highlight } }
+//        }
+//        paddings {
+//            top { tiny }
+//            bottom { tiny }
+//            left { small }
+//            right { small }
+//        }
+//        css("""text-overflow: ellipsis; overflow: hidden;""")
+//        fontWeight { medium }
+//        css("cursor: pointer")
+//
+//    }) {
+//        className(selected.whenever(isActive).name)
+//        clicks.map { linkText } handledBy router.navTo
+//        +linkText
+//    }
+//}
 
 fun RenderContext.c(text: String) {
     span({
