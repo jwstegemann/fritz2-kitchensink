@@ -46,7 +46,7 @@ fun RenderContext.flexBoxDemo(): Div {
         showcaseHeader("Flexbox")
         paragraph {
             +"The flex layout enables a container to alter its items' width,"
-            +" height, and order to best fill the available space. The container is basically a box which has the css"
+            +" height, and order to best fill the available space. The container is basically a div that has the css"
             +" property "
             c("display: flex")
             +" attached."
@@ -76,7 +76,7 @@ fun RenderContext.flexBoxDemo(): Div {
                     width { full }
                 }) {
                    
-                    box({
+                    div({
                         background { color { primary.main } }
                         color { neutral }
                         width (sm = { "50px" }, md = { "110px" }, lg = { "150px" })
@@ -91,8 +91,8 @@ fun RenderContext.flexBoxDemo(): Div {
                     }
                     
                     // styling omitted
-                    box { +"Box 2" }
-                    box { +"Box 3" }
+                    div { +"Box 2" }
+                    div { +"Box 3" }
                 }
                 """
             )
@@ -132,9 +132,9 @@ fun RenderContext.flexBoxDemo(): Div {
                 flexBox({
                     direction { row }
                 }) {
-                    box { +"Box 1"}
-                    box { +"Box 2"}
-                    box { +"Box 3"}
+                    div { +"Box 1"}
+                    div { +"Box 2"}
+                    div { +"Box 3"}
                 }
             """
             )
@@ -180,9 +180,9 @@ fun RenderContext.flexBoxDemo(): Div {
                 flexBox({
                     justifyContent { flexStart }
                 }) {
-                    box { +"Box 1"}
-                    box { +"Box 2"}
-                    box { +"Box 3"}
+                    div { +"Box 1"}
+                    div { +"Box 2"}
+                    div { +"Box 3"}
                 }
                 """
             )
@@ -224,11 +224,11 @@ fun RenderContext.flexBoxDemo(): Div {
                 flexBox({
                     wrap { noWrap }
                 }) {
-                    box { +"Box 1"}
-                    box { +"Box 2"}
-                    box { +"Box 3"}
-                    box { +"Box 4"}
-                    box { +"Box 5"}
+                    div { +"Box 1"}
+                    div { +"Box 2"}
+                    div { +"Box 3"}
+                    div { +"Box 4"}
+                    div { +"Box 5"}
                 }                    
                 """
             )
