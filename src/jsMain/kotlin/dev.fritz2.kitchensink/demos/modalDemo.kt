@@ -3,6 +3,7 @@ package dev.fritz2.kitchensink.demos
 import dev.fritz2.binding.SimpleHandler
 import dev.fritz2.binding.storeOf
 import dev.fritz2.components.*
+import dev.fritz2.components.modal.*
 import dev.fritz2.components.datatable.ColumnsContext
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
@@ -604,9 +605,9 @@ fun RenderContext.modalDemo(): Div {
                 items {
                     clickButton {
                         text("Custom Close Button")
-                    } handledBy modal { close ->
+                    } handledBy modal {
                         hasCloseButton(false)
-                        content {
+                        content { close ->
                             clickButton({
                                 color { neutral.main }
                                 background { color { warning.main } }
@@ -623,9 +624,9 @@ fun RenderContext.modalDemo(): Div {
                 """
                 clickButton {
                     text("Custom Close Button")
-                } handledBy modal { close -> // use the close handler provided by the modal
+                } handledBy modal { 
                     hasCloseButton(false)
-                    content {
+                    content { close -> // use the close handler provided by the modal
                         clickButton({
                             color { neutral }
                             background { color { warning.main } }
