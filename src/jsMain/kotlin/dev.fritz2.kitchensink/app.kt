@@ -98,7 +98,7 @@ fun main() {
     val menuBackgroundColor = Theme().colors.neutral
 
     render(themes.first()) {
-        box({
+        div({
             height { "100%" }
             width { "100%" }
             position { relative {} }
@@ -319,7 +319,7 @@ fun main() {
 
                         }
                     }
-                    box({
+                    div({
                         paddings(md = {
                             left { large }
                             top { small }

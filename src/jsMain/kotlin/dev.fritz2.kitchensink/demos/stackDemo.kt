@@ -1,6 +1,5 @@
 package dev.fritz2.kitchensink.demos
 
-import dev.fritz2.components.box
 import dev.fritz2.components.lineUp
 import dev.fritz2.components.stackUp
 import dev.fritz2.dom.html.Div
@@ -8,6 +7,7 @@ import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.kitchensink.flexbox_
 import dev.fritz2.kitchensink.gridbox_
+import dev.fritz2.styling.div
 import dev.fritz2.styling.params.ColorProperty
 import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -17,7 +17,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 fun RenderContext.stackDemo(): Div {
 
     val item: RenderContext.(String, String) -> Unit = { color, text ->
-        box({
+        div({
             display { flex }
             justifyContent { center }
             alignItems { center }
@@ -204,7 +204,7 @@ fun RenderContext.stackDemo(): Div {
         }
         componentFrame {
             val sizedBox: RenderContext.(Int, Int, ColorProperty) -> Unit = { w, h, color ->
-                box({
+                div({
                     background { color { color } }
                     width { "${w}px" }
                     height { "${h}px" }
