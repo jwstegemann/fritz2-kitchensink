@@ -157,56 +157,6 @@ fun RenderContext.internalLink(text: String, page: String): A {
     }
 }
 
-fun RenderContext.navAnchor(linkText: String, href: String): Div {
-    return div({
-        radius { small }
-        border {
-            width { none }
-        }
-        color { primary.main }
-        hover {
-            color { primary.highlightContrast }
-            background {
-                color { primary.highlight }
-            }
-        }
-        paddings {
-            top { tiny }
-            bottom { tiny }
-            left { small }
-            right { small }
-        }
-    }) {
-        a({
-            fontSize { normal }
-            fontWeight { semiBold }
-            textDecoration { initial }
-        }) {
-            +linkText
-            href(href)
-            target("_blank")
-        }
-    }
-}
-
-fun RenderContext.menuHeader(text: String): Div {
-    return div({
-        width { "100%" }
-    }) {
-        p({
-            paddings {
-                top { large }
-                left { tiny }
-                right { small }
-            }
-            fontSize { normal }
-            fontWeight { bold }
-            letterSpacing { large }
-            color { secondary.main }
-        }) { +text }
-    }
-}
-
 fun MenuComponent.menuAnchor(linkText: String) {
     val selected = style {
         color { gray100 }
@@ -229,47 +179,6 @@ fun MenuComponent.menuAnchor(linkText: String) {
     }
 }
 
-//fun RenderContext.menuAnchor(linkText: String): P {
-//
-//    val selected = style {
-//        color { gray100 }
-//        background {
-//            color { primary.main }
-//        }
-//    }
-//
-//    val isActive = router.data.map { hash -> hash == linkText }
-//        .distinctUntilChanged()//.onEach { if (it) PlaygroundComponent.update() }
-//
-//    return p({
-//        margins {
-//            top { tiny }
-//            bottom { tiny }
-//            left { none }
-//        }
-//        width { "90%" }
-//        radius { small }
-//        hover {
-//            color { primary.highlightContrast }
-//            background { color { primary.highlight } }
-//        }
-//        paddings {
-//            top { tiny }
-//            bottom { tiny }
-//            left { small }
-//            right { small }
-//        }
-//        css("""text-overflow: ellipsis; overflow: hidden;""")
-//        fontWeight { medium }
-//        css("cursor: pointer")
-//
-//    }) {
-//        className(selected.whenever(isActive).name)
-//        clicks.map { linkText } handledBy router.navTo
-//        +linkText
-//    }
-//}
-
 fun RenderContext.c(text: String) {
     span({
         paddings {
@@ -286,17 +195,6 @@ fun RenderContext.c(text: String) {
         background { color { gray100 } }
     }) { +text }
 }
-
-fun RenderContext.teaserText(
-    content: Div.() -> Unit = {}
-): Div = div({
-    fontSize { small }
-    textTransform { capitalize }
-    color { primary.main }
-    fontWeight { semiBold }
-    margins { bottom { "0.7rem" } }
-    fontSize { small }
-}, content = content)
 
 val githubIcon: IconDefinition = IconDefinition(
     "github",
