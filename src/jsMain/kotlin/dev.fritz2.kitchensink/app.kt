@@ -94,7 +94,9 @@ fun main() {
 
     render(themes.first()) {
         appFrame {
-            brand {
+            brand({
+                minWidth { "18rem" }
+            }) {
                 stackUp {
                     spacing { none }
                     items {
@@ -239,9 +241,9 @@ fun main() {
                     menuAnchor(spinner_)
                 }
             }
-            main {
+            content {
                 className(welcomeContent.whenever(router.data) { it == welcome_ }.name)
-                router.data.map{} handledBy this@appFrame.closeSidebar
+                router.data.map{ domNode.scrollTo(0.0, 0.0) } handledBy this@appFrame.closeSidebar
                 router.data.render { site ->
                     when (site) {
                         gettingStarted_ -> gettingStarted()
