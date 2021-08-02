@@ -1104,12 +1104,7 @@ fun RenderContext.formControlDemo(): Div {
             source(
                 """
                 class ExtendedFormControlComponent : FormControlComponent() {
-
                     // more code will be added here 
-                    
-                    init {
-                        // some setup will happen here
-                    }
                 }
                 
                 // new factory function for the new component
