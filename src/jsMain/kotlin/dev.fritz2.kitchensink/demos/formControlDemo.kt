@@ -567,6 +567,7 @@ fun RenderContext.formControlDemo(): Div {
             +" The following controls are currently supported out-of-the-box:"
             ul {
                 li { +"InputField" }
+                li { +"TypeAhead" }
                 li { +"SelectField" }
                 li { +"TextArea" }
                 li { +"Switch" }
