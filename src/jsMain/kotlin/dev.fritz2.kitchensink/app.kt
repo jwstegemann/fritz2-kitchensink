@@ -56,7 +56,7 @@ object ThemeStore : RootStore<Int>(0) {
 const val highlightBackgroundColor = "#2b303b"
 
 const val welcomeContentStaticCss = """
-    background-image: url("background.jpg");
+    background-image: url("img/background.jpg");
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
