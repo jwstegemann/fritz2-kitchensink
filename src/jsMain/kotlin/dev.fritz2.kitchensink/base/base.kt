@@ -113,23 +113,23 @@ fun RenderContext.storeContentBox(
     label: String,
     content: RenderContext.() -> Unit = {}
 ): Div = div({
-        background {
-            color { gray200 }
-        }
-        margins {
-            top { "1.25rem" }
-        }
-        padding { smaller }
-        paddings {
-            left { normal }
-        }
-        radius { larger }
-        width { full }
-    }) {
-        +label
-        +": "
-        content()
+    background {
+        color { gray200 }
     }
+    margins {
+        top { "1.25rem" }
+    }
+    padding { smaller }
+    paddings {
+        left { normal }
+    }
+    radius { larger }
+    width { full }
+}) {
+    +label
+    +": "
+    content()
+}
 
 val link: Style<BasicParams> = {
     padding { "0.2rem" }
@@ -173,9 +173,6 @@ fun MenuComponent.menuAnchor(linkText: String) {
         href("#$linkText")
         element {
             className(selected.whenever(isActive).name)
-        }
-        events {
-            clicks.preventDefault().map { linkText } handledBy router.navTo
         }
     }
 }
