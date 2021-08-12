@@ -168,13 +168,14 @@ fun MenuComponent.menuAnchor(linkText: String) {
     val isActive = router.data.map { hash -> hash == linkText }
         .distinctUntilChanged()
 
-    entry {
+    link {
         text(linkText)
+        href("#$linkText")
         element {
             className(selected.whenever(isActive).name)
         }
         events {
-            clicks.map { linkText } handledBy router.navTo
+            clicks.preventDefault().map { linkText } handledBy router.navTo
         }
     }
 }
