@@ -89,7 +89,7 @@ fun RenderContext.responsiveDemo(): Div {
                         boxShadow { flat }
                         radius { large }
                     }) {
-                        src("background.jpg")
+                        src("img/background.jpg")
                         alt("Photo by Jong Marshes on Unsplash")
                     }
                 }

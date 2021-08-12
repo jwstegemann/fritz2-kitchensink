@@ -152,6 +152,6 @@ paragraph {
     +", where you can access the underlying input's properties." // don't format input
 }
 ```
-![Formatting API Identifiers]("https://components.fritz2.dev/demoguide001.png")
+![Formatting API Identifiers]("https://components.fritz2.dev/img/demoguide001.png")
 
 
