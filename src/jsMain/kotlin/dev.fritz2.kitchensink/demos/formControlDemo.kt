@@ -109,23 +109,8 @@ fun RenderContext.formControlDemo(): Div {
                             type("password")
                         }
                     }
-
-                    val langStore = storeOf("")
-                    formControl {
-                        label("Choose one")
-                        selectField(items = listOf("Kotlin", "fritz2", "Html", "CSS", "Design", "Open Source"), value = langStore, id = "selectTest") {
-                        }
-                    }
-
-                    formControl {
-                        label(langStore.data)
-                        textArea(value = langStore, id = "area52") {
-                        }
-                    }
-
                     formControl {
                         label("Choose up to three interests:")
-
                         checkboxGroup(
                             items = listOf("Kotlin", "fritz2", "Html", "CSS", "Design", "Open Source"),
                             values = interestStore
@@ -257,7 +242,6 @@ fun RenderContext.formControlDemo(): Div {
                 }
                 formControl {
                     label("Choose up to three interests:")
-
                     checkboxGroup(
                         items = listOf(
                             "Kotlin", "fritz2", "Html", 
@@ -1120,12 +1104,7 @@ fun RenderContext.formControlDemo(): Div {
             source(
                 """
                 class ExtendedFormControlComponent : FormControlComponent() {
-
                     // more code will be added here 
-                    
-                    init {
-                        // some setup will happen here
-                    }
                 }
                 
                 // new factory function for the new component
