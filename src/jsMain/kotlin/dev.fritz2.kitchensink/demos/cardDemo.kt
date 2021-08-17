@@ -5,13 +5,27 @@ import dev.fritz2.components.lineUp
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
+import dev.fritz2.styling.params.BasicParams
+import dev.fritz2.styling.params.Style
+import dev.fritz2.styling.theme.Theme
+
+private val demoCardStyle: Style<BasicParams> = {
+    background { color { background } }
+    boxShadow { raised }
+    radius { large }
+    padding { small }
+}
 
 fun RenderContext.cardDemo(): Div = contentFrame {
     showcaseHeader("Card")
 
     paragraph {
-        +"Cards are components that display a text or other content in a card-like container."
-        +"Additionally, they can also contain dedicated header and footer sections."
+        +"Cards provide a layout consisting of a header, content and a footer."
+    }
+
+    coloredBox(Theme().colors.info) {
+        +"All cards in this demo are custom styled to appear inside a raised box. This is "
+        +"done to be able to better distinguish them from the rest of the page."
     }
 
     showcaseSection("Usage")
@@ -31,23 +45,23 @@ fun RenderContext.cardDemo(): Div = contentFrame {
     componentFrame {
         lineUp {
             items {
-                card {
+                card(demoCardStyle) {
                     header("Header")
                     content("This is a card with both a header and a footer.")
                     footer("Footer")
                 }
 
-                card {
+                card(demoCardStyle) {
                     header("Header")
                     content("This card has no footer.")
                 }
 
-                card {
+                card(demoCardStyle) {
                     content("This card has no header.")
                     footer("Footer")
                 }
 
-                card {
+                card(demoCardStyle) {
                     content("This card has no header or footer.")
                 }
             }
@@ -89,9 +103,9 @@ fun RenderContext.cardDemo(): Div = contentFrame {
     componentFrame {
         lineUp {
             items {
-                card {
+                card(demoCardStyle) {
                     size { small }
-                    header("Small card")
+                    header("Small")
                     content {
                         span {
                             +"This is a card with size "
@@ -100,9 +114,9 @@ fun RenderContext.cardDemo(): Div = contentFrame {
                         }
                     }
                 }
-                card {
+                card(demoCardStyle) {
                     size { normal }
-                    header("Normal card (default)")
+                    header("Normal (default)")
                     content {
                         span {
                             +"This is a card with size "
@@ -111,9 +125,9 @@ fun RenderContext.cardDemo(): Div = contentFrame {
                         }
                     }
                 }
-                card {
+                card(demoCardStyle) {
                     size { large }
-                    header("Large card")
+                    header("Large")
                     content {
                         span {
                             +"This is a card with size "
