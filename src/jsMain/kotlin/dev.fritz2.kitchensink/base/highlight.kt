@@ -5,11 +5,12 @@ import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.highlightBackgroundColor
 import dev.fritz2.styling.div
 import kotlinx.browser.window
+import kotlinx.coroutines.flow.Flow
 
 /**
  * Class for configuring the appearance of a PopoverComponent.
  */
-class HighlightComponent {
+class HighlightComponent(private val language: String) {
 
     init {
         window.setTimeout({
@@ -23,9 +24,40 @@ class HighlightComponent {
         }, 300)
     }
 
-    var source: String = "// your code goes here"
+    private var source: String = ""
+    private var sourceFlow: Flow<String>? = null
     fun source(value: String) {
         source = value.trimIndent()
+    }
+    fun source(value: Flow<String>) {
+        sourceFlow = value
+    }
+
+    fun render(context: RenderContext) {
+        context.apply {
+            stackUp ({
+                margins {
+                    top { large }
+                    bottom { large }
+                }
+            }){
+                items {
+                    div({
+                        background { color { highlightBackgroundColor } }
+                        radius { small }
+                        width { full }
+                        padding { smaller }
+                        fontFamily { mono }
+                    }) {
+                        pre("highlight lang-$language") {
+                            code {
+                                sourceFlow?.asText() ?: +source
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -33,29 +65,5 @@ fun RenderContext.highlight(
     language: String = "kotlin",
     build: HighlightComponent.() -> Unit = {}
 ) {
-
-    val component = HighlightComponent().apply(build)
-
-    stackUp ({
-        margins {
-            top { large }
-            bottom { large }
-        }
-    }){
-        items {
-            div({
-                background { color { highlightBackgroundColor } }
-                radius { small }
-                width { full }
-                padding { smaller }
-                fontFamily { mono }
-            }) {
-                pre("highlight lang-$language") {
-                    code {
-                        +component.source
-                    }
-                }
-            }
-        }
-    }
+    HighlightComponent(language).apply(build).render(this)
 }
