@@ -8,7 +8,9 @@ var cacheFiles = [
     'highlight.min.js',
     'ocean.min.css',
     'img/appFrame_areas.png',
-    'img/background.jpg'
+    'img/background.jpg',
+    'fritz2-kitchensink.js',
+    'fritz2-kitchensink.js.map'
 ];
 
 
