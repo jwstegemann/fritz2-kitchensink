@@ -2,6 +2,7 @@ package dev.fritz2.kitchensink
 
 import dev.fritz2.binding.RootStore
 import dev.fritz2.components.*
+import dev.fritz2.components.appFrame.registerServiceWorker
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.kitchensink.demos.*
 import dev.fritz2.routing.router
@@ -43,6 +44,7 @@ const val menu_ = "Menu"
 const val toasts_ = "Toast"
 const val datatable_ = "DataTable"
 const val slider_ = "Slider"
+const val appFrame_ = "AppFrame"
 
 val router = router(welcome_)
 
@@ -87,6 +89,8 @@ const val settingsTableStaticCss = """
 
 @ExperimentalCoroutinesApi
 fun main() {
+    registerServiceWorker()
+
     staticStyle("settings-table", settingsTableStaticCss)
     val welcomeContent = staticStyle("welcome-content", welcomeContentStaticCss)
 
@@ -94,6 +98,8 @@ fun main() {
 
     render(themes.first()) {
         appFrame {
+            sidebarWith(15)
+
             brand({
                 minWidth { "18rem" }
             }) {
@@ -200,6 +206,7 @@ fun main() {
                     header("KITCHEN SINK")
                     menuAnchor(welcome_)
                     menuAnchor(gettingStarted_)
+                    menuAnchor(appFrame_)
 
                     header("FEATURES")
                     menuAnchor(responsive_)
@@ -275,6 +282,7 @@ fun main() {
                         toasts_ -> toastDemo()
                         datatable_ -> dataTableDemo()
                         slider_ -> sliderDemo()
+                        appFrame_ -> appFrameDemo()
                         else -> welcome()
                     }
                 }

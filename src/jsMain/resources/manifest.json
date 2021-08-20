@@ -1,0 +1,26 @@
+{
+  "name": "fritz2 - KitchenSink",
+  "short_name": "KitchenSink",
+  "theme_color": "rgb(12,81,115)",
+  "background_color": "#ffffff",
+  "display": "fullscreen",
+  "scope": "/",
+  "start_url": "/#welcome",
+  "icons": [
+    {
+      "src": "/icon/fritz2_180.png",
+      "type": "image/png",
+      "sizes": "180x180"
+    },
+    {
+      "src": "/icon/fritz2_192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/img/fritz2_512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}
