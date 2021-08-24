@@ -46,7 +46,10 @@ fun RenderContext.paragraph(
     id: String? = null,
     prefix: String = "paragraph",
     content: P.() -> Unit = {}
-): P = p({ margins { top { small } } }, styling, baseClass, id, prefix, content)
+): P = p(
+    { margins { top { small } } }, parentStyling = styling, baseClass = baseClass, id = id, prefix = prefix,
+    content = content
+)
 
 fun RenderContext.contentFrame(
     styling: BasicParams.() -> Unit = {},
@@ -66,7 +69,7 @@ fun RenderContext.contentFrame(
     maxWidth(sm = { unset }, md = { "34rem" }, lg = { "52rem" })
     padding { large }
     radius { normal }
-}, styling, baseClass, id, prefix, content)
+}, parentStyling = styling, baseClass = baseClass, id = id, prefix = prefix, content = content)
 
 fun RenderContext.coloredBox(colorScheme: ColorScheme, content: P.() -> Unit): Div {
     return div({
@@ -118,23 +121,23 @@ fun RenderContext.storeContentBox(
     label: String,
     content: RenderContext.() -> Unit = {}
 ): Div = div({
-        background {
-            color { gray200 }
-        }
-        margins {
-            top { "1.25rem" }
-        }
-        padding { smaller }
-        paddings {
-            left { normal }
-        }
-        radius { larger }
-        width { full }
-    }) {
-        +label
-        +": "
-        content()
+    background {
+        color { gray200 }
     }
+    margins {
+        top { "1.25rem" }
+    }
+    padding { smaller }
+    paddings {
+        left { normal }
+    }
+    radius { larger }
+    width { full }
+}) {
+    +label
+    +": "
+    content()
+}
 
 val link: Style<BasicParams> = {
     padding { "0.2rem" }

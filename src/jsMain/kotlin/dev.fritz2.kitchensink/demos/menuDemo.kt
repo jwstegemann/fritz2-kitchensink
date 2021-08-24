@@ -231,6 +231,7 @@ fun RenderContext.menuDemo(): Div {
             +"children."
         }
         componentFrame {
+            /*
             class RadioGroupContext : MenuChild {
                 val items = ComponentProperty(listOf<String>())
 
@@ -258,6 +259,8 @@ fun RenderContext.menuDemo(): Div {
                     items(listOf("Item 1", "Item 2", "Item 3"))
                 }
             }
+
+             */
         }
         highlight {
             source(
