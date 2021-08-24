@@ -1522,6 +1522,13 @@ fun RenderContext.dataTableDemo(): Div {
         }
 
         showcaseSubSection("Edit by dedicated Action")
+
+        coloredBox(Theme().colors.warning) {
+            +"This section has to be reworked! Due to changes of the state handling of the DataTable the proposed "
+            +"approach does not work anymore."
+        }
+
+        /*
         paragraph {
             +"As second scenario we consider an overall readonly table with special CRUD action buttons inside "
             +"each row to activate the "
@@ -1969,6 +1976,8 @@ fun RenderContext.dataTableDemo(): Div {
                 """
             )
         }
+
+         */
 
     }
 }
