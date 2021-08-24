@@ -5,18 +5,20 @@ import dev.fritz2.components.lineUp
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
+import dev.fritz2.kitchensink.paper_
 
 fun RenderContext.cardDemo(): Div = contentFrame {
     showcaseHeader("Card")
 
     paragraph {
-        +"Cards are components that display a text or other content in a card-like container."
-        +"Additionally, they can also contain dedicated header and footer sections."
+        +"Cards arrange text or any other fritz2 content inside a "
+        internalLink("PaperComponent", paper_)
+        +" and consist of dedicated header, footer and content sections."
     }
 
     showcaseSection("Usage")
     paragraph {
-        +"A card can easily be created via the "
+        +"A card can be created via the "
         c("card")
         +" factory method. "
         +"Use the "
@@ -26,7 +28,7 @@ fun RenderContext.cardDemo(): Div = contentFrame {
         +" and "
         c("content")
         +" properties to specify the card's content. "
-        +"Cards can contain both display String and Flows of Strings, as well as any other fritz2 content."
+        +"Cards can both display Strings and Flows of Strings, as well as any other fritz2 content."
     }
     componentFrame {
         lineUp {
@@ -79,9 +81,104 @@ fun RenderContext.cardDemo(): Div = contentFrame {
         )
     }
 
+    showcaseSection("Types")
+    paragraph {
+        +"Since cards utilize paper they can have different appearances based on types. "
+        +"It uses the same types as the "
+        internalLink("PaperComponent", paper_)
+        +": "
+        c("normal")
+        +", "
+        c("outline")
+        +" and "
+        c("ghost")
+        +". "
+        +" The card's type can be specified via it's "
+        c("type")
+        +" property. Normal is used by default."
+    }
+    componentFrame {
+        lineUp {
+            items {
+                card {
+                    type { normal }
+                    header("Normal card (default)")
+                    content {
+                        span {
+                            +"Card with type "
+                            c("normal")
+                        }
+                    }
+                }
+                card {
+                    type { outline }
+                    header("Outline card")
+                    content {
+                        span {
+                            +"Card with type "
+                            c("outline")
+                        }
+                    }
+                }
+                card {
+                    type { ghost }
+                    header("Ghost card")
+                    content {
+                        span {
+                            +"Card with type "
+                            c("ghost")
+                        }
+                    }
+                }
+            }
+        }
+    }
+    highlight {
+        source(
+            """
+                card {
+                    type { normal } // <- default, can be omitted
+                    header("Normal card (default)")
+                    content {
+                        span {
+                            +"Card with type "
+                            c("normal")
+                        }
+                    }
+                }
+                card {
+                    type { outline }
+                    header("Outline card")
+                    content {
+                        span {
+                            +"Card with type "
+                            c("outline")
+                        }
+                    }
+                }
+                card {
+                    type { ghost }
+                    header("Ghost card")
+                    content {
+                        span {
+                            +"Card with type "
+                            c("ghost")
+                        }
+                    }
+                }
+            """.trimIndent()
+        )
+    }
+
     showcaseSection("Sizes")
     paragraph {
-        +"Cards can come in different sizes: Small, Normal and Large. "
+        +"Cards can come in different sizes: "
+        c("small")
+        +", "
+        c("normal")
+        +" and "
+        c("large")
+        +". "
         +"Use the "
         c("size")
         +" property to specify the card's size. Normal is used by default."

@@ -42,6 +42,7 @@ const val textarea_ = "TextArea"
 const val alert_ = "Alert"
 const val card_ = "Card"
 const val menu_ = "Menu"
+const val paper_ = "Paper"
 const val toasts_ = "Toast"
 const val datatable_ = "DataTable"
 const val slider_ = "Slider"
@@ -316,9 +317,9 @@ fun main() {
                             menuAnchor(alert_)
                             menuAnchor(card_)
                             menuAnchor(menu_)
+                            menuAnchor(paper_)
                             menuAnchor(icons_)
                             menuAnchor(spinner_)
-
                         }
                     }
                     div({
@@ -365,6 +366,7 @@ fun main() {
                                 alert_ -> alertDemo()
                                 card_ -> cardDemo()
                                 menu_ -> menuDemo()
+                                paper_ -> paperDemo()
                                 toasts_ -> toastDemo()
                                 datatable_ -> dataTableDemo()
                                 slider_ -> sliderDemo()
