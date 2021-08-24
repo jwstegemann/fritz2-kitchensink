@@ -25,7 +25,7 @@ fun RenderContext.paperDemo() = contentFrame {
     componentFrame {
         paper {
             content {
-                span { +"This is a card." }
+                span { +"This is a sheet of paper." }
             }
         }
     }
@@ -34,7 +34,7 @@ fun RenderContext.paperDemo() = contentFrame {
             """
                 paper {
                     content {
-                        span { +"This is a card." }
+                        span { +"This is a sheet of paper." }
                     }
                 }
             """.trimIndent()
