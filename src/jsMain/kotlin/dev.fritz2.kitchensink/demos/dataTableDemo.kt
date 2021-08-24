@@ -1276,8 +1276,8 @@ fun RenderContext.dataTableDemo(): Div {
 
         showcaseSection("Advanced Topics")
 
-        fun RenderContext.pill(content: Span.() -> Unit) {
-            span({
+        fun RenderContext.pill(content: Span.() -> Unit): Span {
+            return span({
                 display { inlineFlex }
                 alignItems { center }
                 background { color { "#9EF01A" } }
@@ -1395,7 +1395,7 @@ fun RenderContext.dataTableDemo(): Div {
                     }
                     column(title = "Programming Languages") {
                         width { minmax("3fr") }
-                        content { (_, state), _, row ->
+                        content { _, _, row ->
                             val editToggle = storeOf(false)
                             val languages = row.sub(L.FinalPerson.languages)
                             val addLanguage = languages.handle<String> { langs, new ->
@@ -1410,16 +1410,20 @@ fun RenderContext.dataTableDemo(): Div {
                                         size { small }
                                         events {
                                             selected handledBy addLanguage
+                                            selected.map { false } handledBy editToggle.update
                                         }
                                     }
                                 } else {
-                                    state.item.languages.forEach { language ->
-                                        pill {
-                                            +language
-                                            icon({
-                                                size { "1rem" }
-                                            }) { fromTheme { close } }
-                                            clicks.map { language } handledBy dropLanguage
+                                    span {
+                                        languages.data.renderEach { language ->
+                                            pill {
+                                                +language
+                                                icon({
+                                                    size { "1rem" }
+                                                }) { fromTheme { close } }
+                                                clicks.stopImmediatePropagation()
+                                                    .map { language } handledBy dropLanguage
+                                            }
                                         }
                                     }
                                 }
@@ -1467,7 +1471,7 @@ fun RenderContext.dataTableDemo(): Div {
                     // just like firstname above!
                 }
                 column(title = "Programming Languages") {
-                    content { (_, state), _, row ->
+                    content { _, _, row ->
                         // create a local state to decide if the languages pills 
                         // or the ``selectField`` should be rendered
                         val editToggle = storeOf(false)
@@ -1490,16 +1494,22 @@ fun RenderContext.dataTableDemo(): Div {
                                     events {
                                         // tie new language to custom "add" handler
                                         selected handledBy addLanguage
+                                        // switch to view mode
+                                        selected.map { false } handledBy editToggle.update                                        
                                     }
                                 }
                             } else {
                                 // render the existing languages
-                                state.item.languages.forEach { language ->
-                                    // use a custom ``pill`` "component" (code omitted)
-                                    pill {
-                                        +language
-                                        // tie language to custom "drop" handler
-                                        clicks.map { language } handledBy dropLanguage
+                                span {
+                                    languages.data.renderEach { language ->
+                                        // use a custom ``pill`` "component" (code omitted)
+                                        pill {
+                                            +language
+                                            // tie language to custom "drop" handler
+                                            // and prevent switch to edit mode
+                                            clicks.stopImmediatePropagation()
+                                                .map { language } handledBy dropLanguage
+                                        }
                                     }
                                 }
                             }
