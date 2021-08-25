@@ -1,7 +1,9 @@
 package dev.fritz2.kitchensink.demos
 
 import dev.fritz2.components.*
-import dev.fritz2.components.foundations.*
+import dev.fritz2.components.foundations.ComponentProperty
+import dev.fritz2.components.menu.MenuChild
+import dev.fritz2.components.menu.MenuComponent
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
@@ -10,6 +12,7 @@ import dev.fritz2.styling.div
 import dev.fritz2.styling.params.BasicParams
 import dev.fritz2.styling.params.Style
 import dev.fritz2.styling.style
+import dev.fritz2.styling.theme.MenuStyles
 import dev.fritz2.styling.theme.Theme
 
 fun RenderContext.menuDemo(): Div {
@@ -235,7 +238,7 @@ fun RenderContext.menuDemo(): Div {
             class RadioGroupContext : MenuChild {
                 val items = ComponentProperty(listOf<String>())
 
-                override fun render(context: RenderContext) {
+                override fun render(context: RenderContext, styles: MenuStyles) {
                     context.apply {
                         radioGroup(
                             items = this@RadioGroupContext.items.value,

@@ -1,16 +1,16 @@
 package dev.fritz2.kitchensink
 
 import dev.fritz2.binding.RootStore
-import dev.fritz2.binding.storeOf
 import dev.fritz2.components.*
+import dev.fritz2.components.appFrame.registerServiceWorker
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.kitchensink.demos.*
 import dev.fritz2.routing.router
 import dev.fritz2.styling.*
 import dev.fritz2.styling.theme.Theme
 import dev.fritz2.styling.theme.render
-import kotlinx.browser.window
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.map
 
 val themes = listOf<ExtendedTheme>(SmallFonts(), LargeFonts())
 
@@ -46,6 +46,8 @@ const val paper_ = "Paper"
 const val toasts_ = "Toast"
 const val datatable_ = "DataTable"
 const val slider_ = "Slider"
+const val appFrame_ = "AppFrame"
+const val pwa_ = "PWA"
 
 val router = router(welcome_)
 
@@ -59,7 +61,7 @@ object ThemeStore : RootStore<Int>(0) {
 const val highlightBackgroundColor = "#2b303b"
 
 const val welcomeContentStaticCss = """
-    background-image: url("background.jpg");
+    background-image: url("img/background.jpg");
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
@@ -90,69 +92,53 @@ const val settingsTableStaticCss = """
 
 @ExperimentalCoroutinesApi
 fun main() {
+    registerServiceWorker()
+
     staticStyle("settings-table", settingsTableStaticCss)
     val welcomeContent = staticStyle("welcome-content", welcomeContentStaticCss)
 
     val router = router("")
 
-    val menuStore = storeOf(false)
-
-    val menuBackgroundColor = Theme().colors.neutral
-
     render(themes.first()) {
-        div({
-            height { "100%" }
-            width { "100%" }
-            position { relative {} }
-            children("&[data-menu-open] #menu-left") {
-                display { flex }
-            }
-        }) {
-            attr("data-menu-open", menuStore.data)
-            navBar({
-                border { width { "0" } }
-                boxShadow { flat }
+        appFrame {
+            brand({
+                minWidth { "18rem" }
             }) {
-                brand {
-                    stackUp {
-                        spacing { none }
-                        items {
-                            a({
-                                textDecoration { initial }
-                                color { primary.main }
-                            }) {
-                                href("https://www.fritz2.dev/")
-                                target("_blank")
+                stackUp {
+                    spacing { none }
+                    items {
+                        a {
+                            href("https://www.fritz2.dev/")
+                            target("_blank")
 
-                                icon({
-                                    size { "3rem" }
-                                    color { primary.main }
-                                }) { fromTheme { fritz2 } }
+                            icon({
+                                size { "3rem" }
+                                paddings { top { "5px" } }
+                            }) { fromTheme { fritz2 } }
 
-                                span({
-                                    margins { left { smaller } }
-                                    verticalAlign { sub }
-                                    fontSize(sm = { large }, md = { larger })
-                                    fontWeight { lighter }
-                                }) { +"Components" }
-                            }
+                            span({
+                                margins { left { smaller } }
+                                fontSize(sm = { large }, md = { larger })
+                                fontWeight { lighter }
+                            }) { +"Components" }
+                        }
 
-                            a({
-                                display { flex }
-                                justifyContent { flexEnd }
-                                width { full }
-                                margins { top { "-10px".important } }
-                                fontSize { tiny }
-                            }) {
-                                +fritz2Version()
-                                href("https://github.com/jwstegemann/fritz2/releases")
-                                target("_blank")
-                            }
+                        a({
+                            display { flex }
+                            justifyContent { flexEnd }
+                            width { full }
+                            margins { top { "-10px".important } }
+                            fontSize { tiny }
+                        }) {
+                            +fritz2Version()
+                            href("https://github.com/jwstegemann/fritz2/releases")
+                            target("_blank")
                         }
                     }
-                    //FIXME: convert to styles
-                    span({
-                        css("""
+                }
+                //FIXME: convert to styles
+                span({
+                    css("""
                             display: inline-flex;
                             vertical-align: top;
                             -moz-box-align: center;
@@ -164,215 +150,147 @@ fun main() {
                             border-radius: 0.375rem;
                             background: none repeat scroll 0% 0%;
                             """.trimIndent()
-                        )
-                        paddings(
-                            sm = { horizontal { "0.25rem" } },
-                            md = { horizontal { "0.5rem" } }
-                        )
-                        fontSize(
-                            sm = { smaller },
-                            md = { small }
-                        )
-                        lineHeight(
-                            sm = { smaller },
-                            md = { small }
-                        )
-                        background {
-                            color { secondary.main }
-                        }
-                        color { neutral.main }
-                        margins {
-                            left { small }
-                        }
-                    }) {
-                        +appStatus().replaceFirstChar { it.uppercase() }
+                    )
+                    paddings(
+                        sm = { horizontal { "0.25rem" } },
+                        md = { horizontal { "0.5rem" } }
+                    )
+                    fontSize(
+                        sm = { smaller },
+                        md = { small }
+                    )
+                    lineHeight(
+                        sm = { smaller },
+                        md = { small }
+                    )
+                    background {
+                        color { secondary.main }
                     }
-                }
-
-                actions {
-
-                    lineUp({
-                        display(sm = { none }, md = { flex })
-                        alignItems { center }
-                    }) {
-                        items {
-                            a({
-                                fontSize { tiny }
-                                color { gray600 }
-                                textAlign { center }
-                            }) {
-                                +"Made with ❤️ using fritz2"
-                                href("https://github.com/jwstegemann/fritz2")
-                                target("_blank")
-                            }
-
-                            linkButton({
-                                color { primary.main }
-                            }) {
-                                variant { ghost }
-                                size { large }
-                                icon { githubIcon }
-                                href("https://github.com/jwstegemann/fritz2-kitchensink")
-                                target("_blank")
-                            }
-//                            navAnchor("Documentation", "https://docs.fritz2.dev/")
-//                            navAnchor("API", "https://api.fritz2.dev")
-//                            navAnchor("Examples", "https://www.fritz2.dev/examples.html")
-//                            navAnchor("Github", "https://github.com/jwstegemann/fritz2")
-                        }
+                    color { neutral.main }
+                    margins {
+                        left { small }
                     }
-                    clickButton({
-                        display(sm = { flex }, md = { none })
-                    }) {
-                        icon { menu }
-                    }.map {
-                        window.scrollTo(0.0, 0.0)
-                        !menuStore.current
-                    } handledBy menuStore.update
+                }) {
+                    +appStatus().replaceFirstChar { it.uppercase() }
                 }
             }
 
-            lineUp({
-                alignItems { stretch }
-                minHeight { "100%" }
-                direction(sm = { column }, md = { row })
-            }) {
-                items {
-                    stackUp({
-                        margins {
-                            top { larger }
+            actions {
+                lineUp({
+                    display(sm = { none }, md = { flex })
+                    alignItems { center }
+                }) {
+                    items {
+                        linkButton {
+                            variant { ghost }
+                            type { primary.inverted() }
+                            text("Made with ❤️ using fritz2")
+                            href("https://github.com/jwstegemann/fritz2")
+                            target("_blank")
                         }
-                        padding { "1rem" }
-                        minWidth(
-                            md = { "220px" },
-                            lg = { "240px" }
-                        )
-                        minHeight { "100%" }
-                        display(sm = { none }, md = { flex })
-                        wrap { nowrap }
-                        direction { column }
-                        alignItems { flexStart }
-                        paddings {
-                            top { "50px" }
-                            left { "1.6rem" }
-                            right { "1.6rem" }
-                        }
-                        borders(
-                            sm = {
-                                bottom { width { "1rem" } }
-                            },
-                            md = {
-                                bottom { width { "0px" } }
-                            }
-                        )
-                        border { color { "light" } }
-                        background { color { menuBackgroundColor.main } }
-                    }, id = "menu-left")
-                    {
-                        spacing { tiny }
-                        items {
 
-                            p({
-                                width { "100%" }
-                                margins { top { huge } }
-                            }) {
-                                menuAnchor(welcome_)
-                            }
-                            menuAnchor(gettingStarted_)
-
-                            menuHeader("FEATURES")
-                            menuAnchor(responsive_)
-                            menuAnchor(styling_)
-                            menuAnchor(theme_)
-                            menuAnchor(colors_)
-
-                            menuHeader("LAYOUT")
-                            menuAnchor(flexbox_)
-                            menuAnchor(gridbox_)
-                            menuAnchor(stack_)
-
-                            menuHeader("FORMS")
-                            menuAnchor(buttons_)
-                            menuAnchor(input_)
-                            menuAnchor(select_)
-                            menuAnchor(file_)
-                            menuAnchor(checkbox_)
-                            menuAnchor(radio_)
-                            menuAnchor(textarea_)
-                            menuAnchor(switch_)
-                            menuAnchor(slider_)
-                            menuAnchor(formcontrol_)
-
-                            menuHeader("COMPLEX")
-                            menuAnchor(datatable_)
-
-                            menuHeader("OVERLAY")
-                            menuAnchor(dropdown_)
-                            menuAnchor(modal_)
-                            menuAnchor(popover_)
-                            menuAnchor(tooltip_)
-                            menuAnchor(toasts_)
-
-                            menuHeader("MISC")
-                            menuAnchor(alert_)
-                            menuAnchor(card_)
-                            menuAnchor(menu_)
-                            menuAnchor(paper_)
-                            menuAnchor(icons_)
-                            menuAnchor(spinner_)
+                        linkButton {
+                            variant { ghost }
+                            type { primary.inverted() }
+                            size { large }
+                            icon { githubIcon }
+                            href("https://github.com/jwstegemann/fritz2-kitchensink")
+                            target("_blank")
                         }
                     }
-                    div({
-                        paddings(md = {
-                            left { large }
-                            top { small }
-                        })
-                        margins {
-                            left { "0".important }
-                        }
-                        width { "100%" }
-                        radius { small }
-                        background { color { neutral.main } }
-                    }) {
-                        className(welcomeContent.whenever(router.data) { it == welcome_ }.name)
+                }
+            }
+            navigation {
 
-                        router.data.render { site ->
-                            menuStore.update(false)
-                            when (site) {
-                                gettingStarted_ -> gettingStarted()
-                                icons_ -> iconsDemo()
-                                spinner_ -> spinnerDemo()
-                                input_ -> inputDemo()
-                                select_ -> selectDemo()
-                                buttons_ -> buttonDemo()
-                                file_ -> fileDemo()
-                                formcontrol_ -> formControlDemo()
-                                flexbox_ -> flexBoxDemo()
-                                gridbox_ -> gridBoxDemo()
-                                checkbox_ -> checkboxesDemo()
-                                radio_ -> radiosDemo()
-                                switch_ -> switchDemo()
-                                stack_ -> stackDemo()
-                                dropdown_ -> dropdownDemo()
-                                modal_ -> modalDemo()
-                                popover_ -> popoverDemo()
-                                tooltip_ -> tooltipDemo()
-                                welcome_ -> welcome()
-                                styling_ -> stylingDemo()
-                                theme_ -> themeDemo()
-                                colors_ -> colorDemo()
-                                responsive_ -> responsiveDemo()
-                                textarea_ -> textareaDemo()
-                                alert_ -> alertDemo()
-                                card_ -> cardDemo()
-                                menu_ -> menuDemo()
-                                paper_ -> paperDemo()
-                                toasts_ -> toastDemo()
-                                datatable_ -> dataTableDemo()
-                                slider_ -> sliderDemo()
-                                else -> welcome()
-                            }
-                        }
+                menu {
+
+                    header("KITCHEN SINK")
+                    menuAnchor(welcome_)
+                    menuAnchor(gettingStarted_)
+
+                    header("FEATURES")
+                    menuAnchor(responsive_)
+                    menuAnchor(styling_)
+                    menuAnchor(theme_)
+                    menuAnchor(colors_)
+                    menuAnchor(pwa_)
+
+                    header("LAYOUT")
+                    menuAnchor(appFrame_)
+                    menuAnchor(flexbox_)
+                    menuAnchor(gridbox_)
+                    menuAnchor(stack_)
+
+                    header("FORMS")
+                    menuAnchor(buttons_)
+                    menuAnchor(input_)
+                    menuAnchor(select_)
+                    menuAnchor(file_)
+                    menuAnchor(checkbox_)
+                    menuAnchor(radio_)
+                    menuAnchor(textarea_)
+                    menuAnchor(switch_)
+                    menuAnchor(slider_)
+                    menuAnchor(formcontrol_)
+
+                    header("COMPLEX")
+                    menuAnchor(datatable_)
+
+                    header("OVERLAY")
+                    menuAnchor(dropdown_)
+                    menuAnchor(modal_)
+                    menuAnchor(popover_)
+                    menuAnchor(tooltip_)
+                    menuAnchor(toasts_)
+
+                    header("MISC")
+                    menuAnchor(alert_)
+                    menuAnchor(paper_)
+                    menuAnchor(card_)
+                    menuAnchor(menu_)
+                    menuAnchor(icons_)
+                    menuAnchor(spinner_)
+                }
+            }
+            content {
+                className(welcomeContent.whenever(router.data) { it == welcome_ }.name)
+                router.data.map{ domNode.scrollTo(0.0, 0.0) } handledBy this@appFrame.closeSidebar
+                router.data.render { site ->
+                    when (site) {
+                        gettingStarted_ -> gettingStarted()
+                        icons_ -> iconsDemo()
+                        spinner_ -> spinnerDemo()
+                        input_ -> inputDemo()
+                        select_ -> selectDemo()
+                        buttons_ -> buttonDemo()
+                        file_ -> fileDemo()
+                        formcontrol_ -> formControlDemo()
+                        flexbox_ -> flexBoxDemo()
+                        gridbox_ -> gridBoxDemo()
+                        checkbox_ -> checkboxesDemo()
+                        radio_ -> radiosDemo()
+                        switch_ -> switchDemo()
+                        stack_ -> stackDemo()
+                        dropdown_ -> dropdownDemo()
+                        modal_ -> modalDemo()
+                        popover_ -> popoverDemo()
+                        tooltip_ -> tooltipDemo()
+                        welcome_ -> welcome()
+                        styling_ -> stylingDemo()
+                        theme_ -> themeDemo()
+                        colors_ -> colorDemo()
+                        responsive_ -> responsiveDemo()
+                        textarea_ -> textareaDemo()
+                        alert_ -> alertDemo()
+                        paper_ -> paperDemo()
+                        card_ -> cardDemo()
+                        menu_ -> menuDemo()
+                        toasts_ -> toastDemo()
+                        datatable_ -> dataTableDemo()
+                        slider_ -> sliderDemo()
+                        appFrame_ -> appFrameDemo()
+                        pwa_ -> pwaDemo()
+                        else -> welcome()
                     }
                 }
             }
