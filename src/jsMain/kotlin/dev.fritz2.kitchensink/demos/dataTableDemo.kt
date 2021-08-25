@@ -549,7 +549,7 @@ fun RenderContext.dataTableDemo(): Div {
                 simpleColumnsDefinition()
             }
             lineUp({
-                alignItems { end }
+                alignItems { baseline }
             }) {
                 items {
                     storeContentBox("Selected") {
@@ -1437,7 +1437,7 @@ fun RenderContext.dataTableDemo(): Div {
                 }
             }
             lineUp({
-                alignItems { end }
+                alignItems { baseline }
             }) {
                 items {
                     storeContentBox("Selected") {
@@ -1746,7 +1746,7 @@ fun RenderContext.dataTableDemo(): Div {
                 }
             }
             lineUp({
-                alignItems { end }
+                alignItems { baseline }
             }) {
                 items {
                     storeContentBox("Draft") {
