@@ -4,6 +4,8 @@ import dev.fritz2.components.lineUp
 import dev.fritz2.components.paper
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
+import dev.fritz2.styling.span
+import dev.fritz2.styling.theme.Theme
 
 fun RenderContext.paperDemo() = contentFrame {
     showcaseHeader("Paper")
@@ -23,9 +25,17 @@ fun RenderContext.paperDemo() = contentFrame {
         +"explained further down the page."
     }
     componentFrame {
+        val lipsum = """
+            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore 
+            et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. 
+            Stet clita kasd gubergren, no sea takimata sanctus est. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit 
+            amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna 
+            aliquyam erat, sed diam voluptua.
+        """.trimIndent()
+
         paper {
             content {
-                span { +"This is a sheet of paper." }
+                span { +lipsum }
             }
         }
     }
@@ -34,7 +44,7 @@ fun RenderContext.paperDemo() = contentFrame {
             """
                 paper {
                     content {
-                        span { +"This is a sheet of paper." }
+                        span { /* lorem ipsum text here */ }
                     }
                 }
             """.trimIndent()
@@ -66,8 +76,9 @@ fun RenderContext.paperDemo() = contentFrame {
                     type { normal }
                     content {
                         span {
-                            +"Type: "
+                            +"This sheet of paper has the "
                             c("normal")
+                            +" type."
                         }
                     }
                 }
@@ -75,8 +86,9 @@ fun RenderContext.paperDemo() = contentFrame {
                     type { outline }
                     content {
                         span {
-                            +"Type: "
+                            +"This sheet of paper has the "
                             c("outline")
+                            +" type."
                         }
                     }
                 }
@@ -84,8 +96,9 @@ fun RenderContext.paperDemo() = contentFrame {
                     type { ghost }
                     content {
                         span {
-                            +"Type: "
+                            +"This sheet of paper has the "
                             c("ghost")
+                            +" type."
                         }
                     }
                 }
@@ -95,12 +108,13 @@ fun RenderContext.paperDemo() = contentFrame {
     highlight {
         source(
             """
-                paper { 
-                    type { normal }  // <-- default, can be omitted
+                paper {
+                    type { normal } // <-- default, can be omitted
                     content {
-                        span { 
-                            +"Type: "
+                        span {
+                            +"This sheet of paper has the "
                             c("normal")
+                            +" type."
                         }
                     }
                 }
@@ -108,8 +122,9 @@ fun RenderContext.paperDemo() = contentFrame {
                     type { outline }
                     content {
                         span {
-                            +"Type: "
+                            +"This sheet of paper has the "
                             c("outline")
+                            +" type."
                         }
                     }
                 }
@@ -117,8 +132,9 @@ fun RenderContext.paperDemo() = contentFrame {
                     type { ghost }
                     content {
                         span {
-                            +"Type: "
+                            +"This sheet of paper has the "
                             c("ghost")
+                            +" type."
                         }
                     }
                 }
@@ -138,33 +154,47 @@ fun RenderContext.paperDemo() = contentFrame {
         br {}
         +"Normal is used by default."
     }
+    coloredBox(Theme().colors.info) {
+        +"Please note: The paddings and corner radii of the PaperComponent scale with the selected size specified via "
+        +"the respective property. "
+        +"It is your own responsibility to set a matching size for your provided content, however."
+    }
     componentFrame {
         lineUp {
             items {
                 paper {
                     size { small }
                     content {
-                        span {
-                            +"Size: "
+                        span({
+                            fontSize { small }
+                        }) {
+                            +"This sheet of paper is sized "
                             c("small")
+                            +"."
                         }
                     }
                 }
                 paper {
-                    size { normal } // <-- default, can be omitted
+                    size { normal }
                     content {
-                        span {
-                            +"Size: "
+                        span({
+                            fontSize { normal }
+                        }) {
+                            +"This sheet of paper is sized "
                             c("normal")
+                            +"."
                         }
                     }
                 }
                 paper {
                     size { large }
                     content {
-                        span {
-                            +"Size: "
+                        span({
+                            fontSize { large }
+                        }) {
+                            +"This sheet of paper is sized "
                             c("large")
+                            +"."
                         }
                     }
                 }
@@ -177,27 +207,36 @@ fun RenderContext.paperDemo() = contentFrame {
                 paper {
                     size { small }
                     content {
-                        span {
-                            +"Size: "
+                        span({
+                            fontSize { small }
+                        }) {
+                            +"This sheet of paper is sized "
                             c("small")
+                            +"."
                         }
                     }
                 }
                 paper {
                     size { normal } // <-- default, can be omitted
                     content {
-                        span {
-                            +"Size: "
+                        span({
+                            fontSize { normal }
+                        }) {
+                            +"This sheet of paper is sized "
                             c("normal")
+                            +"."
                         }
                     }
                 }
                 paper {
                     size { large }
                     content {
-                        span {
-                            +"Size: "
+                        span({
+                            fontSize { large }
+                        }) {
+                            +"This sheet of paper is sized "
                             c("large")
+                            +"."
                         }
                     }
                 }
