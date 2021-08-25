@@ -40,7 +40,9 @@ const val tooltip_ = "Tooltip"
 const val responsive_ = "Responsiveness"
 const val textarea_ = "TextArea"
 const val alert_ = "Alert"
+const val card_ = "Card"
 const val menu_ = "Menu"
+const val paper_ = "Paper"
 const val toasts_ = "Toast"
 const val datatable_ = "DataTable"
 const val slider_ = "Slider"
@@ -243,6 +245,8 @@ fun main() {
 
                     header("MISC")
                     menuAnchor(alert_)
+                    menuAnchor(paper_)
+                    menuAnchor(card_)
                     menuAnchor(menu_)
                     menuAnchor(icons_)
                     menuAnchor(spinner_)
@@ -278,6 +282,8 @@ fun main() {
                         responsive_ -> responsiveDemo()
                         textarea_ -> textareaDemo()
                         alert_ -> alertDemo()
+                        paper_ -> paperDemo()
+                        card_ -> cardDemo()
                         menu_ -> menuDemo()
                         toasts_ -> toastDemo()
                         datatable_ -> dataTableDemo()
