@@ -6,6 +6,7 @@ import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.remote.getBody
 import dev.fritz2.remote.http
+import dev.fritz2.styling.theme.Theme
 
 fun RenderContext.appFrameDemo(): Div {
 
@@ -26,6 +27,13 @@ fun RenderContext.appFrameDemo(): Div {
             c("appFrame")
             +" component offers a complete app frame for your application. It is mobile-first optimized"
             +" (full-responsive) and offers different areas to put your elements in."
+        }
+
+        coloredBox(Theme().colors.info) {
+            +"The whole KitchenSink demo that you are currently viewing is built upon the AppFrame too!"
+            br {}
+            +"So you can investigate all the features and find all the areas of an AppFrame looking into the "
+            +"source code or using the browser dev-tools!"
         }
 
         showcaseSection("Structure")
@@ -73,7 +81,7 @@ fun RenderContext.appFrameDemo(): Div {
         }
 
         paragraph {
-            +"The following picture shows where this areas are located inside the "
+            +"The following picture shows where those areas are located inside the "
             c("appFrame")
             +"."
             img {
@@ -88,38 +96,26 @@ fun RenderContext.appFrameDemo(): Div {
             externalLink("example", "https://jamowei.github.io/appFrame-demo/#main")
             +" shows the basic usage of the "
             c("appFrame")
-            +" in its simplest form."
-            +"Click on the link to open it and see what's happen when you resize your window."
+            +" in its simplest form. "
+            +"Click on the link or the screenshot below to open it and see what's happening when you resize your window."
         }
         paragraph {
             +"The sourcecode is hosted on "
             externalLink("Github", "https://github.com/jamowei/appFrame-demo")
             +"."
         }
-        componentFrame {
-            iframe {
-                src("https://jamowei.github.io/appFrame-demo/#main")
-                height("400px")
-                width("100%")
+        a {
+            href("https://jamowei.github.io/appFrame-demo/#main")
+            target("_blank")
+            img {
+                src("img/appFrame_example.png")
+                alt("appFrame example")
             }
         }
-        highlight {
-            source(sourceCode.data)
-        }
-
-        showcaseSection("Progressive Web App (PWA)")
-        paragraph {
-            +"If you want to use your app as an "
-            externalLink("PWA", "https://web.dev/what-are-pwas/")
-            +" the following steps are needed:"
-        }
-        paragraph {
-            +"Generate a "
-            c("manifest.json")
-            +" file for your app and corresponding icons. You can use the tool from "
-            externalLink("firebase", "https://app-manifest.firebaseapp.com/")
-            +" for it."
-
+        sourceCode.data.render { code ->
+            highlight {
+                source(code)
+            }
         }
     }
 }
