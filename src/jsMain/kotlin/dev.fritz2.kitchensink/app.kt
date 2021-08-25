@@ -45,6 +45,7 @@ const val toasts_ = "Toast"
 const val datatable_ = "DataTable"
 const val slider_ = "Slider"
 const val appFrame_ = "AppFrame"
+const val pwa_ = "PWA"
 
 val router = router(welcome_)
 
@@ -98,8 +99,6 @@ fun main() {
 
     render(themes.first()) {
         appFrame {
-            sidebarWith(15)
-
             brand({
                 minWidth { "18rem" }
             }) {
@@ -206,15 +205,16 @@ fun main() {
                     header("KITCHEN SINK")
                     menuAnchor(welcome_)
                     menuAnchor(gettingStarted_)
-                    menuAnchor(appFrame_)
 
                     header("FEATURES")
                     menuAnchor(responsive_)
                     menuAnchor(styling_)
                     menuAnchor(theme_)
                     menuAnchor(colors_)
+                    menuAnchor(pwa_)
 
                     header("LAYOUT")
+                    menuAnchor(appFrame_)
                     menuAnchor(flexbox_)
                     menuAnchor(gridbox_)
                     menuAnchor(stack_)
@@ -283,6 +283,7 @@ fun main() {
                         datatable_ -> dataTableDemo()
                         slider_ -> sliderDemo()
                         appFrame_ -> appFrameDemo()
+                        pwa_ -> pwaDemo()
                         else -> welcome()
                     }
                 }

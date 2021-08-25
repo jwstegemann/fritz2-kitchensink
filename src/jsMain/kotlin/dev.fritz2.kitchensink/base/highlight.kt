@@ -5,7 +5,6 @@ import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.highlightBackgroundColor
 import dev.fritz2.styling.div
 import kotlinx.browser.window
-import kotlinx.coroutines.flow.Flow
 
 /**
  * Class for configuring the appearance of a PopoverComponent.
@@ -25,12 +24,8 @@ class HighlightComponent(private val language: String) {
     }
 
     private var source: String = ""
-    private var sourceFlow: Flow<String>? = null
     fun source(value: String) {
         source = value.trimIndent()
-    }
-    fun source(value: Flow<String>) {
-        sourceFlow = value
     }
 
     fun render(context: RenderContext) {
@@ -51,7 +46,7 @@ class HighlightComponent(private val language: String) {
                     }) {
                         pre("highlight lang-$language") {
                             code {
-                                sourceFlow?.asText() ?: +source
+                                +source
                             }
                         }
                     }
