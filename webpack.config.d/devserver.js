@@ -1,3 +1,4 @@
 if(config.devServer) {
-    config.devServer.host = "0.0.0.0"
+    // uncomment this for testing iOS devices on BrowserStack
+    //config.devServer.host = "0.0.0.0"
 }
