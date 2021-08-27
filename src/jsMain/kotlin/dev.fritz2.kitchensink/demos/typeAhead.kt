@@ -48,6 +48,14 @@ fun RenderContext.typeAheadDemo(): Div {
             }
         }
 
+        coloredBox(Theme().colors.danger) {
+            +"This component does not work reliable on Safari Browsers at the moment. "
+            br {}
+            +"See "
+            externalLink("Issue 201121", "https://bugs.webkit.org/show_bug.cgi?id=201121")
+            +" in the webkit issue tracker."
+        }
+
         showcaseSection("Usage")
         paragraph {
             +"The factory function "
