@@ -1,6 +1,6 @@
 plugins {
-    id("dev.fritz2.fritz2-gradle") version "0.11"
-    kotlin("multiplatform") version "1.5.10"
+    id("dev.fritz2.fritz2-gradle") version "0.11.1"
+    kotlin("multiplatform") version "1.5.30"
 }
 
 repositories {
