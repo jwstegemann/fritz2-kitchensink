@@ -52,6 +52,7 @@ fun RenderContext.createHoveringPopup(
                     margin { small }
                     display { flex }
                     justifyContent { center }
+                    radius { small }
                 }) {
                     +name
                     mouseenters.map { it.currentTarget } handledBy toggle
