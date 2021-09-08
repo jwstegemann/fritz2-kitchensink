@@ -4,12 +4,14 @@ plugins {
 }
 
 repositories {
-    //mavenLocal()
+    mavenLocal()
+    maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+    maven("https://s01.oss.sonatype.org/content/repositories/releases/")
     mavenCentral()
 }
 
 val appStatus = "alpha"
-val fritz2Version = "0.12"
+val fritz2Version = "0.13-SNAPSHOT"
 
 
 val propertiesDir = "${buildDir}/properties"
