@@ -49,6 +49,7 @@ const val slider_ = "Slider"
 const val appFrame_ = "AppFrame"
 const val pwa_ = "PWA"
 const val typeAhead_ = "TypeAhead"
+const val popup_ = "Popup"
 
 val router = router(welcome_)
 
@@ -239,10 +240,11 @@ fun main() {
                     menuAnchor(datatable_)
 
                     header("OVERLAY")
-                    menuAnchor(dropdown_)
                     menuAnchor(modal_)
-                    menuAnchor(popover_)
+                    menuAnchor(popup_)
                     menuAnchor(tooltip_)
+                    menuAnchor(dropdown_)
+                    menuAnchor(popover_)
                     menuAnchor(toasts_)
 
                     header("MISC")
@@ -293,6 +295,7 @@ fun main() {
                         appFrame_ -> appFrameDemo()
                         pwa_ -> pwaDemo()
                         typeAhead_ -> typeAheadDemo()
+                        popup_ -> popupDemo()
                         else -> welcome()
                     }
                 }
