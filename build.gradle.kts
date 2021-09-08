@@ -1,5 +1,5 @@
 plugins {
-    id("dev.fritz2.fritz2-gradle") version "0.11.1"
+    id("dev.fritz2.fritz2-gradle") version "0.12"
     kotlin("multiplatform") version "1.5.30"
 }
 
@@ -11,7 +11,7 @@ repositories {
 }
 
 val appStatus = "alpha"
-val fritz2Version = "0.12-SNAPSHOT"
+val fritz2Version = "0.13-SNAPSHOT"
 
 
 val propertiesDir = "${buildDir}/properties"
@@ -24,10 +24,10 @@ kotlin {
     sourceSets {
         all {
             languageSettings.apply {
-                useExperimentalAnnotation("kotlin.ExperimentalStdlibApi")
-                useExperimentalAnnotation("kotlinx.coroutines.ExperimentalCoroutinesApi")
-                useExperimentalAnnotation("kotlinx.coroutines.InternalCoroutinesApi")
-                useExperimentalAnnotation("kotlinx.coroutines.FlowPreview")
+                optIn("kotlin.ExperimentalStdlibApi")
+                optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
+                optIn("kotlinx.coroutines.InternalCoroutinesApi")
+                optIn("kotlinx.coroutines.FlowPreview")
             }
         }
 
