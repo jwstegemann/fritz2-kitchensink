@@ -1,16 +1,15 @@
 package dev.fritz2.kitchensink.formControl
 
 import dev.fritz2.components.validation.*
-import dev.fritz2.identification.RootInspector
-import dev.fritz2.identification.inspect
+import dev.fritz2.identification.Inspector
 import dev.fritz2.lenses.Lenses
 
 @Lenses
 data class Account(
-    val username: String,
-    val passphrase: String,
-    val interests: List<String>,
-    val confirmation: Boolean
+    val username: String = "",
+    val passphrase: String = "",
+    val interests: List<String> = emptyList(),
+    val confirmation: Boolean = false
 )
 
 enum class AccountCreationPhase {
@@ -18,9 +17,8 @@ enum class AccountCreationPhase {
     Registration
 }
 
-class AccountValidator(private val rootId: String) : ComponentValidator<Account, AccountCreationPhase>() {
-    override fun validate(data: Account, metadata: AccountCreationPhase): List<ComponentValidationMessage> {
-        val inspector = inspect(data, rootId)
+class AccountValidator : ComponentValidator<Account, AccountCreationPhase>() {
+    override fun validate(inspector: Inspector<Account>, metadata: AccountCreationPhase): List<ComponentValidationMessage> {
         return validateUsername(inspector, metadata) +
                 validatePassphrase(inspector, metadata) +
                 validateInterests(inspector) +
@@ -30,91 +28,81 @@ class AccountValidator(private val rootId: String) : ComponentValidator<Account,
     private fun addSuccessMessage(
         messages: MutableList<ComponentValidationMessage>,
         phase: AccountCreationPhase,
-        id: String
+        path: String
     ) {
         if (phase == AccountCreationPhase.Input && !messages.any { it.isError() }) {
-            messages.add(successMessage(id, ""))
+            messages.add(successMessage(path, ""))
         }
     }
 
     private fun validateUsername(
-        inspector: RootInspector<Account>,
+        inspector: Inspector<Account>,
         phase: AccountCreationPhase
     ): List<ComponentValidationMessage> {
         val messages = mutableListOf<ComponentValidationMessage>()
         val username = inspector.sub(L.Account.username)
         if (username.data.isBlank() && phase == AccountCreationPhase.Registration) {
-            messages.add(errorMessage(username.id, "Please choose a username."))
+            messages.add(username.errorMessage( "Please choose a username."))
         } else if (username.data.isNotBlank()) {
             if (username.data.contains(':')) {
-                messages.add(errorMessage(username.id, "Colon is not allowed in username."))
+                messages.add(username.errorMessage("Colon is not allowed in username."))
             }
             if (username.data.length < 3) {
-                messages.add(warningMessage(username.id, "We recommend a username with at least 3 characters."))
+                messages.add(username.warningMessage( "We recommend a username with at least 3 characters."))
             }
-            addSuccessMessage(messages, phase, username.id)
+            addSuccessMessage(messages, phase, username.path)
         }
         return messages
     }
 
     private fun validatePassphrase(
-        inspector: RootInspector<Account>,
+        inspector: Inspector<Account>,
         phase: AccountCreationPhase
     ): List<ComponentValidationMessage> {
         val messages = mutableListOf<ComponentValidationMessage>()
         val passphrase = inspector.sub(L.Account.passphrase)
         if (passphrase.data.isBlank() && phase == AccountCreationPhase.Registration) {
-            messages.add(errorMessage(passphrase.id, "Please specify a passphrase."))
+            messages.add(passphrase.errorMessage( "Please specify a passphrase."))
         } else if (passphrase.data.isNotBlank()) {
             if (passphrase.data.length < 16) {
-                messages.add(
-                    warningMessage(passphrase.id, "We recommend a passphrase with at least 16 characters.")
-                )
+                messages.add(passphrase.warningMessage( "We recommend a passphrase with at least 16 characters."))
             }
             if (passphrase.data.lowercase() == "fritz2") {
-                messages.add(
-                    warningMessage(passphrase.id, "'fritz2' is a great framework, but a poor choice of passphrase.")
-                )
+                messages.add(passphrase.warningMessage("'fritz2' is a great framework, but a poor choice of passphrase."))
             }
-            addSuccessMessage(messages, phase, passphrase.id)
+            addSuccessMessage(messages, phase, passphrase.path)
         }
         return messages
     }
 
     private fun validateInterests(
-        inspector: RootInspector<Account>,
+        inspector: Inspector<Account>,
     ): List<ComponentValidationMessage> {
         val messages = mutableListOf<ComponentValidationMessage>()
         val interests = inspector.sub(L.Account.interests)
         if (interests.data.size > 3) {
             messages.add(
-                errorMessage(
-                    interests.id,
-                    "You have chosen ${interests.data.size} items, but only 3 items are allowed."
-                )
+                interests.errorMessage("You have chosen ${interests.data.size} items, but only 3 items are allowed.")
             )
         }
         if (interests.data.contains("fritz2")) {
             messages.add(
-                infoMessage(
-                    interests.id,
-                    "Thank you for choosing fritz2 - we appreciate your interest \uD83D\uDE00"
-                )
+                interests.infoMessage("Thank you for choosing fritz2 - we appreciate your interest \uD83D\uDE00")
             )
         }
         return messages
     }
 
     private fun validateConfirmation(
-        inspector: RootInspector<Account>,
+        inspector: Inspector<Account>,
         phase: AccountCreationPhase
     ): List<ComponentValidationMessage> {
         val messages = mutableListOf<ComponentValidationMessage>()
         val confirmation = inspector.sub(L.Account.confirmation)
         if (!confirmation.data && phase == AccountCreationPhase.Registration) {
-            messages.add(errorMessage(confirmation.id, "You must accept the license terms to register."))
+            messages.add(confirmation.errorMessage("You must accept the license terms to register."))
         } else if (confirmation.data) {
-            addSuccessMessage(messages, phase, confirmation.id)
+            addSuccessMessage(messages, phase, confirmation.path)
         }
         return messages
     }
