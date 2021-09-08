@@ -7,7 +7,7 @@ import dev.fritz2.binding.storeOf
 import dev.fritz2.components.*
 import dev.fritz2.components.forms.control.ControlRenderer
 import dev.fritz2.components.forms.control.FormControlComponent
-import dev.fritz2.components.radios.*
+import dev.fritz2.components.radios.RadioGroupComponent
 import dev.fritz2.components.validation.*
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
@@ -50,11 +50,9 @@ fun RenderContext.formControlDemo(): Div {
             +" stores with substores, and field validation."
         }
 
-        val accountStore = object : RootStore<Account>(
-            Account("", "", emptyList(), false),
-            "Account"
-        ), WithValidator<Account, AccountCreationPhase> {
-            override val validator = AccountValidator("Account")
+        val accountStore = object : RootStore<Account>(Account(), "Account"),
+            WithValidator<Account, AccountCreationPhase> {
+            override val validator = AccountValidator()
 
             init {
                 validate(AccountCreationPhase.Input)
@@ -955,7 +953,7 @@ fun RenderContext.formControlDemo(): Div {
                     id: String?,
                     prefix: String,
                     context: RenderContext,
-                    control: RenderContext.() -> Unit
+                    control: RenderContext.() -> RenderContext
                 ) {
                     context.stackUp({
                         alignItems { start }
