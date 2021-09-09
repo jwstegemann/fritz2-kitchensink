@@ -154,10 +154,10 @@ fun RenderContext.formControlDemo(): Div {
                 """
                 @Lenses
                 data class Account(
-                    val username: String,
-                    val passphrase: String,
-                    val interests: List<String>,
-                    val confirmation: Boolean
+                    val username: String = "",
+                    val passphrase: String = "",
+                    val interests: List<String> = emptyList(),
+                    val confirmation: Boolean = false
                 )
                 """
             )
@@ -174,8 +174,8 @@ fun RenderContext.formControlDemo(): Div {
             source(
                 """
                 val accountStore = object : RootStore<Account>(
-                    Account("", "", emptyList(), false),
-                    "Account" // important to pass an Id, see information in the box below!
+                    Account(),
+                    "Account" // Set an explicit ID, see information in the box below!
                 )
 
                 val nameStore = accountStore.sub(L.Account.username)
@@ -194,14 +194,12 @@ fun RenderContext.formControlDemo(): Div {
             +"Thus if no value for the id is explicitly given, it relies on the id of the passed store, which "
             +"will get its id by its "
             c("RootStore")
-            +" or its parent"
+            +", which itself will generate an id if none is supplied, or by its parent "
             c("SubStore")
             +" chained by dots."
             br { }
-            +"It is therefore recommended to always pass an id into a (root-)store at creation, so that the id value "
-            +"of a formcontrol's control is really unique!"
-            br { }
-            +"Be aware that the same id must be used within an inspector for validation purposes!"
+            +"It is therefore recommended to always pass an id into a (root-)store at creation, so that it is "
+            +"meaningful and more readable than a randomly created id!"
         }
 
         showcaseSubSection("Assembling The Form")
@@ -293,8 +291,10 @@ fun RenderContext.formControlDemo(): Div {
         paragraph {
             +"The whole model is validated at once. This validation process generates a list of "
             c("ComponentValidationMessage")
-            +" instances, each of which includes the id of the field it refers to (the substore's id)."
-            +" The formControl component filters the list for messages with its own control's id and displays them."
+            +" instances, each of which includes the "
+            c("path")
+            +" of the field it refers to (the substore's path)."
+            +" The formControl component filters the list for messages with its own control's path and displays them."
         }
 
         highlight {
@@ -303,24 +303,21 @@ fun RenderContext.formControlDemo(): Div {
                 // Simplified first implementation
                 class AccountValidator(private val rootId: String) 
                     : ComponentValidator<Account, Unit>() {
-                    override fun validate(data: Account, metadata: Unit): List<ComponentValidationMessage> {
+                    override fun validate(inspector: Inspector<Account>, metadata: Unit): List<ComponentValidationMessage> {
                         val messages = mutableListOf<ComponentValidationMessage>()
                 
-                        // create an inspector for "ad hoc" model inspection
-                        // inject the root-store's id! This is very important so the 
-                        // generated IDs of the messages match their corresponding UI element!
-                        val inspector = inspect(data, rootId) 
                         val username = inspector.sub(L.Account.username)
                         val passphrase = inspector.sub(L.Account.passphrase)
                 
                         if (username.data.isBlank()) {
-                            // bind the id of the lens to the message for filtering in the form control
-                            messages.add(errorMessage(username.id, "Please choose a username."))
+                            // the inspector has extensions factories to produce `ComponentValidationMessage`
+                            // with the appropriate `path` and `Severity`!
+                            messages.add(username.errorMessage("Please choose a username."))
                         }
                         if (passphrase.data.isBlank()) {
-                            messages.add(errorMessage(passphrase.id, "Please specify a passphrase."))
+                            messages.add(passphrase.errorMessage("Please specify a passphrase."))
                         } else if (passphrase.data.length < 16) {
-                            messages.add(warningMessage(passphrase.id, "We recommend a passphrase with at least 16 characters."))
+                            messages.add(passphrase.warningMessage("We recommend a passphrase with at least 16 characters."))
                         }
                 
                         // return all the generated messages - can be empty of course
@@ -372,42 +369,40 @@ fun RenderContext.formControlDemo(): Div {
         highlight {
             source(
                 """
-                class AccountValidator(private val rootId: String) 
-                    : ComponentValidator<Account, AccountCreationPhase>() {
-                    override fun validate(data: Account, metadata: AccountCreationPhase): List<ComponentValidationMessage> {
-                        val inspector = inspect(data, rootId)
-                        return validateUsername(inspector, metadata) +
-                                validatePassphrase(inspector, metadata) +
-                                validateInterests(inspector) +
-                                validateConfirmation(inspector, metadata)
-                    }
+                    class AccountValidator : ComponentValidator<Account, AccountCreationPhase>() {
+                        override fun validate(inspector: Inspector<Account>, metadata: AccountCreationPhase): List<ComponentValidationMessage> {
+                            return validateUsername(inspector, metadata) +
+                                    validatePassphrase(inspector, metadata) +
+                                    validateInterests(inspector) +
+                                    validateConfirmation(inspector, metadata)
+                        }
                 
                     private fun addSuccessMessage(
                         messages: MutableList<ComponentValidationMessage>,
                         phase: AccountCreationPhase,
-                        id: String
+                        path: String
                     ) {
                         if (phase == AccountCreationPhase.Input && !messages.any { it.isError() }) {
-                            messages.add(successMessage(id, ""))
+                            messages.add(successMessage(path, ""))
                         }
                     }
                 
                     private fun validateUsername(
-                        inspector: RootInspector<Account>,
+                        inspector: Inspector<Account>,
                         phase: AccountCreationPhase
                     ): List<ComponentValidationMessage> {
                         val messages = mutableListOf<ComponentValidationMessage>()
                         val username = inspector.sub(L.Account.username)
                         if (username.data.isBlank() && phase == AccountCreationPhase.Registration) {
-                            messages.add(errorMessage(username.id, "Please choose a username."))
+                            messages.add(username.errorMessage( "Please choose a username."))
                         } else if (username.data.isNotBlank()) {
                             if (username.data.contains(':')) {
-                                messages.add(errorMessage(username.id, "Colon is not allowed in username."))
+                                messages.add(username.errorMessage("Colon is not allowed in username."))
                             }
                             if (username.data.length < 3) {
-                                messages.add(warningMessage(username.id, "We recommend a username with at least 3 characters."))
+                                messages.add(username.warningMessage( "We recommend a username with at least 3 characters."))
                             }
-                            addSuccessMessage(messages, phase, username.id)
+                            addSuccessMessage(messages, phase, username.path)
                         }
                         return messages
                     }
@@ -442,12 +437,10 @@ fun RenderContext.formControlDemo(): Div {
         highlight {
             source(
                 """
-                val accountStore = object : RootStore<Account>(
-                    Account("", "", emptyList(), false),
-                    "Account"
-                ), 
-                // model type and metadata type must match those for ``ComponentValidator<D, T>`` 
-                WithValidator<Account, AccountCreationPhase> {
+                val accountStore = object : RootStore<Account>(Account(), "Account"),                    
+                    // model type and metadata type must match those for ``ComponentValidator<D, T>`` 
+                    WithValidator<Account, AccountCreationPhase> {
+                    
                     // set your validator (or inject) 
                     override val validator = AccountValidator("Account")
         
@@ -1354,7 +1347,7 @@ fun RenderContext.formControlDemo(): Div {
                         id: String?,
                         prefix: String,
                         renderContext: RenderContext,
-                        control: RenderContext.() -> Unit
+                        control: RenderContext.() -> RenderContext
                     ) {
                         renderContext.stackUp({
                             alignItems { start }
