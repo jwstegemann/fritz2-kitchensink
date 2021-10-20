@@ -119,7 +119,7 @@ fun RenderContext.radiosDemo(): Div {
         componentFrame {
             radioGroup({
                 border { color { secondary.main } }
-            }, value = pickedLanguage, items = languages) {
+            }, value = pickedLanguage, items = languages, id = "customizedLanguages") {
                 selectedStyle {
                     background { color { secondary.highlight } }
                 }
@@ -147,7 +147,7 @@ fun RenderContext.radiosDemo(): Div {
 
         showcaseSection("Disabled Radios")
         componentFrame {
-            radioGroup(value = pickedLanguage, items = languages) {
+            radioGroup(value = pickedLanguage, items = languages, id = "disabledLanguages") {
                 disabled(true)
             }
         }
