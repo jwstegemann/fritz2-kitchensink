@@ -1,5 +1,5 @@
 plugins {
-    id("dev.fritz2.fritz2-gradle") version "0.12"
+    id("dev.fritz2.fritz2-gradle") version "0.13"
     kotlin("multiplatform") version "1.5.30"
 }
 
@@ -11,7 +11,7 @@ repositories {
 }
 
 val appStatus = "alpha"
-val fritz2Version = "0.13-SNAPSHOT"
+val fritz2Version = "0.13"
 
 
 val propertiesDir = "${buildDir}/properties"
