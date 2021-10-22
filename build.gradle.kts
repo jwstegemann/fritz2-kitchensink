@@ -11,7 +11,7 @@ repositories {
 }
 
 val appStatus = "alpha"
-val fritz2Version = "0.13"
+val fritz2Version = "0.14-SNAPSHOT"
 
 
 val propertiesDir = "${buildDir}/properties"
