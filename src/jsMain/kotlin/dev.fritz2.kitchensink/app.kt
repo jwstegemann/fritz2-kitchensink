@@ -5,7 +5,7 @@ import dev.fritz2.components.*
 import dev.fritz2.components.appFrame.registerServiceWorker
 import dev.fritz2.kitchensink.base.*
 import dev.fritz2.kitchensink.demos.*
-import dev.fritz2.routing.router
+import dev.fritz2.routing.routerOf
 import dev.fritz2.styling.*
 import dev.fritz2.styling.theme.Theme
 import dev.fritz2.styling.theme.render
@@ -51,7 +51,7 @@ const val pwa_ = "PWA"
 const val typeAhead_ = "TypeAhead"
 const val popup_ = "Popup"
 
-val router = router(welcome_)
+val router = routerOf(welcome_)
 
 object ThemeStore : RootStore<Int>(0) {
     val selectTheme = handle<Int> { _, index ->
@@ -99,7 +99,7 @@ fun main() {
     staticStyle("settings-table", settingsTableStaticCss)
     val welcomeContent = staticStyle("welcome-content", welcomeContentStaticCss)
 
-    val router = router("")
+//    val router = routerOf("")
 
     render(themes.first()) {
         appFrame {
