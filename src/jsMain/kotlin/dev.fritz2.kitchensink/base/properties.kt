@@ -4,7 +4,7 @@ import kotlinx.browser.document
 
 fun fritz2Version(): String {
     val version = document.asDynamic().fritz2Version
-    return if(version != undefined) "v${version}" else ""
+    return if(version != undefined) "${version}" else ""
 }
 
 fun appStatus(): String {
