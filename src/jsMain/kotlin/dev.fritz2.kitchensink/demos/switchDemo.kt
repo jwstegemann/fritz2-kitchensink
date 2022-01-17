@@ -32,7 +32,7 @@ fun RenderContext.switchDemo(): Div {
             }
             storeContentBox("Switched on") {
                 span {
-                    checkedStore.data.asText()
+                    checkedStore.data.renderText(into = this)
                 }
             }
         }

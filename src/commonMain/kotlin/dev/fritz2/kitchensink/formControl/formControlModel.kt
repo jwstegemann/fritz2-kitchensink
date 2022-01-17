@@ -10,7 +10,9 @@ data class Account(
     val passphrase: String = "",
     val interests: List<String> = emptyList(),
     val confirmation: Boolean = false
-)
+) {
+    companion object
+}
 
 enum class AccountCreationPhase {
     Input,
@@ -40,7 +42,7 @@ class AccountValidator : ComponentValidator<Account, AccountCreationPhase>() {
         phase: AccountCreationPhase
     ): List<ComponentValidationMessage> {
         val messages = mutableListOf<ComponentValidationMessage>()
-        val username = inspector.sub(L.Account.username)
+        val username = inspector.sub(Account.username())
         if (username.data.isBlank() && phase == AccountCreationPhase.Registration) {
             messages.add(username.errorMessage( "Please choose a username."))
         } else if (username.data.isNotBlank()) {
@@ -60,7 +62,7 @@ class AccountValidator : ComponentValidator<Account, AccountCreationPhase>() {
         phase: AccountCreationPhase
     ): List<ComponentValidationMessage> {
         val messages = mutableListOf<ComponentValidationMessage>()
-        val passphrase = inspector.sub(L.Account.passphrase)
+        val passphrase = inspector.sub(Account.passphrase())
         if (passphrase.data.isBlank() && phase == AccountCreationPhase.Registration) {
             messages.add(passphrase.errorMessage( "Please specify a passphrase."))
         } else if (passphrase.data.isNotBlank()) {
@@ -79,7 +81,7 @@ class AccountValidator : ComponentValidator<Account, AccountCreationPhase>() {
         inspector: Inspector<Account>,
     ): List<ComponentValidationMessage> {
         val messages = mutableListOf<ComponentValidationMessage>()
-        val interests = inspector.sub(L.Account.interests)
+        val interests = inspector.sub(Account.interests())
         if (interests.data.size > 3) {
             messages.add(
                 interests.errorMessage("You have chosen ${interests.data.size} items, but only 3 items are allowed.")
@@ -98,7 +100,7 @@ class AccountValidator : ComponentValidator<Account, AccountCreationPhase>() {
         phase: AccountCreationPhase
     ): List<ComponentValidationMessage> {
         val messages = mutableListOf<ComponentValidationMessage>()
-        val confirmation = inspector.sub(L.Account.confirmation)
+        val confirmation = inspector.sub(Account.confirmation())
         if (!confirmation.data && phase == AccountCreationPhase.Registration) {
             messages.add(confirmation.errorMessage("You must accept the license terms to register."))
         } else if (confirmation.data) {

@@ -4,7 +4,6 @@ import dev.fritz2.binding.storeOf
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
-import dev.fritz2.remote.getBody
 import dev.fritz2.remote.http
 import dev.fritz2.styling.theme.Theme
 
@@ -14,7 +13,7 @@ fun RenderContext.appFrameDemo(): Div {
     sourceCode.handle {
         runCatching {
             http("https://raw.githubusercontent.com/jamowei/appFrame-demo/master/src/main/kotlin/appFrame.kt")
-                .get().getBody()
+                .get().body()
         }.onFailure { console.error(it) }
         .getOrDefault("error getting sourcecode")
     }()

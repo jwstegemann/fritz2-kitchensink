@@ -98,7 +98,7 @@ fun renderColorScheme(context: RenderContext, name: String, colorScheme: ColorSc
                 )
                 tooltip(colorScheme.main)()
             }) {
-                hovered.data.map { if(!it) "main" else "" }.asText()
+                hovered.data.map { if(!it) "main" else "" }.renderText()
             }
             flexBox({
                 grid { area { gridAreas.BASE_CONTRAST } }
@@ -107,7 +107,7 @@ fun renderColorScheme(context: RenderContext, name: String, colorScheme: ColorSc
                 color { colorScheme.main }
                 tooltip(colorScheme.mainContrast)()
             }) {
-                hovered.data.map { if(!it) "mainContrast" else "" }.asText()
+                hovered.data.map { if(!it) "mainContrast" else "" }.renderText()
             }
             flexBox({
                 grid { area { gridAreas.HIGHLIGHT } }
@@ -120,7 +120,7 @@ fun renderColorScheme(context: RenderContext, name: String, colorScheme: ColorSc
                     md = { bottomLeft { none } }
                 )
             }) {
-                hovered.data.map { if(it) "highlight" else "" }.asText()
+                hovered.data.map { if(it) "highlight" else "" }.renderText()
             }
             flexBox({
                 grid { area { gridAreas.HIGHLIGHT_CONTRAST } }
@@ -130,7 +130,7 @@ fun renderColorScheme(context: RenderContext, name: String, colorScheme: ColorSc
                 tooltip(colorScheme.highlightContrast)()
                 radii { bottomRight { radiiSize() } }
             }) {
-                hovered.data.map { if(it) "highlightContrast" else "" }.asText()
+                hovered.data.map { if(it) "highlightContrast" else "" }.renderText()
             }
         }
     }

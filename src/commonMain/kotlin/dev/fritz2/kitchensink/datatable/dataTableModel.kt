@@ -10,7 +10,9 @@ data class Person(
     val lastname: String,
     val birthday: String,
     val language: List<String>
-)
+) {
+    companion object
+}
 
 val persons = listOf(
     Person(1, "Edward", "Daniels", "1999-05-21", listOf("Kotlin", "Rust", "Python")),
@@ -153,6 +155,8 @@ data class DraftablePerson(
     val stable: FinalPerson,
     val draft: FinalPerson
 ) {
+    companion object
+
     val isDrafted = stable.id == draft.id
 
     fun drafted() = DraftablePerson(stable, stable)
