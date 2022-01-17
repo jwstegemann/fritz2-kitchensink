@@ -6,6 +6,7 @@ import dev.fritz2.components.icon
 import dev.fritz2.components.popup
 import dev.fritz2.components.popup.Placement
 import dev.fritz2.components.slider
+import dev.fritz2.dom.Tag
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
@@ -13,6 +14,7 @@ import dev.fritz2.styling.*
 import dev.fritz2.styling.params.BasicParams
 import dev.fritz2.styling.params.Style
 import dev.fritz2.styling.theme.Theme
+import org.w3c.dom.HTMLElement
 
 
 val triggerStyle: Style<BasicParams> = {
@@ -31,14 +33,14 @@ val contentStyle: Style<BasicParams> = {
 
 val offsetStore = storeOf(10)
 
-fun RenderContext.createHoveringPopup(
+fun Tag<HTMLElement>.createHoveringPopup(
     name: String,
     placement: Placement,
     flipping: Boolean = false,
     text: String = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt " +
             "ut labore."
-) =
-    offsetStore.data.render { offset ->
+) = div({ display { contents }}) {
+    offsetStore.data.render(into = this) { offset ->
         popup({
             zIndex { appFrame.plus(10) }
         }) {
@@ -70,6 +72,7 @@ fun RenderContext.createHoveringPopup(
             }
         }
     }
+}
 
 fun RenderContext.popupDemo(): Div {
 

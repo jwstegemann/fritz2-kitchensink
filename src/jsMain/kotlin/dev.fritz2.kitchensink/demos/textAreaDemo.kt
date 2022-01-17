@@ -37,7 +37,7 @@ fun RenderContext.textareaDemo(): Div {
             }
             storeContentBox("Text") {
                 span {
-                    textStore.data.asText()
+                    textStore.data.renderText(into = this)
                 }
             }
         }

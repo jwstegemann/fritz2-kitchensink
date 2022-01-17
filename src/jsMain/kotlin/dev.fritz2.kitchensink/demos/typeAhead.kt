@@ -7,7 +7,6 @@ import dev.fritz2.components.typeAhead.asProposal
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
-import dev.fritz2.remote.getBody
 import dev.fritz2.remote.http
 import dev.fritz2.styling.*
 import dev.fritz2.styling.theme.Theme
@@ -414,7 +413,7 @@ fun RenderContext.typeAheadDemo(): Div {
 
             val getPersons: Proposal = {
                 it.map { draft ->
-                    val result = baseApi.get("people/?search=$draft").getBody()
+                    val result = baseApi.get("people/?search=$draft").body()
                     buildList {
                         (JSON.parse<Json>(result)["results"]
                             .unsafeCast<Array<Json>>()).forEach { person ->
@@ -426,7 +425,7 @@ fun RenderContext.typeAheadDemo(): Div {
 
             fun getData(category: Flow<Pair<String, String>>): Proposal = {
                 it.combine(category) { draft, (fragment, prop) ->
-                    val result = baseApi.get("$fragment/?search=$draft").getBody()
+                    val result = baseApi.get("$fragment/?search=$draft").body()
                     buildList {
                         (JSON.parse<Json>(result)["results"]
                             .unsafeCast<Array<Json>>()).forEach { item ->

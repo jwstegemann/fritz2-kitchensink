@@ -12,10 +12,8 @@ import dev.fritz2.components.validation.*
 import dev.fritz2.dom.html.Div
 import dev.fritz2.dom.html.RenderContext
 import dev.fritz2.kitchensink.base.*
-import dev.fritz2.kitchensink.formControl.Account
-import dev.fritz2.kitchensink.formControl.AccountCreationPhase
-import dev.fritz2.kitchensink.formControl.AccountValidator
-import dev.fritz2.kitchensink.formControl.L
+import dev.fritz2.kitchensink.formControl.*
+
 import dev.fritz2.styling.StyleClass
 import dev.fritz2.styling.p
 import dev.fritz2.styling.params.BasicParams
@@ -66,10 +64,10 @@ fun RenderContext.formControlDemo(): Div {
             }
         }
 
-        val nameStore = accountStore.sub(L.Account.username)
-        val passphraseStore = accountStore.sub(L.Account.passphrase)
-        val interestStore = accountStore.sub(L.Account.interests)
-        val confirmationStore = accountStore.sub(L.Account.confirmation)
+        val nameStore = accountStore.sub(Account.username())
+        val passphraseStore = accountStore.sub(Account.passphrase())
+        val interestStore = accountStore.sub(Account.interests())
+        val confirmationStore = accountStore.sub(Account.confirmation())
 
         val registerSuccessDialog = modal {
             width { small }
@@ -178,10 +176,10 @@ fun RenderContext.formControlDemo(): Div {
                     "Account" // Set an explicit ID, see information in the box below!
                 )
 
-                val nameStore = accountStore.sub(L.Account.username)
-                val passphraseStore = accountStore.sub(L.Account.passphrase)
-                val interestStore = accountStore.sub(L.Account.interests)
-                val confirmationStore = accountStore.sub(L.Account.confirmation)
+                val nameStore = accountStore.sub(Account.username())
+                val passphraseStore = accountStore.sub(Account.passphrase())
+                val interestStore = accountStore.sub(Account.interests())
+                val confirmationStore = accountStore.sub(Account.confirmation())
                 """
             )
         }
@@ -306,8 +304,8 @@ fun RenderContext.formControlDemo(): Div {
                     override fun validate(inspector: Inspector<Account>, metadata: Unit): List<ComponentValidationMessage> {
                         val messages = mutableListOf<ComponentValidationMessage>()
                 
-                        val username = inspector.sub(L.Account.username)
-                        val passphrase = inspector.sub(L.Account.passphrase)
+                        val username = inspector.sub(Account.username())
+                        val passphrase = inspector.sub(Account.passphrase())
                 
                         if (username.data.isBlank()) {
                             // the inspector has extensions factories to produce `ComponentValidationMessage`
@@ -392,7 +390,7 @@ fun RenderContext.formControlDemo(): Div {
                         phase: AccountCreationPhase
                     ): List<ComponentValidationMessage> {
                         val messages = mutableListOf<ComponentValidationMessage>()
-                        val username = inspector.sub(L.Account.username)
+                        val username = inspector.sub(Account.username())
                         if (username.data.isBlank() && phase == AccountCreationPhase.Registration) {
                             messages.add(username.errorMessage( "Please choose a username."))
                         } else if (username.data.isNotBlank()) {
@@ -963,7 +961,7 @@ fun RenderContext.formControlDemo(): Div {
                                         width { fat }
                                     }
                                 }
-                            }) { component.label.values.asText() }
+                            }) { component.label.values.renderText(into = this) }
                             component.renderHelperText(this)
                             fieldset {
                                 control(this)
@@ -1364,7 +1362,7 @@ fun RenderContext.formControlDemo(): Div {
                                             width { fat }
                                         }
                                     }
-                                }){ component.label.values.asText() }
+                                }){ component.label.values.renderText(into = this) }
                                 component.renderHelperText(this)
                                 fieldset {
                                     control(this)

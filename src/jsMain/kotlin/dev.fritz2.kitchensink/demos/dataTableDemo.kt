@@ -26,10 +26,10 @@ import kotlinx.datetime.LocalDate
 
 val simpleColumnsDefinition: DataTableComponent<Person, Int>.() -> Unit = {
     columns {
-        column(title = "Id") { lens(L.Person.id.asString()) }
-        column(title = "Lastname") { lens(L.Person.lastname) }
-        column(title = "Firstname") { lens(L.Person.firstname) }
-        column(title = "Birthday") { lens(L.Person.birthday) }
+        column(title = "Id") { lens(Person.id().asString()) }
+        column(title = "Lastname") { lens(Person.lastname()) }
+        column(title = "Firstname") { lens(Person.firstname()) }
+        column(title = "Birthday") { lens(Person.birthday()) }
     }
 }
 
@@ -87,7 +87,7 @@ fun RenderContext.renderDataTableSelectionMultiple(
                         } else {
                             selectedPersons.data.map { list ->
                                 list.joinToString { "${it.firstname} ${it.lastname}" }
-                            }.asText()
+                            }.renderText(into = this)
                         }
                     }
                 }
@@ -181,12 +181,15 @@ fun RenderContext.dataTableDemo(): Div {
             source(
                 """
                     // start with some model type
+                    @Lenses
                     data class Person(
                         val id: Int,
                         val firstname: String,
                         val lastname: String,
                         val birthday: String
-                    )
+                    ) {
+                        companion object
+                    }
                     
                     // create the whole data model
                     val persons = listOf(/* ... */)
@@ -203,11 +206,11 @@ fun RenderContext.dataTableDemo(): Div {
                                 // we need to provide a Lens<T, String>. You can omit this lens, 
                                 // but then you must take care of the content rendering and 
                                 // sorting manually! (This will be explained later!) 
-                                lens(L.Person.id.asString()) 
+                                lens(Person.id().asString()) 
                             }
-                            column(title = "Lastname") { lens(L.Person.lastname) }
-                            column(title = "Firstname") { lens(L.Person.firstname) }
-                            column(title = "Birthday") { lens(L.Person.birthday) }
+                            column(title = "Lastname") { lens(Person.lastname()) }
+                            column(title = "Firstname") { lens(Person.firstname()) }
+                            column(title = "Birthday") { lens(Person.birthday()) }
                         }
                     }
                 """
@@ -222,10 +225,10 @@ fun RenderContext.dataTableDemo(): Div {
                 """
                 dataTable(rows = storeOf(persons), rowIdProvider = Person::id) {
                     columns {
-                        column(title = "Id") { lens(L.Person.id.asString()) }
-                        column(title = "Lastname") { lens(L.Person.lastname) }
-                        column(title = "Firstname") { lens(L.Person.firstname) }
-                        column(title = "Birthday") { lens(L.Person.birthday) }
+                        column(title = "Id") { lens(Person.id().asString()) }
+                        column(title = "Lastname") { lens(Person.lastname()) }
+                        column(title = "Firstname") { lens(Person.firstname()) }
+                        column(title = "Birthday") { lens(Person.birthday()) }
                     }
                 }                    
                 """
@@ -268,10 +271,10 @@ fun RenderContext.dataTableDemo(): Div {
                     selection = selectedPerson // inject this selection store 
                 ) {
                     columns {
-                        column(title = "Id") { lens(L.Person.id.asString()) }
-                        column(title = "Lastname") { lens(L.Person.lastname) }
-                        column(title = "Firstname") { lens(L.Person.firstname) }
-                        column(title = "Birthday") { lens(L.Person.birthday) }
+                        column(title = "Id") { lens(Person.id().asString()) }
+                        column(title = "Lastname") { lens(Person.lastname()) }
+                        column(title = "Firstname") { lens(Person.firstname()) }
+                        column(title = "Birthday") { lens(Person.birthday()) }
                     }
                 }                    
                 """
@@ -314,10 +317,10 @@ fun RenderContext.dataTableDemo(): Div {
                     selection = selectedPersons // inject this selection store 
                 ) {
                     columns {
-                        column(title = "Id") { lens(L.Person.id.asString()) }
-                        column(title = "Lastname") { lens(L.Person.lastname) }
-                        column(title = "Firstname") { lens(L.Person.firstname) }
-                        column(title = "Birthday") { lens(L.Person.birthday) }
+                        column(title = "Id") { lens(Person.id().asString()) }
+                        column(title = "Lastname") { lens(Person.lastname()) }
+                        column(title = "Firstname") { lens(Person.firstname()) }
+                        column(title = "Birthday") { lens(Person.birthday()) }
                     }
                 }                    
                 """
@@ -664,7 +667,7 @@ fun RenderContext.dataTableDemo(): Div {
                                 }
                                 columns {
                                     column(title = "Id") {
-                                        lens(L.FinalPerson.id.asString())
+                                        lens(FinalPerson.id().asString())
                                         width { minmax("70px") }
                                     }
                                     column(title = "Name") {
@@ -675,7 +678,7 @@ fun RenderContext.dataTableDemo(): Div {
                                         sorting { disabled }
                                     }
                                     column(title = "Birthday") {
-                                        lens(L.FinalPerson.birthday + dateFormat)
+                                        lens(FinalPerson.birthday() + dateFormat)
                                         sorting { disabled }
                                     }
                                     column(title = "Programming Languages") {
@@ -842,7 +845,7 @@ fun RenderContext.dataTableDemo(): Div {
                     columns {
                         column(title = "Birthday") {
                             // apply formatting lens to Date based lens
-                            lens(L.Person.birthday + dateFormat)
+                            lens(Person.birthday() + dateFormat)
                         }                    
                         // omitted...
                     } 
@@ -999,7 +1002,7 @@ fun RenderContext.dataTableDemo(): Div {
                             }
                             columns {
                                 column(title = "Id") {
-                                    lens(L.FinalPerson.id.asString())
+                                    lens(FinalPerson.id().asString())
                                     width { minmax("70px") }
                                     sorting { disabled }
                                 }
@@ -1013,7 +1016,7 @@ fun RenderContext.dataTableDemo(): Div {
                                     }
                                 }
                                 column(title = "Birthday") {
-                                    lens(L.FinalPerson.birthday + dateFormat)
+                                    lens(FinalPerson.birthday() + dateFormat)
                                     if (applySorting) {
                                         sortBy(FinalPerson::birthday)
                                     }
@@ -1049,7 +1052,7 @@ fun RenderContext.dataTableDemo(): Div {
                     columns {
                         // content and other noise omitted!
                         column(title = "Id") {
-                            lens(L.Person.id.asString())
+                            lens(Person.id().asString())
                             // preselect default strategy (``asc``, ``desc`` or ``none`` )
                             // or disable sorting at all
                             sorting { disabled }
@@ -1193,7 +1196,7 @@ fun RenderContext.dataTableDemo(): Div {
                     }
                 }) {
                     column(title = "Id") {
-                        lens(L.FinalPerson.id.asString())
+                        lens(FinalPerson.id().asString())
                         width { minmax("70px") }
                         sorting { disabled }
                     }
@@ -1205,7 +1208,7 @@ fun RenderContext.dataTableDemo(): Div {
                         sortBy(FinalPerson::lastname, FinalPerson::firstname)
                     }
                     column(title = "Birthday") {
-                        lens(L.FinalPerson.birthday + dateFormat)
+                        lens(FinalPerson.birthday() + dateFormat)
                         sortBy(FinalPerson::birthday)
                     }
                     column(title = "Programming Languages") {
@@ -1341,7 +1344,7 @@ fun RenderContext.dataTableDemo(): Div {
                     content { _, _, row -> // access the store for this specific row
                         // create a form element and pass a *fitting* sub-store
                         // so the changes can be directly handled by the form itself
-                        inputField(value = row.sub(L.Person.firstname)) {
+                        inputField(value = row.sub(Person.firstname())) {
                             placeholder("firstname")
                         }
                     }
@@ -1369,14 +1372,14 @@ fun RenderContext.dataTableDemo(): Div {
                 }
                 columns {
                     column(title = "Id") {
-                        lens(L.FinalPerson.id.asString())
+                        lens(FinalPerson.id().asString())
                         width { minmax("70px") }
                         sorting { disabled }
                     }
                     column(title = "Firstname") {
-                        lens(L.FinalPerson.firstname)
+                        lens(FinalPerson.firstname())
                         content { _, _, row ->
-                            val firstname = row.sub(L.FinalPerson.firstname)
+                            val firstname = row.sub(FinalPerson.firstname())
                             inputField(value = firstname) {
                                 placeholder("firstname")
                                 size { small }
@@ -1384,9 +1387,9 @@ fun RenderContext.dataTableDemo(): Div {
                         }
                     }
                     column(title = "Lastname") {
-                        lens(L.FinalPerson.lastname)
+                        lens(FinalPerson.lastname())
                         content { _, _, row ->
-                            val lastname = row.sub(L.FinalPerson.lastname)
+                            val lastname = row.sub(FinalPerson.lastname())
                             inputField(value = lastname) {
                                 placeholder("lastname")
                                 size { small }
@@ -1397,7 +1400,7 @@ fun RenderContext.dataTableDemo(): Div {
                         width { minmax("3fr") }
                         content { _, _, row ->
                             val editToggle = storeOf(false)
-                            val languages = row.sub(L.FinalPerson.languages)
+                            val languages = row.sub(FinalPerson.languages())
                             val addLanguage = languages.handle<String> { langs, new ->
                                 langs + new
                             }
@@ -1462,7 +1465,7 @@ fun RenderContext.dataTableDemo(): Div {
                 column(title = "Id") { }
                 column(title = "Firstname") {
                     content { _, _, row ->
-                        inputField(value = row.sub(L.Person.firstname)) {
+                        inputField(value = row.sub(Person.firstname())) {
                             placeholder("firstname")
                         }
                     }
@@ -1479,7 +1482,7 @@ fun RenderContext.dataTableDemo(): Div {
                         // create sub-store for languages list to
                         // enrich the sub-store with expressive custom handlers
                         // to make event configuration more readable later on
-                        val languages = row.sub(L.Person.languages)
+                        val languages = row.sub(Person.languages())
                         val addLanguage = languages.handle<String> { languages, new ->
                             languages + new
                         }
@@ -1628,15 +1631,15 @@ fun RenderContext.dataTableDemo(): Div {
                 }
                 columns {
                     column(title = "Id") {
-                        lens(L.DraftablePerson.stable + L.FinalPerson.id.asString())
+                        lens(DraftablePerson.stable() + FinalPerson.id().asString())
                         width { minmax("70px") }
                         sorting { disabled }
                     }
                     column(title = "Firstname") {
-                        lens(L.DraftablePerson.stable + L.FinalPerson.firstname)
+                        lens(DraftablePerson.stable() + FinalPerson.firstname())
                         content { (_, state), _, row ->
                             if (state.item.isDrafted) {
-                                val firstname = row.sub(L.DraftablePerson.draft + L.FinalPerson.firstname)
+                                val firstname = row.sub(DraftablePerson.draft() + FinalPerson.firstname())
                                 inputField(value = firstname) {
                                     placeholder("firstname")
                                     size { small }
@@ -1647,10 +1650,10 @@ fun RenderContext.dataTableDemo(): Div {
                         }
                     }
                     column(title = "Lastname") {
-                        lens(L.DraftablePerson.stable + L.FinalPerson.lastname)
+                        lens(DraftablePerson.stable() + FinalPerson.lastname())
                         content { (_, state), _, row ->
                             if (state.item.isDrafted) {
-                                val lastname = row.sub(L.DraftablePerson.draft + L.FinalPerson.lastname)
+                                val lastname = row.sub(DraftablePerson.draft() + FinalPerson.lastname())
                                 inputField(value = lastname) {
                                     placeholder("lastname")
                                     size { small }
@@ -1666,7 +1669,7 @@ fun RenderContext.dataTableDemo(): Div {
                             if (state.item.isDrafted) {
                                 val editToggle = storeOf(false)
                                 editToggle.data.render { editable ->
-                                    val languages = row.sub(L.DraftablePerson.draft + L.FinalPerson.languages)
+                                    val languages = row.sub(DraftablePerson.draft() + FinalPerson.languages())
                                     val addLanguage = languages.handle<String> { langs, added ->
                                         langs + added
                                     }
@@ -1839,7 +1842,7 @@ fun RenderContext.dataTableDemo(): Div {
                             // -> the stable part remains untouched!
                             // (so we can easily revert the changes later)
                             val firstname = row.sub(
-                                L.DraftablePerson.draft + L.FinalPerson.firstname
+                                DraftablePerson.draft() + FinalPerson.firstname()
                             )
                             
                             // let form itself handle the value changing automatically
@@ -1890,7 +1893,7 @@ fun RenderContext.dataTableDemo(): Div {
                                 // expressive specialized handlers
                                 // for better readability
                                 val languages = row.sub(
-                                    L.DraftablePerson.draft + L.FinalPerson.languages
+                                    DraftablePerson.draft() + FinalPerson.languages()
                                 )
                                 val addLanguage = languages.handle<String> { 
                                     langs, added -> langs + added

@@ -1,5 +1,6 @@
 package dev.fritz2.kitchensink.demos
 
+import dev.fritz2.binding.storeOf
 import dev.fritz2.components.*
 import dev.fritz2.components.popup.Placement
 import dev.fritz2.dom.html.Div
@@ -11,6 +12,8 @@ import dev.fritz2.styling.theme.Theme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
+import org.w3c.dom.events.Event
+import org.w3c.dom.events.MouseEvent
 
 
 @ExperimentalCoroutinesApi
@@ -238,13 +241,24 @@ fun RenderContext.tooltipDemo(): Div {
                 +"documented in the former sections:"
             }
             componentFrame {
-                clickButton {
-                    text("Click me!")
-                    tooltip(
-                        {
-                            zIndex { appFrame.plus(10) }
-                        }, "You really just need to click on the button!"
-                    ) {}
+                val showStore = storeOf(true)
+                showStore.data.render {
+                    if (it) {
+                        pushButton {
+                            text("Click me!")
+                            tooltip(
+                                {
+                                    zIndex { appFrame.plus(10) }
+                                }, "You really just need to click on the button!"
+                            ) {}
+                            events {
+                                clicks.map {
+                                    domNode.dispatchEvent(MouseEvent("mouseleave"))
+                                    false
+                                } handledBy showStore.update
+                            }
+                        }
+                    }
                 }
             }
             highlight {
