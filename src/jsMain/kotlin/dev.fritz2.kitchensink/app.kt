@@ -99,12 +99,76 @@ fun main() {
     staticStyle("settings-table", settingsTableStaticCss)
     val welcomeContent = staticStyle("welcome-content", welcomeContentStaticCss)
 
-//    val router = routerOf("")
+    modal({
+        border {
+            style { "3px dotted" }
+            color { danger.main }
+        }
+    }) {
+        content { close ->
+            div({
+                fontSize { giant }
+                borders {
+                    bottom {
+                        color { gray200 }
+                        width { "1px" }
+                    }
+                }
+                paddings {
+                    top { large }
+                    bottom { large }
+                }
+            }) {
+                +"Components are discontinued"
+            }
+            div({
+                paddings {
+                    top { large }
+                    bottom { large }
+                }
+                borders {
+                    bottom {
+                        color { gray200 }
+                        width { "1px" }
+                    }
+                }
+            }) {
+                p({ fontSize { large }}) {
+                    +"""The development of fritz2 components was discontinued because we made a conscious decision
+                    | to pursue a different approach. Read more about the background of our decision in our recent """.trimMargin()
+                    externalLink(
+                        "blog-post",
+                        "https://www.fritz2.dev/blog/posts/paradigm-shift-for-components/"
+                    )
+                    +" on our fritz2 webpage."
+                }
+                br {}
+                p({ fontSize { large }}) {
+                    +"Or take a look at our new fritz2 headless-components approach you can find "
+                    externalLink(
+                        "here",
+                        "https://www.fritz2.dev/headless/"
+                    )
+                    +"."
+                }
+            }
+            flexBox({
+                justifyContent { center }
+                paddings {
+                    top { large }
+                }
+            }) {
+                clickButton {
+                    text("Dissmiss")
+                } handledBy close
+            }
+        }
+    }.invoke()
 
     render(themes.first()) {
         appFrame {
             brand({
-                minWidth { "18rem" }
+                minWidth { "21rem" }
             }) {
                 stackUp {
                     spacing { none }
@@ -166,7 +230,7 @@ fun main() {
                         md = { small }
                     )
                     background {
-                        color { secondary.main }
+                        color { gray700 }
                     }
                     color { neutral.main }
                     margins {
