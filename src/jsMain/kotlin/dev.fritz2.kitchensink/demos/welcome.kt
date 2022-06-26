@@ -88,11 +88,10 @@ fun RenderContext.welcome(): Div {
                     """.trimIndent()
                 }
 
-                coloredBox(Theme().colors.warning) {
+                coloredBox(Theme().colors.danger) {
                     // todo: If Status is something other than ALPHA, replace an with a. Also check Getting Started (same thing)
-                    +"Remember that this is an ${appStatus()} version."
-                    +" Most components still need some work, others are not implemented yet, and the API still needs"
-                    +" to be completed and streamlined."
+                    +"Remember that this is an ${appStatus()} version of fritz2 components."
+                    +" We only provide needed fixes for the last 0.14 version of fritz2 (including styling and components) and nothing more!"
                 }
 
                 p {

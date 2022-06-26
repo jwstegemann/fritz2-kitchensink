@@ -10,7 +10,7 @@ repositories {
     mavenCentral()
 }
 
-val appStatus = "alpha"
+val appStatus = "discontinued"
 val fritz2Version = "0.14.1"
 
 
